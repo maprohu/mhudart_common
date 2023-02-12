@@ -7,6 +7,7 @@ import 'package:retry/retry.dart' as retrypkg;
 
 import 'async.dart';
 import 'commons.dart';
+import 'defs.dart';
 import 'rxvar.dart';
 import 'streams.dart';
 
@@ -72,8 +73,20 @@ class DisposeAsyncsMixin {
 }
 
 extension StreamSubscriptionX<T> on StreamSubscription<T> {
-  void cancelBy(DisposeAsyncs disposers) {
-    disposers.add(cancel);
+  Future<void> cancelBy(DisposeAsyncs disposers) {
+    return disposers.add(cancel);
+  }
+}
+
+extension AsyncDisposableX on AsyncDisposable {
+  Future<void> disposeBy(DisposeAsyncs disposers) {
+    return disposers.add(dispose);
+  }
+}
+
+extension DisposeFututreX<T> on Future<T> {
+  Future<void> awaitBy(DisposeAsyncs disposers) {
+    return disposers.add(() => this);
   }
 }
 
@@ -134,9 +147,7 @@ class DisposeAsyncs implements AsyncDisposable {
       );
 }
 
-abstract class AsyncDisposable {
-  Future<void> dispose();
-}
+
 
 abstract class InitDispose implements AsyncDisposable {
   Future<void> init();

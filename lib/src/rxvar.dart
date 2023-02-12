@@ -1,10 +1,12 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:rxdart/rxdart.dart';
 import 'commons.dart';
+import 'defs.dart';
 
 abstract class RxVal<T> {
   T get value;
 
+  // Contains the actual value
   Stream<T> get stream;
 
   RxVal._();
@@ -31,7 +33,7 @@ class _RxVal<T> extends RxVal<T> {
   T get value => _value();
 }
 
-abstract class RxVar<T> extends RxVal<T> {
+abstract class RxVar<T> extends RxVal<T> implements AsyncDisposable {
   set value(T v);
 
   factory RxVar(T initial) {
@@ -41,19 +43,29 @@ abstract class RxVar<T> extends RxVal<T> {
       () => subject.value,
       subject.distinct().asConstant(),
       subject.add,
+      () => subject.close(),
     );
   }
 }
 
 class _RxVar<T> extends _RxVal<T> implements RxVar<T> {
   final void Function(T v) _setter;
+  final Future<void> Function() _dispose;
 
-  _RxVar(super.value, super.stream, this._setter);
+  _RxVar(
+    super.value,
+    super.stream,
+    this._setter,
+    this._dispose,
+  );
 
   @override
   set value(T v) {
     _setter(v);
   }
+
+  @override
+  Future<void> dispose() => _dispose();
 }
 
 extension _StreamX<T> on Stream<T> {
@@ -71,6 +83,13 @@ extension RxValX<T> on RxVal<T> {
   T Function() get getter => () => value;
 
   Stream<T> get tail => stream.tail;
+
+  RxVal<O> expand<O>(RxVal<O> Function(T v) mapper) {
+    return RxVal(
+      () => mapper(value).value,
+      stream.asyncExpand((v) => mapper(v).stream).distinct().asConstant(),
+    );
+  }
 }
 
 extension RxVarX<T> on RxVar<T> {
@@ -78,8 +97,9 @@ extension RxVarX<T> on RxVar<T> {
 
   RxVar<O> slot<O>(
     O Function(T value) mapper,
-    T Function(T base, O value) updater,
-  ) {
+    T Function(T base, O value) updater, [
+    Future<void> Function() dispose = Functions.asyncNoop,
+  ]) {
     final mapped = map(mapper);
 
     return _RxVar(
@@ -88,6 +108,7 @@ extension RxVarX<T> on RxVar<T> {
       (v) {
         value = updater(value, v);
       },
+      dispose,
     );
   }
 
@@ -120,4 +141,6 @@ extension RxVarBuiltListX<T> on RxVar<BuiltList<T>> {
       );
 }
 
-
+extension RxValBuiltMapX<K, V extends Object> on RxVal<BuiltMap<K, V>> {
+  RxVal<V?> lookup(K key) => map((m) => m[key]);
+}

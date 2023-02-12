@@ -28,3 +28,6 @@ class Futures {
   static Future<void> voidFn() => voidValue;
 }
 
+extension IterableFuturesX<T> on Iterable<Future<T>> {
+  Future<List<T>> futureWait() => Future.wait(this);
+}

@@ -7,6 +7,9 @@ class Functions {
 
   static Future<void> asyncNoop() async {}
 
+  static Future<void> asyncNoop1<T1>(T1) async {}
+  static Future<void> asyncNoop2<T1, T2>(T1, T2) async {}
+
   static T invoke0<T>(T Function() fn) => fn();
 }
 
