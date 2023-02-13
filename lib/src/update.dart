@@ -33,7 +33,7 @@ Future<void>
   required Future<S> Function(C config) init,
   Future<void> Function(S state, C config)? update,
 }) async {
-  return startUpdatingCollection(
+  return startUpdatingCollection<C, S, K>(
     map: map,
     disposers: disposers,
     configs: configs,
@@ -41,6 +41,25 @@ Future<void>
     init: init,
     update: update,
     dispose: AsyncDisposable.callDispose,
+  );
+}
+
+Future<void> startUpdatingKeyCollection<C, S>({
+  required RxVar<BuiltMap<C, S>> map,
+  required DisposeAsyncs disposers,
+  required Stream<Iterable<C>> configs,
+  required Future<S> Function(C config) init,
+  Future<void> Function(S state, C config)? update,
+  required Future<void> Function(S state) dispose,
+}) async {
+  return startUpdatingCollection<C, S, C>(
+    map: map,
+    disposers: disposers,
+    configs: configs,
+    keyOf: Functions.identity,
+    init: init,
+    dispose: dispose,
+    update: update,
   );
 }
 
@@ -53,7 +72,7 @@ Future<void> startUpdatingCollection<C, S, K>({
   Future<void> Function(S state, C config)? update,
   required Future<void> Function(S state) dispose,
 }) async {
-  final processing = configs.asyncForEach((configs) async {
+  final processing = configs.asyncListen((configs) async {
     final unprocessed = map.value.toMap();
     final active = <K, S>{};
 
@@ -79,7 +98,7 @@ Future<void> startUpdatingCollection<C, S, K>({
   });
 
   await disposers.add(() async {
-    await processing;
+    await processing.cancel();
 
     final stopping = map.value.values.map(dispose);
 

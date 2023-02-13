@@ -84,6 +84,12 @@ extension AsyncDisposableX on AsyncDisposable {
   }
 }
 
+extension DisposableSubjectX<T> on Subject<T> {
+  Future<void> closeBy(DisposeAsyncs disposers) {
+    return disposers.add(close);
+  }
+}
+
 extension DisposeFututreX<T> on Future<T> {
   Future<void> awaitBy(DisposeAsyncs disposers) {
     return disposers.add(() => this);
@@ -125,7 +131,9 @@ class DisposeAsyncs implements AsyncDisposable {
       final disposers = _disposers;
       _disposers = List.empty();
       _done.completeWith(
-        () => Future.wait(disposers.map((e) => e())),
+        () => Future.wait(disposers.map((e) {
+          return e();
+        })),
       );
     }
     await _done.future;

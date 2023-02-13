@@ -6,7 +6,7 @@ import 'defs.dart';
 abstract class RxVal<T> {
   T get value;
 
-  // Contains the actual value
+  // The first value in this stream is the actual value
   Stream<T> get stream;
 
   RxVal._();
@@ -68,8 +68,9 @@ class _RxVar<T> extends _RxVal<T> implements RxVar<T> {
   Future<void> dispose() => _dispose();
 }
 
-extension _StreamX<T> on Stream<T> {
+extension RxVarStreamX<T> on Stream<T> {
   Stream<T> get tail => skip(1);
+
 }
 
 extension RxValX<T> on RxVal<T> {
@@ -79,6 +80,8 @@ extension RxValX<T> on RxVal<T> {
       stream.map(mapper).distinct().asConstant(),
     );
   }
+
+
 
   T Function() get getter => () => value;
 

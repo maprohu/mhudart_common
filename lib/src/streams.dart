@@ -33,6 +33,15 @@ extension StreamAsyncX<T> on Stream<T> {
   Future<void> asyncForEach(Future<void> Function(T element) action) {
     return asyncMap(action).forEach((_) {});
   }
+
+  StreamSubscription<T> asyncListen(Future<void> onData(T event)) {
+    return asyncMap(
+      (value) async {
+        await onData(value);
+        return value;
+      },
+    ).listen((_) {});
+  }
 }
 
 extension CommonsStreamX<T> on Stream<T> {
