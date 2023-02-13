@@ -8,6 +8,7 @@ class Functions {
   static Future<void> asyncNoop() async {}
 
   static Future<void> asyncNoop1<T1>(T1) async {}
+
   static Future<void> asyncNoop2<T1, T2>(T1, T2) async {}
 
   static T invoke0<T>(T Function() fn) => fn();
@@ -33,5 +34,15 @@ extension ListX<T> on List<T> {
     if (contains(item)) return false;
     add(item);
     return true;
+  }
+}
+
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1)}";
+  }
+
+  String uncapitalize() {
+    return "${this[0].toLowerCase()}${this.substring(1)}";
   }
 }
