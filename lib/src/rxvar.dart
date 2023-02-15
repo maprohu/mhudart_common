@@ -1,7 +1,9 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:rxdart/rxdart.dart';
+
+import 'dispose.dart';
 import 'commons.dart';
-import 'defs.dart';
+import 'opt.dart';
 
 abstract class RxVal<T> {
   T get value;
@@ -15,6 +17,55 @@ abstract class RxVal<T> {
     T Function() value,
     Stream<T> Function() stream,
   ) = _RxVal;
+
+  static RxVal<T> combineLatest2<A, B, T>(
+    RxVal<A> rxA,
+    RxVal<B> rxB,
+    T Function(A a, B b) combiner,
+  ) {
+    return RxVal(
+      () => combiner(
+        rxA.value,
+        rxB.value,
+      ),
+      () => Rx.combineLatest2(
+        rxA.stream,
+        rxB.stream,
+        combiner,
+      ).distinct(),
+    );
+  }
+
+  static RxVal<T> combineLatest3<A, B, C, T>(
+    RxVal<A> rxA,
+    RxVal<B> rxB,
+    RxVal<C> rxC,
+    T Function(A a, B b, C c) combiner,
+  ) {
+    return RxVal(
+      () => combiner(
+        rxA.value,
+        rxB.value,
+        rxC.value,
+      ),
+      () => Rx.combineLatest3(
+        rxA.stream,
+        rxB.stream,
+        rxC.stream,
+        combiner,
+      ).distinct(),
+    );
+  }
+}
+
+abstract class DelegatedRxVal<T> implements RxVal<T> {
+  RxVal<T> get rxValDelegate;
+
+  @override
+  Stream<T> get stream => rxValDelegate.stream;
+
+  @override
+  T get value => rxValDelegate.value;
 }
 
 class _RxVal<T> extends RxVal<T> {
@@ -33,44 +84,49 @@ class _RxVal<T> extends RxVal<T> {
   T get value => _value();
 }
 
-abstract class RxVar<T> extends RxVal<T> implements AsyncDisposable {
+abstract class RxVar<T> extends RxVal<T> {
   set value(T v);
 
-  factory RxVar(T initial) {
+  factory RxVar(T initial, [DisposeAsyncs? disposers]) {
     final subject = BehaviorSubject.seeded(initial);
+
+    disposers?.add(subject.close);
 
     return _RxVar(
       () => subject.value,
       subject.distinct().asConstant(),
       subject.add,
-      () => subject.close(),
     );
   }
+
+  factory RxVar.fromVal({
+    required RxVal<T> val,
+    required void Function(T v) setter,
+  }) =>
+      _RxVar(
+        val.getter,
+        () => val.stream,
+        setter,
+      );
 }
 
 class _RxVar<T> extends _RxVal<T> implements RxVar<T> {
   final void Function(T v) _setter;
-  final Future<void> Function() _dispose;
 
   _RxVar(
     super.value,
     super.stream,
     this._setter,
-    this._dispose,
   );
 
   @override
   set value(T v) {
     _setter(v);
   }
-
-  @override
-  Future<void> dispose() => _dispose();
 }
 
 extension RxVarStreamX<T> on Stream<T> {
   Stream<T> get tail => skip(1);
-
 }
 
 extension RxValX<T> on RxVal<T> {
@@ -80,8 +136,6 @@ extension RxValX<T> on RxVal<T> {
       stream.map(mapper).distinct().asConstant(),
     );
   }
-
-
 
   T Function() get getter => () => value;
 
@@ -100,9 +154,8 @@ extension RxVarX<T> on RxVar<T> {
 
   RxVar<O> slot<O>(
     O Function(T value) mapper,
-    T Function(T base, O value) updater, [
-    Future<void> Function() dispose = Functions.asyncNoop,
-  ]) {
+    T Function(T base, O value) updater,
+  ) {
     final mapped = map(mapper);
 
     return _RxVar(
@@ -111,7 +164,6 @@ extension RxVarX<T> on RxVar<T> {
       (v) {
         value = updater(value, v);
       },
-      dispose,
     );
   }
 
@@ -146,4 +198,29 @@ extension RxVarBuiltListX<T> on RxVar<BuiltList<T>> {
 
 extension RxValBuiltMapX<K, V extends Object> on RxVal<BuiltMap<K, V>> {
   RxVal<V?> lookup(K key) => map((m) => m[key]);
+}
+
+extension OptRxValX<T> on RxVal<Opt<T>> {
+  RxVal<T> orDefault(T defaultValue) => map(
+        (opt) => opt.orDefault(defaultValue),
+      );
+
+  RxVal<Opt<V>> mapOpt<V>(V Function(T value) mapper) => map(
+        (opt) => opt.map(mapper),
+      );
+}
+
+extension RxVarOptX<T> on RxVar<Opt<T>> {
+  RxVar<T> orDefaultVar(T defaultValue) => RxVar.fromVal(
+        val: orDefault(defaultValue),
+        setter: (v) => value = v.here(),
+      );
+}
+
+extension RxVarOptStringX on RxVar<Opt<String>> {
+  RxVar<String> orEmptyVar() => orDefaultVar('');
+}
+
+extension RxValOptStringX on RxVal<Opt<String>> {
+  RxVal<String> orEmpty() => orDefault('');
 }
