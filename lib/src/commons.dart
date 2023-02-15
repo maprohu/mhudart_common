@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:collection/collection.dart';
 
 import 'package:kt_dart/kt.dart';
 
@@ -47,7 +48,6 @@ extension ListX<T> on List<T> {
       return 0;
     }
   }
-
 }
 
 extension StringExtension on String {
@@ -79,7 +79,6 @@ class WithId<I, V> {
 
   WithId(this.id, this.value);
 
-
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -91,12 +90,68 @@ class WithId<I, V> {
   @override
   int get hashCode => id.hashCode ^ value.hashCode;
 
-  factory WithId.fromEntry(MapEntry<I, V> entry) => WithId(entry.key, entry.value);
+  factory WithId.fromEntry(MapEntry<I, V> entry) =>
+      WithId(entry.key, entry.value);
 }
 
 typedef IntId<V> = WithId<int, V>;
 
 extension MhuMapX<K, V> on Map<K, V> {
   Iterable<WithId<K, V>> withIds() => entries.map(WithId.fromEntry);
+
   WithId<K, V>? withId(K key) => this[key]?.let((v) => WithId(key, v));
+}
+
+extension MhuIntIdMapX<V> on Map<int, V> {
+  IntId<V> addWithId(V Function(int key) create) {
+    final lastId = keys.maxOrNull ?? 0;
+    final newId = lastId + 1;
+    final value = create(newId);
+    this[newId] = value;
+    return IntId(newId, value);
+  }
+}
+
+abstract class HasName {
+  String get name;
+}
+
+class EmptyIterator<E> implements Iterator<E> {
+  const EmptyIterator();
+
+  bool moveNext() => false;
+
+  E get current {
+    throw StateError("No element");
+  }
+
+  static EmptyIterator<T> instance<T>() => const EmptyIterator();
+}
+
+class SingleItemIterator<E> implements Iterator<E> {
+  final E _item;
+  bool _current = false;
+  bool _over = false;
+
+  SingleItemIterator(this._item);
+
+  bool moveNext() {
+    if (_over) {
+      _current = false;
+      return false;
+    } else {
+      _over = true;
+      _current = true;
+      return true;
+    }
+  }
+
+  E get current {
+    if (_current) {
+      return _item;
+    } else {
+      throw StateError("No element");
+    }
+  }
+
 }

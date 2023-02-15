@@ -1,9 +1,16 @@
-abstract class Opt<T> {
+import 'package:kt_dart/kt.dart';
+
+import '../mhdart_common.dart';
+
+abstract class Opt<T> implements Iterable<T> {
   const Opt();
 
   factory Opt.gone() => Gone.instance();
 
   factory Opt.here(T value) = Here;
+
+  static Opt<V> nullable<V extends Object>(V? value) =>
+      value?.let(Opt.here) ?? Opt.gone();
 
   Opt<V> map<V>(V Function(T value) mapper);
 
@@ -11,7 +18,9 @@ abstract class Opt<T> {
 
   T orElse(T Function() fact);
 
-  Opt<V> expand<V>(Opt<V> Function(T value) mapper);
+  Opt<T> orExpand(Opt<T> Function() fact);
+
+  Opt<V> expandOpt<V>(Opt<V> Function(T value) mapper);
 
   void forEach(void Function(T value) action);
 
@@ -21,7 +30,7 @@ abstract class Opt<T> {
   });
 }
 
-class Gone<T> extends Opt<T> {
+class Gone<T> extends Iterable<T> implements Opt<T> {
   const Gone._();
 
   static Gone<T> instance<T>() => Gone._();
@@ -36,7 +45,7 @@ class Gone<T> extends Opt<T> {
   T orElse(T Function() fact) => fact();
 
   @override
-  Opt<V> expand<V>(Opt<V> Function(T value) mapper) => instance();
+  Opt<V> expandOpt<V>(Opt<V> Function(T value) mapper) => instance();
 
   @override
   void forEach(void Function(T value) action) {}
@@ -56,13 +65,20 @@ class Gone<T> extends Opt<T> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Gone && runtimeType == other.runtimeType;
+          other is Gone && runtimeType == other.runtimeType;
 
   @override
   int get hashCode => 0;
+
+  @override
+  Iterator<T> get iterator => EmptyIterator.instance();
+
+  @override
+  Opt<T> orExpand(Opt<T> Function() fact) => fact();
+
 }
 
-class Here<T> extends Opt<T> {
+class Here<T> extends Iterable<T> implements Opt<T> {
   final T value;
 
   Here(this.value);
@@ -70,7 +86,8 @@ class Here<T> extends Opt<T> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Here && runtimeType == other.runtimeType && value == other.value;
+          other is Here && runtimeType == other.runtimeType &&
+              value == other.value;
 
 
   @override
@@ -91,7 +108,7 @@ class Here<T> extends Opt<T> {
   T orElse(T Function() fact) => value;
 
   @override
-  Opt<V> expand<V>(Opt<V> Function(T value) mapper) => mapper(value);
+  Opt<V> expandOpt<V>(Opt<V> Function(T value) mapper) => mapper(value);
 
   @override
   void forEach(void Function(T value) action) => action(value);
@@ -102,10 +119,17 @@ class Here<T> extends Opt<T> {
     required V Function() gone,
   }) =>
       here(value);
+
+  @override
+  Iterator<T> get iterator => SingleItemIterator(value);
+
+  @override
+  Opt<T> orExpand(Opt<T> Function() fact) => this;
 }
 
 extension OptObjectX<T> on T {
   Opt<T> opt() => Opt.here(this);
+
   Here<T> here() => Here(this);
 
 }
@@ -121,3 +145,6 @@ extension OptMapX<K, V> on Map<K, V> {
   }
 }
 
+extension NullableOptX<T extends Object> on T? {
+  Opt<T> toOpt() => Opt.nullable(this);
+}

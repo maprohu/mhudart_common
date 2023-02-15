@@ -16,7 +16,7 @@ abstract class RxVal<T> {
   factory RxVal(
     T Function() value,
     Stream<T> Function() stream,
-  ) = _RxVal;
+  ) = RxValImpl;
 
   static RxVal<T> combineLatest2<A, B, T>(
     RxVal<A> rxA,
@@ -68,14 +68,20 @@ abstract class DelegatedRxVal<T> implements RxVal<T> {
   T get value => rxValDelegate.value;
 }
 
-class _RxVal<T> extends RxVal<T> {
+class RxValImpl<T> extends RxVal<T> {
   final T Function() _value;
   final Stream<T> Function() _stream;
 
-  _RxVal(
+  RxValImpl(
     this._value,
     this._stream,
   ) : super._();
+
+  RxValImpl.from(RxVal<T> delegate)
+      : this(
+          delegate.getter,
+          () => delegate.stream,
+        );
 
   @override
   Stream<T> get stream => _stream();
@@ -92,7 +98,7 @@ abstract class RxVar<T> extends RxVal<T> {
 
     disposers?.add(subject.close);
 
-    return _RxVar(
+    return RxVarImpl(
       () => subject.value,
       subject.distinct().asConstant(),
       subject.add,
@@ -103,21 +109,25 @@ abstract class RxVar<T> extends RxVal<T> {
     required RxVal<T> val,
     required void Function(T v) setter,
   }) =>
-      _RxVar(
+      RxVarImpl(
         val.getter,
         () => val.stream,
         setter,
       );
 }
 
-class _RxVar<T> extends _RxVal<T> implements RxVar<T> {
+class RxVarImpl<T> extends RxValImpl<T> implements RxVar<T> {
   final void Function(T v) _setter;
 
-  _RxVar(
+  RxVarImpl(
     super.value,
     super.stream,
     this._setter,
   );
+
+  RxVarImpl.fromVal(RxVal<T> delegate, this._setter) : super.from(delegate);
+
+  RxVarImpl.from(RxVar<T> delegate) : this.fromVal(delegate, delegate.setter);
 
   @override
   set value(T v) {
@@ -158,7 +168,7 @@ extension RxVarX<T> on RxVar<T> {
   ) {
     final mapped = map(mapper);
 
-    return _RxVar(
+    return RxVarImpl(
       () => mapped.value,
       () => mapped.stream,
       (v) {
@@ -208,6 +218,10 @@ extension OptRxValX<T> on RxVal<Opt<T>> {
   RxVal<Opt<V>> mapOpt<V>(V Function(T value) mapper) => map(
         (opt) => opt.map(mapper),
       );
+
+  RxVal<Opt<V>> expandOpt<V>(Opt<V> Function(T value) mapper) => map(
+        (opt) => opt.expandOpt(mapper),
+  );
 }
 
 extension RxVarOptX<T> on RxVar<Opt<T>> {
@@ -223,4 +237,8 @@ extension RxVarOptStringX on RxVar<Opt<String>> {
 
 extension RxValOptStringX on RxVal<Opt<String>> {
   RxVal<String> orEmpty() => orDefault('');
+}
+
+extension RxValOptBuiltListX<T> on RxVal<Opt<BuiltList<T>>> {
+  RxVal<BuiltList<T>> orEmpty() => orDefault(BuiltList());
 }
