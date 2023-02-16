@@ -9,6 +9,19 @@ import 'commons.dart';
 extension PrototGeneratedMessageX<T extends GeneratedMessage> on T {
   T deepUpdate(void Function(T message) updater) =>
       deepCopy().also(updater)..freeze();
+
+  V get<V>(FieldInfo<V> info) {
+    if (info.isMapField) {
+      return this.$_getMap(info.index!) as V;
+    } else {
+      return getField(info.tagNumber) as V;
+    }
+  }
+
+  void set<V extends Object>(FieldInfo<V?> info, V value) =>
+      setField(info.tagNumber, value);
+
+  V require<V extends Object>(FieldInfo<V?> info) => get(info)!;
 }
 
 extension ProtoBehaviorSubjectX<T extends GeneratedMessage>
@@ -84,7 +97,8 @@ extension ProtoOptRxVarX<T extends GeneratedMessage> on RxVar<Opt<T>> {
 }
 
 extension RxProtoX<T extends GeneratedMessage> on RxProto<T> {
-  RxProtoScalar<V> scalar<V>(ProtoScalar<T, V> field) => RxProtoScalar(
+  RxProtoScalar<V> scalar<V extends Object>(ProtoScalar<T, V> field) =>
+      RxProtoScalar(
         RxVar.fromVal(
           val: map((optValue) => optValue.expandOpt(field.opt)),
           setter: (optValue) => rebuild((t) => field.update(t, optValue)),
@@ -92,19 +106,10 @@ extension RxProtoX<T extends GeneratedMessage> on RxProto<T> {
         field.name,
       );
 
-  RxProtoMap<K, V> protoMap<K, V extends GeneratedMessage>(
+  RxProtoMap<T, K, V> protoMap<K, V extends GeneratedMessage>(
     ProtoMap<T, K, V> field,
   ) =>
-      RxProtoMapImpl(
-        mapOpt(field.mapGetter),
-        (updates) {
-          rebuild((value) {
-            updates(field.mapGetter(value));
-          });
-        },
-        field.name,
-        (key) => mapItem(field, key),
-      );
+      RxProtoMapImpl(this, field);
 
   RxProto<V> mapItem<K, V extends GeneratedMessage>(
     ProtoMap<T, K, V> field,
@@ -123,14 +128,29 @@ extension RxProtoX<T extends GeneratedMessage> on RxProto<T> {
       );
 }
 
-class ProtoMap<P extends GeneratedMessage, K, V extends GeneratedMessage>
+abstract class ProtoField<P extends GeneratedMessage, F, I extends FieldInfo<F>>
     implements HasName {
-  final String name;
+  final I info;
+
+  int get tagNumber => info.tagNumber;
+
+  const ProtoField(this.info);
+
+  String get name => info.name;
+}
+
+class ProtoMap<P extends GeneratedMessage, K, V extends GeneratedMessage>
+    extends ProtoField<P, Map<K, V>?, MapFieldInfo<K, V>> {
   final Map<K, V> Function(P parent) mapGetter;
+  final ProtoClass<V> protoClass;
 
-  ProtoMap(this.name, this.mapGetter);
+  const ProtoMap(
+    super.fieldInfo,
+    this.protoClass,
+    this.mapGetter,
+  );
 
-  Opt<V> get(P parent, K key) => mapGetter(parent).opt(key);
+  Opt<V> get(P parent, K key) => mapGetter(parent).getOpt(key);
 
   void update(
     P t,
@@ -145,14 +165,14 @@ class ProtoMap<P extends GeneratedMessage, K, V extends GeneratedMessage>
   }
 }
 
-class ProtoScalar<P extends GeneratedMessage, V> implements HasName {
-  final String name;
+class ProtoScalar<P extends GeneratedMessage, V extends Object>
+    extends ProtoField<P, V, FieldInfo<V>> {
   final V Function(P parent) get;
   final void Function(P parent, V value) set;
   final bool Function(P parent) has;
   final void Function(P parent) clear;
 
-  ProtoScalar(this.name, this.get, this.set, this.has, this.clear);
+  const ProtoScalar(super.info, this.get, this.set, this.has, this.clear);
 
   Opt<V> opt(P parent) => has(parent) ? Opt.here(get(parent)) : Opt.gone();
 
@@ -162,6 +182,23 @@ class ProtoScalar<P extends GeneratedMessage, V> implements HasName {
       gone: () => clear(parent),
     );
   }
+}
+
+class ProtoClass<V extends GeneratedMessage> implements HasName {
+  final V instance;
+
+  const ProtoClass(this.instance);
+
+  BuilderInfo get info => instance.info_;
+
+  @override
+  String get name => info.messageName;
+
+  FieldInfo<T> field<T>(int tagNumber) =>
+      info.fieldInfo[tagNumber] as FieldInfo<T>;
+
+  MapFieldInfo<K, T> mapField<K, T>(int tagNumber) =>
+      field(tagNumber) as MapFieldInfo<K, T>;
 }
 
 extension MhuProtoEnumX<T extends ProtobufEnum> on T {
@@ -174,21 +211,32 @@ class RxProtoScalar<T> extends RxVarImpl<Opt<T>> implements HasName {
   RxProtoScalar(super.delegate, [this.name = "<unnamed>"]) : super.from();
 }
 
-abstract class RxProtoMap<K, V extends GeneratedMessage>
-    implements RxProto<Map<K, V>> {
+abstract class RxProtoMap<P extends GeneratedMessage, K,
+    V extends GeneratedMessage> implements RxProto<Map<K, V>> {
+  RxProto<P> get parent;
+
+  ProtoMap<P, K, V> get protoMap;
+
   RxProto<V> call(K key);
 }
 
-class RxProtoMapImpl<K, V extends GeneratedMessage>
-    extends RxProtoImpl<Map<K, V>> implements RxProtoMap<K, V> {
-  final RxProto<V> Function(K key) _call;
+class RxProtoMapImpl<P extends GeneratedMessage, K, V extends GeneratedMessage>
+    extends RxProtoImpl<Map<K, V>> implements RxProtoMap<P, K, V> {
+  final RxProto<P> parent;
+  final ProtoMap<P, K, V> protoMap;
 
   RxProtoMapImpl(
-    super.delegate,
-    super._updater,
-    super.name,
-    this._call,
-  );
+    this.parent,
+    this.protoMap,
+  ) : super(
+          parent.mapOpt(protoMap.mapGetter),
+          (updates) {
+            parent.rebuild((value) {
+              updates(protoMap.mapGetter(value));
+            });
+          },
+          protoMap.info.name,
+        );
 
-  RxProto<V> call(K key) => _call(key);
+  RxProto<V> call(K key) => parent.mapItem(protoMap, key);
 }

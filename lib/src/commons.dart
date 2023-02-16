@@ -155,3 +155,8 @@ class SingleItemIterator<E> implements Iterator<E> {
   }
 
 }
+
+extension MhuCommonNullableX<T extends Object> on T? {
+  T or(T whenNull) => this ?? whenNull;
+  T orRun(T Function() whenNull) => this ?? whenNull();
+}

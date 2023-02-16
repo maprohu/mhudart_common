@@ -28,6 +28,8 @@ abstract class Opt<T> implements Iterable<T> {
     required V Function(T value) here,
     required V Function() gone,
   });
+
+  Opt<V> castOpt<V>();
 }
 
 class Gone<T> extends Iterable<T> implements Opt<T> {
@@ -75,6 +77,8 @@ class Gone<T> extends Iterable<T> implements Opt<T> {
 
   @override
   Opt<T> orExpand(Opt<T> Function() fact) => fact();
+
+  Opt<V> castOpt<V>() => instance();
 
 }
 
@@ -125,6 +129,9 @@ class Here<T> extends Iterable<T> implements Opt<T> {
 
   @override
   Opt<T> orExpand(Opt<T> Function() fact) => this;
+
+  @override
+  Opt<V> castOpt<V>() => Opt.here(value as V);
 }
 
 extension OptObjectX<T> on T {
@@ -136,7 +143,7 @@ extension OptObjectX<T> on T {
 
 
 extension OptMapX<K, V> on Map<K, V> {
-  Opt<V> opt(K key) {
+  Opt<V> getOpt(K key) {
     if (containsKey(key)) {
       return Opt.here(this[key] as V);
     } else {
@@ -146,5 +153,5 @@ extension OptMapX<K, V> on Map<K, V> {
 }
 
 extension NullableOptX<T extends Object> on T? {
-  Opt<T> toOpt() => Opt.nullable(this);
+  Opt<T> nullableAsOpt() => Opt.nullable(this);
 }
