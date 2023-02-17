@@ -3,6 +3,10 @@ import 'package:collection/collection.dart';
 
 import 'package:kt_dart/kt.dart';
 
+abstract class Self<T> {
+  T get self;
+}
+
 typedef Setter<T> = void Function(T value);
 
 class Functions {
@@ -15,6 +19,12 @@ class Functions {
   static Future<void> asyncNoop2<T1, T2>(T1, T2) async {}
 
   static T invoke0<T>(T Function() fn) => fn();
+
+  static T throws<T>() => throw UnimplementedError();
+  static T throws1<T, P1>(P1 param1) => throw UnimplementedError();
+
+  static Iterable<T> empty<T>() => Iterable.empty();
+  static Iterable<T> empty1<T>(dynamic) => Iterable.empty();
 }
 
 T createWithSelf<T>(T Function(T Function() self) fn) =>
@@ -30,6 +40,7 @@ class _CreateWithSelf<T> {
 
 extension AnyX<T> on T {
   T Function() asConstant() => () => this;
+  T Function(dynamic) asConstant1() => (_) => this;
 }
 
 extension ListX<T> on List<T> {
