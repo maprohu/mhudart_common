@@ -16,6 +16,10 @@ export 'src/proto/proto_rx.dart';
 export 'src/proto/proto_base.dart';
 export 'src/update.dart';
 export 'src/state.dart';
+export 'src/annotations.dart';
+
 export 'src/generator_runtime.dart';
 export 'src/io/network.dart';
+
+
 

@@ -1,3 +1,4 @@
+import 'package:mhudart_common/mhdart_common.dart';
 import 'package:protobuf/protobuf.dart';
 
 import '../opt.dart';
@@ -65,10 +66,19 @@ extension RxProtoX<T extends GeneratedMessage> on RxProto<T> {
         field.name,
       );
 
-  RxProtoMap<T, K, V> protoMap<K, V extends GeneratedMessage>(
-    ProtoMap<T, K, V> field,
-  ) =>
-      RxProtoMapImpl(this, field);
+  RxProtoScalar<V> single<V extends Object>(SingleField<T, V> field) =>
+      RxProtoScalar(
+        RxVar.fromVal(
+          val: map((optValue) => optValue.expandOpt(field.opt)),
+          setter: (optValue) => rebuild((t) => field.update(t, optValue)),
+        ),
+        field.name,
+      );
+
+  // RxProtoMap<T, K, V> protoMap<K, V extends GeneratedMessage>(
+  //   ProtoMap<T, K, V> field,
+  // ) =>
+  //     RxProtoMapImpl(this, field);
 
   RxProto<V> mapItem<K, V extends GeneratedMessage>(
     ProtoMap<T, K, V> field,
@@ -85,6 +95,28 @@ extension RxProtoX<T extends GeneratedMessage> on RxProto<T> {
         }),
         name: field.name,
       );
+
+
+  // RxProtoMap<T, K, V> mapOf<K, V extends GeneratedMessage>(
+  //     MapField<T, K, V> field,
+  //     ) =>
+  //     RxMapFieldImpl(this, field);
+
+  // RxProto<V> mapItem<K, V extends GeneratedMessage>(
+  //     MapField<T, K, V> field,
+  //     K key,
+  //     ) =>
+  //     RxProto(
+  //       val: map(
+  //             (optValue) => optValue.expandOpt(
+  //               (value) => field.get(value).getOpt(key),
+  //         ),
+  //       ),
+  //       updater: (updates) => rebuild((t) {
+  //         field.update(key, (value) => null);
+  //       }),
+  //       name: field.name,
+  //     );
 }
 
 class RxProtoScalar<T> extends RxVarImpl<Opt<T>> implements HasName {
@@ -97,28 +129,49 @@ abstract class RxProtoMap<P extends GeneratedMessage, K,
     V extends GeneratedMessage> implements RxProto<Map<K, V>> {
   RxProto<P> get parent;
 
-  ProtoMap<P, K, V> get protoMap;
+  MapField<P, K, V> get protoMap;
 
   RxProto<V> call(K key);
 }
 
-class RxProtoMapImpl<P extends GeneratedMessage, K, V extends GeneratedMessage>
-    extends RxProtoImpl<Map<K, V>> implements RxProtoMap<P, K, V> {
-  final RxProto<P> parent;
-  final ProtoMap<P, K, V> protoMap;
+// class RxProtoMapImpl<P extends GeneratedMessage, K, V extends GeneratedMessage>
+//     extends RxProtoImpl<Map<K, V>> implements RxProtoMap<P, K, V> {
+//   final RxProto<P> parent;
+//   final ProtoMap<P, K, V> protoMap;
+//
+//   RxProtoMapImpl(
+//     this.parent,
+//     this.protoMap,
+//   ) : super(
+//           parent.mapOpt(protoMap.mapGetter),
+//           (updates) {
+//             parent.rebuild((value) {
+//               updates(protoMap.mapGetter(value));
+//             });
+//           },
+//           protoMap.info.name,
+//         );
+//
+//   RxProto<V> call(K key) => parent.mapItem(protoMap, key);
+// }
 
-  RxProtoMapImpl(
-    this.parent,
-    this.protoMap,
-  ) : super(
-          parent.mapOpt(protoMap.mapGetter),
-          (updates) {
-            parent.rebuild((value) {
-              updates(protoMap.mapGetter(value));
-            });
-          },
-          protoMap.info.name,
-        );
-
-  RxProto<V> call(K key) => parent.mapItem(protoMap, key);
-}
+// class RxMapFieldImpl<P extends GeneratedMessage, K, V extends GeneratedMessage>
+//     extends RxProtoImpl<Map<K, V>> implements RxProtoMap<P, K, V> {
+//   final RxProto<P> parent;
+//   final MapField<P, K, V> protoMap;
+//
+//   RxMapFieldImpl(
+//       this.parent,
+//       this.protoMap,
+//       ) : super(
+//     parent.mapOpt(protoMap.get),
+//         (updates) {
+//       parent.rebuild((value) {
+//         updates(protoMap.get(value));
+//       });
+//     },
+//     protoMap.name,
+//   );
+//
+//   RxProto<V> call(K key) => parent.mapItem(protoMap, key);
+// }
