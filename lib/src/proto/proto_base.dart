@@ -1,9 +1,8 @@
 import 'package:kt_dart/kt.dart';
+import 'package:mhudart_base/mhudart_base.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../opt.dart';
-import '../commons.dart';
 
 extension PrototGeneratedMessageX<T extends GeneratedMessage> on T {
   T deepUpdate(void Function(T message) updater) =>

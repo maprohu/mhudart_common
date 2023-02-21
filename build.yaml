@@ -1,0 +1,14 @@
+# https://github.com/dart-lang/source_gen/blob/master/example_usage/build.yaml
+
+
+targets:
+  $default:
+    builders:
+      source_gen:combining_builder:
+        options:
+          ignore_for_file:
+            - lint_alpha
+            - lint_beta
+            - lint_experimental
+            - variance
+            - experimental

@@ -1,10 +1,9 @@
-import 'package:mhudart_common/mhdart_common.dart';
+import 'package:mhudart_base/mhudart_base.dart';
 import 'package:protobuf/protobuf.dart';
 
-import '../opt.dart';
 import '../rxvar.dart';
-import '../commons.dart';
 import 'proto_base.dart';
+import 'proto_info.dart';
 
 extension ProtoRxVarX<T extends GeneratedMessage> on RxVar<T> {
   void deepUpdate(void Function(T message) updater) =>
