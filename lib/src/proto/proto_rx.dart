@@ -1,7 +1,6 @@
 import 'package:mhudart_base/mhudart_base.dart';
 import 'package:protobuf/protobuf.dart';
 
-import '../rxvar.dart';
 import 'proto_base.dart';
 import 'proto_info.dart';
 

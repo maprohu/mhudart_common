@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: lint_alpha, lint_beta, lint_experimental, variance, experimental
-
 part of 'mutable.dart';
 
 // **************************************************************************
@@ -35,31 +33,31 @@ extension UpdateMethod$Ext$Mk on Mk {
 
 abstract class UpdateMethod$Visitor<R$, T> {
   R$ updateMethod();
-  R$ mutable(ImmutableItem<T> value);
-  R$ immutable(MutableItem<T> value);
+  R$ immutable(ImmutableItem<T> value);
+  R$ mutable(MutableItem<T> value);
 }
 
 class UpdateMethod$Visitor$Data<R$, T> {
   final R$ Function() updateMethod;
-  final R$ Function(ImmutableItem<T> mutable) mutable;
-  final R$ Function(MutableItem<T> immutable) immutable;
+  final R$ Function(ImmutableItem<T> immutable) immutable;
+  final R$ Function(MutableItem<T> mutable) mutable;
   UpdateMethod$Visitor$Data({
     required this.updateMethod,
-    required this.mutable,
     required this.immutable,
+    required this.mutable,
   });
   factory UpdateMethod$Visitor$Data.fallback({
     R$ Function()? updateMethod,
-    R$ Function(ImmutableItem<T> mutable)? mutable,
-    R$ Function(MutableItem<T> immutable)? immutable,
+    R$ Function(ImmutableItem<T> immutable)? immutable,
+    R$ Function(MutableItem<T> mutable)? mutable,
   }) {
     updateMethod ??= Functions.throws;
-    mutable ??= updateMethod.ignore1();
     immutable ??= updateMethod.ignore1();
+    mutable ??= updateMethod.ignore1();
     return UpdateMethod$Visitor$Data(
       updateMethod: updateMethod,
-      mutable: mutable,
       immutable: immutable,
+      mutable: mutable,
     );
   }
 }
@@ -68,74 +66,74 @@ class UpdateMethod$Visitor$Impl<R$, T> implements UpdateMethod$Visitor<R$, T> {
   final UpdateMethod$Visitor$Data<R$, T> _data;
   const UpdateMethod$Visitor$Impl(this._data);
   R$ updateMethod() => _data.updateMethod();
-  R$ mutable(ImmutableItem<T> mutable) => _data.mutable(mutable);
-  R$ immutable(MutableItem<T> immutable) => _data.immutable(immutable);
+  R$ immutable(ImmutableItem<T> immutable) => _data.immutable(immutable);
+  R$ mutable(MutableItem<T> mutable) => _data.mutable(mutable);
 }
 
 extension UpdateMethod$WhenX<T> on UpdateMethod$Base<void, T> {
   R$ when<R$>({
     R$ Function()? updateMethod,
-    R$ Function(ImmutableItem<T> mutable)? mutable,
-    R$ Function(MutableItem<T> immutable)? immutable,
+    R$ Function(ImmutableItem<T> immutable)? immutable,
+    R$ Function(MutableItem<T> mutable)? mutable,
   }) =>
       acceptUpdateMethod(
           UpdateMethod$Visitor$Impl(UpdateMethod$Visitor$Data.fallback(
         updateMethod: updateMethod,
-        mutable: mutable,
         immutable: immutable,
+        mutable: mutable,
       )));
 }
 
-typedef Mutable<T> = Mutable$Base<ImmutableItem<T>, T>;
+typedef Immutable<T> = Immutable$Base<ImmutableItem<T>, T>;
 
-abstract class Mutable$Base<I$ extends ImmutableItem<T>, T>
-    extends UpdateMethod$Base<I$, T> {
-  const Mutable$Base(super.item);
-  R$ acceptUpdateMethod<R$>(UpdateMethod$Visitor<R$, T> visitor) =>
-      visitor.mutable(item);
-}
-
-class Mutable$Impl<T> extends Mutable$Base<ImmutableItem<T>, T> {
-  const Mutable$Impl(super.item);
-  const Mutable$Impl.create(ImmutableItem<T> item) : this(item);
-}
-
-class Mutable$Factory {
-  const Mutable$Factory();
-  final create = Mutable$Impl.create;
-  Mutable$Impl<T> call<T>(ImmutableItem<T> item) => Mutable$Impl(item);
-}
-
-const mutable$Factory = Mutable$Factory();
-
-extension Mutable$Ext$Mk on Mk {
-  Mutable$Factory get Mutable => mutable$Factory;
-}
-
-typedef Immutable<T> = Immutable$Base<MutableItem<T>, T>;
-
-abstract class Immutable$Base<I$ extends MutableItem<T>, T>
+abstract class Immutable$Base<I$ extends ImmutableItem<T>, T>
     extends UpdateMethod$Base<I$, T> {
   const Immutable$Base(super.item);
   R$ acceptUpdateMethod<R$>(UpdateMethod$Visitor<R$, T> visitor) =>
       visitor.immutable(item);
 }
 
-class Immutable$Impl<T> extends Immutable$Base<MutableItem<T>, T> {
+class Immutable$Impl<T> extends Immutable$Base<ImmutableItem<T>, T> {
   const Immutable$Impl(super.item);
-  const Immutable$Impl.create(MutableItem<T> item) : this(item);
+  const Immutable$Impl.create(ImmutableItem<T> item) : this(item);
 }
 
 class Immutable$Factory {
   const Immutable$Factory();
   final create = Immutable$Impl.create;
-  Immutable$Impl<T> call<T>(MutableItem<T> item) => Immutable$Impl(item);
+  Immutable$Impl<T> call<T>(ImmutableItem<T> item) => Immutable$Impl(item);
 }
 
 const immutable$Factory = Immutable$Factory();
 
 extension Immutable$Ext$Mk on Mk {
   Immutable$Factory get Immutable => immutable$Factory;
+}
+
+typedef Mutable<T> = Mutable$Base<MutableItem<T>, T>;
+
+abstract class Mutable$Base<I$ extends MutableItem<T>, T>
+    extends UpdateMethod$Base<I$, T> {
+  const Mutable$Base(super.item);
+  R$ acceptUpdateMethod<R$>(UpdateMethod$Visitor<R$, T> visitor) =>
+      visitor.mutable(item);
+}
+
+class Mutable$Impl<T> extends Mutable$Base<MutableItem<T>, T> {
+  const Mutable$Impl(super.item);
+  const Mutable$Impl.create(MutableItem<T> item) : this(item);
+}
+
+class Mutable$Factory {
+  const Mutable$Factory();
+  final create = Mutable$Impl.create;
+  Mutable$Impl<T> call<T>(MutableItem<T> item) => Mutable$Impl(item);
+}
+
+const mutable$Factory = Mutable$Factory();
+
+extension Mutable$Ext$Mk on Mk {
+  Mutable$Factory get Mutable => mutable$Factory;
 }
 
 // **************************************************************************

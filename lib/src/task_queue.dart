@@ -1,9 +1,7 @@
 import 'dart:async';
 
-import 'async.dart';
-import 'streams.dart';
-import 'dispose.dart';
-import 'rxvar.dart';
+import 'package:mhudart_base/mhudart_base.dart';
+
 
 class TaskQueue with DisposersMixin {
   final _queue = StreamController<Future<void> Function()>();

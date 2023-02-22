@@ -1,12 +1,13 @@
-import 'package:mhudart_common/mhdart_common.dart';
+
+import 'package:mhudart_io/mhudart_io.dart';
 
 part 'mutable.g.dart';
 
 
 @GenerateHierarchy<Mk>(
   Hierarchy('updateMethod', children: [
-    Hierarchy<ImmutableItem>('mutable', generics: ['T']),
-    Hierarchy<MutableItem>('immutable', generics: ['T']),
+    Hierarchy<ImmutableItem>('immutable', generics: ['T']),
+    Hierarchy<MutableItem>('mutable', generics: ['T']),
   ]),
 )
 class _GenerateUpdateMethod <T>{

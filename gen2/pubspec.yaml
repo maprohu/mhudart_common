@@ -1,4 +1,4 @@
-name: mhudart_common
+name: gen2
 version: 0.0.1
 publish_to: none
 
@@ -7,22 +7,19 @@ environment:
 
 dependencies:
   mhudart_base:
-    path: ../mhudart_base
+    path: ../../mhudart_base
   mhudart_io:
-    path: ../mhudart_io
+    path: ../../mhudart_io
   built_collection: ^5.1.1
   kt_dart: ^1.0.0
-  logging: ^1.1.1
-  protobuf: ^2.1.0
-  retry: ^3.1.0
   rxdart: ^0.27.7
+  protobuf: ^2.1.0
+
   gen1:
-    path: gen1
-  gen2:
-    path: gen2
+    path: ../gen1
 
 dev_dependencies:
   build_runner: ^2.3.3
   mhudart_generator_base:
-    path: ../mhudart_generator_base
+    path: ../../mhudart_generator_base
   source_gen: ^1.2.7
