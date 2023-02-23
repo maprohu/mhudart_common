@@ -51,19 +51,3 @@ abstract class PmEnumItem<T, V> extends PmSingleImmutableItem<T, V> {}
 abstract class PmMessageItem<T, V> extends PmSingleItem<T, V> {}
 
 
-abstract class PmSingleField<T> {
-}
-
-abstract class PmTypedSingleField<T, V> extends PmSingleField<T> {
-  PmSingle<T, V> get type;
-}
-
-abstract class PmOneOfField<T, E extends Enum> {
-  List<E> get types;
-
-  E which(T message);
-
-  void ensure(T message, E type);
-
-  Opt<PmSingleField<T>> field(E type);
-}
