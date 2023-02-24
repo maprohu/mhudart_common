@@ -76,9 +76,9 @@ class PdfCardinality$Visitor$Data<R$> {
   }
 }
 
-class PdfCardinality$Visitor$Impl<R$> implements PdfCardinality$Visitor<R$> {
+class PdfCardinality$Visitor$Impl<R$> extends PdfCardinality$Visitor<R$> {
   final PdfCardinality$Visitor$Data<R$> _data;
-  const PdfCardinality$Visitor$Impl(this._data);
+  PdfCardinality$Visitor$Impl(this._data);
   R$ cardinality() => _data.cardinality();
   R$ mapOf() => _data.mapOf();
   R$ nonMap() => _data.nonMap();
@@ -186,9 +186,9 @@ class PdfNonMap$Visitor$Data<R$> {
   }
 }
 
-class PdfNonMap$Visitor$Impl<R$> implements PdfNonMap$Visitor<R$> {
+class PdfNonMap$Visitor$Impl<R$> extends PdfNonMap$Visitor<R$> {
   final PdfNonMap$Visitor$Data<R$> _data;
-  const PdfNonMap$Visitor$Impl(this._data);
+  PdfNonMap$Visitor$Impl(this._data);
   R$ nonMap() => _data.nonMap();
   R$ single() => _data.single();
   R$ repeated() => _data.repeated();
@@ -333,9 +333,9 @@ class PdfValueType$Visitor$Data<R$> {
   }
 }
 
-class PdfValueType$Visitor$Impl<R$> implements PdfValueType$Visitor<R$> {
+class PdfValueType$Visitor$Impl<R$> extends PdfValueType$Visitor<R$> {
   final PdfValueType$Visitor$Data<R$> _data;
-  const PdfValueType$Visitor$Impl(this._data);
+  PdfValueType$Visitor$Impl(this._data);
   R$ valueType() => _data.valueType();
   R$ boolType() => _data.boolType();
   R$ intType() => _data.intType();

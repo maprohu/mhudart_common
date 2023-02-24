@@ -82,9 +82,9 @@ class Cardinality$Visitor$Data<R$> {
   }
 }
 
-class Cardinality$Visitor$Impl<R$> implements Cardinality$Visitor<R$> {
+class Cardinality$Visitor$Impl<R$> extends Cardinality$Visitor<R$> {
   final Cardinality$Visitor$Data<R$> _data;
-  const Cardinality$Visitor$Impl(this._data);
+  Cardinality$Visitor$Impl(this._data);
   R$ cardinality(FieldInfo cardinality) => _data.cardinality(cardinality);
   R$ mapOf(MapFieldInfo mapOf) => _data.mapOf(mapOf);
   R$ nonMap(FieldInfo nonMap) => _data.nonMap(nonMap);
@@ -202,9 +202,9 @@ class NonMap$Visitor$Data<R$> {
   }
 }
 
-class NonMap$Visitor$Impl<R$> implements NonMap$Visitor<R$> {
+class NonMap$Visitor$Impl<R$> extends NonMap$Visitor<R$> {
   final NonMap$Visitor$Data<R$> _data;
-  const NonMap$Visitor$Impl(this._data);
+  NonMap$Visitor$Impl(this._data);
   R$ nonMap(FieldInfo nonMap) => _data.nonMap(nonMap);
   R$ single(FieldInfo single) => _data.single(single);
   R$ repeated(FieldInfo repeated) => _data.repeated(repeated);
@@ -377,9 +377,9 @@ class ValueType$Visitor$Data<R$> {
   }
 }
 
-class ValueType$Visitor$Impl<R$> implements ValueType$Visitor<R$> {
+class ValueType$Visitor$Impl<R$> extends ValueType$Visitor<R$> {
   final ValueType$Visitor$Data<R$> _data;
-  const ValueType$Visitor$Impl(this._data);
+  ValueType$Visitor$Impl(this._data);
   R$ valueType() => _data.valueType();
   R$ boolType() => _data.boolType();
   R$ intType() => _data.intType();

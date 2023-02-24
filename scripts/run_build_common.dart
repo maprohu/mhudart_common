@@ -1,2 +1,9 @@
+import 'dart:io';
+
 import 'package:mhudart_generator_base/build_runner.dart';
-void main() => runBuildRunner();
+import 'package:mhudart_io/mhudart_io.dart';
+
+Future<void> main() async {
+  // await runBuildRunner(Directory.current.dir('gen1'));
+  await runBuildRunner();
+}

@@ -3,6 +3,8 @@ import 'package:mhudart_base/mhudart_base.dart';
 import 'proto_descriptor_hierarchy.dart';
 export 'proto_descriptor_hierarchy.dart';
 
+part 'proto_descriptor.g.dart';
+
 abstract class PdEnumResolver<M, F, E> {
   PdEnum<M, F, E> resolveEnum(Iterable<String> path);
 }
@@ -14,7 +16,8 @@ abstract class PdMsgContainer<M, F, E> implements PdEnumResolver<M, F, E> {
 
   Iterable<EnumDescriptorProto> get enumDescriptors;
 
-  late final messages = messageDescriptors.map((e) => PdMsg(this, e));
+  late final messages =
+      messageDescriptors.mapIndexed((i, e) => PdMsg(this, e, i)).toList();
   late final enums = enumDescriptors.map((e) => PdEnum(this, e));
 
   late final resolveDirectCache = <String, PdMsgContainer<M, F, E>>{
@@ -30,30 +33,35 @@ abstract class PdMsgContainer<M, F, E> implements PdEnumResolver<M, F, E> {
 
   PdMsg<M, F, E> resolve(Iterable<String> path);
 
-  PdMsg<M, F, E> resolveNext(Iterable<String> path) =>
+  PdMsg<M, F, E> _resolveNext(Iterable<String> path) =>
       resolveDirectCache[path.first]!.resolve(path.skip(1));
 
   PdEnum<M, F, E> resolveEnum(Iterable<String> path) =>
       resolveEnumDirectCache[path.first]!.resolveEnum(path.skip(1));
 
   Iterable<PdMsg<M, F, E>> get path;
+
+  late final isRoot = path.isEmpty;
+
+  PdMsg<M, F, E> toMessage();
+
+  PdMsg<M, F, E> _resolveMessageIndex(Iterable<int> path);
+
+  late final resolveMessageIndex = Cache(_resolveMessageIndex);
+
+  PdMsg<M, F, E> _resolveMessageIndexNext(Iterable<int> path) =>
+      messages[path.first]._resolveMessageIndex(path.skip(1));
 }
 
-class PdRoot<M, F, E> extends PdMsgContainer<M, F, E> {
-  final M Function(PdMsg<M, F, E> msg) msgPayload;
-  final F Function(PdFld<M, F, E> fld) fldPayload;
-  final E Function(PdEnum<M, F, E> enm) enumPayload;
-  final List<int> descriptorFileBytes;
+@Impl()
+abstract class PdRoot<M, F, E> extends PdMsgContainer<M, F, E> {
+  M msgPayload(PdMsg<M, F, E> msg);
 
-  PdRoot(
-    this.msgPayload,
-    this.fldPayload,
-    this.enumPayload,
-    this.descriptorFileBytes,
-  );
+  F fldPayload(PdFld<M, F, E> fld);
 
-  late final FileDescriptorSet descriptorSet =
-      FileDescriptorSet.fromBuffer(descriptorFileBytes);
+  E enumPayload(PdEnum<M, F, E> enm);
+
+  FileDescriptorSet get descriptorSet;
 
   @override
   PdRoot<M, F, E> get root => this;
@@ -63,20 +71,38 @@ class PdRoot<M, F, E> extends PdMsgContainer<M, F, E> {
       descriptorSet.file.expand((e) => e.messageType);
 
   @override
-  PdMsg<M, F, E> resolve(Iterable<String> path) => resolveNext(path);
+  PdMsg<M, F, E> resolve(Iterable<String> path) => _resolveNext(path);
 
   final path = Iterable.empty();
 
   @override
   Iterable<EnumDescriptorProto> get enumDescriptors =>
       descriptorSet.file.expand((e) => e.enumType);
+
+  @override
+  PdMsg<M, F, E> toMessage() => throw this;
+
+  PdMsg<M, F, E> _resolveMessageIndex(Iterable<int> path) =>
+      _resolveMessageIndex(path);
 }
 
+@GenerateHierarchy(
+  Hierarchy<PdMsgContainer>(
+    'level',
+    generics: ['M', 'F', 'E'],
+    children: [
+      Hierarchy<PdRoot>('top', generics: ['M', 'F', 'E']),
+      Hierarchy<PdMsg>('nested', generics: ['M', 'F', 'E']),
+    ],
+  ),
+  prefix: 'Pdm',
+)
 class PdMsg<M, F, E> extends PdMsgContainer<M, F, E> {
   final PdMsgContainer<M, F, E> parent;
   final DescriptorProto descriptor;
+  final int index;
 
-  PdMsg(this.parent, this.descriptor);
+  PdMsg(this.parent, this.descriptor, this.index);
 
   late final payload = root.msgPayload(this);
 
@@ -90,13 +116,16 @@ class PdMsg<M, F, E> extends PdMsgContainer<M, F, E> {
 
   @override
   PdMsg<M, F, E> resolve(Iterable<String> path) =>
-      path.isEmpty ? this : resolveNext(path);
+      path.isEmpty ? this : _resolveNext(path);
 
-  late final fields = descriptor.field.mapIndexed((i, e) => PdFld(this, i)).toList();
+  late final fields =
+      descriptor.field.mapIndexed((i, e) => PdFld(this, i)).toList();
 
   late final isMapEntry = descriptor.options.mapEntry;
 
   late final path = parent.path.followedBy([this]);
+
+  late final isTopLevel = parent.isRoot;
 
   late final Iterable<PdMsg<M, F, E>> hierarchy = [
     this,
@@ -107,6 +136,18 @@ class PdMsg<M, F, E> extends PdMsgContainer<M, F, E> {
   Iterable<EnumDescriptorProto> get enumDescriptors => descriptor.enumType;
 
   late final qualifiedName = path.map((e) => '.${e.name}').join();
+
+  @override
+  PdMsg<M, F, E> toMessage() => this;
+
+  @override
+  PdMsg<M, F, E> _resolveMessageIndex(Iterable<int> path) =>
+      path.isEmpty ? this : _resolveMessageIndexNext(path);
+
+  late final messageLevel = (isTopLevel
+          ? mk.PdmTop.create<M, F, E>(root)
+          : mk.PdmNested.create<M, F, E>(parent as PdMsg<M, F, E>))
+      as PdmLevel<M, F, E>;
 }
 
 class PdFld<M, F, E> {
@@ -120,7 +161,6 @@ class PdFld<M, F, E> {
   late final descriptor = msg.descriptor.field[index];
 
   late final name = descriptor.name;
-
 
   late final isLabelRepeated =
       descriptor.label == FieldDescriptorProto_Label.LABEL_REPEATED;
@@ -145,7 +185,6 @@ class PdFld<M, F, E> {
   late final mapValueField = resolvedMessage.fields[1];
 
   late final cardinality = mk.PdfCardinality.from(this);
-
 }
 
 class PdEnum<M, F, E> implements PdEnumResolver<M, F, E> {
@@ -166,3 +205,14 @@ class PdEnum<M, F, E> implements PdEnumResolver<M, F, E> {
   }
 }
 
+abstract class HasPdMsg<M, F, E> {
+  PdMsg<M, F, E> get msg;
+}
+
+abstract class HasPdFld<M, F, E> {
+  PdFld<M, F, E> get fld;
+}
+
+abstract class HasPdEnum<M, F, E> {
+  PdEnum<M, F, E> get enm;
+}

@@ -7,7 +7,7 @@ import 'rxvar.dart';
 
 class TaskQueue with DisposersMixin {
   final _queue = StreamController<Future<void> Function()>();
-  final _busy = RxVar(0);
+  final _busy = mk.RxVar.variable(0);
 
   late final busy = _busy.map((value) => value > 0);
 

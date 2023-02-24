@@ -9,45 +9,45 @@ part of 'rxvar.dart';
 // **************************************************************************
 
 class RxVal$Data<T> {
-  final T Function() value;
-  final Stream<T> Function() stream;
+  final Stream<T> Function() changes;
+  final T Function() get;
   RxVal$Data({
-    required this.value,
-    required this.stream,
+    required this.changes,
+    required this.get,
   });
 }
 
-class RxVal$Impl<T> implements RxVal<T> {
+class RxVal$Impl<T> extends RxVal<T> {
   final RxVal$Data<T> _data;
-  const RxVal$Impl(this._data);
-  T get value => _data.value();
-  Stream<T> get stream => _data.stream();
+  RxVal$Impl(this._data);
+  Stream<T> changes() => _data.changes();
+  T get() => _data.get();
 }
 
-class RxVal$Delegate<T> implements RxVal<T> {
+class RxVal$Delegate<T> extends RxVal<T> {
   final RxVal<T> Function() _delegate;
-  const RxVal$Delegate(this._delegate);
-  T get value => _delegate().value;
-  Stream<T> get stream => _delegate().stream;
+  RxVal$Delegate(this._delegate);
+  Stream<T> changes() => _delegate().changes();
+  T get() => _delegate().get();
 }
 
 class RxVal$Factory {
   const RxVal$Factory();
   RxVal<T> call<T>({
-    required T Function() value,
-    required Stream<T> Function() stream,
+    required Stream<T> Function() changes,
+    required T Function() get,
   }) =>
       RxVal$Impl(RxVal$Data(
-        value: value,
-        stream: stream,
+        changes: changes,
+        get: get,
       ));
   RxVal<T> create<T>({
-    required T Function() value,
-    required Stream<T> Function() stream,
+    required Stream<T> Function() changes,
+    required T Function() get,
   }) =>
       RxVal$Impl(RxVal$Data(
-        value: value,
-        stream: stream,
+        changes: changes,
+        get: get,
       ));
   RxVal<T> delegate<T>(RxVal<T> Function() delegate) =>
       RxVal$Delegate(delegate);
@@ -60,56 +60,65 @@ extension RxVal$Ext$Mk on Mk {
 }
 
 class RxVar$Data<T> {
-  final T Function() value;
-  final Stream<T> Function() stream;
-  final void Function(T value) value$set;
+  final void Function(T value) set;
+  final T Function() get;
+  final Stream<T> Function() changes;
   RxVar$Data({
-    required this.value,
-    required this.stream,
-    required this.value$set,
+    required this.set,
+    required this.get,
+    required this.changes,
   });
 }
 
-class RxVar$Impl<T> implements RxVar<T> {
+class RxVar$Impl<T> extends RxVar<T> {
   final RxVar$Data<T> _data;
-  const RxVar$Impl(this._data);
-  T get value => _data.value();
-  Stream<T> get stream => _data.stream();
-  set value(T value) => _data.value$set(value);
+  RxVar$Impl(this._data);
+  void set(T value) => _data.set(value);
+  T get() => _data.get();
+  Stream<T> changes() => _data.changes();
 }
 
-class RxVar$Delegate<T> implements RxVar<T> {
+class RxVar$Delegate<T> extends RxVar<T> {
   final RxVar<T> Function() _delegate;
-  const RxVar$Delegate(this._delegate);
-  T get value => _delegate().value;
-  Stream<T> get stream => _delegate().stream;
-  set value(T value) => _delegate().value = value;
+  RxVar$Delegate(this._delegate);
+  void set(T value) => _delegate().set(value);
+  T get() => _delegate().get();
+  Stream<T> changes() => _delegate().changes();
 }
 
 class RxVar$Factory {
   const RxVar$Factory();
   RxVar<T> call<T>({
-    required T Function() value,
-    required Stream<T> Function() stream,
-    required void Function(T value) value$set,
+    required void Function(T value) set,
+    required T Function() get,
+    required Stream<T> Function() changes,
   }) =>
       RxVar$Impl(RxVar$Data(
-        value: value,
-        stream: stream,
-        value$set: value$set,
+        set: set,
+        get: get,
+        changes: changes,
       ));
   RxVar<T> create<T>({
-    required T Function() value,
-    required Stream<T> Function() stream,
-    required void Function(T value) value$set,
+    required void Function(T value) set,
+    required T Function() get,
+    required Stream<T> Function() changes,
   }) =>
       RxVar$Impl(RxVar$Data(
-        value: value,
-        stream: stream,
-        value$set: value$set,
+        set: set,
+        get: get,
+        changes: changes,
       ));
   RxVar<T> delegate<T>(RxVar<T> Function() delegate) =>
       RxVar$Delegate(delegate);
+  RxVar<T> fromRxVal<T>({
+    required RxVal<T> rxVal,
+    required void Function(T value) set,
+  }) =>
+      create(
+        get: rxVal.get,
+        changes: rxVal.changes,
+        set: set,
+      );
 }
 
 const rxVar$Factory = RxVar$Factory();
