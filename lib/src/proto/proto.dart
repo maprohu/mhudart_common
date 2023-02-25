@@ -1,5 +1,3 @@
-import 'dart:mirrors';
-
 import 'package:mhudart_io/mhudart_io.dart';
 import 'package:protobuf/protobuf.dart';
 
@@ -46,24 +44,24 @@ extension Cardinality$FactoryCustomX on Cardinality$Factory {
   }
 }
 
-extension CardinalityX on Cardinality {
-  ValueType get valueType => when(
-        mapOf: mk.ValueType.fromMapField,
-        nonMap: (nonMap) => mk.ValueType.fromSingle(nonMap),
-        repeated: (repeated) {
-          final sub = repeated.subBuilder;
-          if (sub == null) {
-            final defaultValue = repeated.readonlyDefault;
-            final valueMirror = reflect(defaultValue);
-            final elemTypeMirror = valueMirror.type.typeArguments.first;
-            final elemType = elemTypeMirror.reflectedType;
-            return mk.ValueType.fromType(elemType);
-          } else {
-            return mk.ValueType.fromMessage(sub());
-          }
-        },
-      );
-}
+// extension CardinalityX on Cardinality {
+//   ValueType get valueType => when(
+//         mapOf: mk.ValueType.fromMapField,
+//         nonMap: (nonMap) => mk.ValueType.fromSingle(nonMap),
+//         repeated: (repeated) {
+//           final sub = repeated.subBuilder;
+//           if (sub == null) {
+//             final defaultValue = repeated.readonlyDefault;
+//             final valueMirror = reflect(defaultValue);
+//             final elemTypeMirror = valueMirror.type.typeArguments.first;
+//             final elemType = elemTypeMirror.reflectedType;
+//             return mk.ValueType.fromType(elemType);
+//           } else {
+//             return mk.ValueType.fromMessage(sub());
+//           }
+//         },
+//       );
+// }
 
 extension ValueTypes$FactoryCustomX on ValueType$Factory {
   MessageType fromMessage(GeneratedMessage message) =>

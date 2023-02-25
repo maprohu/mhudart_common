@@ -83,7 +83,7 @@ abstract class PdRoot<M, F, E> extends PdMsgContainer<M, F, E> {
   PdMsg<M, F, E> toMessage() => throw this;
 
   PdMsg<M, F, E> _resolveMessageIndex(Iterable<int> path) =>
-      _resolveMessageIndex(path);
+      _resolveMessageIndexNext(path);
 }
 
 @GenerateHierarchy(
@@ -184,7 +184,11 @@ class PdFld<M, F, E> {
   late final mapKeyField = resolvedMessage.fields[0];
   late final mapValueField = resolvedMessage.fields[1];
 
+  late final mapFields = MapFields(mapKeyField, mapValueField);
+
   late final cardinality = mk.PdfCardinality.from(this);
+
+  late final valueType = mk.PdfValueType.from(this);
 }
 
 class PdEnum<M, F, E> implements PdEnumResolver<M, F, E> {

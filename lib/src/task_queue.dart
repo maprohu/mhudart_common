@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:mhudart_base/mhudart_base.dart';
 
-import 'rxvar.dart';
+import 'rxvar/rxvar.dart';
 
 
 class TaskQueue with DisposersMixin {

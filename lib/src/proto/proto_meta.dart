@@ -20,6 +20,8 @@ abstract class PmMessage<L> {
 
   int get index$;
 
+  Iterable<int> get path$;
+
   List<PmMessage<L>> get nestedMessages$;
 }
 
@@ -31,6 +33,13 @@ extension PmMessageX<L> on PmMessage<L> {
 
 typedef FieldsList<T, L, M extends PmMessage<L>> = List<PmField<T, L, M>>;
 typedef OneOfs<T> = List<PmOneOf<T>>;
+
+abstract class PmMessageOfType<T, L> implements PmMessage<L> {
+
+  List<PmFieldOfMessage<T>> get fields$;
+  OneOfs<T> get oneofs$;
+
+}
 
 @GenerateHierarchy(
   Hierarchy<PmTypedMessage>(
@@ -47,14 +56,11 @@ typedef OneOfs<T> = List<PmOneOf<T>>;
   prefix: 'pmt',
 )
 abstract class PmTypedMessage<T, L, M extends PmMessage<L>>
-    extends PmMessage<L> {
+    extends PmMessage<L> implements PmMessageOfType<T, L> {
   const PmTypedMessage();
 
-  FieldsList<T, L, M> get fields$;
+  List<PmField<T, L, M>> get fields$;
 
-  OneOfs<T> get oneofs$;
-
-  Iterable<int> get path$;
 }
 
 abstract class PmTopLevelMessage<T, L, M extends PmMessage<L>>
@@ -82,12 +88,19 @@ abstract class PmNestedMessage<T, P extends PmTypedMessage<dynamic, L, P>, L,
   P get parent$;
 }
 
-abstract class PmField<T, L, M extends PmMessage<L>> {
+abstract class PmFieldOfLib<L> {
+  PmMessage<L> get message;
+
+  int get index;
+}
+
+abstract class PmFieldOfMessage<T> {}
+
+abstract class PmField<T, L, M extends PmMessage<L>>
+    implements PmFieldOfLib<L>, PmFieldOfMessage<T> {
   const PmField();
 
   PmTypedMessage<T, L, M> get message;
-
-  int get index;
 }
 
 abstract class PmOneOf<T> {
@@ -101,6 +114,8 @@ abstract class PmTypedOneOf<T, V extends Enum> extends PmOneOf<T> {
 
   void clear(T message);
 }
+
+
 
 abstract class PmTypedField<T, V, L, M extends PmMessage<L>>
     extends PmField<T, L, M> {
