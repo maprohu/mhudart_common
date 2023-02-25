@@ -4,19 +4,21 @@ typedef RxValOpt<T> = RxVal<Opt<T>>;
 typedef RxVarOpt<T> = RxVar<Opt<T>>;
 
 extension RxValXOpt<T> on RxVal<T> {
-
   RxValOpt<T> toOptVal() => map(Opt.here);
-
-
 }
 
 extension RxVarXOpt<T> on RxVar<T> {
   RxVarOpt<T> toOptVar() => mk.RxVar.fromRxVal(
-    rxVal: toOptVal(),
-    set: (opt) => opt.forEach(set),
-  );
-}
+        rxVal: toOptVal(),
+        set: (opt) => opt.forEach(set),
+      );
 
+  RxVar<V> castVar<V>() => mk.RxVar.create(
+        set: (v) => set(v as T),
+        get: () => get() as V,
+        changes: () => changes().cast<V>(),
+      );
+}
 
 extension OptRxValX<T> on RxValOpt<T> {
   RxVal<T> orDefault(T defaultValue) => map(
