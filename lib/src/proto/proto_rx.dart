@@ -1,10 +1,8 @@
 import 'package:mhudart_base/mhudart_base.dart';
-import 'package:mhudart_common/src/proto/proto_rx.saved.dart';
 import 'package:protobuf/protobuf.dart';
 
 import '../rxvar/rxvar.dart';
-import 'proto_base.dart';
-import 'proto_info.dart';
+import 'proto.dart';
 import 'proto_meta.dart';
 
 part 'proto_rx.g.dart';
@@ -20,38 +18,24 @@ class _X {}
 
 extension RxVarOptMsgX<T extends GeneratedMessage> on RxVar<Opt<T>> {
   void rebuild(void Function(T value) updates) {
-    value.forEach((v) {
-      value = v.rebuild(updates).here();
-    });
+    rebuildWith(
+      updates: updates,
+      rebuild: (original, updates) => original.rebuild(updates),
+    );
   }
 }
 
 extension PrxSingleMsgX<T extends GeneratedMessage> on RxVar<Opt<T>> {
-  PrxSingle<V, F, L, M>
-      single<V, F extends PmSingleField<T, V, L, M>, L, M extends PmMessage<L>>(
-              F field) =>
-          mk.PrxSingle.fromRxVar(
-            rxVar: mk.RxVar.fromRxVal(
-              rxVal: this.expandOpt((v) => field.getOpt(v)),
-              set: (opt) {
-                rebuild((value) {
-                  field.setOpt(value, opt);
-                });
-              },
-            ),
-            field: field.asConstant(),
-          );
+  PrxSingle<V, L> single<V, L>(PmSingleField<T, V, L> field) =>
+      mk.PrxSingle.fromField(this, field);
 
-  PrxRepeated<V, F, L, M> repeated<V, F extends PmTypedField<T, List<V>, L, M>,
-          L, M extends PmMessage<L>>(F field) =>
-      collection<List<V>, F, L, M>(field);
+  PrxMap<K, V, L> mapOf<K, V, L>(PmTypedField<T, Map<K, V>, L> field) =>
+      collection(field);
 
-  PrxMap<K, V, F, L, M> mapOf<K, V, F extends PmTypedField<T, Map<K, V>, L, M>,
-          L, M extends PmMessage<L>>(F field) =>
-      collection<Map<K, V>, F, L, M>(field);
+  PrxRepeated<V, L> repeated<V, L>(PmTypedField<T, List<V>, L> field) =>
+      collection(field);
 
-  PrxCollection<C, F, L, M> collection<C, F extends PmTypedField<T, C, L, M>, L,
-          M extends PmMessage<L>>(F field) =>
+  PrxCollection<C, L> collection<C, L>(PmTypedField<T, C, L> field) =>
       mk.PrxCollection.fromField(this, field);
 }
 
@@ -68,72 +52,139 @@ abstract class PrxMessage<T, L> extends RxVar<Opt<T>>
 }
 
 abstract class PrxValueOfType<V, L> implements RxValOpt<V> {
-  PmFieldOfLib<L> field();
+  HasFieldPath<L> field();
 }
 
-abstract class PrxCollectionBase<C> implements RxValOpt<C> {
+abstract class PrxBase<T> implements RxValOpt<T> {}
+
+@Impl([RxVal])
+abstract class PrxCollectionBase<C> implements PrxBase<C> {
   void rebuild(void Function(C collection) updates);
-
 }
 
-abstract class PrxCollectionOfType<C, L> implements PrxValueOfType<C, L>, PrxCollectionBase<C> {
-}
+abstract class PrxCollectionOfType<C, L>
+    implements PrxValueOfType<C, L>, PrxCollectionBase<C> {}
 
-abstract class PrxSingleBase<V> implements RxVarOpt<V> {}
+@Impl([RxVar])
+abstract class PrxSingleBase<V> implements PrxBase<V>, RxVarOpt<V> {}
 
 abstract class PrxSingleOfType<V, L>
     implements PrxValueOfType<V, L>, PrxSingleBase<V> {}
 
-abstract class PrxValue<V, F extends PmTypedField<dynamic, V, L, M>, L,
-    M extends PmMessage<L>> implements PrxValueOfType<V, L> {
-  F field();
+abstract class PrxValue<V, L> implements PrxBase<V>, PrxValueOfType<V, L> {
+  // PmTypedField<dynamic, V, L> field();
 }
 
-@Impl([RxVal])
-abstract class PrxCollection<C, F extends PmTypedField<dynamic, C, L, M>, L,
-        M extends PmMessage<L>>
-    implements PrxCollectionOfType<C, L>, PrxValue<C, F, L, M>  {}
+@Impl([RxVal, PrxCollectionBase])
+abstract class PrxCollection<C, L>
+    implements PrxCollectionOfType<C, L>, PrxValue<C, L> {}
 
-@Impl([RxVar])
-abstract class PrxSingle<T, F extends PmSingleField<dynamic, T, L, M>, L,
-        M extends PmMessage<L>>
-    implements PrxSingleOfType<T, L>, PrxValue<T, F, L, M> {}
+@Impl([RxVar, PrxSingleBase])
+abstract class PrxSingle<T, L>
+    implements PrxSingleOfType<T, L>, PrxValue<T, L> {}
 
-extension PrxCollectionFactoryX on PrxCollection$Factory {
-  PrxCollection<C, F, L, M> fromField<T extends GeneratedMessage, C,
-          F extends PmTypedField<T, C, L, M>, L, M extends PmMessage<L>>(
-    RxVar<Opt<T>> rxVar,
-    F field,
+extension PrxSingleFactoryX on PrxSingle$Factory {
+  PrxSingle<V, L> fromField<T extends GeneratedMessage, V, L>(
+    RxVarOpt<T> rxVar,
+    PmSingleField<T, V, L> field,
   ) =>
-      mk.PrxCollection.fromRxVal(
+      mk.PrxSingle.fromPrxSingleBase(
+        prxSingleBase: mk.PrxSingleBase.fromField(rxVar, field),
         field: field.asConstant(),
-        rxVal: rxVar.mapOpt(field.get),
-        rebuild: (updates) => rxVar.rebuild(
-          (v) {
-            updates(field.get(v));
+      );
+}
+
+extension PrxSingleBaseFactoryX on PrxSingleBase$Factory {
+  PrxSingleBase<V> fromField<T extends GeneratedMessage, V, L>(
+    RxVarOpt<T> rxVar,
+    PmFieldFull<T, V> field,
+  ) =>
+      fromFieldRebuilder(
+        rxVar: rxVar,
+        field: field,
+        rebuild: protoRebuilder<T>,
+      );
+
+  PrxSingleBase<V> fromFieldRebuilder<T, V, L>({
+    required RxVarOpt<T> rxVar,
+    required PmFieldFull<T, V> field,
+    required Rebuilder<T> rebuild,
+  }) =>
+      mk.PrxSingleBase.fromRxVar(
+        rxVar: mk.RxVar.fromRxVal(
+          rxVal: rxVar.expandOpt((v) => field.getOpt(v)),
+          set: (opt) {
+            rxVar.rebuildWith(
+              updates: (value) {
+                field.setOpt(value, opt);
+              },
+              rebuild: rebuild,
+            );
           },
         ),
       );
 }
 
+extension PrxCollectionBaseFactoryX on PrxCollectionBase$Factory {
+  PrxCollectionBase<C> fromField<T extends GeneratedMessage, C>(
+    RxVar<Opt<T>> rxVar,
+    PmFieldRead<T, C> field,
+  ) =>
+      fromFieldRebuilder(
+        rxVar: rxVar,
+        field: field,
+        rebuild: protoRebuilder<T>,
+      );
+
+  PrxCollectionBase<C> fromFieldRebuilder<T, C>({
+    required RxVar<Opt<T>> rxVar,
+    required PmFieldRead<T, C> field,
+    required Rebuilder<T> rebuild,
+  }) =>
+      mk.PrxCollectionBase.fromRxVal(
+        rxVal: rxVar.mapOpt(field.get),
+        rebuild: (updates) => rxVar.rebuildWith(
+          updates: (value) {
+            updates(field.get(value));
+          },
+          rebuild: rebuild,
+        ),
+      );
+}
+
+extension PrxCollectionFactoryX on PrxCollection$Factory {
+  PrxCollection<C, L> fromField<T extends GeneratedMessage, C, L>(
+    RxVar<Opt<T>> rxVar,
+    PmTypedField<T, C, L> field,
+  ) =>
+      mk.PrxCollection.fromPrxCollectionBase(
+        prxCollectionBase: mk.PrxCollectionBase.fromField(rxVar, field),
+        field: field.asConstant(),
+      );
+}
+
 typedef PrxMsg<T> = RxVar<Opt<T>>;
 
-typedef PrxMap<K, V, F extends PmTypedField<dynamic, Map<K, V>, L, M>, L,
-        M extends PmMessage<L>>
-    = PrxCollection<Map<K, V>, F, L, M>;
+typedef PrxMap<K, V, L> = PrxCollection<Map<K, V>, L>;
 
-typedef PrxRepeated<T, F extends PmTypedField<dynamic, List<T>, L, M>, L,
-        M extends PmMessage<L>>
-    = PrxCollection<List<T>, F, L, M>;
+typedef PrxRepeated<T, L> = PrxCollection<List<T>, L>;
 
-extension PrxMapX<K, V, F extends PmTypedField<dynamic, Map<K, V>, L, M>, L,
-    M extends PmMessage<L>> on PrxMap<K, V, F, L, M> {
+extension PrxCollectionBaseX<T> on PrxCollectionBase<T> {
+  PrxCollectionBase<V> castPrx<V>() => mk.PrxCollectionBase.fromRxVal(
+        rxVal: castOptVal<V>(),
+        rebuild: (updates) => rebuild(
+          (t) => updates(t as V),
+        ),
+      );
+}
+
+extension PrxCollectionMapX<K, V> on PrxCollectionBase<Map<K, V>> {
   RxVar<Opt<V>> call(K key) => item(key);
 
   RxVar<Opt<V>> item(K key) => mk.RxVar.fromRxVal(
         rxVal: expandOpt((m) => m.getOpt(key)),
         set: (opt) => rebuild((m) {
-          opt.apply(
+          opt.when(
             here: (v) {
               if (m.containsKey(key)) {
                 m[key] = v;
@@ -141,6 +192,24 @@ extension PrxMapX<K, V, F extends PmTypedField<dynamic, Map<K, V>, L, M>, L,
             },
             gone: () {
               m.remove(key);
+            },
+          );
+        }),
+      );
+}
+
+extension PrxCollectionListX<V> on PrxCollectionBase<List<V>> {
+  RxVar<Opt<V>> item(int index) => mk.RxVar.fromRxVal(
+        rxVal: expandOpt((m) => m.getOpt(index)),
+        set: (opt) => rebuild((m) {
+          opt.when(
+            here: (v) {
+              if (index < m.length) {
+                m[index] = v;
+              }
+            },
+            gone: () {
+              m.removeAt(index);
             },
           );
         }),

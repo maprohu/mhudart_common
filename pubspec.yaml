@@ -21,6 +21,7 @@ dependencies:
   gen2:
     path: gen2
   quiver: ^3.2.1
+  fast_immutable_collections: ^8.2.0
 
 dev_dependencies:
   build_runner: ^2.3.3

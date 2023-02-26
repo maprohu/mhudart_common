@@ -25,7 +25,8 @@ class PdmLevel$Impl<M, F, E>
 
 class PdmLevel$Factory {
   const PdmLevel$Factory();
-  final create = PdmLevel$Impl.create;
+  PdmLevel$Impl<M, F, E> create<M, F, E>(PdMsgContainer<M, F, E> item) =>
+      PdmLevel$Impl(item);
   PdmLevel$Impl<M, F, E> call<M, F, E>(PdMsgContainer<M, F, E> item) =>
       PdmLevel$Impl(item);
 }
@@ -105,7 +106,8 @@ class PdmTop$Impl<M, F, E> extends PdmTop$Base<PdRoot<M, F, E>, M, F, E> {
 
 class PdmTop$Factory {
   const PdmTop$Factory();
-  final create = PdmTop$Impl.create;
+  PdmTop$Impl<M, F, E> create<M, F, E>(PdRoot<M, F, E> item) =>
+      PdmTop$Impl(item);
   PdmTop$Impl<M, F, E> call<M, F, E>(PdRoot<M, F, E> item) => PdmTop$Impl(item);
 }
 
@@ -131,7 +133,8 @@ class PdmNested$Impl<M, F, E> extends PdmNested$Base<PdMsg<M, F, E>, M, F, E> {
 
 class PdmNested$Factory {
   const PdmNested$Factory();
-  final create = PdmNested$Impl.create;
+  PdmNested$Impl<M, F, E> create<M, F, E>(PdMsg<M, F, E> item) =>
+      PdmNested$Impl(item);
   PdmNested$Impl<M, F, E> call<M, F, E>(PdMsg<M, F, E> item) =>
       PdmNested$Impl(item);
 }
@@ -140,6 +143,137 @@ const pdmNested$Factory = PdmNested$Factory();
 
 extension PdmNested$Ext$Mk on Mk {
   PdmNested$Factory get PdmNested => pdmNested$Factory;
+}
+
+typedef PdxBase<M, F, E> = PdxBase$Base<void, M, F, E>;
+
+abstract class PdxBase$Base<I$, M, F, E> extends Holder<I$> {
+  const PdxBase$Base(super.item);
+  R$ acceptPdxBase<R$>(PdxBase$Visitor<R$, M, F, E> visitor) => visitor.base();
+}
+
+class PdxBase$Impl<M, F, E> extends PdxBase$Base<void, M, F, E> {
+  const PdxBase$Impl() : super(null);
+  const PdxBase$Impl.create() : this();
+}
+
+class PdxBase$Factory {
+  const PdxBase$Factory();
+  PdxBase$Impl<M, F, E> create<M, F, E>() => PdxBase$Impl();
+  PdxBase$Impl<M, F, E> call<M, F, E>() => PdxBase$Impl();
+}
+
+const pdxBase$Factory = PdxBase$Factory();
+
+extension PdxBase$Ext$Mk on Mk {
+  PdxBase$Factory get PdxBase => pdxBase$Factory;
+}
+
+abstract class PdxBase$Visitor<R$, M, F, E> {
+  R$ base();
+  R$ top(PdFld<M, F, E> value);
+  R$ oneof(PdOneof<M, F, E> value);
+}
+
+class PdxBase$Visitor$Data<R$, M, F, E> {
+  final R$ Function() base;
+  final R$ Function(PdFld<M, F, E> top) top;
+  final R$ Function(PdOneof<M, F, E> oneof) oneof;
+  PdxBase$Visitor$Data({
+    required this.base,
+    required this.top,
+    required this.oneof,
+  });
+  factory PdxBase$Visitor$Data.fallback({
+    R$ Function()? base,
+    R$ Function(PdFld<M, F, E> top)? top,
+    R$ Function(PdOneof<M, F, E> oneof)? oneof,
+  }) {
+    base ??= Functions.throws;
+    top ??= base.ignore1();
+    oneof ??= base.ignore1();
+    return PdxBase$Visitor$Data(
+      base: base,
+      top: top,
+      oneof: oneof,
+    );
+  }
+}
+
+class PdxBase$Visitor$Impl<R$, M, F, E> extends PdxBase$Visitor<R$, M, F, E> {
+  final PdxBase$Visitor$Data<R$, M, F, E> _data;
+  PdxBase$Visitor$Impl(this._data);
+  R$ base() => _data.base();
+  R$ top(PdFld<M, F, E> top) => _data.top(top);
+  R$ oneof(PdOneof<M, F, E> oneof) => _data.oneof(oneof);
+}
+
+extension PdxBase$WhenX<M, F, E> on PdxBase$Base<void, M, F, E> {
+  R$ when<R$>({
+    R$ Function()? base,
+    R$ Function(PdFld<M, F, E> top)? top,
+    R$ Function(PdOneof<M, F, E> oneof)? oneof,
+  }) =>
+      acceptPdxBase(PdxBase$Visitor$Impl(PdxBase$Visitor$Data.fallback(
+        base: base,
+        top: top,
+        oneof: oneof,
+      )));
+}
+
+typedef PdxTop<M, F, E> = PdxTop$Base<PdFld<M, F, E>, M, F, E>;
+
+abstract class PdxTop$Base<I$ extends PdFld<M, F, E>, M, F, E>
+    extends PdxBase$Base<I$, M, F, E> {
+  const PdxTop$Base(super.item);
+  R$ acceptPdxBase<R$>(PdxBase$Visitor<R$, M, F, E> visitor) =>
+      visitor.top(item);
+}
+
+class PdxTop$Impl<M, F, E> extends PdxTop$Base<PdFld<M, F, E>, M, F, E> {
+  const PdxTop$Impl(super.item);
+  const PdxTop$Impl.create(PdFld<M, F, E> item) : this(item);
+}
+
+class PdxTop$Factory {
+  const PdxTop$Factory();
+  PdxTop$Impl<M, F, E> create<M, F, E>(PdFld<M, F, E> item) =>
+      PdxTop$Impl(item);
+  PdxTop$Impl<M, F, E> call<M, F, E>(PdFld<M, F, E> item) => PdxTop$Impl(item);
+}
+
+const pdxTop$Factory = PdxTop$Factory();
+
+extension PdxTop$Ext$Mk on Mk {
+  PdxTop$Factory get PdxTop => pdxTop$Factory;
+}
+
+typedef PdxOneof<M, F, E> = PdxOneof$Base<PdOneof<M, F, E>, M, F, E>;
+
+abstract class PdxOneof$Base<I$ extends PdOneof<M, F, E>, M, F, E>
+    extends PdxBase$Base<I$, M, F, E> {
+  const PdxOneof$Base(super.item);
+  R$ acceptPdxBase<R$>(PdxBase$Visitor<R$, M, F, E> visitor) =>
+      visitor.oneof(item);
+}
+
+class PdxOneof$Impl<M, F, E> extends PdxOneof$Base<PdOneof<M, F, E>, M, F, E> {
+  const PdxOneof$Impl(super.item);
+  const PdxOneof$Impl.create(PdOneof<M, F, E> item) : this(item);
+}
+
+class PdxOneof$Factory {
+  const PdxOneof$Factory();
+  PdxOneof$Impl<M, F, E> create<M, F, E>(PdOneof<M, F, E> item) =>
+      PdxOneof$Impl(item);
+  PdxOneof$Impl<M, F, E> call<M, F, E>(PdOneof<M, F, E> item) =>
+      PdxOneof$Impl(item);
+}
+
+const pdxOneof$Factory = PdxOneof$Factory();
+
+extension PdxOneof$Ext$Mk on Mk {
+  PdxOneof$Factory get PdxOneof => pdxOneof$Factory;
 }
 
 // **************************************************************************
@@ -185,26 +319,48 @@ class PdRoot$Factory {
     required E Function(PdEnum<M, F, E> enm) enumPayload,
     required FileDescriptorSet Function() descriptorSet,
   }) =>
-      PdRoot$Impl(PdRoot$Data(
-        msgPayload: msgPayload,
-        fldPayload: fldPayload,
-        enumPayload: enumPayload,
-        descriptorSet: descriptorSet,
-      ));
+      PdRoot$Impl(
+        PdRoot$Data(
+          msgPayload: msgPayload,
+          fldPayload: fldPayload,
+          enumPayload: enumPayload,
+          descriptorSet: descriptorSet,
+        ),
+      );
   PdRoot<M, F, E> create<M, F, E>({
     required M Function(PdMsg<M, F, E> msg) msgPayload,
     required F Function(PdFld<M, F, E> fld) fldPayload,
     required E Function(PdEnum<M, F, E> enm) enumPayload,
     required FileDescriptorSet Function() descriptorSet,
   }) =>
-      PdRoot$Impl(PdRoot$Data(
-        msgPayload: msgPayload,
-        fldPayload: fldPayload,
-        enumPayload: enumPayload,
-        descriptorSet: descriptorSet,
-      ));
-  PdRoot<M, F, E> delegate<M, F, E>(PdRoot<M, F, E> Function() delegate) =>
-      PdRoot$Delegate(delegate);
+      PdRoot$Impl(
+        PdRoot$Data(
+          msgPayload: msgPayload,
+          fldPayload: fldPayload,
+          enumPayload: enumPayload,
+          descriptorSet: descriptorSet,
+        ),
+      );
+  PdRoot<M, F, E> data<M, F, E>({
+    required M Function(PdMsg<M, F, E> msg) msgPayload,
+    required F Function(PdFld<M, F, E> fld) fldPayload,
+    required E Function(PdEnum<M, F, E> enm) enumPayload,
+    required FileDescriptorSet descriptorSet,
+  }) =>
+      PdRoot$Impl(
+        PdRoot$Data(
+          msgPayload: msgPayload,
+          fldPayload: fldPayload,
+          enumPayload: enumPayload,
+          descriptorSet: descriptorSet.asConstant(),
+        ),
+      );
+  PdRoot<M, F, E> delegate<M, F, E>(
+    PdRoot<M, F, E> Function() delegate,
+  ) =>
+      PdRoot$Delegate(
+        delegate,
+      );
 }
 
 const pdRoot$Factory = PdRoot$Factory();

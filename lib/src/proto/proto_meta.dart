@@ -1,4 +1,6 @@
 import 'package:mhudart_base/mhudart_base.dart';
+import 'package:mhudart_common/mhdart_common.dart';
+import 'package:protobuf/protobuf.dart';
 
 part 'proto_meta.g.dart';
 
@@ -15,12 +17,16 @@ extension PmLibX<L> on PmLib<L> {
       messages[path.first].resolveMessage(path.skip(1));
 }
 
-abstract class PmMessage<L> {
+abstract class HasMessagePath<L> {
+  Iterable<int> get path$;
+
+}
+
+abstract class PmMessage<L> implements HasMessagePath<L> {
   const PmMessage();
 
   int get index$;
 
-  Iterable<int> get path$;
 
   List<PmMessage<L>> get nestedMessages$;
 }
@@ -31,76 +37,73 @@ extension PmMessageX<L> on PmMessage<L> {
       : nestedMessages$[path.first].resolveMessage(path.skip(1));
 }
 
-typedef FieldsList<T, L, M extends PmMessage<L>> = List<PmField<T, L, M>>;
+typedef FieldsList<T, L> = List<PmField<T, L>>;
 typedef OneOfs<T> = List<PmOneOf<T>>;
 
 abstract class PmMessageOfType<T, L> implements PmMessage<L> {
+  T get emptyMessage$;
 
   List<PmFieldOfMessage<T>> get fields$;
-  OneOfs<T> get oneofs$;
 
+  OneOfs<T> get oneofs$;
 }
 
 @GenerateHierarchy(
   Hierarchy<PmTypedMessage>(
     'level',
-    generics: ['T', 'L', 'M'],
     children: [
-      Hierarchy<PmTopLevelMessage>('top', generics: ['T', 'L', 'M']),
-      Hierarchy<PmNestedMessage>(
-        'nested',
-        generics: ['T', 'PmTypedMessage<dynamic, L, dynamic>', 'L', 'M'],
-      ),
+      Hierarchy<PmTopLevelMessage>('top'),
+      Hierarchy<PmNestedMessage>('nested'),
     ],
   ),
   prefix: 'pmt',
 )
-abstract class PmTypedMessage<T, L, M extends PmMessage<L>>
-    extends PmMessage<L> implements PmMessageOfType<T, L> {
+abstract class PmTypedMessage<T, L> extends PmMessage<L>
+    implements PmMessageOfType<T, L> {
   const PmTypedMessage();
 
-  List<PmField<T, L, M>> get fields$;
-
+  List<PmField<T, L>> get fields$;
 }
 
-abstract class PmTopLevelMessage<T, L, M extends PmMessage<L>>
-    extends PmTypedMessage<T, L, M> {
+abstract class PmTopLevelMessage<T, L> extends PmTypedMessage<T, L> {
   const PmTopLevelMessage();
 
   @override
   Iterable<int> get path$ => [index$];
 }
 
-abstract class PmGenericNestedMessage<T, L, M extends PmMessage<L>>
-    extends PmTypedMessage<T, L, M> {
+abstract class PmGenericNestedMessage<T, L> extends PmTypedMessage<T, L> {
   const PmGenericNestedMessage();
 
-  PmTypedMessage<dynamic, L, dynamic> get parent$;
+  PmTypedMessage<dynamic, L> get parent$;
 
   @override
   Iterable<int> get path$ => [...parent$.path$, index$];
 }
 
-abstract class PmNestedMessage<T, P extends PmTypedMessage<dynamic, L, P>, L,
-    M extends PmMessage<L>> extends PmGenericNestedMessage<T, L, M> {
+abstract class PmNestedMessage<T, L> extends PmGenericNestedMessage<T, L> {
   const PmNestedMessage();
 
-  P get parent$;
+  PmTypedMessage<dynamic, L> get parent$;
 }
 
-abstract class PmFieldOfLib<L> {
+abstract class HasFieldPath<L> {
+  HasMessagePath<L> get message;
+  int get index;
+
+}
+
+abstract class PmFieldOfLib<L> implements HasFieldPath<L> {
   PmMessage<L> get message;
 
-  int get index;
 }
 
 abstract class PmFieldOfMessage<T> {}
 
-abstract class PmField<T, L, M extends PmMessage<L>>
-    implements PmFieldOfLib<L>, PmFieldOfMessage<T> {
+abstract class PmField<T, L> implements PmFieldOfLib<L>, PmFieldOfMessage<T> {
   const PmField();
 
-  PmTypedMessage<T, L, M> get message;
+  PmTypedMessage<T, L> get message;
 }
 
 abstract class PmOneOf<T> {
@@ -113,57 +116,76 @@ abstract class PmTypedOneOf<T, V extends Enum> extends PmOneOf<T> {
   V which(T message);
 
   void clear(T message);
+
+  List<V> values();
 }
 
+@GenerateHierarchy(
+    Hierarchy("base", children: [
+      Hierarchy<PmFieldRead>("read"),
+      Hierarchy<PmFieldFull>("full"),
+    ]),
+    prefix: 'pmAccess')
+abstract class _PmAccess<T, V> {}
 
-
-abstract class PmTypedField<T, V, L, M extends PmMessage<L>>
-    extends PmField<T, L, M> {
-  const PmTypedField();
-
+abstract class PmFieldRead<T, V> {
   V get(T message);
+
+  // PmAccessBase<T, V> get access => mk.PmAccessRead.create(this);
 }
 
-abstract class PmSingleField<T, V, L, M extends PmMessage<L>>
-    extends PmTypedField<T, V, L, M> {
-  const PmSingleField();
-
+abstract class PmFieldFull<T, V> implements PmFieldRead<T, V> {
   void set(T message, V value);
 
   bool has(T message);
 
   void clear(T message);
+
+  // PmAccessBase<T, V> get access => mk.PmAccessFull.create(this);
 }
 
-extension PmSingleFieldBaseX<T, V, L, M extends PmMessage<L>>
-    on PmSingleField<T, V, L, M> {
+abstract class PmTypedField<T extends GeneratedMessage, V, L>
+    extends PmField<T, L> with PmFieldRead<T, V> {
+  const PmTypedField();
+
+// PrxBase<V> prx(RxVarOpt<T> rxVar) => mk.PrxCollection.fromField(rxVar, this);
+}
+
+abstract class PmSingleField<T extends GeneratedMessage, V, L>
+    extends PmTypedField<T, V, L> with PmFieldFull<T, V> {
+  const PmSingleField();
+
+// PrxBase<V> prx(RxVarOpt<T> rxVar) => mk.PrxSingle.fromField(rxVar, this);
+}
+
+extension PmSingleFieldBaseX<T, V> on PmFieldFull<T, V> {
   Opt<V> getOpt(T message) =>
       has(message) ? Opt.here(get(message)) : Opt.gone();
 
-  void setOpt(T message, Opt<V> value) => value.apply(
+  void setOpt(T message, Opt<V> value) => value.when(
         here: (v) => set(message, v),
         gone: () => clear(message),
       );
 }
 
-abstract class PmMessageField<T, V, L, M extends PmMessage<L>>
-    extends PmSingleField<T, V, L, M> {
+abstract class PmMessageField<T extends GeneratedMessage, V, L>
+    extends PmSingleField<T, V, L> {
   const PmMessageField();
 
   V ensure(T message);
 }
 
-typedef PmRepeatedField<T, V, L, M extends PmMessage<L>>
-    = PmTypedField<T, List<V>, L, M>;
-typedef PmMapField<T, K, V, L, M extends PmMessage<L>>
-    = PmTypedField<T, Map<K, V>, L, M>;
+typedef PmRepeatedField<T extends GeneratedMessage, V, L>
+    = PmTypedField<T, List<V>, L>;
+typedef PmMapField<T extends GeneratedMessage, K, V, L>
+    = PmTypedField<T, Map<K, V>, L>;
 
-abstract class PmOneOfField<T, E extends Enum, L, M extends PmMessage<L>> {
+abstract class PmOneOfField<T, E extends Enum, L> {
   List<E> get types;
 
   E which(T message);
 
   void ensure(T message, E type);
 
-  Opt<PmField<T, L, M>> field(E type);
+  Opt<PmField<T, L>> field(E type);
 }

@@ -1,8 +1,19 @@
 import 'package:mhudart_io/mhudart_io.dart';
 import 'package:protobuf/protobuf.dart';
 
-
 part 'proto.g.dart';
+
+typedef Rebuilder<T> = T Function(T original, void Function(T value) updates);
+
+T protoRebuilder<T extends GeneratedMessage>(
+        T original, void Function(T value) updates) =>
+    original.rebuild(updates);
+
+T castProtoRebuilder<T>(T original, void Function(T value) updates) =>
+    protoRebuilder<GeneratedMessage>(
+      original as GeneratedMessage,
+      (value) => updates(value as T),
+    ) as T;
 
 @GenerateHierarchy<Mk>(
   Hierarchy<FieldInfo>(

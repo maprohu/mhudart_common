@@ -1,17 +1,24 @@
 import 'dart:io';
 import 'dart:isolate';
 
-
+import 'package:collection/collection.dart';
 import 'package:mhudart_io/mhudart_io.dart';
+import 'package:path/path.dart';
 
-import 'generated/build.dart' as build;
+import '../.dart_tool/build/entrypoint/build.dart' as build;
 
 void main(
   List<String> args, [
   SendPort? sendPort,
-]) {
+])  {
   try {
-    Directory.current.dir('.dart_tool/build').deleteSync(recursive: true);
+    final buildDir = Directory.current.dir('.dart_tool/build');
+    buildDir.listSync().whereNot((d) => basename(d.path) == 'entrypoint').forEach((d) => d.deleteSync(recursive: true));
   } catch (_) {}
-  build.main(args, sendPort);
+  build.main([
+    'build',
+    '--skip-build-script-check',
+    '--delete-conflicting-outputs',
+    '--verbose',
+  ], sendPort);
 }

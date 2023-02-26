@@ -22,7 +22,7 @@ class PrxtType$Impl extends PrxtType$Base<void> {
 
 class PrxtType$Factory {
   const PrxtType$Factory();
-  final create = PrxtType$Impl.create;
+  PrxtType$Impl create() => PrxtType$Impl();
   PrxtType$Impl call() => PrxtType$Impl();
 }
 
@@ -107,7 +107,7 @@ class PrxtMsg$Impl extends PrxtMsg$Base<void> {
 
 class PrxtMsg$Factory {
   const PrxtMsg$Factory();
-  final create = PrxtMsg$Impl.create;
+  PrxtMsg$Impl create() => PrxtMsg$Impl();
   PrxtMsg$Impl call() => PrxtMsg$Impl();
 }
 
@@ -131,7 +131,7 @@ class PrxtEnm$Impl extends PrxtEnm$Base<void> {
 
 class PrxtEnm$Factory {
   const PrxtEnm$Factory();
-  final create = PrxtEnm$Impl.create;
+  PrxtEnm$Impl create() => PrxtEnm$Impl();
   PrxtEnm$Impl call() => PrxtEnm$Impl();
 }
 
@@ -155,7 +155,7 @@ class PrxtCore$Impl extends PrxtCore$Base<void> {
 
 class PrxtCore$Factory {
   const PrxtCore$Factory();
-  final create = PrxtCore$Impl.create;
+  PrxtCore$Impl create() => PrxtCore$Impl();
   PrxtCore$Impl call() => PrxtCore$Impl();
 }
 
@@ -208,26 +208,48 @@ class PrxMessage$Factory {
     required Opt<T> Function() get,
     required Stream<Opt<T>> Function() changes,
   }) =>
-      PrxMessage$Impl(PrxMessage$Data(
-        message: message,
-        set: set,
-        get: get,
-        changes: changes,
-      ));
+      PrxMessage$Impl(
+        PrxMessage$Data(
+          message: message,
+          set: set,
+          get: get,
+          changes: changes,
+        ),
+      );
   PrxMessage<T, L> create<T, L>({
     required PmMessageOfType<T, L> Function() message,
     required void Function(Opt<T> value) set,
     required Opt<T> Function() get,
     required Stream<Opt<T>> Function() changes,
   }) =>
-      PrxMessage$Impl(PrxMessage$Data(
-        message: message,
-        set: set,
-        get: get,
-        changes: changes,
-      ));
-  PrxMessage<T, L> delegate<T, L>(PrxMessage<T, L> Function() delegate) =>
-      PrxMessage$Delegate(delegate);
+      PrxMessage$Impl(
+        PrxMessage$Data(
+          message: message,
+          set: set,
+          get: get,
+          changes: changes,
+        ),
+      );
+  PrxMessage<T, L> data<T, L>({
+    required PmMessageOfType<T, L> Function() message,
+    required void Function(Opt<T> value) set,
+    required Opt<T> Function() get,
+    required Stream<Opt<T>> Function() changes,
+  }) =>
+      PrxMessage$Impl(
+        PrxMessage$Data(
+          message: message,
+          set: set,
+          get: get,
+          changes: changes,
+        ),
+      );
+  PrxMessage<T, L> delegate<T, L>(
+    PrxMessage<T, L> Function() delegate,
+  ) =>
+      PrxMessage$Delegate(
+        delegate,
+      );
   PrxMessage<T, L> fromRxVar<T, L>({
     required RxVar<Opt<T>> rxVar,
     required PmMessageOfType<T, L> Function() message,
@@ -246,9 +268,183 @@ extension PrxMessage$Ext$Mk on Mk {
   PrxMessage$Factory get PrxMessage => prxMessage$Factory;
 }
 
-class PrxCollection$Data<C, F extends PmTypedField<dynamic, C, L, M>, L,
-    M extends PmMessage<L>> {
-  final F Function() field;
+class PrxCollectionBase$Data<C> {
+  final void Function(void Function(C) updates) rebuild;
+  final Stream<Opt<C>> Function() changes;
+  final Opt<C> Function() get;
+  PrxCollectionBase$Data({
+    required this.rebuild,
+    required this.changes,
+    required this.get,
+  });
+}
+
+class PrxCollectionBase$Impl<C> extends PrxCollectionBase<C> {
+  final PrxCollectionBase$Data<C> _data;
+  PrxCollectionBase$Impl(this._data);
+  void rebuild(void Function(C) updates) => _data.rebuild(updates);
+  Stream<Opt<C>> changes() => _data.changes();
+  Opt<C> get() => _data.get();
+}
+
+class PrxCollectionBase$Delegate<C> extends PrxCollectionBase<C> {
+  final PrxCollectionBase<C> Function() _delegate;
+  PrxCollectionBase$Delegate(this._delegate);
+  void rebuild(void Function(C) updates) => _delegate().rebuild(updates);
+  Stream<Opt<C>> changes() => _delegate().changes();
+  Opt<C> get() => _delegate().get();
+}
+
+class PrxCollectionBase$Factory {
+  const PrxCollectionBase$Factory();
+  PrxCollectionBase<C> call<C>({
+    required void Function(void Function(C) updates) rebuild,
+    required Stream<Opt<C>> Function() changes,
+    required Opt<C> Function() get,
+  }) =>
+      PrxCollectionBase$Impl(
+        PrxCollectionBase$Data(
+          rebuild: rebuild,
+          changes: changes,
+          get: get,
+        ),
+      );
+  PrxCollectionBase<C> create<C>({
+    required void Function(void Function(C) updates) rebuild,
+    required Stream<Opt<C>> Function() changes,
+    required Opt<C> Function() get,
+  }) =>
+      PrxCollectionBase$Impl(
+        PrxCollectionBase$Data(
+          rebuild: rebuild,
+          changes: changes,
+          get: get,
+        ),
+      );
+  PrxCollectionBase<C> data<C>({
+    required void Function(void Function(C) updates) rebuild,
+    required Stream<Opt<C>> Function() changes,
+    required Opt<C> Function() get,
+  }) =>
+      PrxCollectionBase$Impl(
+        PrxCollectionBase$Data(
+          rebuild: rebuild,
+          changes: changes,
+          get: get,
+        ),
+      );
+  PrxCollectionBase<C> delegate<C>(
+    PrxCollectionBase<C> Function() delegate,
+  ) =>
+      PrxCollectionBase$Delegate(
+        delegate,
+      );
+  PrxCollectionBase<C> fromRxVal<C>({
+    required RxVal<Opt<C>> rxVal,
+    required void Function(void Function(C) updates) rebuild,
+  }) =>
+      create(
+        changes: rxVal.changes,
+        get: rxVal.get,
+        rebuild: rebuild,
+      );
+}
+
+const prxCollectionBase$Factory = PrxCollectionBase$Factory();
+
+extension PrxCollectionBase$Ext$Mk on Mk {
+  PrxCollectionBase$Factory get PrxCollectionBase => prxCollectionBase$Factory;
+}
+
+class PrxSingleBase$Data<V> {
+  final void Function(Opt<V> value) set;
+  final Opt<V> Function() get;
+  final Stream<Opt<V>> Function() changes;
+  PrxSingleBase$Data({
+    required this.set,
+    required this.get,
+    required this.changes,
+  });
+}
+
+class PrxSingleBase$Impl<V> extends PrxSingleBase<V> {
+  final PrxSingleBase$Data<V> _data;
+  PrxSingleBase$Impl(this._data);
+  void set(Opt<V> value) => _data.set(value);
+  Opt<V> get() => _data.get();
+  Stream<Opt<V>> changes() => _data.changes();
+}
+
+class PrxSingleBase$Delegate<V> extends PrxSingleBase<V> {
+  final PrxSingleBase<V> Function() _delegate;
+  PrxSingleBase$Delegate(this._delegate);
+  void set(Opt<V> value) => _delegate().set(value);
+  Opt<V> get() => _delegate().get();
+  Stream<Opt<V>> changes() => _delegate().changes();
+}
+
+class PrxSingleBase$Factory {
+  const PrxSingleBase$Factory();
+  PrxSingleBase<V> call<V>({
+    required void Function(Opt<V> value) set,
+    required Opt<V> Function() get,
+    required Stream<Opt<V>> Function() changes,
+  }) =>
+      PrxSingleBase$Impl(
+        PrxSingleBase$Data(
+          set: set,
+          get: get,
+          changes: changes,
+        ),
+      );
+  PrxSingleBase<V> create<V>({
+    required void Function(Opt<V> value) set,
+    required Opt<V> Function() get,
+    required Stream<Opt<V>> Function() changes,
+  }) =>
+      PrxSingleBase$Impl(
+        PrxSingleBase$Data(
+          set: set,
+          get: get,
+          changes: changes,
+        ),
+      );
+  PrxSingleBase<V> data<V>({
+    required void Function(Opt<V> value) set,
+    required Opt<V> Function() get,
+    required Stream<Opt<V>> Function() changes,
+  }) =>
+      PrxSingleBase$Impl(
+        PrxSingleBase$Data(
+          set: set,
+          get: get,
+          changes: changes,
+        ),
+      );
+  PrxSingleBase<V> delegate<V>(
+    PrxSingleBase<V> Function() delegate,
+  ) =>
+      PrxSingleBase$Delegate(
+        delegate,
+      );
+  PrxSingleBase<V> fromRxVar<V>({
+    required RxVar<Opt<V>> rxVar,
+  }) =>
+      create(
+        set: rxVar.set,
+        get: rxVar.get,
+        changes: rxVar.changes,
+      );
+}
+
+const prxSingleBase$Factory = PrxSingleBase$Factory();
+
+extension PrxSingleBase$Ext$Mk on Mk {
+  PrxSingleBase$Factory get PrxSingleBase => prxSingleBase$Factory;
+}
+
+class PrxCollection$Data<C, L> {
+  final HasFieldPath<L> Function() field;
   final Stream<Opt<C>> Function() changes;
   final Opt<C> Function() get;
   final void Function(void Function(C) updates) rebuild;
@@ -260,21 +456,19 @@ class PrxCollection$Data<C, F extends PmTypedField<dynamic, C, L, M>, L,
   });
 }
 
-class PrxCollection$Impl<C, F extends PmTypedField<dynamic, C, L, M>, L,
-    M extends PmMessage<L>> extends PrxCollection<C, F, L, M> {
-  final PrxCollection$Data<C, F, L, M> _data;
+class PrxCollection$Impl<C, L> extends PrxCollection<C, L> {
+  final PrxCollection$Data<C, L> _data;
   PrxCollection$Impl(this._data);
-  F field() => _data.field();
+  HasFieldPath<L> field() => _data.field();
   Stream<Opt<C>> changes() => _data.changes();
   Opt<C> get() => _data.get();
   void rebuild(void Function(C) updates) => _data.rebuild(updates);
 }
 
-class PrxCollection$Delegate<C, F extends PmTypedField<dynamic, C, L, M>, L,
-    M extends PmMessage<L>> extends PrxCollection<C, F, L, M> {
-  final PrxCollection<C, F, L, M> Function() _delegate;
+class PrxCollection$Delegate<C, L> extends PrxCollection<C, L> {
+  final PrxCollection<C, L> Function() _delegate;
   PrxCollection$Delegate(this._delegate);
-  F field() => _delegate().field();
+  HasFieldPath<L> field() => _delegate().field();
   Stream<Opt<C>> changes() => _delegate().changes();
   Opt<C> get() => _delegate().get();
   void rebuild(void Function(C) updates) => _delegate().rebuild(updates);
@@ -282,43 +476,57 @@ class PrxCollection$Delegate<C, F extends PmTypedField<dynamic, C, L, M>, L,
 
 class PrxCollection$Factory {
   const PrxCollection$Factory();
-  PrxCollection<C, F, L, M> call<C, F extends PmTypedField<dynamic, C, L, M>, L,
-          M extends PmMessage<L>>({
-    required F Function() field,
+  PrxCollection<C, L> call<C, L>({
+    required HasFieldPath<L> Function() field,
     required Stream<Opt<C>> Function() changes,
     required Opt<C> Function() get,
     required void Function(void Function(C) updates) rebuild,
   }) =>
-      PrxCollection$Impl(PrxCollection$Data(
-        field: field,
-        changes: changes,
-        get: get,
-        rebuild: rebuild,
-      ));
-  PrxCollection<C, F, L, M> create<C, F extends PmTypedField<dynamic, C, L, M>,
-          L, M extends PmMessage<L>>({
-    required F Function() field,
+      PrxCollection$Impl(
+        PrxCollection$Data(
+          field: field,
+          changes: changes,
+          get: get,
+          rebuild: rebuild,
+        ),
+      );
+  PrxCollection<C, L> create<C, L>({
+    required HasFieldPath<L> Function() field,
     required Stream<Opt<C>> Function() changes,
     required Opt<C> Function() get,
     required void Function(void Function(C) updates) rebuild,
   }) =>
-      PrxCollection$Impl(PrxCollection$Data(
-        field: field,
-        changes: changes,
-        get: get,
-        rebuild: rebuild,
-      ));
-  PrxCollection<C, F, L, M> delegate<
-              C,
-              F extends PmTypedField<dynamic, C, L, M>,
-              L,
-              M extends PmMessage<L>>(
-          PrxCollection<C, F, L, M> Function() delegate) =>
-      PrxCollection$Delegate(delegate);
-  PrxCollection<C, F, L, M> fromRxVal<C,
-          F extends PmTypedField<dynamic, C, L, M>, L, M extends PmMessage<L>>({
+      PrxCollection$Impl(
+        PrxCollection$Data(
+          field: field,
+          changes: changes,
+          get: get,
+          rebuild: rebuild,
+        ),
+      );
+  PrxCollection<C, L> data<C, L>({
+    required HasFieldPath<L> Function() field,
+    required Stream<Opt<C>> Function() changes,
+    required Opt<C> Function() get,
+    required void Function(void Function(C) updates) rebuild,
+  }) =>
+      PrxCollection$Impl(
+        PrxCollection$Data(
+          field: field,
+          changes: changes,
+          get: get,
+          rebuild: rebuild,
+        ),
+      );
+  PrxCollection<C, L> delegate<C, L>(
+    PrxCollection<C, L> Function() delegate,
+  ) =>
+      PrxCollection$Delegate(
+        delegate,
+      );
+  PrxCollection<C, L> fromRxVal<C, L>({
     required RxVal<Opt<C>> rxVal,
-    required F Function() field,
+    required HasFieldPath<L> Function() field,
     required void Function(void Function(C) updates) rebuild,
   }) =>
       create(
@@ -326,6 +534,16 @@ class PrxCollection$Factory {
         get: rxVal.get,
         field: field,
         rebuild: rebuild,
+      );
+  PrxCollection<C, L> fromPrxCollectionBase<C, L>({
+    required PrxCollectionBase<C> prxCollectionBase,
+    required HasFieldPath<L> Function() field,
+  }) =>
+      create(
+        changes: prxCollectionBase.changes,
+        get: prxCollectionBase.get,
+        rebuild: prxCollectionBase.rebuild,
+        field: field,
       );
 }
 
@@ -335,9 +553,8 @@ extension PrxCollection$Ext$Mk on Mk {
   PrxCollection$Factory get PrxCollection => prxCollection$Factory;
 }
 
-class PrxSingle$Data<T, F extends PmSingleField<dynamic, T, L, M>, L,
-    M extends PmMessage<L>> {
-  final F Function() field;
+class PrxSingle$Data<T, L> {
+  final HasFieldPath<L> Function() field;
   final Stream<Opt<T>> Function() changes;
   final Opt<T> Function() get;
   final void Function(Opt<T> value) set;
@@ -349,21 +566,19 @@ class PrxSingle$Data<T, F extends PmSingleField<dynamic, T, L, M>, L,
   });
 }
 
-class PrxSingle$Impl<T, F extends PmSingleField<dynamic, T, L, M>, L,
-    M extends PmMessage<L>> extends PrxSingle<T, F, L, M> {
-  final PrxSingle$Data<T, F, L, M> _data;
+class PrxSingle$Impl<T, L> extends PrxSingle<T, L> {
+  final PrxSingle$Data<T, L> _data;
   PrxSingle$Impl(this._data);
-  F field() => _data.field();
+  HasFieldPath<L> field() => _data.field();
   Stream<Opt<T>> changes() => _data.changes();
   Opt<T> get() => _data.get();
   void set(Opt<T> value) => _data.set(value);
 }
 
-class PrxSingle$Delegate<T, F extends PmSingleField<dynamic, T, L, M>, L,
-    M extends PmMessage<L>> extends PrxSingle<T, F, L, M> {
-  final PrxSingle<T, F, L, M> Function() _delegate;
+class PrxSingle$Delegate<T, L> extends PrxSingle<T, L> {
+  final PrxSingle<T, L> Function() _delegate;
   PrxSingle$Delegate(this._delegate);
-  F field() => _delegate().field();
+  HasFieldPath<L> field() => _delegate().field();
   Stream<Opt<T>> changes() => _delegate().changes();
   Opt<T> get() => _delegate().get();
   void set(Opt<T> value) => _delegate().set(value);
@@ -371,47 +586,72 @@ class PrxSingle$Delegate<T, F extends PmSingleField<dynamic, T, L, M>, L,
 
 class PrxSingle$Factory {
   const PrxSingle$Factory();
-  PrxSingle<T, F, L, M> call<T, F extends PmSingleField<dynamic, T, L, M>, L,
-          M extends PmMessage<L>>({
-    required F Function() field,
+  PrxSingle<T, L> call<T, L>({
+    required HasFieldPath<L> Function() field,
     required Stream<Opt<T>> Function() changes,
     required Opt<T> Function() get,
     required void Function(Opt<T> value) set,
   }) =>
-      PrxSingle$Impl(PrxSingle$Data(
-        field: field,
-        changes: changes,
-        get: get,
-        set: set,
-      ));
-  PrxSingle<T, F, L, M> create<T, F extends PmSingleField<dynamic, T, L, M>, L,
-          M extends PmMessage<L>>({
-    required F Function() field,
+      PrxSingle$Impl(
+        PrxSingle$Data(
+          field: field,
+          changes: changes,
+          get: get,
+          set: set,
+        ),
+      );
+  PrxSingle<T, L> create<T, L>({
+    required HasFieldPath<L> Function() field,
     required Stream<Opt<T>> Function() changes,
     required Opt<T> Function() get,
     required void Function(Opt<T> value) set,
   }) =>
-      PrxSingle$Impl(PrxSingle$Data(
-        field: field,
-        changes: changes,
-        get: get,
-        set: set,
-      ));
-  PrxSingle<T, F, L, M> delegate<
-          T,
-          F extends PmSingleField<dynamic, T, L, M>,
-          L,
-          M extends PmMessage<L>>(PrxSingle<T, F, L, M> Function() delegate) =>
-      PrxSingle$Delegate(delegate);
-  PrxSingle<T, F, L, M> fromRxVar<T, F extends PmSingleField<dynamic, T, L, M>,
-          L, M extends PmMessage<L>>({
+      PrxSingle$Impl(
+        PrxSingle$Data(
+          field: field,
+          changes: changes,
+          get: get,
+          set: set,
+        ),
+      );
+  PrxSingle<T, L> data<T, L>({
+    required HasFieldPath<L> Function() field,
+    required Stream<Opt<T>> Function() changes,
+    required Opt<T> Function() get,
+    required void Function(Opt<T> value) set,
+  }) =>
+      PrxSingle$Impl(
+        PrxSingle$Data(
+          field: field,
+          changes: changes,
+          get: get,
+          set: set,
+        ),
+      );
+  PrxSingle<T, L> delegate<T, L>(
+    PrxSingle<T, L> Function() delegate,
+  ) =>
+      PrxSingle$Delegate(
+        delegate,
+      );
+  PrxSingle<T, L> fromRxVar<T, L>({
     required RxVar<Opt<T>> rxVar,
-    required F Function() field,
+    required HasFieldPath<L> Function() field,
   }) =>
       create(
         changes: rxVar.changes,
         get: rxVar.get,
         set: rxVar.set,
+        field: field,
+      );
+  PrxSingle<T, L> fromPrxSingleBase<T, L>({
+    required PrxSingleBase<T> prxSingleBase,
+    required HasFieldPath<L> Function() field,
+  }) =>
+      create(
+        changes: prxSingleBase.changes,
+        get: prxSingleBase.get,
+        set: prxSingleBase.set,
         field: field,
       );
 }

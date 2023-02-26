@@ -12,12 +12,6 @@ extension RxVarXOpt<T> on RxVar<T> {
         rxVal: toOptVal(),
         set: (opt) => opt.forEach(set),
       );
-
-  RxVar<V> castVar<V>() => mk.RxVar.create(
-        set: (v) => set(v as T),
-        get: () => get() as V,
-        changes: () => changes().cast<V>(),
-      );
 }
 
 extension OptRxValX<T> on RxValOpt<T> {
@@ -32,12 +26,37 @@ extension OptRxValX<T> on RxValOpt<T> {
   RxVal<Opt<V>> expandOpt<V>(Opt<V> Function(T value) mapper) => map(
         (opt) => opt.expandOpt(mapper),
       );
+
+  RxValOpt<V> castOptVal<V>() => mk.RxVal.create(
+        get: () => get().castOpt<V>(),
+        changes: () => changes().map((e) => e.castOpt<V>()),
+      );
 }
 
 extension RxVarOptX<T> on RxVarOpt<T> {
   RxVar<T> orDefaultVar(T defaultValue) => mk.RxVar.fromRxVal(
         rxVal: orDefault(defaultValue),
         set: (v) => value = v.here(),
+      );
+
+  RxVarOpt<V> castOptVar<V>() => mk.RxVar.fromRxVal(
+        rxVal: castOptVal<V>(),
+        set: (v) => set(v.castOpt<T>()),
+      );
+
+  void rebuildWith({
+    required void Function(T value) updates,
+    required Rebuilder<T> rebuild,
+  }) {
+    value.forEach((v) {
+      value = Opt<T>.here(rebuild(v, updates));
+    });
+  }
+}
+
+extension OptRxValNotNullX<T extends Object> on RxValOpt<T> {
+  RxVal<T?> orNull() => map(
+        (opt) => opt.orNull,
       );
 }
 

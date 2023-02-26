@@ -27,7 +27,7 @@ class MapFields<M, F, E> {
 class _GenerateCardinality<M, F, E> {}
 
 extension PdfCardinality$FactoryX on PdfCardinality$Factory {
-  PdfCardinality from(PdFld fld) {
+  PdfCardinality<M, F, E> from<M, F, E>(PdFld<M, F, E> fld) {
     if (fld.isMap) {
       return mk.PdfMapOf(fld.mapFields);
     } else if (fld.isRepeated) {
@@ -47,16 +47,17 @@ extension PdfCardinality$FactoryX on PdfCardinality$Factory {
     Hierarchy('stringType'),
     Hierarchy('enumType'),
     Hierarchy('bytesType'),
-    Hierarchy('messageType'),
+    Hierarchy<PdMsg>('messageType'),
   ]),
   prefix: 'pdf',
 )
-class _GenerateValueType {}
+class _GenerateValueType<M, F, E> {}
 
 extension PdfValueType$FactoryX on PdfValueType$Factory {
-  PdfValueType _fromValue(PdFld fld) => BaseType.typeOf(fld);
+  PdfValueType<M, F, E> _fromValue<M, F, E>(PdFld<M, F, E> fld) =>
+      BaseType.typeOf(fld);
 
-  PdfValueType from(PdFld fld) {
+  PdfValueType<M, F, E> from<M, F, E>(PdFld<M, F, E> fld) {
     return fld.cardinality.when(
       mapOf: (fields) => _fromValue(fields.value),
       nonMap: () => _fromValue(fld),
@@ -65,7 +66,7 @@ extension PdfValueType$FactoryX on PdfValueType$Factory {
 }
 
 class BaseType {
-  static PdfValueType typeOf(PdFld fld) {
+  static PdfValueType<M, F, E> typeOf<M, F, E>(PdFld<M, F, E> fld) {
     final field = fld.descriptor;
 
     switch (field.type) {
@@ -92,7 +93,7 @@ class BaseType {
         return mk.PdfBytesType();
 
       case FieldDescriptorProto_Type.TYPE_MESSAGE:
-        return mk.PdfMessageType();
+        return mk.PdfMessageType.create(fld.resolvedMessage);
       case FieldDescriptorProto_Type.TYPE_ENUM:
         return mk.PdfEnumType();
       default:

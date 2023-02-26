@@ -37,20 +37,38 @@ class RxVal$Factory {
     required Stream<T> Function() changes,
     required T Function() get,
   }) =>
-      RxVal$Impl(RxVal$Data(
-        changes: changes,
-        get: get,
-      ));
+      RxVal$Impl(
+        RxVal$Data(
+          changes: changes,
+          get: get,
+        ),
+      );
   RxVal<T> create<T>({
     required Stream<T> Function() changes,
     required T Function() get,
   }) =>
-      RxVal$Impl(RxVal$Data(
-        changes: changes,
-        get: get,
-      ));
-  RxVal<T> delegate<T>(RxVal<T> Function() delegate) =>
-      RxVal$Delegate(delegate);
+      RxVal$Impl(
+        RxVal$Data(
+          changes: changes,
+          get: get,
+        ),
+      );
+  RxVal<T> data<T>({
+    required Stream<T> Function() changes,
+    required T Function() get,
+  }) =>
+      RxVal$Impl(
+        RxVal$Data(
+          changes: changes,
+          get: get,
+        ),
+      );
+  RxVal<T> delegate<T>(
+    RxVal<T> Function() delegate,
+  ) =>
+      RxVal$Delegate(
+        delegate,
+      );
 }
 
 const rxVal$Factory = RxVal$Factory();
@@ -93,23 +111,43 @@ class RxVar$Factory {
     required T Function() get,
     required Stream<T> Function() changes,
   }) =>
-      RxVar$Impl(RxVar$Data(
-        set: set,
-        get: get,
-        changes: changes,
-      ));
+      RxVar$Impl(
+        RxVar$Data(
+          set: set,
+          get: get,
+          changes: changes,
+        ),
+      );
   RxVar<T> create<T>({
     required void Function(T value) set,
     required T Function() get,
     required Stream<T> Function() changes,
   }) =>
-      RxVar$Impl(RxVar$Data(
-        set: set,
-        get: get,
-        changes: changes,
-      ));
-  RxVar<T> delegate<T>(RxVar<T> Function() delegate) =>
-      RxVar$Delegate(delegate);
+      RxVar$Impl(
+        RxVar$Data(
+          set: set,
+          get: get,
+          changes: changes,
+        ),
+      );
+  RxVar<T> data<T>({
+    required void Function(T value) set,
+    required T Function() get,
+    required Stream<T> Function() changes,
+  }) =>
+      RxVar$Impl(
+        RxVar$Data(
+          set: set,
+          get: get,
+          changes: changes,
+        ),
+      );
+  RxVar<T> delegate<T>(
+    RxVar<T> Function() delegate,
+  ) =>
+      RxVar$Delegate(
+        delegate,
+      );
   RxVar<T> fromRxVal<T>({
     required RxVal<T> rxVal,
     required void Function(T value) set,

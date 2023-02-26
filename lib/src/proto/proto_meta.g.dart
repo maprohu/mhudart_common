@@ -8,27 +8,25 @@ part of 'proto_meta.dart';
 // HierarchyGenerator
 // **************************************************************************
 
-typedef PmtLevel<T, L, M extends PmMessage<L>>
-    = PmtLevel$Base<PmTypedMessage<T, L, M>, T, L, M>;
+typedef PmtLevel<T, L> = PmtLevel$Base<PmTypedMessage<T, L>, T, L>;
 
-abstract class PmtLevel$Base<I$ extends PmTypedMessage<T, L, M>, T, L,
-    M extends PmMessage<L>> extends Holder<I$> {
+abstract class PmtLevel$Base<I$ extends PmTypedMessage<T, L>, T, L>
+    extends Holder<I$> {
   const PmtLevel$Base(super.item);
-  R$ acceptPmtLevel<R$>(PmtLevel$Visitor<R$, T, L, M> visitor) =>
+  R$ acceptPmtLevel<R$>(PmtLevel$Visitor<R$, T, L> visitor) =>
       visitor.level(item);
 }
 
-class PmtLevel$Impl<T, L, M extends PmMessage<L>>
-    extends PmtLevel$Base<PmTypedMessage<T, L, M>, T, L, M> {
+class PmtLevel$Impl<T, L> extends PmtLevel$Base<PmTypedMessage<T, L>, T, L> {
   const PmtLevel$Impl(super.item);
-  const PmtLevel$Impl.create(PmTypedMessage<T, L, M> item) : this(item);
+  const PmtLevel$Impl.create(PmTypedMessage<T, L> item) : this(item);
 }
 
 class PmtLevel$Factory {
   const PmtLevel$Factory();
-  final create = PmtLevel$Impl.create;
-  PmtLevel$Impl<T, L, M> call<T, L, M extends PmMessage<L>>(
-          PmTypedMessage<T, L, M> item) =>
+  PmtLevel$Impl<T, L> create<T, L>(PmTypedMessage<T, L> item) =>
+      PmtLevel$Impl(item);
+  PmtLevel$Impl<T, L> call<T, L>(PmTypedMessage<T, L> item) =>
       PmtLevel$Impl(item);
 }
 
@@ -38,31 +36,25 @@ extension PmtLevel$Ext$Mk on Mk {
   PmtLevel$Factory get PmtLevel => pmtLevel$Factory;
 }
 
-abstract class PmtLevel$Visitor<R$, T, L, M extends PmMessage<L>> {
-  R$ level(PmTypedMessage<T, L, M> value);
-  R$ top(PmTopLevelMessage<T, L, M> value);
-  R$ nested(
-      PmNestedMessage<T, PmTypedMessage<dynamic, L, dynamic>, L, M> value);
+abstract class PmtLevel$Visitor<R$, T, L> {
+  R$ level(PmTypedMessage<T, L> value);
+  R$ top(PmTopLevelMessage<T, L> value);
+  R$ nested(PmNestedMessage<T, L> value);
 }
 
-class PmtLevel$Visitor$Data<R$, T, L, M extends PmMessage<L>> {
-  final R$ Function(PmTypedMessage<T, L, M> level) level;
-  final R$ Function(PmTopLevelMessage<T, L, M> top) top;
-  final R$ Function(
-          PmNestedMessage<T, PmTypedMessage<dynamic, L, dynamic>, L, M> nested)
-      nested;
+class PmtLevel$Visitor$Data<R$, T, L> {
+  final R$ Function(PmTypedMessage<T, L> level) level;
+  final R$ Function(PmTopLevelMessage<T, L> top) top;
+  final R$ Function(PmNestedMessage<T, L> nested) nested;
   PmtLevel$Visitor$Data({
     required this.level,
     required this.top,
     required this.nested,
   });
   factory PmtLevel$Visitor$Data.fallback({
-    R$ Function(PmTypedMessage<T, L, M> level)? level,
-    R$ Function(PmTopLevelMessage<T, L, M> top)? top,
-    R$ Function(
-            PmNestedMessage<T, PmTypedMessage<dynamic, L, dynamic>, L, M>
-                nested)?
-        nested,
+    R$ Function(PmTypedMessage<T, L> level)? level,
+    R$ Function(PmTopLevelMessage<T, L> top)? top,
+    R$ Function(PmNestedMessage<T, L> nested)? nested,
   }) {
     level ??= Functions.throws1;
     top ??= level;
@@ -75,27 +67,19 @@ class PmtLevel$Visitor$Data<R$, T, L, M extends PmMessage<L>> {
   }
 }
 
-class PmtLevel$Visitor$Impl<R$, T, L, M extends PmMessage<L>>
-    extends PmtLevel$Visitor<R$, T, L, M> {
-  final PmtLevel$Visitor$Data<R$, T, L, M> _data;
+class PmtLevel$Visitor$Impl<R$, T, L> extends PmtLevel$Visitor<R$, T, L> {
+  final PmtLevel$Visitor$Data<R$, T, L> _data;
   PmtLevel$Visitor$Impl(this._data);
-  R$ level(PmTypedMessage<T, L, M> level) => _data.level(level);
-  R$ top(PmTopLevelMessage<T, L, M> top) => _data.top(top);
-  R$ nested(
-          PmNestedMessage<T, PmTypedMessage<dynamic, L, dynamic>, L, M>
-              nested) =>
-      _data.nested(nested);
+  R$ level(PmTypedMessage<T, L> level) => _data.level(level);
+  R$ top(PmTopLevelMessage<T, L> top) => _data.top(top);
+  R$ nested(PmNestedMessage<T, L> nested) => _data.nested(nested);
 }
 
-extension PmtLevel$WhenX<T, L, M extends PmMessage<L>>
-    on PmtLevel$Base<PmTypedMessage<T, L, M>, T, L, M> {
+extension PmtLevel$WhenX<T, L> on PmtLevel$Base<PmTypedMessage<T, L>, T, L> {
   R$ when<R$>({
-    R$ Function(PmTypedMessage<T, L, M> level)? level,
-    R$ Function(PmTopLevelMessage<T, L, M> top)? top,
-    R$ Function(
-            PmNestedMessage<T, PmTypedMessage<dynamic, L, dynamic>, L, M>
-                nested)?
-        nested,
+    R$ Function(PmTypedMessage<T, L> level)? level,
+    R$ Function(PmTopLevelMessage<T, L> top)? top,
+    R$ Function(PmNestedMessage<T, L> nested)? nested,
   }) =>
       acceptPmtLevel(PmtLevel$Visitor$Impl(PmtLevel$Visitor$Data.fallback(
         level: level,
@@ -104,27 +88,25 @@ extension PmtLevel$WhenX<T, L, M extends PmMessage<L>>
       )));
 }
 
-typedef PmtTop<T, L, M extends PmMessage<L>>
-    = PmtTop$Base<PmTopLevelMessage<T, L, M>, T, L, M>;
+typedef PmtTop<T, L> = PmtTop$Base<PmTopLevelMessage<T, L>, T, L>;
 
-abstract class PmtTop$Base<I$ extends PmTopLevelMessage<T, L, M>, T, L,
-    M extends PmMessage<L>> extends PmtLevel$Base<I$, T, L, M> {
+abstract class PmtTop$Base<I$ extends PmTopLevelMessage<T, L>, T, L>
+    extends PmtLevel$Base<I$, T, L> {
   const PmtTop$Base(super.item);
-  R$ acceptPmtLevel<R$>(PmtLevel$Visitor<R$, T, L, M> visitor) =>
+  R$ acceptPmtLevel<R$>(PmtLevel$Visitor<R$, T, L> visitor) =>
       visitor.top(item);
 }
 
-class PmtTop$Impl<T, L, M extends PmMessage<L>>
-    extends PmtTop$Base<PmTopLevelMessage<T, L, M>, T, L, M> {
+class PmtTop$Impl<T, L> extends PmtTop$Base<PmTopLevelMessage<T, L>, T, L> {
   const PmtTop$Impl(super.item);
-  const PmtTop$Impl.create(PmTopLevelMessage<T, L, M> item) : this(item);
+  const PmtTop$Impl.create(PmTopLevelMessage<T, L> item) : this(item);
 }
 
 class PmtTop$Factory {
   const PmtTop$Factory();
-  final create = PmtTop$Impl.create;
-  PmtTop$Impl<T, L, M> call<T, L, M extends PmMessage<L>>(
-          PmTopLevelMessage<T, L, M> item) =>
+  PmtTop$Impl<T, L> create<T, L>(PmTopLevelMessage<T, L> item) =>
+      PmtTop$Impl(item);
+  PmtTop$Impl<T, L> call<T, L>(PmTopLevelMessage<T, L> item) =>
       PmtTop$Impl(item);
 }
 
@@ -134,32 +116,25 @@ extension PmtTop$Ext$Mk on Mk {
   PmtTop$Factory get PmtTop => pmtTop$Factory;
 }
 
-typedef PmtNested<T, L, M extends PmMessage<L>> = PmtNested$Base<
-    PmNestedMessage<T, PmTypedMessage<dynamic, L, dynamic>, L, M>, T, L, M>;
+typedef PmtNested<T, L> = PmtNested$Base<PmNestedMessage<T, L>, T, L>;
 
-abstract class PmtNested$Base<
-    I$ extends PmNestedMessage<T, PmTypedMessage<dynamic, L, dynamic>, L, M>,
-    T,
-    L,
-    M extends PmMessage<L>> extends PmtLevel$Base<I$, T, L, M> {
+abstract class PmtNested$Base<I$ extends PmNestedMessage<T, L>, T, L>
+    extends PmtLevel$Base<I$, T, L> {
   const PmtNested$Base(super.item);
-  R$ acceptPmtLevel<R$>(PmtLevel$Visitor<R$, T, L, M> visitor) =>
+  R$ acceptPmtLevel<R$>(PmtLevel$Visitor<R$, T, L> visitor) =>
       visitor.nested(item);
 }
 
-class PmtNested$Impl<T, L, M extends PmMessage<L>> extends PmtNested$Base<
-    PmNestedMessage<T, PmTypedMessage<dynamic, L, dynamic>, L, M>, T, L, M> {
+class PmtNested$Impl<T, L> extends PmtNested$Base<PmNestedMessage<T, L>, T, L> {
   const PmtNested$Impl(super.item);
-  const PmtNested$Impl.create(
-      PmNestedMessage<T, PmTypedMessage<dynamic, L, dynamic>, L, M> item)
-      : this(item);
+  const PmtNested$Impl.create(PmNestedMessage<T, L> item) : this(item);
 }
 
 class PmtNested$Factory {
   const PmtNested$Factory();
-  final create = PmtNested$Impl.create;
-  PmtNested$Impl<T, L, M> call<T, L, M extends PmMessage<L>>(
-          PmNestedMessage<T, PmTypedMessage<dynamic, L, dynamic>, L, M> item) =>
+  PmtNested$Impl<T, L> create<T, L>(PmNestedMessage<T, L> item) =>
+      PmtNested$Impl(item);
+  PmtNested$Impl<T, L> call<T, L>(PmNestedMessage<T, L> item) =>
       PmtNested$Impl(item);
 }
 
@@ -167,4 +142,141 @@ const pmtNested$Factory = PmtNested$Factory();
 
 extension PmtNested$Ext$Mk on Mk {
   PmtNested$Factory get PmtNested => pmtNested$Factory;
+}
+
+typedef PmAccessBase<T, V> = PmAccessBase$Base<void, T, V>;
+
+abstract class PmAccessBase$Base<I$, T, V> extends Holder<I$> {
+  const PmAccessBase$Base(super.item);
+  R$ acceptPmAccessBase<R$>(PmAccessBase$Visitor<R$, T, V> visitor) =>
+      visitor.base();
+}
+
+class PmAccessBase$Impl<T, V> extends PmAccessBase$Base<void, T, V> {
+  const PmAccessBase$Impl() : super(null);
+  const PmAccessBase$Impl.create() : this();
+}
+
+class PmAccessBase$Factory {
+  const PmAccessBase$Factory();
+  PmAccessBase$Impl<T, V> create<T, V>() => PmAccessBase$Impl();
+  PmAccessBase$Impl<T, V> call<T, V>() => PmAccessBase$Impl();
+}
+
+const pmAccessBase$Factory = PmAccessBase$Factory();
+
+extension PmAccessBase$Ext$Mk on Mk {
+  PmAccessBase$Factory get PmAccessBase => pmAccessBase$Factory;
+}
+
+abstract class PmAccessBase$Visitor<R$, T, V> {
+  R$ base();
+  R$ read(PmFieldRead<T, V> value);
+  R$ full(PmFieldFull<T, V> value);
+}
+
+class PmAccessBase$Visitor$Data<R$, T, V> {
+  final R$ Function() base;
+  final R$ Function(PmFieldRead<T, V> read) read;
+  final R$ Function(PmFieldFull<T, V> full) full;
+  PmAccessBase$Visitor$Data({
+    required this.base,
+    required this.read,
+    required this.full,
+  });
+  factory PmAccessBase$Visitor$Data.fallback({
+    R$ Function()? base,
+    R$ Function(PmFieldRead<T, V> read)? read,
+    R$ Function(PmFieldFull<T, V> full)? full,
+  }) {
+    base ??= Functions.throws;
+    read ??= base.ignore1();
+    full ??= base.ignore1();
+    return PmAccessBase$Visitor$Data(
+      base: base,
+      read: read,
+      full: full,
+    );
+  }
+}
+
+class PmAccessBase$Visitor$Impl<R$, T, V>
+    extends PmAccessBase$Visitor<R$, T, V> {
+  final PmAccessBase$Visitor$Data<R$, T, V> _data;
+  PmAccessBase$Visitor$Impl(this._data);
+  R$ base() => _data.base();
+  R$ read(PmFieldRead<T, V> read) => _data.read(read);
+  R$ full(PmFieldFull<T, V> full) => _data.full(full);
+}
+
+extension PmAccessBase$WhenX<T, V> on PmAccessBase$Base<void, T, V> {
+  R$ when<R$>({
+    R$ Function()? base,
+    R$ Function(PmFieldRead<T, V> read)? read,
+    R$ Function(PmFieldFull<T, V> full)? full,
+  }) =>
+      acceptPmAccessBase(
+          PmAccessBase$Visitor$Impl(PmAccessBase$Visitor$Data.fallback(
+        base: base,
+        read: read,
+        full: full,
+      )));
+}
+
+typedef PmAccessRead<T, V> = PmAccessRead$Base<PmFieldRead<T, V>, T, V>;
+
+abstract class PmAccessRead$Base<I$ extends PmFieldRead<T, V>, T, V>
+    extends PmAccessBase$Base<I$, T, V> {
+  const PmAccessRead$Base(super.item);
+  R$ acceptPmAccessBase<R$>(PmAccessBase$Visitor<R$, T, V> visitor) =>
+      visitor.read(item);
+}
+
+class PmAccessRead$Impl<T, V>
+    extends PmAccessRead$Base<PmFieldRead<T, V>, T, V> {
+  const PmAccessRead$Impl(super.item);
+  const PmAccessRead$Impl.create(PmFieldRead<T, V> item) : this(item);
+}
+
+class PmAccessRead$Factory {
+  const PmAccessRead$Factory();
+  PmAccessRead$Impl<T, V> create<T, V>(PmFieldRead<T, V> item) =>
+      PmAccessRead$Impl(item);
+  PmAccessRead$Impl<T, V> call<T, V>(PmFieldRead<T, V> item) =>
+      PmAccessRead$Impl(item);
+}
+
+const pmAccessRead$Factory = PmAccessRead$Factory();
+
+extension PmAccessRead$Ext$Mk on Mk {
+  PmAccessRead$Factory get PmAccessRead => pmAccessRead$Factory;
+}
+
+typedef PmAccessFull<T, V> = PmAccessFull$Base<PmFieldFull<T, V>, T, V>;
+
+abstract class PmAccessFull$Base<I$ extends PmFieldFull<T, V>, T, V>
+    extends PmAccessBase$Base<I$, T, V> {
+  const PmAccessFull$Base(super.item);
+  R$ acceptPmAccessBase<R$>(PmAccessBase$Visitor<R$, T, V> visitor) =>
+      visitor.full(item);
+}
+
+class PmAccessFull$Impl<T, V>
+    extends PmAccessFull$Base<PmFieldFull<T, V>, T, V> {
+  const PmAccessFull$Impl(super.item);
+  const PmAccessFull$Impl.create(PmFieldFull<T, V> item) : this(item);
+}
+
+class PmAccessFull$Factory {
+  const PmAccessFull$Factory();
+  PmAccessFull$Impl<T, V> create<T, V>(PmFieldFull<T, V> item) =>
+      PmAccessFull$Impl(item);
+  PmAccessFull$Impl<T, V> call<T, V>(PmFieldFull<T, V> item) =>
+      PmAccessFull$Impl(item);
+}
+
+const pmAccessFull$Factory = PmAccessFull$Factory();
+
+extension PmAccessFull$Ext$Mk on Mk {
+  PmAccessFull$Factory get PmAccessFull => pmAccessFull$Factory;
 }

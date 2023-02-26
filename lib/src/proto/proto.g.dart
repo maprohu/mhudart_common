@@ -23,7 +23,7 @@ class Cardinality$Impl extends Cardinality$Base<FieldInfo> {
 
 class Cardinality$Factory {
   const Cardinality$Factory();
-  final create = Cardinality$Impl.create;
+  Cardinality$Impl create(FieldInfo item) => Cardinality$Impl(item);
   Cardinality$Impl call(FieldInfo item) => Cardinality$Impl(item);
 }
 
@@ -129,7 +129,7 @@ class MapOf$Impl extends MapOf$Base<MapFieldInfo> {
 
 class MapOf$Factory {
   const MapOf$Factory();
-  final create = MapOf$Impl.create;
+  MapOf$Impl create(MapFieldInfo item) => MapOf$Impl(item);
   MapOf$Impl call(MapFieldInfo item) => MapOf$Impl(item);
 }
 
@@ -155,7 +155,7 @@ class NonMap$Impl extends NonMap$Base<FieldInfo> {
 
 class NonMap$Factory {
   const NonMap$Factory();
-  final create = NonMap$Impl.create;
+  NonMap$Impl create(FieldInfo item) => NonMap$Impl(item);
   NonMap$Impl call(FieldInfo item) => NonMap$Impl(item);
 }
 
@@ -242,7 +242,7 @@ class Single$Impl extends Single$Base<FieldInfo> {
 
 class Single$Factory {
   const Single$Factory();
-  final create = Single$Impl.create;
+  Single$Impl create(FieldInfo item) => Single$Impl(item);
   Single$Impl call(FieldInfo item) => Single$Impl(item);
 }
 
@@ -268,7 +268,7 @@ class Repeated$Impl extends Repeated$Base<FieldInfo> {
 
 class Repeated$Factory {
   const Repeated$Factory();
-  final create = Repeated$Impl.create;
+  Repeated$Impl create(FieldInfo item) => Repeated$Impl(item);
   Repeated$Impl call(FieldInfo item) => Repeated$Impl(item);
 }
 
@@ -294,7 +294,7 @@ class OneOf$Impl extends OneOf$Base<FieldInfo> {
 
 class OneOf$Factory {
   const OneOf$Factory();
-  final create = OneOf$Impl.create;
+  OneOf$Impl create(FieldInfo item) => OneOf$Impl(item);
   OneOf$Impl call(FieldInfo item) => OneOf$Impl(item);
 }
 
@@ -318,7 +318,7 @@ class ValueType$Impl extends ValueType$Base<void> {
 
 class ValueType$Factory {
   const ValueType$Factory();
-  final create = ValueType$Impl.create;
+  ValueType$Impl create() => ValueType$Impl();
   ValueType$Impl call() => ValueType$Impl();
 }
 
@@ -421,7 +421,7 @@ class BoolType$Impl extends BoolType$Base<void> {
 
 class BoolType$Factory {
   const BoolType$Factory();
-  final create = BoolType$Impl.create;
+  BoolType$Impl create() => BoolType$Impl();
   BoolType$Impl call() => BoolType$Impl();
 }
 
@@ -445,7 +445,7 @@ class IntType$Impl extends IntType$Base<void> {
 
 class IntType$Factory {
   const IntType$Factory();
-  final create = IntType$Impl.create;
+  IntType$Impl create() => IntType$Impl();
   IntType$Impl call() => IntType$Impl();
 }
 
@@ -469,7 +469,7 @@ class StringType$Impl extends StringType$Base<void> {
 
 class StringType$Factory {
   const StringType$Factory();
-  final create = StringType$Impl.create;
+  StringType$Impl create() => StringType$Impl();
   StringType$Impl call() => StringType$Impl();
 }
 
@@ -493,7 +493,7 @@ class EnumType$Impl extends EnumType$Base<void> {
 
 class EnumType$Factory {
   const EnumType$Factory();
-  final create = EnumType$Impl.create;
+  EnumType$Impl create() => EnumType$Impl();
   EnumType$Impl call() => EnumType$Impl();
 }
 
@@ -519,7 +519,7 @@ class MessageType$Impl extends MessageType$Base<BuilderInfo> {
 
 class MessageType$Factory {
   const MessageType$Factory();
-  final create = MessageType$Impl.create;
+  MessageType$Impl create(BuilderInfo item) => MessageType$Impl(item);
   MessageType$Impl call(BuilderInfo item) => MessageType$Impl(item);
 }
 

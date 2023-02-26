@@ -79,7 +79,7 @@ class ProtoScalar<P extends GeneratedMessage, V extends Object>
   Opt<V> opt(P parent) => has(parent) ? Opt.here(get(parent)) : Opt.gone();
 
   void update(P parent, Opt<V> optValue) {
-    optValue.apply(
+    optValue.when(
       here: (v) => set(parent, v),
       gone: () => clear(parent),
     );

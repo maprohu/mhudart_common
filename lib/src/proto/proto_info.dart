@@ -25,7 +25,7 @@ abstract class SingleField<T, V> implements TypedField<T, V> {
   Opt<V> opt(T parent) => has(parent) ? Opt.here(get(parent)) : Opt.gone();
 
   void update(T parent, Opt<V> optValue) {
-    optValue.apply(
+    optValue.when(
       here: (v) => set(parent, v),
       gone: () => clear(parent),
     );

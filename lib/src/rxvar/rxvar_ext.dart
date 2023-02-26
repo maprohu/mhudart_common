@@ -82,8 +82,14 @@ extension RxVarX<T> on RxVar<T> {
     value = updater(value);
   }
 
+  RxVar<V> castVar<V>() => mk.RxVar.create(
+    set: (v) => set(v as T),
+    get: () => get() as V,
+    changes: () => changes().cast<V>(),
+  );
 }
 
 extension RxValNullableX<T extends Object> on RxVal<T?> {
   RxVal<T> required() => map((value) => value!);
 }
+

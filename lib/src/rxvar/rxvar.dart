@@ -1,5 +1,6 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:mhudart_base/mhudart_base.dart';
+import 'package:mhudart_common/mhdart_common.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'rxvar.g.dart';
