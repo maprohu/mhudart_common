@@ -52,6 +52,14 @@ extension RxVarOptX<T> on RxVarOpt<T> {
       value = Opt<T>.here(rebuild(v, updates));
     });
   }
+
+  void rebuildCastProto({
+    required void Function(T value) updates,
+  }) =>
+      rebuildWith(
+        updates: updates,
+        rebuild: castProtoRebuilder<T>,
+      );
 }
 
 extension OptRxValNotNullX<T extends Object> on RxValOpt<T> {

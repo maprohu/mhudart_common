@@ -123,6 +123,28 @@ extension PrxSingleBaseFactoryX on PrxSingleBase$Factory {
           },
         ),
       );
+
+  PrxSingleBase<V> fromMessageFieldRebuilder<T, V, L>({
+    required RxVarOpt<T> rxVar,
+    required PmFieldMessage<T, V> field,
+    required Rebuilder<T> rebuild,
+    required T Function() defaultMessage,
+  }) =>
+      mk.PrxSingleBase.fromRxVar(
+        rxVar: mk.RxVar.fromRxVal(
+          rxVal: rxVar.expandOpt((v) => field.getOpt(v)),
+          set: (optV) {
+            rxVar.update((optT) {
+              return rebuild(
+                optT.orElse(defaultMessage),
+                (value) {
+                  field.setOpt(value, optV);
+                },
+              ).here();
+            });
+          },
+        ),
+      );
 }
 
 extension PrxCollectionBaseFactoryX on PrxCollectionBase$Factory {

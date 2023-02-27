@@ -45,8 +45,8 @@ extension PdfCardinality$FactoryX on PdfCardinality$Factory {
     Hierarchy('intType'),
     Hierarchy('int64Type'),
     Hierarchy('stringType'),
-    Hierarchy('enumType'),
     Hierarchy('bytesType'),
+    Hierarchy<PdEnum>('enumType'),
     Hierarchy<PdMsg>('messageType'),
   ]),
   prefix: 'pdf',
@@ -95,7 +95,7 @@ class BaseType {
       case FieldDescriptorProto_Type.TYPE_MESSAGE:
         return mk.PdfMessageType.create(fld.resolvedMessage);
       case FieldDescriptorProto_Type.TYPE_ENUM:
-        return mk.PdfEnumType();
+        return mk.PdfEnumType(fld.resolvedEnum);
       default:
         throw ArgumentError('unimplemented type: ${field.type.name}');
     }

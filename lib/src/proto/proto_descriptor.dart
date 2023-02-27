@@ -10,6 +10,13 @@ abstract class PdEnumResolver<M, F, E> {
   PdEnum<M, F, E> resolveEnum(Iterable<String> path);
 }
 
+class FieldIndex {
+  final int message;
+  final int field;
+
+  FieldIndex(this.message, this.field);
+}
+
 abstract class PdMsgContainer<M, F, E> implements PdEnumResolver<M, F, E> {
   PdRoot<M, F, E> get root;
 
@@ -18,8 +25,9 @@ abstract class PdMsgContainer<M, F, E> implements PdEnumResolver<M, F, E> {
   Iterable<EnumDescriptorProto> get enumDescriptors;
 
   late final messages =
-  messageDescriptors.mapIndexed((i, e) => PdMsg(this, e, i)).toList();
-  late final enums = enumDescriptors.map((e) => PdEnum(this, e));
+      messageDescriptors.mapIndexed((i, e) => PdMsg(this, e, i)).toList();
+  late final enums =
+      enumDescriptors.mapIndexed((i, e) => PdEnum(this, e, i)).toList();
 
   late final resolveDirectCache = <String, PdMsgContainer<M, F, E>>{
     '': root,
@@ -35,10 +43,10 @@ abstract class PdMsgContainer<M, F, E> implements PdEnumResolver<M, F, E> {
   PdMsg<M, F, E> resolve(Iterable<String> path);
 
   PdMsg<M, F, E> _resolveNext(Iterable<String> path) =>
-      resolveDirectCache[path.first]!.resolve(path.skip(1));
+      resolveDirectCache[path.first]!.resolve(path.tail);
 
   PdEnum<M, F, E> resolveEnum(Iterable<String> path) =>
-      resolveEnumDirectCache[path.first]!.resolveEnum(path.skip(1));
+      resolveEnumDirectCache[path.first]!.resolveEnum(path.tail);
 
   Iterable<PdMsg<M, F, E>> get path;
 
@@ -50,8 +58,21 @@ abstract class PdMsgContainer<M, F, E> implements PdEnumResolver<M, F, E> {
 
   late final resolveMessageIndex = Cache(_resolveMessageIndex);
 
+  PdEnum<M, F, E> _resolveEnumIndex(Iterable<int> path);
+
+  late final resolveEnumIndex = Cache(_resolveEnumIndex);
+
   PdMsg<M, F, E> _resolveMessageIndexNext(Iterable<int> path) =>
-      messages[path.first]._resolveMessageIndex(path.skip(1));
+      messages[path.first]._resolveMessageIndex(path.tail);
+
+  late final asRoot = this as PdRoot<M, F, E>;
+  late final asMsg = this as PdMsg<M, F, E>;
+
+  R when<R>({
+    required R Function(PdRoot<M, F, E> root) root,
+    required R Function(PdMsg<M, F, E> msg) msg,
+  }) =>
+      isRoot ? root(asRoot) : msg(asMsg);
 }
 
 @Impl()
@@ -85,6 +106,11 @@ abstract class PdRoot<M, F, E> extends PdMsgContainer<M, F, E> {
 
   PdMsg<M, F, E> _resolveMessageIndex(Iterable<int> path) =>
       _resolveMessageIndexNext(path);
+
+  @override
+  PdEnum<M, F, E> _resolveEnumIndex(Iterable<int> path) => path.tail.isEmpty
+      ? enums[path.first]
+      : messages[path.first].resolveEnumIndex(path.tail);
 }
 
 @GenerateHierarchy(
@@ -98,7 +124,7 @@ abstract class PdRoot<M, F, E> extends PdMsgContainer<M, F, E> {
   ),
   prefix: 'Pdm',
 )
-class PdMsg<M, F, E> extends PdMsgContainer<M, F, E> {
+class PdMsg<M, F, E> extends PdMsgContainer<M, F, E> implements HasPayload<M> {
   final PdMsgContainer<M, F, E> parent;
   final DescriptorProto descriptor;
   final int index;
@@ -120,7 +146,7 @@ class PdMsg<M, F, E> extends PdMsgContainer<M, F, E> {
       path.isEmpty ? this : _resolveNext(path);
 
   late final fields =
-  descriptor.field.mapIndexed((i, e) => PdFld(this, i)).toList();
+      descriptor.field.mapIndexed((i, e) => PdFld(this, i)).toList();
 
   late final fieldPayloads = fields.map((e) => e.payload).toList();
 
@@ -148,14 +174,21 @@ class PdMsg<M, F, E> extends PdMsgContainer<M, F, E> {
       path.isEmpty ? this : _resolveMessageIndexNext(path);
 
   late final messageLevel = (isTopLevel
-      ? mk.PdmTop.create<M, F, E>(root)
-      : mk.PdmNested.create<M, F, E>(parent as PdMsg<M, F, E>))
-  as PdmLevel<M, F, E>;
+          ? mk.PdmTop.create<M, F, E>(root)
+          : mk.PdmNested.create<M, F, E>(parent as PdMsg<M, F, E>))
+      as PdmLevel<M, F, E>;
 
-  late final oneofs = descriptor.oneofDecl.mapIndexed((index, element) =>
-      PdOneof<M, F, E>(this, index)).toList();
+  late final oneofs = descriptor.oneofDecl
+      .mapIndexed((index, element) => PdOneof<M, F, E>(this, index))
+      .toList();
 
-  late final List<PdxBase<M, F, E>> pdxs = fields.map((e) => e.exclusivity).toList().distinct();
+  late final List<PdxBase<M, F, E>> pdxs =
+      fields.map((e) => e.exclusivity).toList().distinct();
+
+  @override
+  PdEnum<M, F, E> _resolveEnumIndex(Iterable<int> path) => path.tail.isEmpty
+      ? enums[path.first]
+      : messages[path.first].resolveEnumIndex(path.tail);
 }
 
 @GenerateHierarchy(
@@ -163,16 +196,16 @@ class PdMsg<M, F, E> extends PdMsgContainer<M, F, E> {
       Hierarchy<PdFld>('top'),
       Hierarchy<PdOneof>('oneof'),
     ]),
-    prefix: 'pdx'
-)
+    prefix: 'pdx')
 class _GeneratePdx<M, F, E> {}
 
-
-class PdFld<M, F, E> {
+class PdFld<M, F, E> implements HasPayload<F> {
   final PdMsg<M, F, E> msg;
   final int index;
 
   PdFld(this.msg, this.index);
+
+  late final fieldIndex = FieldIndex(msg.index, index);
 
   late final payload = msg.root.fldPayload(this);
 
@@ -215,22 +248,23 @@ class PdFld<M, F, E> {
     nonMap: () => valueType,
   );
 
-  late final oneofIndex = descriptor.hasOneofIndex()
-      ? descriptor.oneofIndex
-      : null;
+  late final oneofIndex =
+      descriptor.hasOneofIndex() ? descriptor.oneofIndex : null;
 
   late final isOneof = oneofIndex != null;
 
   late final oneof = msg.oneofs[oneofIndex!];
 
-  late final PdxBase<M, F, E> exclusivity = isOneof ? oneof.exclusivity : mk.PdxTop.call(this);
+  late final PdxBase<M, F, E> exclusivity =
+      isOneof ? oneof.exclusivity : mk.PdxTop.call(this);
 }
 
-class PdEnum<M, F, E> implements PdEnumResolver<M, F, E> {
+class PdEnum<M, F, E> implements PdEnumResolver<M, F, E>, HasPayload<E> {
   final PdMsgContainer<M, F, E> parent;
   final EnumDescriptorProto descriptor;
+  final int index;
 
-  PdEnum(this.parent, this.descriptor);
+  PdEnum(this.parent, this.descriptor, this.index);
 
   late final root = parent.root;
 
@@ -265,7 +299,7 @@ class PdOneof<M, F, E> {
   late final descriptor = msg.descriptor.oneofDecl[index];
   late final name = descriptor.name;
 
-  late final PdxBase<M, F, E>  exclusivity =  mk.PdxOneof.call(this);
+  late final PdxBase<M, F, E> exclusivity = mk.PdxOneof.call(this);
 
-
+  late final fields = msg.fields.where((e) => e.oneofIndex == index).toList();
 }

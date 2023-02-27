@@ -144,91 +144,12 @@ extension PmtNested$Ext$Mk on Mk {
   PmtNested$Factory get PmtNested => pmtNested$Factory;
 }
 
-typedef PmAccessBase<T, V> = PmAccessBase$Base<void, T, V>;
-
-abstract class PmAccessBase$Base<I$, T, V> extends Holder<I$> {
-  const PmAccessBase$Base(super.item);
-  R$ acceptPmAccessBase<R$>(PmAccessBase$Visitor<R$, T, V> visitor) =>
-      visitor.base();
-}
-
-class PmAccessBase$Impl<T, V> extends PmAccessBase$Base<void, T, V> {
-  const PmAccessBase$Impl() : super(null);
-  const PmAccessBase$Impl.create() : this();
-}
-
-class PmAccessBase$Factory {
-  const PmAccessBase$Factory();
-  PmAccessBase$Impl<T, V> create<T, V>() => PmAccessBase$Impl();
-  PmAccessBase$Impl<T, V> call<T, V>() => PmAccessBase$Impl();
-}
-
-const pmAccessBase$Factory = PmAccessBase$Factory();
-
-extension PmAccessBase$Ext$Mk on Mk {
-  PmAccessBase$Factory get PmAccessBase => pmAccessBase$Factory;
-}
-
-abstract class PmAccessBase$Visitor<R$, T, V> {
-  R$ base();
-  R$ read(PmFieldRead<T, V> value);
-  R$ full(PmFieldFull<T, V> value);
-}
-
-class PmAccessBase$Visitor$Data<R$, T, V> {
-  final R$ Function() base;
-  final R$ Function(PmFieldRead<T, V> read) read;
-  final R$ Function(PmFieldFull<T, V> full) full;
-  PmAccessBase$Visitor$Data({
-    required this.base,
-    required this.read,
-    required this.full,
-  });
-  factory PmAccessBase$Visitor$Data.fallback({
-    R$ Function()? base,
-    R$ Function(PmFieldRead<T, V> read)? read,
-    R$ Function(PmFieldFull<T, V> full)? full,
-  }) {
-    base ??= Functions.throws;
-    read ??= base.ignore1();
-    full ??= base.ignore1();
-    return PmAccessBase$Visitor$Data(
-      base: base,
-      read: read,
-      full: full,
-    );
-  }
-}
-
-class PmAccessBase$Visitor$Impl<R$, T, V>
-    extends PmAccessBase$Visitor<R$, T, V> {
-  final PmAccessBase$Visitor$Data<R$, T, V> _data;
-  PmAccessBase$Visitor$Impl(this._data);
-  R$ base() => _data.base();
-  R$ read(PmFieldRead<T, V> read) => _data.read(read);
-  R$ full(PmFieldFull<T, V> full) => _data.full(full);
-}
-
-extension PmAccessBase$WhenX<T, V> on PmAccessBase$Base<void, T, V> {
-  R$ when<R$>({
-    R$ Function()? base,
-    R$ Function(PmFieldRead<T, V> read)? read,
-    R$ Function(PmFieldFull<T, V> full)? full,
-  }) =>
-      acceptPmAccessBase(
-          PmAccessBase$Visitor$Impl(PmAccessBase$Visitor$Data.fallback(
-        base: base,
-        read: read,
-        full: full,
-      )));
-}
-
 typedef PmAccessRead<T, V> = PmAccessRead$Base<PmFieldRead<T, V>, T, V>;
 
 abstract class PmAccessRead$Base<I$ extends PmFieldRead<T, V>, T, V>
-    extends PmAccessBase$Base<I$, T, V> {
+    extends Holder<I$> {
   const PmAccessRead$Base(super.item);
-  R$ acceptPmAccessBase<R$>(PmAccessBase$Visitor<R$, T, V> visitor) =>
+  R$ acceptPmAccessRead<R$>(PmAccessRead$Visitor<R$, T, V> visitor) =>
       visitor.read(item);
 }
 
@@ -252,12 +173,69 @@ extension PmAccessRead$Ext$Mk on Mk {
   PmAccessRead$Factory get PmAccessRead => pmAccessRead$Factory;
 }
 
+abstract class PmAccessRead$Visitor<R$, T, V> {
+  R$ read(PmFieldRead<T, V> value);
+  R$ full(PmFieldFull<T, V> value);
+  R$ message(PmFieldMessage<T, V> value);
+}
+
+class PmAccessRead$Visitor$Data<R$, T, V> {
+  final R$ Function(PmFieldRead<T, V> read) read;
+  final R$ Function(PmFieldFull<T, V> full) full;
+  final R$ Function(PmFieldMessage<T, V> message) message;
+  PmAccessRead$Visitor$Data({
+    required this.read,
+    required this.full,
+    required this.message,
+  });
+  factory PmAccessRead$Visitor$Data.fallback({
+    R$ Function(PmFieldRead<T, V> read)? read,
+    R$ Function(PmFieldFull<T, V> full)? full,
+    R$ Function(PmFieldMessage<T, V> message)? message,
+  }) {
+    read ??= Functions.throws1;
+    full ??= read;
+    message ??= full;
+    return PmAccessRead$Visitor$Data(
+      read: read,
+      full: full,
+      message: message,
+    );
+  }
+}
+
+class PmAccessRead$Visitor$Impl<R$, T, V>
+    extends PmAccessRead$Visitor<R$, T, V> {
+  final PmAccessRead$Visitor$Data<R$, T, V> _data;
+  PmAccessRead$Visitor$Impl(this._data);
+  R$ read(PmFieldRead<T, V> read) => _data.read(read);
+  R$ full(PmFieldFull<T, V> full) => _data.full(full);
+  R$ message(PmFieldMessage<T, V> message) => _data.message(message);
+}
+
+extension PmAccessRead$WhenX<T, V>
+    on PmAccessRead$Base<PmFieldRead<T, V>, T, V> {
+  R$ when<R$>({
+    R$ Function(PmFieldRead<T, V> read)? read,
+    R$ Function(PmFieldFull<T, V> full)? full,
+    R$ Function(PmFieldMessage<T, V> message)? message,
+  }) =>
+      acceptPmAccessRead(
+          PmAccessRead$Visitor$Impl(PmAccessRead$Visitor$Data.fallback(
+        read: read,
+        full: full,
+        message: message,
+      )));
+}
+
 typedef PmAccessFull<T, V> = PmAccessFull$Base<PmFieldFull<T, V>, T, V>;
 
 abstract class PmAccessFull$Base<I$ extends PmFieldFull<T, V>, T, V>
-    extends PmAccessBase$Base<I$, T, V> {
+    extends PmAccessRead$Base<I$, T, V> {
   const PmAccessFull$Base(super.item);
-  R$ acceptPmAccessBase<R$>(PmAccessBase$Visitor<R$, T, V> visitor) =>
+  R$ acceptPmAccessFull<R$>(PmAccessFull$Visitor<R$, T, V> visitor) =>
+      visitor.full(item);
+  R$ acceptPmAccessRead<R$>(PmAccessRead$Visitor<R$, T, V> visitor) =>
       visitor.full(item);
 }
 
@@ -279,4 +257,82 @@ const pmAccessFull$Factory = PmAccessFull$Factory();
 
 extension PmAccessFull$Ext$Mk on Mk {
   PmAccessFull$Factory get PmAccessFull => pmAccessFull$Factory;
+}
+
+abstract class PmAccessFull$Visitor<R$, T, V> {
+  R$ full(PmFieldFull<T, V> value);
+  R$ message(PmFieldMessage<T, V> value);
+}
+
+class PmAccessFull$Visitor$Data<R$, T, V> {
+  final R$ Function(PmFieldFull<T, V> full) full;
+  final R$ Function(PmFieldMessage<T, V> message) message;
+  PmAccessFull$Visitor$Data({
+    required this.full,
+    required this.message,
+  });
+  factory PmAccessFull$Visitor$Data.fallback({
+    R$ Function(PmFieldFull<T, V> full)? full,
+    R$ Function(PmFieldMessage<T, V> message)? message,
+  }) {
+    full ??= Functions.throws1;
+    message ??= full;
+    return PmAccessFull$Visitor$Data(
+      full: full,
+      message: message,
+    );
+  }
+}
+
+class PmAccessFull$Visitor$Impl<R$, T, V>
+    extends PmAccessFull$Visitor<R$, T, V> {
+  final PmAccessFull$Visitor$Data<R$, T, V> _data;
+  PmAccessFull$Visitor$Impl(this._data);
+  R$ full(PmFieldFull<T, V> full) => _data.full(full);
+  R$ message(PmFieldMessage<T, V> message) => _data.message(message);
+}
+
+extension PmAccessFull$WhenX<T, V>
+    on PmAccessFull$Base<PmFieldFull<T, V>, T, V> {
+  R$ when<R$>({
+    R$ Function(PmFieldFull<T, V> full)? full,
+    R$ Function(PmFieldMessage<T, V> message)? message,
+  }) =>
+      acceptPmAccessFull(
+          PmAccessFull$Visitor$Impl(PmAccessFull$Visitor$Data.fallback(
+        full: full,
+        message: message,
+      )));
+}
+
+typedef PmAccessMessage<T, V>
+    = PmAccessMessage$Base<PmFieldMessage<T, V>, T, V>;
+
+abstract class PmAccessMessage$Base<I$ extends PmFieldMessage<T, V>, T, V>
+    extends PmAccessFull$Base<I$, T, V> {
+  const PmAccessMessage$Base(super.item);
+  R$ acceptPmAccessFull<R$>(PmAccessFull$Visitor<R$, T, V> visitor) =>
+      visitor.message(item);
+  R$ acceptPmAccessRead<R$>(PmAccessRead$Visitor<R$, T, V> visitor) =>
+      visitor.message(item);
+}
+
+class PmAccessMessage$Impl<T, V>
+    extends PmAccessMessage$Base<PmFieldMessage<T, V>, T, V> {
+  const PmAccessMessage$Impl(super.item);
+  const PmAccessMessage$Impl.create(PmFieldMessage<T, V> item) : this(item);
+}
+
+class PmAccessMessage$Factory {
+  const PmAccessMessage$Factory();
+  PmAccessMessage$Impl<T, V> create<T, V>(PmFieldMessage<T, V> item) =>
+      PmAccessMessage$Impl(item);
+  PmAccessMessage$Impl<T, V> call<T, V>(PmFieldMessage<T, V> item) =>
+      PmAccessMessage$Impl(item);
+}
+
+const pmAccessMessage$Factory = PmAccessMessage$Factory();
+
+extension PmAccessMessage$Ext$Mk on Mk {
+  PmAccessMessage$Factory get PmAccessMessage => pmAccessMessage$Factory;
 }

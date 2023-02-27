@@ -302,8 +302,8 @@ abstract class PdfValueType$Visitor<R$, M, F, E> {
   R$ intType();
   R$ int64Type();
   R$ stringType();
-  R$ enumType();
   R$ bytesType();
+  R$ enumType(PdEnum<M, F, E> value);
   R$ messageType(PdMsg<M, F, E> value);
 }
 
@@ -314,8 +314,8 @@ class PdfValueType$Visitor$Data<R$, M, F, E> {
   final R$ Function() intType;
   final R$ Function() int64Type;
   final R$ Function() stringType;
-  final R$ Function() enumType;
   final R$ Function() bytesType;
+  final R$ Function(PdEnum<M, F, E> enumType) enumType;
   final R$ Function(PdMsg<M, F, E> messageType) messageType;
   PdfValueType$Visitor$Data({
     required this.valueType,
@@ -324,8 +324,8 @@ class PdfValueType$Visitor$Data<R$, M, F, E> {
     required this.intType,
     required this.int64Type,
     required this.stringType,
-    required this.enumType,
     required this.bytesType,
+    required this.enumType,
     required this.messageType,
   });
   factory PdfValueType$Visitor$Data.fallback({
@@ -335,8 +335,8 @@ class PdfValueType$Visitor$Data<R$, M, F, E> {
     R$ Function()? intType,
     R$ Function()? int64Type,
     R$ Function()? stringType,
-    R$ Function()? enumType,
     R$ Function()? bytesType,
+    R$ Function(PdEnum<M, F, E> enumType)? enumType,
     R$ Function(PdMsg<M, F, E> messageType)? messageType,
   }) {
     valueType ??= Functions.throws;
@@ -345,8 +345,8 @@ class PdfValueType$Visitor$Data<R$, M, F, E> {
     intType ??= valueType;
     int64Type ??= valueType;
     stringType ??= valueType;
-    enumType ??= valueType;
     bytesType ??= valueType;
+    enumType ??= valueType.ignore1();
     messageType ??= valueType.ignore1();
     return PdfValueType$Visitor$Data(
       valueType: valueType,
@@ -355,8 +355,8 @@ class PdfValueType$Visitor$Data<R$, M, F, E> {
       intType: intType,
       int64Type: int64Type,
       stringType: stringType,
-      enumType: enumType,
       bytesType: bytesType,
+      enumType: enumType,
       messageType: messageType,
     );
   }
@@ -372,8 +372,8 @@ class PdfValueType$Visitor$Impl<R$, M, F, E>
   R$ intType() => _data.intType();
   R$ int64Type() => _data.int64Type();
   R$ stringType() => _data.stringType();
-  R$ enumType() => _data.enumType();
   R$ bytesType() => _data.bytesType();
+  R$ enumType(PdEnum<M, F, E> enumType) => _data.enumType(enumType);
   R$ messageType(PdMsg<M, F, E> messageType) => _data.messageType(messageType);
 }
 
@@ -385,8 +385,8 @@ extension PdfValueType$WhenX<M, F, E> on PdfValueType$Base<void, M, F, E> {
     R$ Function()? intType,
     R$ Function()? int64Type,
     R$ Function()? stringType,
-    R$ Function()? enumType,
     R$ Function()? bytesType,
+    R$ Function(PdEnum<M, F, E> enumType)? enumType,
     R$ Function(PdMsg<M, F, E> messageType)? messageType,
   }) =>
       acceptPdfValueType(
@@ -397,8 +397,8 @@ extension PdfValueType$WhenX<M, F, E> on PdfValueType$Base<void, M, F, E> {
         intType: intType,
         int64Type: int64Type,
         stringType: stringType,
-        enumType: enumType,
         bytesType: bytesType,
+        enumType: enumType,
         messageType: messageType,
       )));
 }
@@ -533,32 +533,6 @@ extension PdfStringType$Ext$Mk on Mk {
   PdfStringType$Factory get PdfStringType => pdfStringType$Factory;
 }
 
-typedef PdfEnumType<M, F, E> = PdfEnumType$Base<void, M, F, E>;
-
-abstract class PdfEnumType$Base<I$, M, F, E>
-    extends PdfValueType$Base<I$, M, F, E> {
-  const PdfEnumType$Base(super.item);
-  R$ acceptPdfValueType<R$>(PdfValueType$Visitor<R$, M, F, E> visitor) =>
-      visitor.enumType();
-}
-
-class PdfEnumType$Impl<M, F, E> extends PdfEnumType$Base<void, M, F, E> {
-  const PdfEnumType$Impl() : super(null);
-  const PdfEnumType$Impl.create() : this();
-}
-
-class PdfEnumType$Factory {
-  const PdfEnumType$Factory();
-  PdfEnumType$Impl<M, F, E> create<M, F, E>() => PdfEnumType$Impl();
-  PdfEnumType$Impl<M, F, E> call<M, F, E>() => PdfEnumType$Impl();
-}
-
-const pdfEnumType$Factory = PdfEnumType$Factory();
-
-extension PdfEnumType$Ext$Mk on Mk {
-  PdfEnumType$Factory get PdfEnumType => pdfEnumType$Factory;
-}
-
 typedef PdfBytesType<M, F, E> = PdfBytesType$Base<void, M, F, E>;
 
 abstract class PdfBytesType$Base<I$, M, F, E>
@@ -583,6 +557,35 @@ const pdfBytesType$Factory = PdfBytesType$Factory();
 
 extension PdfBytesType$Ext$Mk on Mk {
   PdfBytesType$Factory get PdfBytesType => pdfBytesType$Factory;
+}
+
+typedef PdfEnumType<M, F, E> = PdfEnumType$Base<PdEnum<M, F, E>, M, F, E>;
+
+abstract class PdfEnumType$Base<I$ extends PdEnum<M, F, E>, M, F, E>
+    extends PdfValueType$Base<I$, M, F, E> {
+  const PdfEnumType$Base(super.item);
+  R$ acceptPdfValueType<R$>(PdfValueType$Visitor<R$, M, F, E> visitor) =>
+      visitor.enumType(item);
+}
+
+class PdfEnumType$Impl<M, F, E>
+    extends PdfEnumType$Base<PdEnum<M, F, E>, M, F, E> {
+  const PdfEnumType$Impl(super.item);
+  const PdfEnumType$Impl.create(PdEnum<M, F, E> item) : this(item);
+}
+
+class PdfEnumType$Factory {
+  const PdfEnumType$Factory();
+  PdfEnumType$Impl<M, F, E> create<M, F, E>(PdEnum<M, F, E> item) =>
+      PdfEnumType$Impl(item);
+  PdfEnumType$Impl<M, F, E> call<M, F, E>(PdEnum<M, F, E> item) =>
+      PdfEnumType$Impl(item);
+}
+
+const pdfEnumType$Factory = PdfEnumType$Factory();
+
+extension PdfEnumType$Ext$Mk on Mk {
+  PdfEnumType$Factory get PdfEnumType => pdfEnumType$Factory;
 }
 
 typedef PdfMessageType<M, F, E> = PdfMessageType$Base<PdMsg<M, F, E>, M, F, E>;

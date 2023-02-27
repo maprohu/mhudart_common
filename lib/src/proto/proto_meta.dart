@@ -8,6 +8,7 @@ abstract class PmLib<L> {
   const PmLib();
 
   List<PmMessage<L>> get messages;
+  List<PmEnum> get enums;
 
   String get descriptor;
 }
@@ -19,7 +20,6 @@ extension PmLibX<L> on PmLib<L> {
 
 abstract class HasMessagePath<L> {
   Iterable<int> get path$;
-
 }
 
 abstract class PmMessage<L> implements HasMessagePath<L> {
@@ -27,8 +27,8 @@ abstract class PmMessage<L> implements HasMessagePath<L> {
 
   int get index$;
 
-
   List<PmMessage<L>> get nestedMessages$;
+  List<PmEnum> get nestedEnums$;
 }
 
 extension PmMessageX<L> on PmMessage<L> {
@@ -89,13 +89,12 @@ abstract class PmNestedMessage<T, L> extends PmGenericNestedMessage<T, L> {
 
 abstract class HasFieldPath<L> {
   HasMessagePath<L> get message;
-  int get index;
 
+  int get index;
 }
 
 abstract class PmFieldOfLib<L> implements HasFieldPath<L> {
   PmMessage<L> get message;
-
 }
 
 abstract class PmFieldOfMessage<T> {}
@@ -104,6 +103,13 @@ abstract class PmField<T, L> implements PmFieldOfLib<L>, PmFieldOfMessage<T> {
   const PmField();
 
   PmTypedMessage<T, L> get message;
+}
+
+abstract class PmEnum<E extends ProtobufEnum> {
+  const PmEnum();
+
+  List<E> values();
+
 }
 
 abstract class PmOneOf<T> {
@@ -121,41 +127,38 @@ abstract class PmTypedOneOf<T, V extends Enum> extends PmOneOf<T> {
 }
 
 @GenerateHierarchy(
-    Hierarchy("base", children: [
-      Hierarchy<PmFieldRead>("read"),
-      Hierarchy<PmFieldFull>("full"),
+    Hierarchy<PmFieldRead>("read", children: [
+      Hierarchy<PmFieldFull>("full", children: [
+        Hierarchy<PmFieldMessage>("message"),
+      ])
     ]),
     prefix: 'pmAccess')
 abstract class _PmAccess<T, V> {}
 
 abstract class PmFieldRead<T, V> {
   V get(T message);
-
-  // PmAccessBase<T, V> get access => mk.PmAccessRead.create(this);
 }
 
-abstract class PmFieldFull<T, V> implements PmFieldRead<T, V> {
+abstract class PmFieldFull<T, V> extends PmFieldRead<T, V> {
   void set(T message, V value);
 
   bool has(T message);
 
   void clear(T message);
+}
 
-  // PmAccessBase<T, V> get access => mk.PmAccessFull.create(this);
+abstract class PmFieldMessage<T, V> extends PmFieldFull<T, V> {
+  V ensure(T message);
 }
 
 abstract class PmTypedField<T extends GeneratedMessage, V, L>
-    extends PmField<T, L> with PmFieldRead<T, V> {
+    extends PmField<T, L> implements PmFieldRead<T, V> {
   const PmTypedField();
-
-// PrxBase<V> prx(RxVarOpt<T> rxVar) => mk.PrxCollection.fromField(rxVar, this);
 }
 
 abstract class PmSingleField<T extends GeneratedMessage, V, L>
-    extends PmTypedField<T, V, L> with PmFieldFull<T, V> {
+    extends PmTypedField<T, V, L> implements PmFieldFull<T, V> {
   const PmSingleField();
-
-// PrxBase<V> prx(RxVarOpt<T> rxVar) => mk.PrxSingle.fromField(rxVar, this);
 }
 
 extension PmSingleFieldBaseX<T, V> on PmFieldFull<T, V> {
@@ -169,10 +172,8 @@ extension PmSingleFieldBaseX<T, V> on PmFieldFull<T, V> {
 }
 
 abstract class PmMessageField<T extends GeneratedMessage, V, L>
-    extends PmSingleField<T, V, L> {
+    extends PmSingleField<T, V, L> implements PmFieldMessage<T, V> {
   const PmMessageField();
-
-  V ensure(T message);
 }
 
 typedef PmRepeatedField<T extends GeneratedMessage, V, L>
