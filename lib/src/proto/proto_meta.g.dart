@@ -42,7 +42,14 @@ abstract class PmtLevel$Visitor<R$, T, L> {
   R$ nested(PmNestedMessage<T, L> value);
 }
 
-class PmtLevel$Visitor$Data<R$, T, L> {
+abstract class PmtLevel$Visitor$IData<R$, T, L> {
+  R$ Function(PmTypedMessage<T, L> level) get level;
+  R$ Function(PmTopLevelMessage<T, L> top) get top;
+  R$ Function(PmNestedMessage<T, L> nested) get nested;
+}
+
+class PmtLevel$Visitor$Data<R$, T, L>
+    implements PmtLevel$Visitor$IData<R$, T, L> {
   final R$ Function(PmTypedMessage<T, L> level) level;
   final R$ Function(PmTopLevelMessage<T, L> top) top;
   final R$ Function(PmNestedMessage<T, L> nested) nested;
@@ -67,12 +74,13 @@ class PmtLevel$Visitor$Data<R$, T, L> {
   }
 }
 
-class PmtLevel$Visitor$Impl<R$, T, L> extends PmtLevel$Visitor<R$, T, L> {
-  final PmtLevel$Visitor$Data<R$, T, L> _data;
-  PmtLevel$Visitor$Impl(this._data);
-  R$ level(PmTypedMessage<T, L> level) => _data.level(level);
-  R$ top(PmTopLevelMessage<T, L> top) => _data.top(top);
-  R$ nested(PmNestedMessage<T, L> nested) => _data.nested(nested);
+class PmtLevel$Visitor$Impl<R$, T, L> extends PmtLevel$Visitor<R$, T, L>
+    implements HasData<PmtLevel$Visitor$IData<R$, T, L>> {
+  final PmtLevel$Visitor$IData<R$, T, L> data$;
+  PmtLevel$Visitor$Impl(this.data$);
+  R$ level(PmTypedMessage<T, L> level) => data$.level(level);
+  R$ top(PmTopLevelMessage<T, L> top) => data$.top(top);
+  R$ nested(PmNestedMessage<T, L> nested) => data$.nested(nested);
 }
 
 extension PmtLevel$WhenX<T, L> on PmtLevel$Base<PmTypedMessage<T, L>, T, L> {
@@ -179,7 +187,14 @@ abstract class PmAccessRead$Visitor<R$, T, V> {
   R$ message(PmFieldMessage<T, V> value);
 }
 
-class PmAccessRead$Visitor$Data<R$, T, V> {
+abstract class PmAccessRead$Visitor$IData<R$, T, V> {
+  R$ Function(PmFieldRead<T, V> read) get read;
+  R$ Function(PmFieldFull<T, V> full) get full;
+  R$ Function(PmFieldMessage<T, V> message) get message;
+}
+
+class PmAccessRead$Visitor$Data<R$, T, V>
+    implements PmAccessRead$Visitor$IData<R$, T, V> {
   final R$ Function(PmFieldRead<T, V> read) read;
   final R$ Function(PmFieldFull<T, V> full) full;
   final R$ Function(PmFieldMessage<T, V> message) message;
@@ -204,13 +219,13 @@ class PmAccessRead$Visitor$Data<R$, T, V> {
   }
 }
 
-class PmAccessRead$Visitor$Impl<R$, T, V>
-    extends PmAccessRead$Visitor<R$, T, V> {
-  final PmAccessRead$Visitor$Data<R$, T, V> _data;
-  PmAccessRead$Visitor$Impl(this._data);
-  R$ read(PmFieldRead<T, V> read) => _data.read(read);
-  R$ full(PmFieldFull<T, V> full) => _data.full(full);
-  R$ message(PmFieldMessage<T, V> message) => _data.message(message);
+class PmAccessRead$Visitor$Impl<R$, T, V> extends PmAccessRead$Visitor<R$, T, V>
+    implements HasData<PmAccessRead$Visitor$IData<R$, T, V>> {
+  final PmAccessRead$Visitor$IData<R$, T, V> data$;
+  PmAccessRead$Visitor$Impl(this.data$);
+  R$ read(PmFieldRead<T, V> read) => data$.read(read);
+  R$ full(PmFieldFull<T, V> full) => data$.full(full);
+  R$ message(PmFieldMessage<T, V> message) => data$.message(message);
 }
 
 extension PmAccessRead$WhenX<T, V>
@@ -264,7 +279,13 @@ abstract class PmAccessFull$Visitor<R$, T, V> {
   R$ message(PmFieldMessage<T, V> value);
 }
 
-class PmAccessFull$Visitor$Data<R$, T, V> {
+abstract class PmAccessFull$Visitor$IData<R$, T, V> {
+  R$ Function(PmFieldFull<T, V> full) get full;
+  R$ Function(PmFieldMessage<T, V> message) get message;
+}
+
+class PmAccessFull$Visitor$Data<R$, T, V>
+    implements PmAccessFull$Visitor$IData<R$, T, V> {
   final R$ Function(PmFieldFull<T, V> full) full;
   final R$ Function(PmFieldMessage<T, V> message) message;
   PmAccessFull$Visitor$Data({
@@ -284,12 +305,12 @@ class PmAccessFull$Visitor$Data<R$, T, V> {
   }
 }
 
-class PmAccessFull$Visitor$Impl<R$, T, V>
-    extends PmAccessFull$Visitor<R$, T, V> {
-  final PmAccessFull$Visitor$Data<R$, T, V> _data;
-  PmAccessFull$Visitor$Impl(this._data);
-  R$ full(PmFieldFull<T, V> full) => _data.full(full);
-  R$ message(PmFieldMessage<T, V> message) => _data.message(message);
+class PmAccessFull$Visitor$Impl<R$, T, V> extends PmAccessFull$Visitor<R$, T, V>
+    implements HasData<PmAccessFull$Visitor$IData<R$, T, V>> {
+  final PmAccessFull$Visitor$IData<R$, T, V> data$;
+  PmAccessFull$Visitor$Impl(this.data$);
+  R$ full(PmFieldFull<T, V> full) => data$.full(full);
+  R$ message(PmFieldMessage<T, V> message) => data$.message(message);
 }
 
 extension PmAccessFull$WhenX<T, V>

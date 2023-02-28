@@ -2,12 +2,12 @@ part of 'rxvar.dart';
 
 
 extension RxValFactoryX on RxVal$Factory {
-  RxVal<T> combineLatest2<A, B, T>(
-    RxVal<A> rxA,
-    RxVal<B> rxB,
+  IRxVal<T> combineLatest2<A, B, T>(
+    IRxVal<A> rxA,
+    IRxVal<B> rxB,
     T Function(A a, B b) combiner,
   ) {
-    return mk.RxVal(
+    return mk.RxVal.create(
       get: () => combiner(
         rxA.value,
         rxB.value,
@@ -17,13 +17,14 @@ extension RxValFactoryX on RxVal$Factory {
         rxB.stream,
         combiner,
       ).distinct(),
+      lookup: rxA.lookup.asConstant(),
     );
   }
 
-  RxVal<T> combineLatest3<A, B, C, T>(
-    RxVal<A> rxA,
-    RxVal<B> rxB,
-    RxVal<C> rxC,
+  IRxVal<T> combineLatest3<A, B, C, T>(
+    IRxVal<A> rxA,
+    IRxVal<B> rxB,
+    IRxVal<C> rxC,
     T Function(A a, B b, C c) combiner,
   ) {
     return mk.RxVal(
@@ -38,58 +39,67 @@ extension RxValFactoryX on RxVal$Factory {
         rxC.stream,
         combiner,
       ).distinct(),
+      lookup: rxA.lookup.asConstant(),
     );
   }
 }
 
 extension RxVarFactoryX on RxVar$Factory {
-  RxVar<T> variable<T>(T initial, [DisposeAsyncs? disposers]) {
+  IRxVar<T> variable<T>(T initial, [DisposeAsyncs? disposers, Lookup lookup = Lookup.empty]) {
     final subject = BehaviorSubject.seeded(initial);
 
     disposers?.add(subject.close);
 
-    return mk.RxVar(
+    return mk.RxVar.data(
       get: () => subject.value,
       set: subject.add,
-      changes: subject.distinct().asConstant(),
+      changes: subject.distinct(),
+      lookup: lookup,
     );
   }
 
 }
 
-extension RxValX<T> on RxVal<T> {
-  Stream<T> get stream => changes();
+extension RxValX<T> on IRxVal<T> {
+  T get value => get();
+  Stream<T> get stream => changes;
 
-  RxVal<O> map<O>(O Function(T v) mapper) {
-    return mk.RxVal(
+  IRxVal<O> map<O>(O Function(T v) mapper) {
+    return mk.RxVal.data(
       get: () => mapper(value),
-      changes: stream.map(mapper).distinct().asConstant(),
+      changes: stream.map(mapper).distinct(),
+      lookup: lookup,
     );
   }
 
   Stream<T> get tail => stream.tail;
 
-  RxVal<O> expand<O>(RxVal<O> Function(T v) mapper) {
-    return mk.RxVal(
+  RxVal$Impl<O> expand<O>(IRxVal<O> Function(T v) mapper) {
+    return mk.RxVal.data(
       get: () => mapper(value).value,
-      changes: stream.asyncExpand((v) => mapper(v).stream).distinct().asConstant(),
+      changes: stream.asyncExpand((v) => mapper(v).stream).distinct(),
+      lookup: lookup,
     );
   }
 }
 
-extension RxVarX<T> on RxVar<T> {
+extension RxVarX<T> on IRxVar<T> {
+  T get value => get();
+  void set value(T value) => set(value);
+
   void update(T Function(T value) updater) {
     value = updater(value);
   }
 
-  RxVar<V> castVar<V>() => mk.RxVar.create(
+  RxVar<V> castVar<V>() => mk.RxVar.data(
     set: (v) => set(v as T),
     get: () => get() as V,
-    changes: () => changes().cast<V>(),
+    changes: changes.cast<V>(),
+    lookup: lookup,
   );
 }
 
-extension RxValNullableX<T extends Object> on RxVal<T?> {
-  RxVal<T> required() => map((value) => value!);
+extension RxValNullableX<T extends Object> on IRxVal<T?> {
+  IRxVal<T> required() => map((value) => value!);
 }
 

@@ -13,7 +13,9 @@ part 'rxvar_collection.dart';
 abstract class RxVal<T> implements Getter<T> {
   // The first value in this stream is the actual value
   // Stream<T> get stream;
-  Stream<T> changes();
+  Stream<T> get changes;
+
+  Lookup get lookup;
 }
 
 

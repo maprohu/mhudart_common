@@ -42,7 +42,16 @@ abstract class Cardinality$Visitor<R$> {
   R$ oneOf(FieldInfo value);
 }
 
-class Cardinality$Visitor$Data<R$> {
+abstract class Cardinality$Visitor$IData<R$> {
+  R$ Function(FieldInfo cardinality) get cardinality;
+  R$ Function(MapFieldInfo mapOf) get mapOf;
+  R$ Function(FieldInfo nonMap) get nonMap;
+  R$ Function(FieldInfo single) get single;
+  R$ Function(FieldInfo repeated) get repeated;
+  R$ Function(FieldInfo oneOf) get oneOf;
+}
+
+class Cardinality$Visitor$Data<R$> implements Cardinality$Visitor$IData<R$> {
   final R$ Function(FieldInfo cardinality) cardinality;
   final R$ Function(MapFieldInfo mapOf) mapOf;
   final R$ Function(FieldInfo nonMap) nonMap;
@@ -82,15 +91,16 @@ class Cardinality$Visitor$Data<R$> {
   }
 }
 
-class Cardinality$Visitor$Impl<R$> extends Cardinality$Visitor<R$> {
-  final Cardinality$Visitor$Data<R$> _data;
-  Cardinality$Visitor$Impl(this._data);
-  R$ cardinality(FieldInfo cardinality) => _data.cardinality(cardinality);
-  R$ mapOf(MapFieldInfo mapOf) => _data.mapOf(mapOf);
-  R$ nonMap(FieldInfo nonMap) => _data.nonMap(nonMap);
-  R$ single(FieldInfo single) => _data.single(single);
-  R$ repeated(FieldInfo repeated) => _data.repeated(repeated);
-  R$ oneOf(FieldInfo oneOf) => _data.oneOf(oneOf);
+class Cardinality$Visitor$Impl<R$> extends Cardinality$Visitor<R$>
+    implements HasData<Cardinality$Visitor$IData<R$>> {
+  final Cardinality$Visitor$IData<R$> data$;
+  Cardinality$Visitor$Impl(this.data$);
+  R$ cardinality(FieldInfo cardinality) => data$.cardinality(cardinality);
+  R$ mapOf(MapFieldInfo mapOf) => data$.mapOf(mapOf);
+  R$ nonMap(FieldInfo nonMap) => data$.nonMap(nonMap);
+  R$ single(FieldInfo single) => data$.single(single);
+  R$ repeated(FieldInfo repeated) => data$.repeated(repeated);
+  R$ oneOf(FieldInfo oneOf) => data$.oneOf(oneOf);
 }
 
 extension Cardinality$WhenX on Cardinality$Base<FieldInfo> {
@@ -172,7 +182,14 @@ abstract class NonMap$Visitor<R$> {
   R$ oneOf(FieldInfo value);
 }
 
-class NonMap$Visitor$Data<R$> {
+abstract class NonMap$Visitor$IData<R$> {
+  R$ Function(FieldInfo nonMap) get nonMap;
+  R$ Function(FieldInfo single) get single;
+  R$ Function(FieldInfo repeated) get repeated;
+  R$ Function(FieldInfo oneOf) get oneOf;
+}
+
+class NonMap$Visitor$Data<R$> implements NonMap$Visitor$IData<R$> {
   final R$ Function(FieldInfo nonMap) nonMap;
   final R$ Function(FieldInfo single) single;
   final R$ Function(FieldInfo repeated) repeated;
@@ -202,13 +219,14 @@ class NonMap$Visitor$Data<R$> {
   }
 }
 
-class NonMap$Visitor$Impl<R$> extends NonMap$Visitor<R$> {
-  final NonMap$Visitor$Data<R$> _data;
-  NonMap$Visitor$Impl(this._data);
-  R$ nonMap(FieldInfo nonMap) => _data.nonMap(nonMap);
-  R$ single(FieldInfo single) => _data.single(single);
-  R$ repeated(FieldInfo repeated) => _data.repeated(repeated);
-  R$ oneOf(FieldInfo oneOf) => _data.oneOf(oneOf);
+class NonMap$Visitor$Impl<R$> extends NonMap$Visitor<R$>
+    implements HasData<NonMap$Visitor$IData<R$>> {
+  final NonMap$Visitor$IData<R$> data$;
+  NonMap$Visitor$Impl(this.data$);
+  R$ nonMap(FieldInfo nonMap) => data$.nonMap(nonMap);
+  R$ single(FieldInfo single) => data$.single(single);
+  R$ repeated(FieldInfo repeated) => data$.repeated(repeated);
+  R$ oneOf(FieldInfo oneOf) => data$.oneOf(oneOf);
 }
 
 extension NonMap$WhenX on NonMap$Base<FieldInfo> {
@@ -337,7 +355,16 @@ abstract class ValueType$Visitor<R$> {
   R$ messageType(BuilderInfo value);
 }
 
-class ValueType$Visitor$Data<R$> {
+abstract class ValueType$Visitor$IData<R$> {
+  R$ Function() get valueType;
+  R$ Function() get boolType;
+  R$ Function() get intType;
+  R$ Function() get stringType;
+  R$ Function() get enumType;
+  R$ Function(BuilderInfo messageType) get messageType;
+}
+
+class ValueType$Visitor$Data<R$> implements ValueType$Visitor$IData<R$> {
   final R$ Function() valueType;
   final R$ Function() boolType;
   final R$ Function() intType;
@@ -377,15 +404,16 @@ class ValueType$Visitor$Data<R$> {
   }
 }
 
-class ValueType$Visitor$Impl<R$> extends ValueType$Visitor<R$> {
-  final ValueType$Visitor$Data<R$> _data;
-  ValueType$Visitor$Impl(this._data);
-  R$ valueType() => _data.valueType();
-  R$ boolType() => _data.boolType();
-  R$ intType() => _data.intType();
-  R$ stringType() => _data.stringType();
-  R$ enumType() => _data.enumType();
-  R$ messageType(BuilderInfo messageType) => _data.messageType(messageType);
+class ValueType$Visitor$Impl<R$> extends ValueType$Visitor<R$>
+    implements HasData<ValueType$Visitor$IData<R$>> {
+  final ValueType$Visitor$IData<R$> data$;
+  ValueType$Visitor$Impl(this.data$);
+  R$ valueType() => data$.valueType();
+  R$ boolType() => data$.boolType();
+  R$ intType() => data$.intType();
+  R$ stringType() => data$.stringType();
+  R$ enumType() => data$.enumType();
+  R$ messageType(BuilderInfo messageType) => data$.messageType(messageType);
 }
 
 extension ValueType$WhenX on ValueType$Base<void> {

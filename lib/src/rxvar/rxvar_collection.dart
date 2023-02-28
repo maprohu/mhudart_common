@@ -1,7 +1,7 @@
 part of 'rxvar.dart';
 
 
-extension RxVarBuiltListX<T> on RxVar<BuiltList<T>> {
+extension RxVarBuiltListX<T> on IRxVar<BuiltList<T>> {
   void addAll(Iterable<T> items) => update(
         (value) => value.rebuild(
           (b) => b.addAll(items),
@@ -21,6 +21,6 @@ extension RxVarBuiltListX<T> on RxVar<BuiltList<T>> {
       );
 }
 
-extension RxValBuiltMapX<K, V extends Object> on RxVal<BuiltMap<K, V>> {
-  RxVal<V?> lookup(K key) => map((m) => m[key]);
+extension RxValBuiltMapX<K, V extends Object> on IRxVal<BuiltMap<K, V>> {
+  IRxVal<V?> lookup(K key) => map((m) => m[key]);
 }
