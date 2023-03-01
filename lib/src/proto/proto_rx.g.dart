@@ -47,16 +47,16 @@ abstract class PrxtType$Visitor$IData<R$> {
 }
 
 class PrxtType$Visitor$Data<R$> implements PrxtType$Visitor$IData<R$> {
-  final R$ Function() type;
-  final R$ Function() msg;
-  final R$ Function() enm;
-  final R$ Function() core;
   PrxtType$Visitor$Data({
     required this.type,
     required this.msg,
     required this.enm,
     required this.core,
   });
+  final R$ Function() type;
+  final R$ Function() msg;
+  final R$ Function() enm;
+  final R$ Function() core;
   factory PrxtType$Visitor$Data.fallback({
     R$ Function()? type,
     R$ Function()? msg,
@@ -74,6 +74,30 @@ class PrxtType$Visitor$Data<R$> implements PrxtType$Visitor$IData<R$> {
       core: core,
     );
   }
+  PrxtType$Visitor$Data<R$> copyWith({
+    R$ Function()? type,
+    R$ Function()? msg,
+    R$ Function()? enm,
+    R$ Function()? core,
+  }) =>
+      PrxtType$Visitor$Data(
+        type: type ?? this.type,
+        msg: msg ?? this.msg,
+        enm: enm ?? this.enm,
+        core: core ?? this.core,
+      );
+  PrxtType$Visitor$Data<R$> copyWithOpt({
+    R$ Function()? type,
+    R$ Function()? msg,
+    R$ Function()? enm,
+    R$ Function()? core,
+  }) =>
+      PrxtType$Visitor$Data(
+        type: type ?? this.type,
+        msg: msg ?? this.msg,
+        enm: enm ?? this.enm,
+        core: core ?? this.core,
+      );
 }
 
 class PrxtType$Visitor$Impl<R$> extends PrxtType$Visitor<R$>
@@ -179,18 +203,15 @@ extension PrxtCore$Ext$Mk on Mk {
 
 abstract class PrxMessage$IData<T, L> implements RxVar$IData<Opt<T>> {
   PmMessageOfType<T, L> Function() get message;
-  void Function(Opt<T> value) get set;
+  void Function(
+    Opt<T> value,
+  ) get set;
   Opt<T> Function() get get;
   Stream<Opt<T>> Function() get changes;
   Lookup Function() get lookup;
 }
 
 class PrxMessage$Data<T, L> implements PrxMessage$IData<T, L> {
-  final PmMessageOfType<T, L> Function() message;
-  final void Function(Opt<T> value) set;
-  final Opt<T> Function() get;
-  final Stream<Opt<T>> Function() changes;
-  final Lookup Function() lookup;
   PrxMessage$Data({
     required this.message,
     required this.set,
@@ -198,6 +219,47 @@ class PrxMessage$Data<T, L> implements PrxMessage$IData<T, L> {
     required this.changes,
     required this.lookup,
   });
+  final PmMessageOfType<T, L> Function() message;
+  final void Function(
+    Opt<T> value,
+  ) set;
+  final Opt<T> Function() get;
+  final Stream<Opt<T>> Function() changes;
+  final Lookup Function() lookup;
+  PrxMessage$Data<T, L> copyWith({
+    PmMessageOfType<T, L> Function()? message,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+    Opt<T> Function()? get,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxMessage$Data(
+        message: message ?? this.message,
+        set: set ?? this.set,
+        get: get ?? this.get,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
+  PrxMessage$Data<T, L> copyWithOpt({
+    PmMessageOfType<T, L> Function()? message,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+    Opt<T> Function()? get,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxMessage$Data(
+        message: message ?? this.message,
+        set: set ?? this.set,
+        get: get ?? this.get,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
 }
 
 class PrxMessage$Impl<T, L> extends PrxMessage<T, L>
@@ -205,7 +267,10 @@ class PrxMessage$Impl<T, L> extends PrxMessage<T, L>
   final PrxMessage$IData<T, L> data$;
   PrxMessage$Impl(this.data$);
   PmMessageOfType<T, L> message() => data$.message();
-  void set(Opt<T> value) => data$.set(value);
+  void set(
+    Opt<T> value,
+  ) =>
+      data$.set(value);
   Opt<T> get() => data$.get();
   Stream<Opt<T>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
@@ -216,7 +281,10 @@ typedef IPrxMessage<T, L> = HasData<PrxMessage$IData<T, L>>;
 extension IPrxMessage$Ext<T, L> on IPrxMessage<T, L> {
   RxVar$Impl<Opt<T>> get asRxVar => RxVar$Impl(data$);
   PmMessageOfType<T, L> message() => data$.message();
-  void set(Opt<T> value) => data$.set(value);
+  void set(
+    Opt<T> value,
+  ) =>
+      data$.set(value);
   Opt<T> get() => data$.get();
   Stream<Opt<T>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
@@ -226,7 +294,10 @@ class PrxMessage$Delegate<T, L> extends PrxMessage<T, L> {
   final PrxMessage<T, L> Function() _delegate;
   PrxMessage$Delegate(this._delegate);
   PmMessageOfType<T, L> message() => _delegate().message();
-  void set(Opt<T> value) => _delegate().set(value);
+  void set(
+    Opt<T> value,
+  ) =>
+      _delegate().set(value);
   Opt<T> get() => _delegate().get();
   Stream<Opt<T>> get changes => _delegate().changes;
   Lookup get lookup => _delegate().lookup;
@@ -236,7 +307,10 @@ class PrxMessage$Factory {
   const PrxMessage$Factory();
   PrxMessage$Impl<T, L> call<T, L>({
     required PmMessageOfType<T, L> Function() message,
-    required void Function(Opt<T> value) set,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
     required Opt<T> Function() get,
     required Stream<Opt<T>> Function() changes,
     required Lookup Function() lookup,
@@ -252,7 +326,10 @@ class PrxMessage$Factory {
       );
   PrxMessage$Impl<T, L> create<T, L>({
     required PmMessageOfType<T, L> Function() message,
-    required void Function(Opt<T> value) set,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
     required Opt<T> Function() get,
     required Stream<Opt<T>> Function() changes,
     required Lookup Function() lookup,
@@ -268,7 +345,10 @@ class PrxMessage$Factory {
       );
   PrxMessage$Impl<T, L> data<T, L>({
     required PmMessageOfType<T, L> Function() message,
-    required void Function(Opt<T> value) set,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
     required Opt<T> Function() get,
     required Stream<Opt<T>> changes,
     required Lookup lookup,
@@ -325,14 +405,34 @@ abstract class PrxBase$IData<T> implements RxVal$IData<Opt<T>> {
 }
 
 class PrxBase$Data<T> implements PrxBase$IData<T> {
-  final Opt<T> Function() get;
-  final Stream<Opt<T>> Function() changes;
-  final Lookup Function() lookup;
   PrxBase$Data({
     required this.get,
     required this.changes,
     required this.lookup,
   });
+  final Opt<T> Function() get;
+  final Stream<Opt<T>> Function() changes;
+  final Lookup Function() lookup;
+  PrxBase$Data<T> copyWith({
+    Opt<T> Function()? get,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxBase$Data(
+        get: get ?? this.get,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
+  PrxBase$Data<T> copyWithOpt({
+    Opt<T> Function()? get,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxBase$Data(
+        get: get ?? this.get,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
 }
 
 class PrxBase$Impl<T> extends PrxBase<T> implements HasData<PrxBase$IData<T>> {
@@ -430,30 +530,67 @@ extension PrxBase$Ext$Mk on Mk {
 
 abstract class PrxCollectionBase$IData<C>
     implements RxVal$IData<Opt<C>>, PrxBase$IData<C> {
-  void Function(void Function(C) updates) get rebuild;
+  void Function(
+    void Function(C) updates,
+  ) get rebuild;
   Opt<C> Function() get get;
   Stream<Opt<C>> Function() get changes;
   Lookup Function() get lookup;
 }
 
 class PrxCollectionBase$Data<C> implements PrxCollectionBase$IData<C> {
-  final void Function(void Function(C) updates) rebuild;
-  final Opt<C> Function() get;
-  final Stream<Opt<C>> Function() changes;
-  final Lookup Function() lookup;
   PrxCollectionBase$Data({
     required this.rebuild,
     required this.get,
     required this.changes,
     required this.lookup,
   });
+  final void Function(
+    void Function(C) updates,
+  ) rebuild;
+  final Opt<C> Function() get;
+  final Stream<Opt<C>> Function() changes;
+  final Lookup Function() lookup;
+  PrxCollectionBase$Data<C> copyWith({
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+    Opt<C> Function()? get,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxCollectionBase$Data(
+        rebuild: rebuild ?? this.rebuild,
+        get: get ?? this.get,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
+  PrxCollectionBase$Data<C> copyWithOpt({
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+    Opt<C> Function()? get,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxCollectionBase$Data(
+        rebuild: rebuild ?? this.rebuild,
+        get: get ?? this.get,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
 }
 
 class PrxCollectionBase$Impl<C> extends PrxCollectionBase<C>
     implements HasData<PrxCollectionBase$IData<C>> {
   final PrxCollectionBase$IData<C> data$;
   PrxCollectionBase$Impl(this.data$);
-  void rebuild(void Function(C) updates) => data$.rebuild(updates);
+  void rebuild(
+    void Function(C) updates,
+  ) =>
+      data$.rebuild(updates);
   Opt<C> get() => data$.get();
   Stream<Opt<C>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
@@ -464,7 +601,10 @@ typedef IPrxCollectionBase<C> = HasData<PrxCollectionBase$IData<C>>;
 extension IPrxCollectionBase$Ext<C> on IPrxCollectionBase<C> {
   RxVal$Impl<Opt<C>> get asRxVal => RxVal$Impl(data$);
   PrxBase$Impl<C> get asPrxBase => PrxBase$Impl(data$);
-  void rebuild(void Function(C) updates) => data$.rebuild(updates);
+  void rebuild(
+    void Function(C) updates,
+  ) =>
+      data$.rebuild(updates);
   Opt<C> get() => data$.get();
   Stream<Opt<C>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
@@ -473,7 +613,10 @@ extension IPrxCollectionBase$Ext<C> on IPrxCollectionBase<C> {
 class PrxCollectionBase$Delegate<C> extends PrxCollectionBase<C> {
   final PrxCollectionBase<C> Function() _delegate;
   PrxCollectionBase$Delegate(this._delegate);
-  void rebuild(void Function(C) updates) => _delegate().rebuild(updates);
+  void rebuild(
+    void Function(C) updates,
+  ) =>
+      _delegate().rebuild(updates);
   Opt<C> get() => _delegate().get();
   Stream<Opt<C>> get changes => _delegate().changes;
   Lookup get lookup => _delegate().lookup;
@@ -482,7 +625,10 @@ class PrxCollectionBase$Delegate<C> extends PrxCollectionBase<C> {
 class PrxCollectionBase$Factory {
   const PrxCollectionBase$Factory();
   PrxCollectionBase$Impl<C> call<C>({
-    required void Function(void Function(C) updates) rebuild,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
     required Opt<C> Function() get,
     required Stream<Opt<C>> Function() changes,
     required Lookup Function() lookup,
@@ -496,7 +642,10 @@ class PrxCollectionBase$Factory {
         ),
       );
   PrxCollectionBase$Impl<C> create<C>({
-    required void Function(void Function(C) updates) rebuild,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
     required Opt<C> Function() get,
     required Stream<Opt<C>> Function() changes,
     required Lookup Function() lookup,
@@ -510,7 +659,10 @@ class PrxCollectionBase$Factory {
         ),
       );
   PrxCollectionBase$Impl<C> data<C>({
-    required void Function(void Function(C) updates) rebuild,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
     required Opt<C> Function() get,
     required Stream<Opt<C>> changes,
     required Lookup lookup,
@@ -531,7 +683,10 @@ class PrxCollectionBase$Factory {
       );
   PrxCollectionBase$Impl<C> fromRxVal$Iface<C>({
     required RxVal<Opt<C>> rxVal,
-    required void Function(void Function(C) updates) rebuild,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
   }) =>
       create(
         get: rxVal.get,
@@ -541,7 +696,10 @@ class PrxCollectionBase$Factory {
       );
   PrxCollectionBase$Impl<C> fromRxVal<C>({
     required IRxVal<Opt<C>> rxVal,
-    required void Function(void Function(C) updates) rebuild,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
   }) =>
       create(
         get: rxVal.data$.get,
@@ -551,7 +709,10 @@ class PrxCollectionBase$Factory {
       );
   PrxCollectionBase$Impl<C> fromPrxBase$Iface<C>({
     required PrxBase<C> prxBase,
-    required void Function(void Function(C) updates) rebuild,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
   }) =>
       create(
         get: prxBase.get,
@@ -561,7 +722,10 @@ class PrxCollectionBase$Factory {
       );
   PrxCollectionBase$Impl<C> fromPrxBase<C>({
     required IPrxBase<C> prxBase,
-    required void Function(void Function(C) updates) rebuild,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
   }) =>
       create(
         get: prxBase.data$.get,
@@ -579,30 +743,67 @@ extension PrxCollectionBase$Ext$Mk on Mk {
 
 abstract class PrxSingleBase$IData<V>
     implements RxVar$IData<Opt<V>>, PrxBase$IData<V> {
-  void Function(Opt<V> value) get set;
+  void Function(
+    Opt<V> value,
+  ) get set;
   Opt<V> Function() get get;
   Stream<Opt<V>> Function() get changes;
   Lookup Function() get lookup;
 }
 
 class PrxSingleBase$Data<V> implements PrxSingleBase$IData<V> {
-  final void Function(Opt<V> value) set;
-  final Opt<V> Function() get;
-  final Stream<Opt<V>> Function() changes;
-  final Lookup Function() lookup;
   PrxSingleBase$Data({
     required this.set,
     required this.get,
     required this.changes,
     required this.lookup,
   });
+  final void Function(
+    Opt<V> value,
+  ) set;
+  final Opt<V> Function() get;
+  final Stream<Opt<V>> Function() changes;
+  final Lookup Function() lookup;
+  PrxSingleBase$Data<V> copyWith({
+    void Function(
+      Opt<V> value,
+    )?
+        set,
+    Opt<V> Function()? get,
+    Stream<Opt<V>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxSingleBase$Data(
+        set: set ?? this.set,
+        get: get ?? this.get,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
+  PrxSingleBase$Data<V> copyWithOpt({
+    void Function(
+      Opt<V> value,
+    )?
+        set,
+    Opt<V> Function()? get,
+    Stream<Opt<V>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxSingleBase$Data(
+        set: set ?? this.set,
+        get: get ?? this.get,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
 }
 
 class PrxSingleBase$Impl<V> extends PrxSingleBase<V>
     implements HasData<PrxSingleBase$IData<V>> {
   final PrxSingleBase$IData<V> data$;
   PrxSingleBase$Impl(this.data$);
-  void set(Opt<V> value) => data$.set(value);
+  void set(
+    Opt<V> value,
+  ) =>
+      data$.set(value);
   Opt<V> get() => data$.get();
   Stream<Opt<V>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
@@ -613,7 +814,10 @@ typedef IPrxSingleBase<V> = HasData<PrxSingleBase$IData<V>>;
 extension IPrxSingleBase$Ext<V> on IPrxSingleBase<V> {
   RxVar$Impl<Opt<V>> get asRxVar => RxVar$Impl(data$);
   PrxBase$Impl<V> get asPrxBase => PrxBase$Impl(data$);
-  void set(Opt<V> value) => data$.set(value);
+  void set(
+    Opt<V> value,
+  ) =>
+      data$.set(value);
   Opt<V> get() => data$.get();
   Stream<Opt<V>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
@@ -622,7 +826,10 @@ extension IPrxSingleBase$Ext<V> on IPrxSingleBase<V> {
 class PrxSingleBase$Delegate<V> extends PrxSingleBase<V> {
   final PrxSingleBase<V> Function() _delegate;
   PrxSingleBase$Delegate(this._delegate);
-  void set(Opt<V> value) => _delegate().set(value);
+  void set(
+    Opt<V> value,
+  ) =>
+      _delegate().set(value);
   Opt<V> get() => _delegate().get();
   Stream<Opt<V>> get changes => _delegate().changes;
   Lookup get lookup => _delegate().lookup;
@@ -631,7 +838,10 @@ class PrxSingleBase$Delegate<V> extends PrxSingleBase<V> {
 class PrxSingleBase$Factory {
   const PrxSingleBase$Factory();
   PrxSingleBase$Impl<V> call<V>({
-    required void Function(Opt<V> value) set,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
     required Opt<V> Function() get,
     required Stream<Opt<V>> Function() changes,
     required Lookup Function() lookup,
@@ -645,7 +855,10 @@ class PrxSingleBase$Factory {
         ),
       );
   PrxSingleBase$Impl<V> create<V>({
-    required void Function(Opt<V> value) set,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
     required Opt<V> Function() get,
     required Stream<Opt<V>> Function() changes,
     required Lookup Function() lookup,
@@ -659,7 +872,10 @@ class PrxSingleBase$Factory {
         ),
       );
   PrxSingleBase$Impl<V> data<V>({
-    required void Function(Opt<V> value) set,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
     required Opt<V> Function() get,
     required Stream<Opt<V>> changes,
     required Lookup lookup,
@@ -698,7 +914,10 @@ class PrxSingleBase$Factory {
       );
   PrxSingleBase$Impl<V> fromPrxBase$Iface<V>({
     required PrxBase<V> prxBase,
-    required void Function(Opt<V> value) set,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
   }) =>
       create(
         get: prxBase.get,
@@ -708,7 +927,10 @@ class PrxSingleBase$Factory {
       );
   PrxSingleBase$Impl<V> fromPrxBase<V>({
     required IPrxBase<V> prxBase,
-    required void Function(Opt<V> value) set,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
   }) =>
       create(
         get: prxBase.data$.get,
@@ -725,7 +947,9 @@ extension PrxSingleBase$Ext$Mk on Mk {
 }
 
 abstract class PrxCollectionOfType$IData<C, L> {
-  void Function(void Function(C) updates) get rebuild;
+  void Function(
+    void Function(C) updates,
+  ) get rebuild;
   Opt<C> Function() get get;
   HasFieldPath<L> Function() get field;
   Stream<Opt<C>> Function() get changes;
@@ -734,11 +958,6 @@ abstract class PrxCollectionOfType$IData<C, L> {
 
 class PrxCollectionOfType$Data<C, L>
     implements PrxCollectionOfType$IData<C, L> {
-  final void Function(void Function(C) updates) rebuild;
-  final Opt<C> Function() get;
-  final HasFieldPath<L> Function() field;
-  final Stream<Opt<C>> Function() changes;
-  final Lookup Function() lookup;
   PrxCollectionOfType$Data({
     required this.rebuild,
     required this.get,
@@ -746,13 +965,57 @@ class PrxCollectionOfType$Data<C, L>
     required this.changes,
     required this.lookup,
   });
+  final void Function(
+    void Function(C) updates,
+  ) rebuild;
+  final Opt<C> Function() get;
+  final HasFieldPath<L> Function() field;
+  final Stream<Opt<C>> Function() changes;
+  final Lookup Function() lookup;
+  PrxCollectionOfType$Data<C, L> copyWith({
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+    Opt<C> Function()? get,
+    HasFieldPath<L> Function()? field,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxCollectionOfType$Data(
+        rebuild: rebuild ?? this.rebuild,
+        get: get ?? this.get,
+        field: field ?? this.field,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
+  PrxCollectionOfType$Data<C, L> copyWithOpt({
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+    Opt<C> Function()? get,
+    HasFieldPath<L> Function()? field,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxCollectionOfType$Data(
+        rebuild: rebuild ?? this.rebuild,
+        get: get ?? this.get,
+        field: field ?? this.field,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
 }
 
 class PrxCollectionOfType$Impl<C, L> extends PrxCollectionOfType<C, L>
     implements HasData<PrxCollectionOfType$IData<C, L>> {
   final PrxCollectionOfType$IData<C, L> data$;
   PrxCollectionOfType$Impl(this.data$);
-  void rebuild(void Function(C) updates) => data$.rebuild(updates);
+  void rebuild(
+    void Function(C) updates,
+  ) =>
+      data$.rebuild(updates);
   Opt<C> get() => data$.get();
   HasFieldPath<L> field() => data$.field();
   Stream<Opt<C>> get changes => data$.changes();
@@ -762,7 +1025,10 @@ class PrxCollectionOfType$Impl<C, L> extends PrxCollectionOfType<C, L>
 typedef IPrxCollectionOfType<C, L> = HasData<PrxCollectionOfType$IData<C, L>>;
 
 extension IPrxCollectionOfType$Ext<C, L> on IPrxCollectionOfType<C, L> {
-  void rebuild(void Function(C) updates) => data$.rebuild(updates);
+  void rebuild(
+    void Function(C) updates,
+  ) =>
+      data$.rebuild(updates);
   Opt<C> get() => data$.get();
   HasFieldPath<L> field() => data$.field();
   Stream<Opt<C>> get changes => data$.changes();
@@ -772,7 +1038,10 @@ extension IPrxCollectionOfType$Ext<C, L> on IPrxCollectionOfType<C, L> {
 class PrxCollectionOfType$Delegate<C, L> extends PrxCollectionOfType<C, L> {
   final PrxCollectionOfType<C, L> Function() _delegate;
   PrxCollectionOfType$Delegate(this._delegate);
-  void rebuild(void Function(C) updates) => _delegate().rebuild(updates);
+  void rebuild(
+    void Function(C) updates,
+  ) =>
+      _delegate().rebuild(updates);
   Opt<C> get() => _delegate().get();
   HasFieldPath<L> field() => _delegate().field();
   Stream<Opt<C>> get changes => _delegate().changes;
@@ -782,7 +1051,10 @@ class PrxCollectionOfType$Delegate<C, L> extends PrxCollectionOfType<C, L> {
 class PrxCollectionOfType$Factory {
   const PrxCollectionOfType$Factory();
   PrxCollectionOfType$Impl<C, L> call<C, L>({
-    required void Function(void Function(C) updates) rebuild,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
     required Opt<C> Function() get,
     required HasFieldPath<L> Function() field,
     required Stream<Opt<C>> Function() changes,
@@ -798,7 +1070,10 @@ class PrxCollectionOfType$Factory {
         ),
       );
   PrxCollectionOfType$Impl<C, L> create<C, L>({
-    required void Function(void Function(C) updates) rebuild,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
     required Opt<C> Function() get,
     required HasFieldPath<L> Function() field,
     required Stream<Opt<C>> Function() changes,
@@ -814,7 +1089,10 @@ class PrxCollectionOfType$Factory {
         ),
       );
   PrxCollectionOfType$Impl<C, L> data<C, L>({
-    required void Function(void Function(C) updates) rebuild,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
     required Opt<C> Function() get,
     required HasFieldPath<L> Function() field,
     required Stream<Opt<C>> changes,
@@ -845,7 +1123,9 @@ extension PrxCollectionOfType$Ext$Mk on Mk {
 }
 
 abstract class PrxSingleOfType$IData<V, L> implements PrxSingleBase$IData<V> {
-  void Function(Opt<V> value) get set;
+  void Function(
+    Opt<V> value,
+  ) get set;
   Opt<V> Function() get get;
   HasFieldPath<L> Function() get field;
   Stream<Opt<V>> Function() get changes;
@@ -853,11 +1133,6 @@ abstract class PrxSingleOfType$IData<V, L> implements PrxSingleBase$IData<V> {
 }
 
 class PrxSingleOfType$Data<V, L> implements PrxSingleOfType$IData<V, L> {
-  final void Function(Opt<V> value) set;
-  final Opt<V> Function() get;
-  final HasFieldPath<L> Function() field;
-  final Stream<Opt<V>> Function() changes;
-  final Lookup Function() lookup;
   PrxSingleOfType$Data({
     required this.set,
     required this.get,
@@ -865,13 +1140,57 @@ class PrxSingleOfType$Data<V, L> implements PrxSingleOfType$IData<V, L> {
     required this.changes,
     required this.lookup,
   });
+  final void Function(
+    Opt<V> value,
+  ) set;
+  final Opt<V> Function() get;
+  final HasFieldPath<L> Function() field;
+  final Stream<Opt<V>> Function() changes;
+  final Lookup Function() lookup;
+  PrxSingleOfType$Data<V, L> copyWith({
+    void Function(
+      Opt<V> value,
+    )?
+        set,
+    Opt<V> Function()? get,
+    HasFieldPath<L> Function()? field,
+    Stream<Opt<V>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxSingleOfType$Data(
+        set: set ?? this.set,
+        get: get ?? this.get,
+        field: field ?? this.field,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
+  PrxSingleOfType$Data<V, L> copyWithOpt({
+    void Function(
+      Opt<V> value,
+    )?
+        set,
+    Opt<V> Function()? get,
+    HasFieldPath<L> Function()? field,
+    Stream<Opt<V>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxSingleOfType$Data(
+        set: set ?? this.set,
+        get: get ?? this.get,
+        field: field ?? this.field,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
 }
 
 class PrxSingleOfType$Impl<V, L> extends PrxSingleOfType<V, L>
     implements HasData<PrxSingleOfType$IData<V, L>> {
   final PrxSingleOfType$IData<V, L> data$;
   PrxSingleOfType$Impl(this.data$);
-  void set(Opt<V> value) => data$.set(value);
+  void set(
+    Opt<V> value,
+  ) =>
+      data$.set(value);
   Opt<V> get() => data$.get();
   HasFieldPath<L> field() => data$.field();
   Stream<Opt<V>> get changes => data$.changes();
@@ -882,7 +1201,10 @@ typedef IPrxSingleOfType<V, L> = HasData<PrxSingleOfType$IData<V, L>>;
 
 extension IPrxSingleOfType$Ext<V, L> on IPrxSingleOfType<V, L> {
   PrxSingleBase$Impl<V> get asPrxSingleBase => PrxSingleBase$Impl(data$);
-  void set(Opt<V> value) => data$.set(value);
+  void set(
+    Opt<V> value,
+  ) =>
+      data$.set(value);
   Opt<V> get() => data$.get();
   HasFieldPath<L> field() => data$.field();
   Stream<Opt<V>> get changes => data$.changes();
@@ -892,7 +1214,10 @@ extension IPrxSingleOfType$Ext<V, L> on IPrxSingleOfType<V, L> {
 class PrxSingleOfType$Delegate<V, L> extends PrxSingleOfType<V, L> {
   final PrxSingleOfType<V, L> Function() _delegate;
   PrxSingleOfType$Delegate(this._delegate);
-  void set(Opt<V> value) => _delegate().set(value);
+  void set(
+    Opt<V> value,
+  ) =>
+      _delegate().set(value);
   Opt<V> get() => _delegate().get();
   HasFieldPath<L> field() => _delegate().field();
   Stream<Opt<V>> get changes => _delegate().changes;
@@ -902,7 +1227,10 @@ class PrxSingleOfType$Delegate<V, L> extends PrxSingleOfType<V, L> {
 class PrxSingleOfType$Factory {
   const PrxSingleOfType$Factory();
   PrxSingleOfType$Impl<V, L> call<V, L>({
-    required void Function(Opt<V> value) set,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
     required Opt<V> Function() get,
     required HasFieldPath<L> Function() field,
     required Stream<Opt<V>> Function() changes,
@@ -918,7 +1246,10 @@ class PrxSingleOfType$Factory {
         ),
       );
   PrxSingleOfType$Impl<V, L> create<V, L>({
-    required void Function(Opt<V> value) set,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
     required Opt<V> Function() get,
     required HasFieldPath<L> Function() field,
     required Stream<Opt<V>> Function() changes,
@@ -934,7 +1265,10 @@ class PrxSingleOfType$Factory {
         ),
       );
   PrxSingleOfType$Impl<V, L> data<V, L>({
-    required void Function(Opt<V> value) set,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
     required Opt<V> Function() get,
     required HasFieldPath<L> Function() field,
     required Stream<Opt<V>> changes,
@@ -992,17 +1326,14 @@ abstract class PrxCollection$IData<C, L>
         PrxCollectionOfType$IData<C, L> {
   HasFieldPath<L> Function() get field;
   Opt<C> Function() get get;
-  void Function(void Function(C) updates) get rebuild;
+  void Function(
+    void Function(C) updates,
+  ) get rebuild;
   Stream<Opt<C>> Function() get changes;
   Lookup Function() get lookup;
 }
 
 class PrxCollection$Data<C, L> implements PrxCollection$IData<C, L> {
-  final HasFieldPath<L> Function() field;
-  final Opt<C> Function() get;
-  final void Function(void Function(C) updates) rebuild;
-  final Stream<Opt<C>> Function() changes;
-  final Lookup Function() lookup;
   PrxCollection$Data({
     required this.field,
     required this.get,
@@ -1010,6 +1341,47 @@ class PrxCollection$Data<C, L> implements PrxCollection$IData<C, L> {
     required this.changes,
     required this.lookup,
   });
+  final HasFieldPath<L> Function() field;
+  final Opt<C> Function() get;
+  final void Function(
+    void Function(C) updates,
+  ) rebuild;
+  final Stream<Opt<C>> Function() changes;
+  final Lookup Function() lookup;
+  PrxCollection$Data<C, L> copyWith({
+    HasFieldPath<L> Function()? field,
+    Opt<C> Function()? get,
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxCollection$Data(
+        field: field ?? this.field,
+        get: get ?? this.get,
+        rebuild: rebuild ?? this.rebuild,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
+  PrxCollection$Data<C, L> copyWithOpt({
+    HasFieldPath<L> Function()? field,
+    Opt<C> Function()? get,
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxCollection$Data(
+        field: field ?? this.field,
+        get: get ?? this.get,
+        rebuild: rebuild ?? this.rebuild,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
 }
 
 class PrxCollection$Impl<C, L> extends PrxCollection<C, L>
@@ -1018,7 +1390,10 @@ class PrxCollection$Impl<C, L> extends PrxCollection<C, L>
   PrxCollection$Impl(this.data$);
   HasFieldPath<L> field() => data$.field();
   Opt<C> get() => data$.get();
-  void rebuild(void Function(C) updates) => data$.rebuild(updates);
+  void rebuild(
+    void Function(C) updates,
+  ) =>
+      data$.rebuild(updates);
   Stream<Opt<C>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
 }
@@ -1033,7 +1408,10 @@ extension IPrxCollection$Ext<C, L> on IPrxCollection<C, L> {
       PrxCollectionOfType$Impl(data$);
   HasFieldPath<L> field() => data$.field();
   Opt<C> get() => data$.get();
-  void rebuild(void Function(C) updates) => data$.rebuild(updates);
+  void rebuild(
+    void Function(C) updates,
+  ) =>
+      data$.rebuild(updates);
   Stream<Opt<C>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
 }
@@ -1043,7 +1421,10 @@ class PrxCollection$Delegate<C, L> extends PrxCollection<C, L> {
   PrxCollection$Delegate(this._delegate);
   HasFieldPath<L> field() => _delegate().field();
   Opt<C> get() => _delegate().get();
-  void rebuild(void Function(C) updates) => _delegate().rebuild(updates);
+  void rebuild(
+    void Function(C) updates,
+  ) =>
+      _delegate().rebuild(updates);
   Stream<Opt<C>> get changes => _delegate().changes;
   Lookup get lookup => _delegate().lookup;
 }
@@ -1053,7 +1434,10 @@ class PrxCollection$Factory {
   PrxCollection$Impl<C, L> call<C, L>({
     required HasFieldPath<L> Function() field,
     required Opt<C> Function() get,
-    required void Function(void Function(C) updates) rebuild,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
     required Stream<Opt<C>> Function() changes,
     required Lookup Function() lookup,
   }) =>
@@ -1069,7 +1453,10 @@ class PrxCollection$Factory {
   PrxCollection$Impl<C, L> create<C, L>({
     required HasFieldPath<L> Function() field,
     required Opt<C> Function() get,
-    required void Function(void Function(C) updates) rebuild,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
     required Stream<Opt<C>> Function() changes,
     required Lookup Function() lookup,
   }) =>
@@ -1085,7 +1472,10 @@ class PrxCollection$Factory {
   PrxCollection$Impl<C, L> data<C, L>({
     required HasFieldPath<L> Function() field,
     required Opt<C> Function() get,
-    required void Function(void Function(C) updates) rebuild,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
     required Stream<Opt<C>> changes,
     required Lookup lookup,
   }) =>
@@ -1107,7 +1497,10 @@ class PrxCollection$Factory {
   PrxCollection$Impl<C, L> fromRxVal$Iface<C, L>({
     required RxVal<Opt<C>> rxVal,
     required HasFieldPath<L> Function() field,
-    required void Function(void Function(C) updates) rebuild,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
   }) =>
       create(
         get: rxVal.get,
@@ -1119,7 +1512,10 @@ class PrxCollection$Factory {
   PrxCollection$Impl<C, L> fromRxVal<C, L>({
     required IRxVal<Opt<C>> rxVal,
     required HasFieldPath<L> Function() field,
-    required void Function(void Function(C) updates) rebuild,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
   }) =>
       create(
         get: rxVal.data$.get,
@@ -1185,17 +1581,14 @@ abstract class PrxSingle$IData<T, L>
         PrxSingleOfType$IData<T, L> {
   HasFieldPath<L> Function() get field;
   Opt<T> Function() get get;
-  void Function(Opt<T> value) get set;
+  void Function(
+    Opt<T> value,
+  ) get set;
   Stream<Opt<T>> Function() get changes;
   Lookup Function() get lookup;
 }
 
 class PrxSingle$Data<T, L> implements PrxSingle$IData<T, L> {
-  final HasFieldPath<L> Function() field;
-  final Opt<T> Function() get;
-  final void Function(Opt<T> value) set;
-  final Stream<Opt<T>> Function() changes;
-  final Lookup Function() lookup;
   PrxSingle$Data({
     required this.field,
     required this.get,
@@ -1203,6 +1596,47 @@ class PrxSingle$Data<T, L> implements PrxSingle$IData<T, L> {
     required this.changes,
     required this.lookup,
   });
+  final HasFieldPath<L> Function() field;
+  final Opt<T> Function() get;
+  final void Function(
+    Opt<T> value,
+  ) set;
+  final Stream<Opt<T>> Function() changes;
+  final Lookup Function() lookup;
+  PrxSingle$Data<T, L> copyWith({
+    HasFieldPath<L> Function()? field,
+    Opt<T> Function()? get,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxSingle$Data(
+        field: field ?? this.field,
+        get: get ?? this.get,
+        set: set ?? this.set,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
+  PrxSingle$Data<T, L> copyWithOpt({
+    HasFieldPath<L> Function()? field,
+    Opt<T> Function()? get,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+  }) =>
+      PrxSingle$Data(
+        field: field ?? this.field,
+        get: get ?? this.get,
+        set: set ?? this.set,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+      );
 }
 
 class PrxSingle$Impl<T, L> extends PrxSingle<T, L>
@@ -1211,7 +1645,10 @@ class PrxSingle$Impl<T, L> extends PrxSingle<T, L>
   PrxSingle$Impl(this.data$);
   HasFieldPath<L> field() => data$.field();
   Opt<T> get() => data$.get();
-  void set(Opt<T> value) => data$.set(value);
+  void set(
+    Opt<T> value,
+  ) =>
+      data$.set(value);
   Stream<Opt<T>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
 }
@@ -1225,7 +1662,10 @@ extension IPrxSingle$Ext<T, L> on IPrxSingle<T, L> {
       PrxSingleOfType$Impl(data$);
   HasFieldPath<L> field() => data$.field();
   Opt<T> get() => data$.get();
-  void set(Opt<T> value) => data$.set(value);
+  void set(
+    Opt<T> value,
+  ) =>
+      data$.set(value);
   Stream<Opt<T>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
 }
@@ -1235,7 +1675,10 @@ class PrxSingle$Delegate<T, L> extends PrxSingle<T, L> {
   PrxSingle$Delegate(this._delegate);
   HasFieldPath<L> field() => _delegate().field();
   Opt<T> get() => _delegate().get();
-  void set(Opt<T> value) => _delegate().set(value);
+  void set(
+    Opt<T> value,
+  ) =>
+      _delegate().set(value);
   Stream<Opt<T>> get changes => _delegate().changes;
   Lookup get lookup => _delegate().lookup;
 }
@@ -1245,7 +1688,10 @@ class PrxSingle$Factory {
   PrxSingle$Impl<T, L> call<T, L>({
     required HasFieldPath<L> Function() field,
     required Opt<T> Function() get,
-    required void Function(Opt<T> value) set,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
     required Stream<Opt<T>> Function() changes,
     required Lookup Function() lookup,
   }) =>
@@ -1261,7 +1707,10 @@ class PrxSingle$Factory {
   PrxSingle$Impl<T, L> create<T, L>({
     required HasFieldPath<L> Function() field,
     required Opt<T> Function() get,
-    required void Function(Opt<T> value) set,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
     required Stream<Opt<T>> Function() changes,
     required Lookup Function() lookup,
   }) =>
@@ -1277,7 +1726,10 @@ class PrxSingle$Factory {
   PrxSingle$Impl<T, L> data<T, L>({
     required HasFieldPath<L> Function() field,
     required Opt<T> Function() get,
-    required void Function(Opt<T> value) set,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
     required Stream<Opt<T>> changes,
     required Lookup lookup,
   }) =>

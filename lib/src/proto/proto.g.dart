@@ -18,13 +18,27 @@ abstract class Cardinality$Base<I$ extends FieldInfo> extends Holder<I$> {
 
 class Cardinality$Impl extends Cardinality$Base<FieldInfo> {
   const Cardinality$Impl(super.item);
-  const Cardinality$Impl.create(FieldInfo item) : this(item);
+  const Cardinality$Impl.create(
+    FieldInfo item,
+  ) : this(
+          item,
+        );
 }
 
 class Cardinality$Factory {
   const Cardinality$Factory();
-  Cardinality$Impl create(FieldInfo item) => Cardinality$Impl(item);
-  Cardinality$Impl call(FieldInfo item) => Cardinality$Impl(item);
+  Cardinality$Impl create(
+    FieldInfo item,
+  ) =>
+      Cardinality$Impl(
+        item,
+      );
+  Cardinality$Impl call(
+    FieldInfo item,
+  ) =>
+      Cardinality$Impl(
+        item,
+      );
 }
 
 const cardinality$Factory = Cardinality$Factory();
@@ -43,21 +57,27 @@ abstract class Cardinality$Visitor<R$> {
 }
 
 abstract class Cardinality$Visitor$IData<R$> {
-  R$ Function(FieldInfo cardinality) get cardinality;
-  R$ Function(MapFieldInfo mapOf) get mapOf;
-  R$ Function(FieldInfo nonMap) get nonMap;
-  R$ Function(FieldInfo single) get single;
-  R$ Function(FieldInfo repeated) get repeated;
-  R$ Function(FieldInfo oneOf) get oneOf;
+  R$ Function(
+    FieldInfo cardinality,
+  ) get cardinality;
+  R$ Function(
+    MapFieldInfo mapOf,
+  ) get mapOf;
+  R$ Function(
+    FieldInfo nonMap,
+  ) get nonMap;
+  R$ Function(
+    FieldInfo single,
+  ) get single;
+  R$ Function(
+    FieldInfo repeated,
+  ) get repeated;
+  R$ Function(
+    FieldInfo oneOf,
+  ) get oneOf;
 }
 
 class Cardinality$Visitor$Data<R$> implements Cardinality$Visitor$IData<R$> {
-  final R$ Function(FieldInfo cardinality) cardinality;
-  final R$ Function(MapFieldInfo mapOf) mapOf;
-  final R$ Function(FieldInfo nonMap) nonMap;
-  final R$ Function(FieldInfo single) single;
-  final R$ Function(FieldInfo repeated) repeated;
-  final R$ Function(FieldInfo oneOf) oneOf;
   Cardinality$Visitor$Data({
     required this.cardinality,
     required this.mapOf,
@@ -66,13 +86,49 @@ class Cardinality$Visitor$Data<R$> implements Cardinality$Visitor$IData<R$> {
     required this.repeated,
     required this.oneOf,
   });
+  final R$ Function(
+    FieldInfo cardinality,
+  ) cardinality;
+  final R$ Function(
+    MapFieldInfo mapOf,
+  ) mapOf;
+  final R$ Function(
+    FieldInfo nonMap,
+  ) nonMap;
+  final R$ Function(
+    FieldInfo single,
+  ) single;
+  final R$ Function(
+    FieldInfo repeated,
+  ) repeated;
+  final R$ Function(
+    FieldInfo oneOf,
+  ) oneOf;
   factory Cardinality$Visitor$Data.fallback({
-    R$ Function(FieldInfo cardinality)? cardinality,
-    R$ Function(MapFieldInfo mapOf)? mapOf,
-    R$ Function(FieldInfo nonMap)? nonMap,
-    R$ Function(FieldInfo single)? single,
-    R$ Function(FieldInfo repeated)? repeated,
-    R$ Function(FieldInfo oneOf)? oneOf,
+    R$ Function(
+      FieldInfo cardinality,
+    )?
+        cardinality,
+    R$ Function(
+      MapFieldInfo mapOf,
+    )?
+        mapOf,
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
   }) {
     cardinality ??= Functions.throws1;
     mapOf ??= cardinality;
@@ -89,28 +145,132 @@ class Cardinality$Visitor$Data<R$> implements Cardinality$Visitor$IData<R$> {
       oneOf: oneOf,
     );
   }
+  Cardinality$Visitor$Data<R$> copyWith({
+    R$ Function(
+      FieldInfo cardinality,
+    )?
+        cardinality,
+    R$ Function(
+      MapFieldInfo mapOf,
+    )?
+        mapOf,
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
+  }) =>
+      Cardinality$Visitor$Data(
+        cardinality: cardinality ?? this.cardinality,
+        mapOf: mapOf ?? this.mapOf,
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+        oneOf: oneOf ?? this.oneOf,
+      );
+  Cardinality$Visitor$Data<R$> copyWithOpt({
+    R$ Function(
+      FieldInfo cardinality,
+    )?
+        cardinality,
+    R$ Function(
+      MapFieldInfo mapOf,
+    )?
+        mapOf,
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
+  }) =>
+      Cardinality$Visitor$Data(
+        cardinality: cardinality ?? this.cardinality,
+        mapOf: mapOf ?? this.mapOf,
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+        oneOf: oneOf ?? this.oneOf,
+      );
 }
 
 class Cardinality$Visitor$Impl<R$> extends Cardinality$Visitor<R$>
     implements HasData<Cardinality$Visitor$IData<R$>> {
   final Cardinality$Visitor$IData<R$> data$;
   Cardinality$Visitor$Impl(this.data$);
-  R$ cardinality(FieldInfo cardinality) => data$.cardinality(cardinality);
-  R$ mapOf(MapFieldInfo mapOf) => data$.mapOf(mapOf);
-  R$ nonMap(FieldInfo nonMap) => data$.nonMap(nonMap);
-  R$ single(FieldInfo single) => data$.single(single);
-  R$ repeated(FieldInfo repeated) => data$.repeated(repeated);
-  R$ oneOf(FieldInfo oneOf) => data$.oneOf(oneOf);
+  R$ cardinality(
+    FieldInfo cardinality,
+  ) =>
+      data$.cardinality(cardinality);
+  R$ mapOf(
+    MapFieldInfo mapOf,
+  ) =>
+      data$.mapOf(mapOf);
+  R$ nonMap(
+    FieldInfo nonMap,
+  ) =>
+      data$.nonMap(nonMap);
+  R$ single(
+    FieldInfo single,
+  ) =>
+      data$.single(single);
+  R$ repeated(
+    FieldInfo repeated,
+  ) =>
+      data$.repeated(repeated);
+  R$ oneOf(
+    FieldInfo oneOf,
+  ) =>
+      data$.oneOf(oneOf);
 }
 
 extension Cardinality$WhenX on Cardinality$Base<FieldInfo> {
   R$ when<R$>({
-    R$ Function(FieldInfo cardinality)? cardinality,
-    R$ Function(MapFieldInfo mapOf)? mapOf,
-    R$ Function(FieldInfo nonMap)? nonMap,
-    R$ Function(FieldInfo single)? single,
-    R$ Function(FieldInfo repeated)? repeated,
-    R$ Function(FieldInfo oneOf)? oneOf,
+    R$ Function(
+      FieldInfo cardinality,
+    )?
+        cardinality,
+    R$ Function(
+      MapFieldInfo mapOf,
+    )?
+        mapOf,
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
   }) =>
       acceptCardinality(
           Cardinality$Visitor$Impl(Cardinality$Visitor$Data.fallback(
@@ -134,13 +294,27 @@ abstract class MapOf$Base<I$ extends MapFieldInfo>
 
 class MapOf$Impl extends MapOf$Base<MapFieldInfo> {
   const MapOf$Impl(super.item);
-  const MapOf$Impl.create(MapFieldInfo item) : this(item);
+  const MapOf$Impl.create(
+    MapFieldInfo item,
+  ) : this(
+          item,
+        );
 }
 
 class MapOf$Factory {
   const MapOf$Factory();
-  MapOf$Impl create(MapFieldInfo item) => MapOf$Impl(item);
-  MapOf$Impl call(MapFieldInfo item) => MapOf$Impl(item);
+  MapOf$Impl create(
+    MapFieldInfo item,
+  ) =>
+      MapOf$Impl(
+        item,
+      );
+  MapOf$Impl call(
+    MapFieldInfo item,
+  ) =>
+      MapOf$Impl(
+        item,
+      );
 }
 
 const mapOf$Factory = MapOf$Factory();
@@ -160,13 +334,27 @@ abstract class NonMap$Base<I$ extends FieldInfo> extends Cardinality$Base<I$> {
 
 class NonMap$Impl extends NonMap$Base<FieldInfo> {
   const NonMap$Impl(super.item);
-  const NonMap$Impl.create(FieldInfo item) : this(item);
+  const NonMap$Impl.create(
+    FieldInfo item,
+  ) : this(
+          item,
+        );
 }
 
 class NonMap$Factory {
   const NonMap$Factory();
-  NonMap$Impl create(FieldInfo item) => NonMap$Impl(item);
-  NonMap$Impl call(FieldInfo item) => NonMap$Impl(item);
+  NonMap$Impl create(
+    FieldInfo item,
+  ) =>
+      NonMap$Impl(
+        item,
+      );
+  NonMap$Impl call(
+    FieldInfo item,
+  ) =>
+      NonMap$Impl(
+        item,
+      );
 }
 
 const nonMap$Factory = NonMap$Factory();
@@ -183,28 +371,56 @@ abstract class NonMap$Visitor<R$> {
 }
 
 abstract class NonMap$Visitor$IData<R$> {
-  R$ Function(FieldInfo nonMap) get nonMap;
-  R$ Function(FieldInfo single) get single;
-  R$ Function(FieldInfo repeated) get repeated;
-  R$ Function(FieldInfo oneOf) get oneOf;
+  R$ Function(
+    FieldInfo nonMap,
+  ) get nonMap;
+  R$ Function(
+    FieldInfo single,
+  ) get single;
+  R$ Function(
+    FieldInfo repeated,
+  ) get repeated;
+  R$ Function(
+    FieldInfo oneOf,
+  ) get oneOf;
 }
 
 class NonMap$Visitor$Data<R$> implements NonMap$Visitor$IData<R$> {
-  final R$ Function(FieldInfo nonMap) nonMap;
-  final R$ Function(FieldInfo single) single;
-  final R$ Function(FieldInfo repeated) repeated;
-  final R$ Function(FieldInfo oneOf) oneOf;
   NonMap$Visitor$Data({
     required this.nonMap,
     required this.single,
     required this.repeated,
     required this.oneOf,
   });
+  final R$ Function(
+    FieldInfo nonMap,
+  ) nonMap;
+  final R$ Function(
+    FieldInfo single,
+  ) single;
+  final R$ Function(
+    FieldInfo repeated,
+  ) repeated;
+  final R$ Function(
+    FieldInfo oneOf,
+  ) oneOf;
   factory NonMap$Visitor$Data.fallback({
-    R$ Function(FieldInfo nonMap)? nonMap,
-    R$ Function(FieldInfo single)? single,
-    R$ Function(FieldInfo repeated)? repeated,
-    R$ Function(FieldInfo oneOf)? oneOf,
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
   }) {
     nonMap ??= Functions.throws1;
     single ??= nonMap;
@@ -217,24 +433,96 @@ class NonMap$Visitor$Data<R$> implements NonMap$Visitor$IData<R$> {
       oneOf: oneOf,
     );
   }
+  NonMap$Visitor$Data<R$> copyWith({
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
+  }) =>
+      NonMap$Visitor$Data(
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+        oneOf: oneOf ?? this.oneOf,
+      );
+  NonMap$Visitor$Data<R$> copyWithOpt({
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
+  }) =>
+      NonMap$Visitor$Data(
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+        oneOf: oneOf ?? this.oneOf,
+      );
 }
 
 class NonMap$Visitor$Impl<R$> extends NonMap$Visitor<R$>
     implements HasData<NonMap$Visitor$IData<R$>> {
   final NonMap$Visitor$IData<R$> data$;
   NonMap$Visitor$Impl(this.data$);
-  R$ nonMap(FieldInfo nonMap) => data$.nonMap(nonMap);
-  R$ single(FieldInfo single) => data$.single(single);
-  R$ repeated(FieldInfo repeated) => data$.repeated(repeated);
-  R$ oneOf(FieldInfo oneOf) => data$.oneOf(oneOf);
+  R$ nonMap(
+    FieldInfo nonMap,
+  ) =>
+      data$.nonMap(nonMap);
+  R$ single(
+    FieldInfo single,
+  ) =>
+      data$.single(single);
+  R$ repeated(
+    FieldInfo repeated,
+  ) =>
+      data$.repeated(repeated);
+  R$ oneOf(
+    FieldInfo oneOf,
+  ) =>
+      data$.oneOf(oneOf);
 }
 
 extension NonMap$WhenX on NonMap$Base<FieldInfo> {
   R$ when<R$>({
-    R$ Function(FieldInfo nonMap)? nonMap,
-    R$ Function(FieldInfo single)? single,
-    R$ Function(FieldInfo repeated)? repeated,
-    R$ Function(FieldInfo oneOf)? oneOf,
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
   }) =>
       acceptNonMap(NonMap$Visitor$Impl(NonMap$Visitor$Data.fallback(
         nonMap: nonMap,
@@ -255,13 +543,27 @@ abstract class Single$Base<I$ extends FieldInfo> extends NonMap$Base<I$> {
 
 class Single$Impl extends Single$Base<FieldInfo> {
   const Single$Impl(super.item);
-  const Single$Impl.create(FieldInfo item) : this(item);
+  const Single$Impl.create(
+    FieldInfo item,
+  ) : this(
+          item,
+        );
 }
 
 class Single$Factory {
   const Single$Factory();
-  Single$Impl create(FieldInfo item) => Single$Impl(item);
-  Single$Impl call(FieldInfo item) => Single$Impl(item);
+  Single$Impl create(
+    FieldInfo item,
+  ) =>
+      Single$Impl(
+        item,
+      );
+  Single$Impl call(
+    FieldInfo item,
+  ) =>
+      Single$Impl(
+        item,
+      );
 }
 
 const single$Factory = Single$Factory();
@@ -281,13 +583,27 @@ abstract class Repeated$Base<I$ extends FieldInfo> extends NonMap$Base<I$> {
 
 class Repeated$Impl extends Repeated$Base<FieldInfo> {
   const Repeated$Impl(super.item);
-  const Repeated$Impl.create(FieldInfo item) : this(item);
+  const Repeated$Impl.create(
+    FieldInfo item,
+  ) : this(
+          item,
+        );
 }
 
 class Repeated$Factory {
   const Repeated$Factory();
-  Repeated$Impl create(FieldInfo item) => Repeated$Impl(item);
-  Repeated$Impl call(FieldInfo item) => Repeated$Impl(item);
+  Repeated$Impl create(
+    FieldInfo item,
+  ) =>
+      Repeated$Impl(
+        item,
+      );
+  Repeated$Impl call(
+    FieldInfo item,
+  ) =>
+      Repeated$Impl(
+        item,
+      );
 }
 
 const repeated$Factory = Repeated$Factory();
@@ -307,13 +623,27 @@ abstract class OneOf$Base<I$ extends FieldInfo> extends NonMap$Base<I$> {
 
 class OneOf$Impl extends OneOf$Base<FieldInfo> {
   const OneOf$Impl(super.item);
-  const OneOf$Impl.create(FieldInfo item) : this(item);
+  const OneOf$Impl.create(
+    FieldInfo item,
+  ) : this(
+          item,
+        );
 }
 
 class OneOf$Factory {
   const OneOf$Factory();
-  OneOf$Impl create(FieldInfo item) => OneOf$Impl(item);
-  OneOf$Impl call(FieldInfo item) => OneOf$Impl(item);
+  OneOf$Impl create(
+    FieldInfo item,
+  ) =>
+      OneOf$Impl(
+        item,
+      );
+  OneOf$Impl call(
+    FieldInfo item,
+  ) =>
+      OneOf$Impl(
+        item,
+      );
 }
 
 const oneOf$Factory = OneOf$Factory();
@@ -361,16 +691,12 @@ abstract class ValueType$Visitor$IData<R$> {
   R$ Function() get intType;
   R$ Function() get stringType;
   R$ Function() get enumType;
-  R$ Function(BuilderInfo messageType) get messageType;
+  R$ Function(
+    BuilderInfo messageType,
+  ) get messageType;
 }
 
 class ValueType$Visitor$Data<R$> implements ValueType$Visitor$IData<R$> {
-  final R$ Function() valueType;
-  final R$ Function() boolType;
-  final R$ Function() intType;
-  final R$ Function() stringType;
-  final R$ Function() enumType;
-  final R$ Function(BuilderInfo messageType) messageType;
   ValueType$Visitor$Data({
     required this.valueType,
     required this.boolType,
@@ -379,13 +705,24 @@ class ValueType$Visitor$Data<R$> implements ValueType$Visitor$IData<R$> {
     required this.enumType,
     required this.messageType,
   });
+  final R$ Function() valueType;
+  final R$ Function() boolType;
+  final R$ Function() intType;
+  final R$ Function() stringType;
+  final R$ Function() enumType;
+  final R$ Function(
+    BuilderInfo messageType,
+  ) messageType;
   factory ValueType$Visitor$Data.fallback({
     R$ Function()? valueType,
     R$ Function()? boolType,
     R$ Function()? intType,
     R$ Function()? stringType,
     R$ Function()? enumType,
-    R$ Function(BuilderInfo messageType)? messageType,
+    R$ Function(
+      BuilderInfo messageType,
+    )?
+        messageType,
   }) {
     valueType ??= Functions.throws;
     boolType ??= valueType;
@@ -402,6 +739,44 @@ class ValueType$Visitor$Data<R$> implements ValueType$Visitor$IData<R$> {
       messageType: messageType,
     );
   }
+  ValueType$Visitor$Data<R$> copyWith({
+    R$ Function()? valueType,
+    R$ Function()? boolType,
+    R$ Function()? intType,
+    R$ Function()? stringType,
+    R$ Function()? enumType,
+    R$ Function(
+      BuilderInfo messageType,
+    )?
+        messageType,
+  }) =>
+      ValueType$Visitor$Data(
+        valueType: valueType ?? this.valueType,
+        boolType: boolType ?? this.boolType,
+        intType: intType ?? this.intType,
+        stringType: stringType ?? this.stringType,
+        enumType: enumType ?? this.enumType,
+        messageType: messageType ?? this.messageType,
+      );
+  ValueType$Visitor$Data<R$> copyWithOpt({
+    R$ Function()? valueType,
+    R$ Function()? boolType,
+    R$ Function()? intType,
+    R$ Function()? stringType,
+    R$ Function()? enumType,
+    R$ Function(
+      BuilderInfo messageType,
+    )?
+        messageType,
+  }) =>
+      ValueType$Visitor$Data(
+        valueType: valueType ?? this.valueType,
+        boolType: boolType ?? this.boolType,
+        intType: intType ?? this.intType,
+        stringType: stringType ?? this.stringType,
+        enumType: enumType ?? this.enumType,
+        messageType: messageType ?? this.messageType,
+      );
 }
 
 class ValueType$Visitor$Impl<R$> extends ValueType$Visitor<R$>
@@ -413,7 +788,10 @@ class ValueType$Visitor$Impl<R$> extends ValueType$Visitor<R$>
   R$ intType() => data$.intType();
   R$ stringType() => data$.stringType();
   R$ enumType() => data$.enumType();
-  R$ messageType(BuilderInfo messageType) => data$.messageType(messageType);
+  R$ messageType(
+    BuilderInfo messageType,
+  ) =>
+      data$.messageType(messageType);
 }
 
 extension ValueType$WhenX on ValueType$Base<void> {
@@ -423,7 +801,10 @@ extension ValueType$WhenX on ValueType$Base<void> {
     R$ Function()? intType,
     R$ Function()? stringType,
     R$ Function()? enumType,
-    R$ Function(BuilderInfo messageType)? messageType,
+    R$ Function(
+      BuilderInfo messageType,
+    )?
+        messageType,
   }) =>
       acceptValueType(ValueType$Visitor$Impl(ValueType$Visitor$Data.fallback(
         valueType: valueType,
@@ -542,13 +923,27 @@ abstract class MessageType$Base<I$ extends BuilderInfo>
 
 class MessageType$Impl extends MessageType$Base<BuilderInfo> {
   const MessageType$Impl(super.item);
-  const MessageType$Impl.create(BuilderInfo item) : this(item);
+  const MessageType$Impl.create(
+    BuilderInfo item,
+  ) : this(
+          item,
+        );
 }
 
 class MessageType$Factory {
   const MessageType$Factory();
-  MessageType$Impl create(BuilderInfo item) => MessageType$Impl(item);
-  MessageType$Impl call(BuilderInfo item) => MessageType$Impl(item);
+  MessageType$Impl create(
+    BuilderInfo item,
+  ) =>
+      MessageType$Impl(
+        item,
+      );
+  MessageType$Impl call(
+    BuilderInfo item,
+  ) =>
+      MessageType$Impl(
+        item,
+      );
 }
 
 const messageType$Factory = MessageType$Factory();

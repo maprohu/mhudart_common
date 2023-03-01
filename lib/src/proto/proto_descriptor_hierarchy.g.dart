@@ -43,7 +43,9 @@ abstract class PdfCardinality$Visitor<R$, M, F, E> {
 
 abstract class PdfCardinality$Visitor$IData<R$, M, F, E> {
   R$ Function() get cardinality;
-  R$ Function(MapFields<M, F, E> mapOf) get mapOf;
+  R$ Function(
+    MapFields<M, F, E> mapOf,
+  ) get mapOf;
   R$ Function() get nonMap;
   R$ Function() get single;
   R$ Function() get repeated;
@@ -51,11 +53,6 @@ abstract class PdfCardinality$Visitor$IData<R$, M, F, E> {
 
 class PdfCardinality$Visitor$Data<R$, M, F, E>
     implements PdfCardinality$Visitor$IData<R$, M, F, E> {
-  final R$ Function() cardinality;
-  final R$ Function(MapFields<M, F, E> mapOf) mapOf;
-  final R$ Function() nonMap;
-  final R$ Function() single;
-  final R$ Function() repeated;
   PdfCardinality$Visitor$Data({
     required this.cardinality,
     required this.mapOf,
@@ -63,9 +60,19 @@ class PdfCardinality$Visitor$Data<R$, M, F, E>
     required this.single,
     required this.repeated,
   });
+  final R$ Function() cardinality;
+  final R$ Function(
+    MapFields<M, F, E> mapOf,
+  ) mapOf;
+  final R$ Function() nonMap;
+  final R$ Function() single;
+  final R$ Function() repeated;
   factory PdfCardinality$Visitor$Data.fallback({
     R$ Function()? cardinality,
-    R$ Function(MapFields<M, F, E> mapOf)? mapOf,
+    R$ Function(
+      MapFields<M, F, E> mapOf,
+    )?
+        mapOf,
     R$ Function()? nonMap,
     R$ Function()? single,
     R$ Function()? repeated,
@@ -83,6 +90,40 @@ class PdfCardinality$Visitor$Data<R$, M, F, E>
       repeated: repeated,
     );
   }
+  PdfCardinality$Visitor$Data<R$, M, F, E> copyWith({
+    R$ Function()? cardinality,
+    R$ Function(
+      MapFields<M, F, E> mapOf,
+    )?
+        mapOf,
+    R$ Function()? nonMap,
+    R$ Function()? single,
+    R$ Function()? repeated,
+  }) =>
+      PdfCardinality$Visitor$Data(
+        cardinality: cardinality ?? this.cardinality,
+        mapOf: mapOf ?? this.mapOf,
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+      );
+  PdfCardinality$Visitor$Data<R$, M, F, E> copyWithOpt({
+    R$ Function()? cardinality,
+    R$ Function(
+      MapFields<M, F, E> mapOf,
+    )?
+        mapOf,
+    R$ Function()? nonMap,
+    R$ Function()? single,
+    R$ Function()? repeated,
+  }) =>
+      PdfCardinality$Visitor$Data(
+        cardinality: cardinality ?? this.cardinality,
+        mapOf: mapOf ?? this.mapOf,
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+      );
 }
 
 class PdfCardinality$Visitor$Impl<R$, M, F, E>
@@ -91,7 +132,10 @@ class PdfCardinality$Visitor$Impl<R$, M, F, E>
   final PdfCardinality$Visitor$IData<R$, M, F, E> data$;
   PdfCardinality$Visitor$Impl(this.data$);
   R$ cardinality() => data$.cardinality();
-  R$ mapOf(MapFields<M, F, E> mapOf) => data$.mapOf(mapOf);
+  R$ mapOf(
+    MapFields<M, F, E> mapOf,
+  ) =>
+      data$.mapOf(mapOf);
   R$ nonMap() => data$.nonMap();
   R$ single() => data$.single();
   R$ repeated() => data$.repeated();
@@ -100,7 +144,10 @@ class PdfCardinality$Visitor$Impl<R$, M, F, E>
 extension PdfCardinality$WhenX<M, F, E> on PdfCardinality$Base<void, M, F, E> {
   R$ when<R$>({
     R$ Function()? cardinality,
-    R$ Function(MapFields<M, F, E> mapOf)? mapOf,
+    R$ Function(
+      MapFields<M, F, E> mapOf,
+    )?
+        mapOf,
     R$ Function()? nonMap,
     R$ Function()? single,
     R$ Function()? repeated,
@@ -127,15 +174,27 @@ abstract class PdfMapOf$Base<I$ extends MapFields<M, F, E>, M, F, E>
 class PdfMapOf$Impl<M, F, E>
     extends PdfMapOf$Base<MapFields<M, F, E>, M, F, E> {
   const PdfMapOf$Impl(super.item);
-  const PdfMapOf$Impl.create(MapFields<M, F, E> item) : this(item);
+  const PdfMapOf$Impl.create(
+    MapFields<M, F, E> item,
+  ) : this(
+          item,
+        );
 }
 
 class PdfMapOf$Factory {
   const PdfMapOf$Factory();
-  PdfMapOf$Impl<M, F, E> create<M, F, E>(MapFields<M, F, E> item) =>
-      PdfMapOf$Impl(item);
-  PdfMapOf$Impl<M, F, E> call<M, F, E>(MapFields<M, F, E> item) =>
-      PdfMapOf$Impl(item);
+  PdfMapOf$Impl<M, F, E> create<M, F, E>(
+    MapFields<M, F, E> item,
+  ) =>
+      PdfMapOf$Impl(
+        item,
+      );
+  PdfMapOf$Impl<M, F, E> call<M, F, E>(
+    MapFields<M, F, E> item,
+  ) =>
+      PdfMapOf$Impl(
+        item,
+      );
 }
 
 const pdfMapOf$Factory = PdfMapOf$Factory();
@@ -186,14 +245,14 @@ abstract class PdfNonMap$Visitor$IData<R$, M, F, E> {
 
 class PdfNonMap$Visitor$Data<R$, M, F, E>
     implements PdfNonMap$Visitor$IData<R$, M, F, E> {
-  final R$ Function() nonMap;
-  final R$ Function() single;
-  final R$ Function() repeated;
   PdfNonMap$Visitor$Data({
     required this.nonMap,
     required this.single,
     required this.repeated,
   });
+  final R$ Function() nonMap;
+  final R$ Function() single;
+  final R$ Function() repeated;
   factory PdfNonMap$Visitor$Data.fallback({
     R$ Function()? nonMap,
     R$ Function()? single,
@@ -208,6 +267,26 @@ class PdfNonMap$Visitor$Data<R$, M, F, E>
       repeated: repeated,
     );
   }
+  PdfNonMap$Visitor$Data<R$, M, F, E> copyWith({
+    R$ Function()? nonMap,
+    R$ Function()? single,
+    R$ Function()? repeated,
+  }) =>
+      PdfNonMap$Visitor$Data(
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+      );
+  PdfNonMap$Visitor$Data<R$, M, F, E> copyWithOpt({
+    R$ Function()? nonMap,
+    R$ Function()? single,
+    R$ Function()? repeated,
+  }) =>
+      PdfNonMap$Visitor$Data(
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+      );
 }
 
 class PdfNonMap$Visitor$Impl<R$, M, F, E> extends PdfNonMap$Visitor<R$, M, F, E>
@@ -332,21 +411,16 @@ abstract class PdfValueType$Visitor$IData<R$, M, F, E> {
   R$ Function() get int64Type;
   R$ Function() get stringType;
   R$ Function() get bytesType;
-  R$ Function(PdEnum<M, F, E> enumType) get enumType;
-  R$ Function(PdMsg<M, F, E> messageType) get messageType;
+  R$ Function(
+    PdEnum<M, F, E> enumType,
+  ) get enumType;
+  R$ Function(
+    PdMsg<M, F, E> messageType,
+  ) get messageType;
 }
 
 class PdfValueType$Visitor$Data<R$, M, F, E>
     implements PdfValueType$Visitor$IData<R$, M, F, E> {
-  final R$ Function() valueType;
-  final R$ Function() boolType;
-  final R$ Function() doubleType;
-  final R$ Function() intType;
-  final R$ Function() int64Type;
-  final R$ Function() stringType;
-  final R$ Function() bytesType;
-  final R$ Function(PdEnum<M, F, E> enumType) enumType;
-  final R$ Function(PdMsg<M, F, E> messageType) messageType;
   PdfValueType$Visitor$Data({
     required this.valueType,
     required this.boolType,
@@ -358,6 +432,19 @@ class PdfValueType$Visitor$Data<R$, M, F, E>
     required this.enumType,
     required this.messageType,
   });
+  final R$ Function() valueType;
+  final R$ Function() boolType;
+  final R$ Function() doubleType;
+  final R$ Function() intType;
+  final R$ Function() int64Type;
+  final R$ Function() stringType;
+  final R$ Function() bytesType;
+  final R$ Function(
+    PdEnum<M, F, E> enumType,
+  ) enumType;
+  final R$ Function(
+    PdMsg<M, F, E> messageType,
+  ) messageType;
   factory PdfValueType$Visitor$Data.fallback({
     R$ Function()? valueType,
     R$ Function()? boolType,
@@ -366,8 +453,14 @@ class PdfValueType$Visitor$Data<R$, M, F, E>
     R$ Function()? int64Type,
     R$ Function()? stringType,
     R$ Function()? bytesType,
-    R$ Function(PdEnum<M, F, E> enumType)? enumType,
-    R$ Function(PdMsg<M, F, E> messageType)? messageType,
+    R$ Function(
+      PdEnum<M, F, E> enumType,
+    )?
+        enumType,
+    R$ Function(
+      PdMsg<M, F, E> messageType,
+    )?
+        messageType,
   }) {
     valueType ??= Functions.throws;
     boolType ??= valueType;
@@ -390,6 +483,62 @@ class PdfValueType$Visitor$Data<R$, M, F, E>
       messageType: messageType,
     );
   }
+  PdfValueType$Visitor$Data<R$, M, F, E> copyWith({
+    R$ Function()? valueType,
+    R$ Function()? boolType,
+    R$ Function()? doubleType,
+    R$ Function()? intType,
+    R$ Function()? int64Type,
+    R$ Function()? stringType,
+    R$ Function()? bytesType,
+    R$ Function(
+      PdEnum<M, F, E> enumType,
+    )?
+        enumType,
+    R$ Function(
+      PdMsg<M, F, E> messageType,
+    )?
+        messageType,
+  }) =>
+      PdfValueType$Visitor$Data(
+        valueType: valueType ?? this.valueType,
+        boolType: boolType ?? this.boolType,
+        doubleType: doubleType ?? this.doubleType,
+        intType: intType ?? this.intType,
+        int64Type: int64Type ?? this.int64Type,
+        stringType: stringType ?? this.stringType,
+        bytesType: bytesType ?? this.bytesType,
+        enumType: enumType ?? this.enumType,
+        messageType: messageType ?? this.messageType,
+      );
+  PdfValueType$Visitor$Data<R$, M, F, E> copyWithOpt({
+    R$ Function()? valueType,
+    R$ Function()? boolType,
+    R$ Function()? doubleType,
+    R$ Function()? intType,
+    R$ Function()? int64Type,
+    R$ Function()? stringType,
+    R$ Function()? bytesType,
+    R$ Function(
+      PdEnum<M, F, E> enumType,
+    )?
+        enumType,
+    R$ Function(
+      PdMsg<M, F, E> messageType,
+    )?
+        messageType,
+  }) =>
+      PdfValueType$Visitor$Data(
+        valueType: valueType ?? this.valueType,
+        boolType: boolType ?? this.boolType,
+        doubleType: doubleType ?? this.doubleType,
+        intType: intType ?? this.intType,
+        int64Type: int64Type ?? this.int64Type,
+        stringType: stringType ?? this.stringType,
+        bytesType: bytesType ?? this.bytesType,
+        enumType: enumType ?? this.enumType,
+        messageType: messageType ?? this.messageType,
+      );
 }
 
 class PdfValueType$Visitor$Impl<R$, M, F, E>
@@ -404,8 +553,14 @@ class PdfValueType$Visitor$Impl<R$, M, F, E>
   R$ int64Type() => data$.int64Type();
   R$ stringType() => data$.stringType();
   R$ bytesType() => data$.bytesType();
-  R$ enumType(PdEnum<M, F, E> enumType) => data$.enumType(enumType);
-  R$ messageType(PdMsg<M, F, E> messageType) => data$.messageType(messageType);
+  R$ enumType(
+    PdEnum<M, F, E> enumType,
+  ) =>
+      data$.enumType(enumType);
+  R$ messageType(
+    PdMsg<M, F, E> messageType,
+  ) =>
+      data$.messageType(messageType);
 }
 
 extension PdfValueType$WhenX<M, F, E> on PdfValueType$Base<void, M, F, E> {
@@ -417,8 +572,14 @@ extension PdfValueType$WhenX<M, F, E> on PdfValueType$Base<void, M, F, E> {
     R$ Function()? int64Type,
     R$ Function()? stringType,
     R$ Function()? bytesType,
-    R$ Function(PdEnum<M, F, E> enumType)? enumType,
-    R$ Function(PdMsg<M, F, E> messageType)? messageType,
+    R$ Function(
+      PdEnum<M, F, E> enumType,
+    )?
+        enumType,
+    R$ Function(
+      PdMsg<M, F, E> messageType,
+    )?
+        messageType,
   }) =>
       acceptPdfValueType(
           PdfValueType$Visitor$Impl(PdfValueType$Visitor$Data.fallback(
@@ -602,15 +763,27 @@ abstract class PdfEnumType$Base<I$ extends PdEnum<M, F, E>, M, F, E>
 class PdfEnumType$Impl<M, F, E>
     extends PdfEnumType$Base<PdEnum<M, F, E>, M, F, E> {
   const PdfEnumType$Impl(super.item);
-  const PdfEnumType$Impl.create(PdEnum<M, F, E> item) : this(item);
+  const PdfEnumType$Impl.create(
+    PdEnum<M, F, E> item,
+  ) : this(
+          item,
+        );
 }
 
 class PdfEnumType$Factory {
   const PdfEnumType$Factory();
-  PdfEnumType$Impl<M, F, E> create<M, F, E>(PdEnum<M, F, E> item) =>
-      PdfEnumType$Impl(item);
-  PdfEnumType$Impl<M, F, E> call<M, F, E>(PdEnum<M, F, E> item) =>
-      PdfEnumType$Impl(item);
+  PdfEnumType$Impl<M, F, E> create<M, F, E>(
+    PdEnum<M, F, E> item,
+  ) =>
+      PdfEnumType$Impl(
+        item,
+      );
+  PdfEnumType$Impl<M, F, E> call<M, F, E>(
+    PdEnum<M, F, E> item,
+  ) =>
+      PdfEnumType$Impl(
+        item,
+      );
 }
 
 const pdfEnumType$Factory = PdfEnumType$Factory();
@@ -631,15 +804,27 @@ abstract class PdfMessageType$Base<I$ extends PdMsg<M, F, E>, M, F, E>
 class PdfMessageType$Impl<M, F, E>
     extends PdfMessageType$Base<PdMsg<M, F, E>, M, F, E> {
   const PdfMessageType$Impl(super.item);
-  const PdfMessageType$Impl.create(PdMsg<M, F, E> item) : this(item);
+  const PdfMessageType$Impl.create(
+    PdMsg<M, F, E> item,
+  ) : this(
+          item,
+        );
 }
 
 class PdfMessageType$Factory {
   const PdfMessageType$Factory();
-  PdfMessageType$Impl<M, F, E> create<M, F, E>(PdMsg<M, F, E> item) =>
-      PdfMessageType$Impl(item);
-  PdfMessageType$Impl<M, F, E> call<M, F, E>(PdMsg<M, F, E> item) =>
-      PdfMessageType$Impl(item);
+  PdfMessageType$Impl<M, F, E> create<M, F, E>(
+    PdMsg<M, F, E> item,
+  ) =>
+      PdfMessageType$Impl(
+        item,
+      );
+  PdfMessageType$Impl<M, F, E> call<M, F, E>(
+    PdMsg<M, F, E> item,
+  ) =>
+      PdfMessageType$Impl(
+        item,
+      );
 }
 
 const pdfMessageType$Factory = PdfMessageType$Factory();
