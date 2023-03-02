@@ -90,6 +90,10 @@ class PdfCardinality$Visitor$Data<R$, M, F, E>
       repeated: repeated,
     );
   }
+}
+
+extension PdfCardinality$Visitor$Data$Ext<R$, M, F, E>
+    on PdfCardinality$Visitor$Data<R$, M, F, E> {
   PdfCardinality$Visitor$Data<R$, M, F, E> copyWith({
     R$ Function()? cardinality,
     R$ Function(
@@ -267,6 +271,10 @@ class PdfNonMap$Visitor$Data<R$, M, F, E>
       repeated: repeated,
     );
   }
+}
+
+extension PdfNonMap$Visitor$Data$Ext<R$, M, F, E>
+    on PdfNonMap$Visitor$Data<R$, M, F, E> {
   PdfNonMap$Visitor$Data<R$, M, F, E> copyWith({
     R$ Function()? nonMap,
     R$ Function()? single,
@@ -483,6 +491,10 @@ class PdfValueType$Visitor$Data<R$, M, F, E>
       messageType: messageType,
     );
   }
+}
+
+extension PdfValueType$Visitor$Data$Ext<R$, M, F, E>
+    on PdfValueType$Visitor$Data<R$, M, F, E> {
   PdfValueType$Visitor$Data<R$, M, F, E> copyWith({
     R$ Function()? valueType,
     R$ Function()? boolType,

@@ -106,6 +106,10 @@ class PdmLevel$Visitor$Data<R$, M, F, E>
       nested: nested,
     );
   }
+}
+
+extension PdmLevel$Visitor$Data$Ext<R$, M, F, E>
+    on PdmLevel$Visitor$Data<R$, M, F, E> {
   PdmLevel$Visitor$Data<R$, M, F, E> copyWith({
     R$ Function(
       PdMsgContainer<M, F, E> level,
@@ -341,6 +345,10 @@ class PdxBase$Visitor$Data<R$, M, F, E>
       oneof: oneof,
     );
   }
+}
+
+extension PdxBase$Visitor$Data$Ext<R$, M, F, E>
+    on PdxBase$Visitor$Data<R$, M, F, E> {
   PdxBase$Visitor$Data<R$, M, F, E> copyWith({
     R$ Function()? base,
     R$ Function(
@@ -523,6 +531,9 @@ class PdRoot$Data<M, F, E> implements PdRoot$IData<M, F, E> {
     PdEnum<M, F, E> enm,
   ) enumPayload;
   final FileDescriptorSet Function() descriptorSet;
+}
+
+extension PdRoot$Data$Ext<M, F, E> on PdRoot$Data<M, F, E> {
   PdRoot$Data<M, F, E> copyWith({
     M Function(
       PdMsg<M, F, E> msg,

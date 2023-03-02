@@ -10,22 +10,35 @@ abstract class PdEnumResolver<M, F, E> {
   PdEnum<M, F, E> resolveEnum(Iterable<String> path);
 }
 
-class FieldIndex {
-  final int message;
-  final int field;
-
-  FieldIndex(this.message, this.field);
-}
+// class FieldIndex {
+//   final int message;
+//   final int field;
+//
+//   FieldIndex(this.message, this.field);
+// }
 
 abstract class PdMsgContainer<M, F, E> implements PdEnumResolver<M, F, E> {
+  int get globalIndex;
+  int get localFieldsCount;
+  int get globalFieldIndex;
+
   PdRoot<M, F, E> get root;
 
   Iterable<DescriptorProto> get messageDescriptors;
 
   Iterable<EnumDescriptorProto> get enumDescriptors;
 
-  late final messages =
-      messageDescriptors.mapIndexed((i, e) => PdMsg(this, e, i)).toList();
+  late final messages = messageDescriptors
+      .mapIndexed(
+        (i, e) => PdMsg(
+          parent: this,
+          descriptor: e,
+          index: i,
+          globalIndex: globalIndex + i,
+          globalFieldIndex: globalFieldIndex + localFieldsCount + i,
+        ),
+      )
+      .toList();
   late final enums =
       enumDescriptors.mapIndexed((i, e) => PdEnum(this, e, i)).toList();
 
@@ -73,10 +86,21 @@ abstract class PdMsgContainer<M, F, E> implements PdEnumResolver<M, F, E> {
     required R Function(PdMsg<M, F, E> msg) msg,
   }) =>
       isRoot ? root(asRoot) : msg(asMsg);
+
+  late final List<PdMsg<M, F, E>> allMessages =
+      messages.expand((e) => e.allMessages).toList(growable: false);
+
 }
 
 @Impl()
 abstract class PdRoot<M, F, E> extends PdMsgContainer<M, F, E> {
+  @override
+  int get globalIndex => 0;
+  @override
+  int get globalFieldIndex => 0;
+  @override
+  int get localFieldsCount => 0;
+
   M msgPayload(PdMsg<M, F, E> msg);
 
   F fldPayload(PdFld<M, F, E> fld);
@@ -111,6 +135,10 @@ abstract class PdRoot<M, F, E> extends PdMsgContainer<M, F, E> {
   PdEnum<M, F, E> _resolveEnumIndex(Iterable<int> path) => path.tail.isEmpty
       ? enums[path.first]
       : messages[path.first].resolveEnumIndex(path.tail);
+
+  late final List<PdFld<M, F, E>> allFields = [
+    ...messages.expand((e) => e.allFields),
+  ];
 }
 
 @GenerateHierarchy(
@@ -128,8 +156,16 @@ class PdMsg<M, F, E> extends PdMsgContainer<M, F, E> implements HasPayload<M> {
   final PdMsgContainer<M, F, E> parent;
   final DescriptorProto descriptor;
   final int index;
+  final int globalIndex;
+  final int globalFieldIndex;
 
-  PdMsg(this.parent, this.descriptor, this.index);
+  PdMsg({
+    required this.parent,
+    required this.descriptor,
+    required this.index,
+    required this.globalIndex,
+    required this.globalFieldIndex,
+  });
 
   late final payload = root.msgPayload(this);
 
@@ -145,8 +181,15 @@ class PdMsg<M, F, E> extends PdMsgContainer<M, F, E> implements HasPayload<M> {
   PdMsg<M, F, E> resolve(Iterable<String> path) =>
       path.isEmpty ? this : _resolveNext(path);
 
-  late final fields =
-      descriptor.field.mapIndexed((i, e) => PdFld(this, i)).toList();
+  late final fields = descriptor.field
+      .mapIndexed(
+        (i, e) => PdFld(
+          msg: this,
+          index: i,
+          globalIndex: globalFieldIndex + i,
+        ),
+      )
+      .toList();
 
   late final fieldPayloads = fields.map((e) => e.payload).toList();
 
@@ -189,6 +232,16 @@ class PdMsg<M, F, E> extends PdMsgContainer<M, F, E> implements HasPayload<M> {
   PdEnum<M, F, E> _resolveEnumIndex(Iterable<int> path) => path.tail.isEmpty
       ? enums[path.first]
       : messages[path.first].resolveEnumIndex(path.tail);
+
+  late final List<PdFld<M, F, E>> allFields = [
+    ...fields,
+    ...messages.expand((e) => e.allFields),
+  ];
+
+  @override
+  int get localFieldsCount => fields.length;
+
+
 }
 
 @GenerateHierarchy(
@@ -202,10 +255,15 @@ class _GeneratePdx<M, F, E> {}
 class PdFld<M, F, E> implements HasPayload<F> {
   final PdMsg<M, F, E> msg;
   final int index;
+  final int globalIndex;
 
-  PdFld(this.msg, this.index);
+  PdFld({
+    required this.msg,
+    required this.index,
+    required this.globalIndex,
+  });
 
-  late final fieldIndex = FieldIndex(msg.index, index);
+  // late final fieldIndex = FieldIndex(msg.globalIndex, index);
 
   late final payload = msg.root.fldPayload(this);
 

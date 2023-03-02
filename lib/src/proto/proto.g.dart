@@ -145,6 +145,9 @@ class Cardinality$Visitor$Data<R$> implements Cardinality$Visitor$IData<R$> {
       oneOf: oneOf,
     );
   }
+}
+
+extension Cardinality$Visitor$Data$Ext<R$> on Cardinality$Visitor$Data<R$> {
   Cardinality$Visitor$Data<R$> copyWith({
     R$ Function(
       FieldInfo cardinality,
@@ -433,6 +436,9 @@ class NonMap$Visitor$Data<R$> implements NonMap$Visitor$IData<R$> {
       oneOf: oneOf,
     );
   }
+}
+
+extension NonMap$Visitor$Data$Ext<R$> on NonMap$Visitor$Data<R$> {
   NonMap$Visitor$Data<R$> copyWith({
     R$ Function(
       FieldInfo nonMap,
@@ -739,6 +745,9 @@ class ValueType$Visitor$Data<R$> implements ValueType$Visitor$IData<R$> {
       messageType: messageType,
     );
   }
+}
+
+extension ValueType$Visitor$Data$Ext<R$> on ValueType$Visitor$Data<R$> {
   ValueType$Visitor$Data<R$> copyWith({
     R$ Function()? valueType,
     R$ Function()? boolType,

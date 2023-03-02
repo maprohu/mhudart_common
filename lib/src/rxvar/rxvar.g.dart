@@ -23,6 +23,9 @@ class RxVal$Data<T> implements RxVal$IData<T> {
   final T Function() get;
   final Stream<T> Function() changes;
   final Lookup Function() lookup;
+}
+
+extension RxVal$Data$Ext<T> on RxVal$Data<T> {
   RxVal$Data<T> copyWith({
     T Function()? get,
     Stream<T> Function()? changes,
@@ -143,6 +146,9 @@ class RxVar$Data<T> implements RxVar$IData<T> {
   final T Function() get;
   final Stream<T> Function() changes;
   final Lookup Function() lookup;
+}
+
+extension RxVar$Data$Ext<T> on RxVar$Data<T> {
   RxVar$Data<T> copyWith({
     void Function(
       T value,
@@ -330,6 +336,9 @@ class RxVarDefault$Data<T> implements RxVarDefault$IData<T> {
   final Opt<T> Function() get;
   final Stream<Opt<T>> Function() changes;
   final Lookup Function() lookup;
+}
+
+extension RxVarDefault$Data$Ext<T> on RxVarDefault$Data<T> {
   RxVarDefault$Data<T> copyWith({
     Opt<T> Function()? defaultValue,
     void Function(

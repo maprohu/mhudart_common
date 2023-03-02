@@ -10,13 +10,13 @@ part 'proto_rx.g.dart';
 abstract class PrxOfLib<L> {}
 
 abstract class PrxMessageOfLib<L> extends PrxOfLib<L> {
-  PmMessage<L> message();
+  PmMessage message();
 }
 
 @Impl([RxVar])
 abstract class PrxMessage<T, L> extends RxVar<Opt<T>>
     implements PrxMessageOfLib<L> {
-  PmMessageOfType<T, L> message();
+  PmMessageOfType<T> message();
 }
 
 @Impl([RxVal])
@@ -31,7 +31,7 @@ abstract class PrxCollectionBase<C> implements PrxBase<C> {
 abstract class PrxSingleBase<V> implements PrxBase<V>, RxVar<Opt<V>> {}
 
 abstract class PrxValueOfType<V, L> implements RxVal<Opt<V>> {
-  HasFieldPath<L> field();
+  HasFieldPath field();
 }
 
 @Impl()
@@ -85,16 +85,16 @@ extension RxVarOptMsgX<T extends GeneratedMessage> on IRxVar<Opt<T>> {
 }
 
 extension PrxSingleMsgX<T extends GeneratedMessage> on IRxVar<Opt<T>> {
-  PrxSingle$Impl<V, L> single<V, L>(PmSingleField<T, V, L> field) =>
+  PrxSingle$Impl<V, L> single<V, L>(PmFullFieldOfMessageOfType<T, V> field) =>
       mk.PrxSingle.fromField(this, field);
 
-  IPrxMap<K, V, L> mapOf<K, V, L>(PmTypedField<T, Map<K, V>, L> field) =>
+  IPrxMap<K, V, L> mapOf<K, V, L>(PmReadFieldOfMessagOfType<T, Map<K, V>> field) =>
       collection(field);
 
-  IPrxRepeated<V, L> repeated<V, L>(PmTypedField<T, List<V>, L> field) =>
+  IPrxRepeated<V, L> repeated<V, L>(PmReadFieldOfMessagOfType<T, List<V>> field) =>
       collection(field);
 
-  PrxCollection$Impl<C, L> collection<C, L>(PmTypedField<T, C, L> field) =>
+  PrxCollection$Impl<C, L> collection<C, L>(PmReadFieldOfMessagOfType<T, C> field) =>
       mk.PrxCollection.fromField(this, field);
 }
 
@@ -109,7 +109,7 @@ extension PrxSingleMsgX<T extends GeneratedMessage> on IRxVar<Opt<T>> {
 extension PrxSingleFactoryX on PrxSingle$Factory {
   PrxSingle$Impl<V, L> fromField<T extends GeneratedMessage, V, L>(
     RxVarImplOpt<T> rxVar,
-    PmSingleField<T, V, L> field,
+    PmFullFieldOfMessageOfType<T, V> field,
   ) =>
       mk.PrxSingle.fromPrxSingleBase(
         prxSingleBase: mk.PrxSingleBase.fromField<T, V, L>(
@@ -123,7 +123,7 @@ extension PrxSingleFactoryX on PrxSingle$Factory {
 extension PrxSingleBaseFactoryX on PrxSingleBase$Factory {
   PrxSingleBase$Impl<V> fromField<T extends GeneratedMessage, V, L>({
     required IRxVarDefault<T> rxVar,
-    required PmFieldFull<T, V> field,
+    required PmFullField<T, V> field,
   }) =>
       fromFieldRebuilder(
         rxVar: rxVar,
@@ -133,7 +133,7 @@ extension PrxSingleBaseFactoryX on PrxSingleBase$Factory {
 
   PrxSingleBase$Impl<V> fromFieldRebuilder<T, V, L>({
     required IRxVarDefault<T> rxVar,
-    required PmFieldFull<T, V> field,
+    required PmFullField<T, V> field,
     required Rebuilder<T> rebuild,
   }) =>
       mk.PrxSingleBase.fromRxVar(
@@ -157,7 +157,7 @@ extension PrxSingleBaseFactoryX on PrxSingleBase$Factory {
 extension PrxCollectionBaseFactoryX on PrxCollectionBase$Factory {
   PrxCollectionBase$Impl<C> fromField<T extends GeneratedMessage, C>({
     required IRxVarDefault<T> rxVar,
-    required PmFieldRead<T, C> field,
+    required PmReadField<T, C> field,
   }) =>
       fromFieldRebuilder(
         rxVar: rxVar,
@@ -167,7 +167,7 @@ extension PrxCollectionBaseFactoryX on PrxCollectionBase$Factory {
 
   PrxCollectionBase$Impl<C> fromFieldRebuilder<T, C>({
     required IRxVarDefault<T> rxVar,
-    required PmFieldRead<T, C> field,
+    required PmReadField<T, C> field,
     required Rebuilder<T> rebuild,
   }) =>
       mk.PrxCollectionBase.fromRxVal(
@@ -185,7 +185,7 @@ extension PrxCollectionBaseFactoryX on PrxCollectionBase$Factory {
 extension PrxCollectionFactoryX on PrxCollection$Factory {
   PrxCollection$Impl<C, L> fromField<T extends GeneratedMessage, C, L>(
     RxVarImplOpt<T> rxVar,
-    PmTypedField<T, C, L> field,
+    PmReadFieldOfMessagOfType<T, C> field,
   ) =>
       mk.PrxCollection.fromPrxCollectionBase(
         prxCollectionBase: mk.PrxCollectionBase.fromField<T, C>(

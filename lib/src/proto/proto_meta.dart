@@ -4,142 +4,93 @@ import 'package:protobuf/protobuf.dart';
 
 part 'proto_meta.g.dart';
 
-abstract class PmLib<L> {
+typedef FieldsList<T> = List<PmFieldOfMessage<T>>;
+typedef OneOfs<T> = List<PmOneofOfMessage<T>>;
+
+abstract class PmLib {
   const PmLib();
 
-  List<PmMessage<L>> get messages;
+  List<PmMessage> get messages;
+
   List<PmEnum> get enums;
 
   String get descriptor;
 }
 
-extension PmLibX<L> on PmLib<L> {
-  PmMessage<L> resolveMessage(Iterable<int> path) =>
+extension PmLibX on PmLib {
+  PmMessage resolveMessage(Iterable<int> path) =>
       messages[path.first].resolveMessage(path.skip(1));
 }
 
-abstract class HasMessagePath<L> {
+abstract class HasMessagePath {
   Iterable<int> get path$;
 }
 
-abstract class PmMessage<L> implements HasMessagePath<L> {
+abstract class PmMessage implements HasMessagePath {
   const PmMessage();
+
+  dynamic get emptyMessage$;
 
   int get index$;
 
-  List<PmMessage<L>> get nestedMessages$;
+  List<PmField> get fields$;
+
+  List<PmMessage> get nestedMessages$;
+
   List<PmEnum> get nestedEnums$;
+
+  List<PmOneof> get oneofs$;
 }
 
-extension PmMessageX<L> on PmMessage<L> {
-  PmMessage<L> resolveMessage(Iterable<int> path) => path.isEmpty
+extension PmMessageX on PmMessage {
+  PmMessage resolveMessage(Iterable<int> path) => path.isEmpty
       ? this
       : nestedMessages$[path.first].resolveMessage(path.skip(1));
 }
 
-typedef FieldsList<T, L> = List<PmField<T, L>>;
-typedef OneOfs<T> = List<PmOneOf<T>>;
-
-abstract class PmMessageOfType<T, L> implements PmMessage<L> {
+abstract class PmMessageOfType<T> implements PmMessage {
   T get emptyMessage$;
 
   List<PmFieldOfMessage<T>> get fields$;
 
-  OneOfs<T> get oneofs$;
+  List<PmOneofOfMessage<T>> get oneofs$;
 }
 
-@GenerateHierarchy(
-  Hierarchy<PmTypedMessage>(
-    'level',
-    children: [
-      Hierarchy<PmTopLevelMessage>('top'),
-      Hierarchy<PmNestedMessage>('nested'),
-    ],
-  ),
-  prefix: 'pmt',
-)
-abstract class PmTypedMessage<T, L> extends PmMessage<L>
-    implements PmMessageOfType<T, L> {
-  const PmTypedMessage();
-
-  List<PmField<T, L>> get fields$;
-}
-
-abstract class PmTopLevelMessage<T, L> extends PmTypedMessage<T, L> {
+abstract class PmTopLevelMessage<T> implements PmMessageOfType<T> {
   const PmTopLevelMessage();
 
   @override
   Iterable<int> get path$ => [index$];
 }
 
-abstract class PmGenericNestedMessage<T, L> extends PmTypedMessage<T, L> {
-  const PmGenericNestedMessage();
+abstract class PmNestedMessage<T> implements PmMessageOfType<T> {
+  const PmNestedMessage();
 
-  PmTypedMessage<dynamic, L> get parent$;
+  PmMessageOfType<dynamic> get parent$;
 
   @override
   Iterable<int> get path$ => [...parent$.path$, index$];
 }
 
-abstract class PmNestedMessage<T, L> extends PmGenericNestedMessage<T, L> {
-  const PmNestedMessage();
-
-  PmTypedMessage<dynamic, L> get parent$;
-}
-
-abstract class HasFieldPath<L> {
-  HasMessagePath<L> get message;
+abstract class HasFieldPath {
+  HasMessagePath get message;
 
   int get index;
 }
 
-abstract class PmFieldOfLib<L> implements HasFieldPath<L> {
-  PmMessage<L> get message;
+abstract class PmField implements HasFieldPath {
+  PmMessage get message;
 }
 
-abstract class PmFieldOfMessage<T> {}
-
-abstract class PmField<T, L> implements PmFieldOfLib<L>, PmFieldOfMessage<T> {
-  const PmField();
-
-  PmTypedMessage<T, L> get message;
+abstract class PmFieldOfMessage<T> implements PmField {
+  PmMessageOfType<T> get message;
 }
 
-abstract class PmEnum<E extends ProtobufEnum> {
-  const PmEnum();
-
-  List<E> values();
-
-}
-
-abstract class PmOneOf<T> {
-  const PmOneOf();
-}
-
-abstract class PmTypedOneOf<T, V extends Enum> extends PmOneOf<T> {
-  const PmTypedOneOf();
-
-  V which(T message);
-
-  void clear(T message);
-
-  List<V> values();
-}
-
-@GenerateHierarchy(
-    Hierarchy<PmFieldRead>("read", children: [
-      Hierarchy<PmFieldFull>("full", children: [
-        Hierarchy<PmFieldMessage>("message"),
-      ])
-    ]),
-    prefix: 'pmAccess')
-abstract class _PmAccess<T, V> {}
-
-abstract class PmFieldRead<T, V> {
+abstract class PmReadField<T, V> {
   V get(T message);
 }
 
-abstract class PmFieldFull<T, V> extends PmFieldRead<T, V> {
+abstract class PmFullField<T, V> extends PmReadField<T, V> {
   void set(T message, V value);
 
   bool has(T message);
@@ -147,21 +98,7 @@ abstract class PmFieldFull<T, V> extends PmFieldRead<T, V> {
   void clear(T message);
 }
 
-abstract class PmFieldMessage<T, V> extends PmFieldFull<T, V> {
-  V ensure(T message);
-}
-
-abstract class PmTypedField<T extends GeneratedMessage, V, L>
-    extends PmField<T, L> implements PmFieldRead<T, V> {
-  const PmTypedField();
-}
-
-abstract class PmSingleField<T extends GeneratedMessage, V, L>
-    extends PmTypedField<T, V, L> implements PmFieldFull<T, V> {
-  const PmSingleField();
-}
-
-extension PmSingleFieldBaseX<T, V> on PmFieldFull<T, V> {
+extension PmFullFieldX<T, V> on PmFullField<T, V> {
   Opt<V> getOpt(T message) =>
       has(message) ? Opt.here(get(message)) : Opt.gone();
 
@@ -171,22 +108,65 @@ extension PmSingleFieldBaseX<T, V> on PmFieldFull<T, V> {
       );
 }
 
-abstract class PmMessageField<T extends GeneratedMessage, V, L>
-    extends PmSingleField<T, V, L> implements PmFieldMessage<T, V> {
-  const PmMessageField();
+abstract class PmMsgField<T, V> extends PmFullField<T, V> {
+  V ensure(T message);
 }
 
-typedef PmRepeatedField<T extends GeneratedMessage, V, L>
-    = PmTypedField<T, List<V>, L>;
-typedef PmMapField<T extends GeneratedMessage, K, V, L>
-    = PmTypedField<T, Map<K, V>, L>;
-
-abstract class PmOneOfField<T, E extends Enum, L> {
-  List<E> get types;
-
-  E which(T message);
-
-  void ensure(T message, E type);
-
-  Opt<PmField<T, L>> field(E type);
+abstract class PmReadFieldOfMessagOfType<T extends GeneratedMessage, V>
+    implements PmFieldOfMessage<T>, PmReadField<T, V> {
+  const PmReadFieldOfMessagOfType();
 }
+
+abstract class PmFullFieldOfMessageOfType<T extends GeneratedMessage, V>
+    implements PmReadFieldOfMessagOfType<T, V>, PmFullField<T, V> {
+  const PmFullFieldOfMessageOfType();
+}
+
+abstract class PmMsgFieldOfMessageOfType<T extends GeneratedMessage, V>
+    implements PmFullFieldOfMessageOfType<T, V>, PmMsgField<T, V> {
+  const PmMsgFieldOfMessageOfType();
+}
+
+abstract class PmRepeatedField<T extends GeneratedMessage, V>
+    implements PmReadFieldOfMessagOfType<T, List<V>> {
+  const PmRepeatedField();
+}
+
+abstract class PmMapField<T extends GeneratedMessage, K, V>
+    implements PmReadFieldOfMessagOfType<T, Map<K, V>> {
+  const PmMapField();
+}
+
+abstract class PmEnum<E extends ProtobufEnum> {
+  const PmEnum();
+
+  List<E> values();
+}
+
+abstract class PmOneof {}
+
+abstract class PmOneofOfMessage<T> implements PmOneof {}
+
+abstract class PmOneofOfMessageOfType<T, V extends Enum>
+    implements PmOneofOfMessage<T> {
+  const PmOneofOfMessageOfType();
+
+  V which(T message);
+
+  void clear(T message);
+
+  List<V> values();
+}
+
+@GenerateHierarchy(
+    Hierarchy<PmReadField>("read", children: [
+      Hierarchy<PmFullField>("full", children: [
+        Hierarchy<PmMsgField>("message"),
+      ])
+    ]),
+    prefix: 'pmAccess')
+abstract class _PmAccess<T, V> {}
+
+
+
+
