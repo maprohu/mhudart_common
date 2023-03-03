@@ -28,7 +28,7 @@ class PrxtType$Factory {
 
 const prxtType$Factory = PrxtType$Factory();
 
-extension PrxtType$Ext$Mk on Mk {
+extension Mk$Ext$PrxtType on Mk {
   PrxtType$Factory get PrxtType => prxtType$Factory;
 }
 
@@ -148,7 +148,7 @@ class PrxtMsg$Factory {
 
 const prxtMsg$Factory = PrxtMsg$Factory();
 
-extension PrxtMsg$Ext$Mk on Mk {
+extension Mk$Ext$PrxtMsg on Mk {
   PrxtMsg$Factory get PrxtMsg => prxtMsg$Factory;
 }
 
@@ -172,7 +172,7 @@ class PrxtEnm$Factory {
 
 const prxtEnm$Factory = PrxtEnm$Factory();
 
-extension PrxtEnm$Ext$Mk on Mk {
+extension Mk$Ext$PrxtEnm on Mk {
   PrxtEnm$Factory get PrxtEnm => prxtEnm$Factory;
 }
 
@@ -196,7 +196,7 @@ class PrxtCore$Factory {
 
 const prxtCore$Factory = PrxtCore$Factory();
 
-extension PrxtCore$Ext$Mk on Mk {
+extension Mk$Ext$PrxtCore on Mk {
   PrxtCore$Factory get PrxtCore => prxtCore$Factory;
 }
 
@@ -204,7 +204,8 @@ extension PrxtCore$Ext$Mk on Mk {
 // ImplGenerator
 // **************************************************************************
 
-abstract class PrxMessage$IData<T, L> implements RxVar$IData<Opt<T>> {
+abstract class PrxMessage$IData<T, L>
+    implements RxVar$IData<Opt<T>>, RxVal$IData<Opt<T>> {
   PmMessageOfType<T> Function() get message;
   void Function(
     Opt<T> value,
@@ -286,6 +287,7 @@ typedef IPrxMessage<T, L> = HasData<PrxMessage$IData<T, L>>;
 
 extension IPrxMessage$Ext<T, L> on IPrxMessage<T, L> {
   RxVar$Impl<Opt<T>> get asRxVar => RxVar$Impl(data$);
+  RxVal$Impl<Opt<T>> get asRxVal => RxVal$Impl(data$);
   PmMessageOfType<T> message() => data$.message();
   void set(
     Opt<T> value,
@@ -396,11 +398,89 @@ class PrxMessage$Factory {
         lookup: rxVar.data$.lookup,
         message: message,
       );
+  PrxMessage$Impl<T, L> fromRxVal$Iface<T, L>({
+    required RxVal<Opt<T>> rxVal,
+    required PmMessageOfType<T> Function() message,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+  }) =>
+      create(
+        get: rxVal.get,
+        changes: () => rxVal.changes,
+        lookup: () => rxVal.lookup,
+        message: message,
+        set: set,
+      );
+  PrxMessage$Impl<T, L> fromRxVal<T, L>({
+    required IRxVal<Opt<T>> rxVal,
+    required PmMessageOfType<T> Function() message,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+  }) =>
+      create(
+        get: rxVal.data$.get,
+        changes: rxVal.data$.changes,
+        lookup: rxVal.data$.lookup,
+        message: message,
+        set: set,
+      );
+  PrxMessage$Impl<T, L> fromGetter<T, L>({
+    required Getter<Opt<T>> getter,
+    required PmMessageOfType<T> Function() message,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+    required Stream<Opt<T>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        get: getter.get,
+        message: message,
+        set: set,
+        changes: changes,
+        lookup: lookup,
+      );
+  PrxMessage$Impl<T, L> fromSetter<T, L>({
+    required Setter<Opt<T>> setter,
+    required PmMessageOfType<T> Function() message,
+    required Opt<T> Function() get,
+    required Stream<Opt<T>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        set: setter.set,
+        message: message,
+        get: get,
+        changes: changes,
+        lookup: lookup,
+      );
+  PrxMessage$Impl<T, L> fromPrxMessageOfLib<T, L>({
+    required PrxMessageOfLib<L> prxMessageOfLib,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+    required Opt<T> Function() get,
+    required Stream<Opt<T>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        message: prxMessageOfLib.message,
+        set: set,
+        get: get,
+        changes: changes,
+        lookup: lookup,
+      );
 }
 
 const prxMessage$Factory = PrxMessage$Factory();
 
-extension PrxMessage$Ext$Mk on Mk {
+extension Mk$Ext$PrxMessage on Mk {
   PrxMessage$Factory get PrxMessage => prxMessage$Factory;
 }
 
@@ -529,16 +609,26 @@ class PrxBase$Factory {
         changes: rxVal.data$.changes,
         lookup: rxVal.data$.lookup,
       );
+  PrxBase$Impl<T> fromGetter<T>({
+    required Getter<Opt<T>> getter,
+    required Stream<Opt<T>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        get: getter.get,
+        changes: changes,
+        lookup: lookup,
+      );
 }
 
 const prxBase$Factory = PrxBase$Factory();
 
-extension PrxBase$Ext$Mk on Mk {
+extension Mk$Ext$PrxBase on Mk {
   PrxBase$Factory get PrxBase => prxBase$Factory;
 }
 
 abstract class PrxCollectionBase$IData<C>
-    implements RxVal$IData<Opt<C>>, PrxBase$IData<C> {
+    implements PrxBase$IData<C>, RxVal$IData<Opt<C>> {
   void Function(
     void Function(C) updates,
   ) get rebuild;
@@ -611,8 +701,8 @@ class PrxCollectionBase$Impl<C> extends PrxCollectionBase<C>
 typedef IPrxCollectionBase<C> = HasData<PrxCollectionBase$IData<C>>;
 
 extension IPrxCollectionBase$Ext<C> on IPrxCollectionBase<C> {
-  RxVal$Impl<Opt<C>> get asRxVal => RxVal$Impl(data$);
   PrxBase$Impl<C> get asPrxBase => PrxBase$Impl(data$);
+  RxVal$Impl<Opt<C>> get asRxVal => RxVal$Impl(data$);
   void rebuild(
     void Function(C) updates,
   ) =>
@@ -693,32 +783,6 @@ class PrxCollectionBase$Factory {
       PrxCollectionBase$Delegate(
         delegate,
       );
-  PrxCollectionBase$Impl<C> fromRxVal$Iface<C>({
-    required RxVal<Opt<C>> rxVal,
-    required void Function(
-      void Function(C) updates,
-    )
-        rebuild,
-  }) =>
-      create(
-        get: rxVal.get,
-        changes: () => rxVal.changes,
-        lookup: () => rxVal.lookup,
-        rebuild: rebuild,
-      );
-  PrxCollectionBase$Impl<C> fromRxVal<C>({
-    required IRxVal<Opt<C>> rxVal,
-    required void Function(
-      void Function(C) updates,
-    )
-        rebuild,
-  }) =>
-      create(
-        get: rxVal.data$.get,
-        changes: rxVal.data$.changes,
-        lookup: rxVal.data$.lookup,
-        rebuild: rebuild,
-      );
   PrxCollectionBase$Impl<C> fromPrxBase$Iface<C>({
     required PrxBase<C> prxBase,
     required void Function(
@@ -745,16 +809,57 @@ class PrxCollectionBase$Factory {
         lookup: prxBase.data$.lookup,
         rebuild: rebuild,
       );
+  PrxCollectionBase$Impl<C> fromRxVal$Iface<C>({
+    required RxVal<Opt<C>> rxVal,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
+  }) =>
+      create(
+        get: rxVal.get,
+        changes: () => rxVal.changes,
+        lookup: () => rxVal.lookup,
+        rebuild: rebuild,
+      );
+  PrxCollectionBase$Impl<C> fromRxVal<C>({
+    required IRxVal<Opt<C>> rxVal,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
+  }) =>
+      create(
+        get: rxVal.data$.get,
+        changes: rxVal.data$.changes,
+        lookup: rxVal.data$.lookup,
+        rebuild: rebuild,
+      );
+  PrxCollectionBase$Impl<C> fromGetter<C>({
+    required Getter<Opt<C>> getter,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
+    required Stream<Opt<C>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        get: getter.get,
+        rebuild: rebuild,
+        changes: changes,
+        lookup: lookup,
+      );
 }
 
 const prxCollectionBase$Factory = PrxCollectionBase$Factory();
 
-extension PrxCollectionBase$Ext$Mk on Mk {
+extension Mk$Ext$PrxCollectionBase on Mk {
   PrxCollectionBase$Factory get PrxCollectionBase => prxCollectionBase$Factory;
 }
 
 abstract class PrxSingleBase$IData<V>
-    implements RxVar$IData<Opt<V>>, PrxBase$IData<V> {
+    implements PrxBase$IData<V>, RxVal$IData<Opt<V>>, RxVar$IData<Opt<V>> {
   void Function(
     Opt<V> value,
   ) get set;
@@ -827,8 +932,9 @@ class PrxSingleBase$Impl<V> extends PrxSingleBase<V>
 typedef IPrxSingleBase<V> = HasData<PrxSingleBase$IData<V>>;
 
 extension IPrxSingleBase$Ext<V> on IPrxSingleBase<V> {
-  RxVar$Impl<Opt<V>> get asRxVar => RxVar$Impl(data$);
   PrxBase$Impl<V> get asPrxBase => PrxBase$Impl(data$);
+  RxVal$Impl<Opt<V>> get asRxVal => RxVal$Impl(data$);
+  RxVar$Impl<Opt<V>> get asRxVar => RxVar$Impl(data$);
   void set(
     Opt<V> value,
   ) =>
@@ -909,24 +1015,6 @@ class PrxSingleBase$Factory {
       PrxSingleBase$Delegate(
         delegate,
       );
-  PrxSingleBase$Impl<V> fromRxVar$Iface<V>({
-    required RxVar<Opt<V>> rxVar,
-  }) =>
-      create(
-        set: rxVar.set,
-        get: rxVar.get,
-        changes: () => rxVar.changes,
-        lookup: () => rxVar.lookup,
-      );
-  PrxSingleBase$Impl<V> fromRxVar<V>({
-    required IRxVar<Opt<V>> rxVar,
-  }) =>
-      create(
-        set: rxVar.data$.set,
-        get: rxVar.data$.get,
-        changes: rxVar.data$.changes,
-        lookup: rxVar.data$.lookup,
-      );
   PrxSingleBase$Impl<V> fromPrxBase$Iface<V>({
     required PrxBase<V> prxBase,
     required void Function(
@@ -953,15 +1041,90 @@ class PrxSingleBase$Factory {
         lookup: prxBase.data$.lookup,
         set: set,
       );
+  PrxSingleBase$Impl<V> fromRxVal$Iface<V>({
+    required RxVal<Opt<V>> rxVal,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+  }) =>
+      create(
+        get: rxVal.get,
+        changes: () => rxVal.changes,
+        lookup: () => rxVal.lookup,
+        set: set,
+      );
+  PrxSingleBase$Impl<V> fromRxVal<V>({
+    required IRxVal<Opt<V>> rxVal,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+  }) =>
+      create(
+        get: rxVal.data$.get,
+        changes: rxVal.data$.changes,
+        lookup: rxVal.data$.lookup,
+        set: set,
+      );
+  PrxSingleBase$Impl<V> fromGetter<V>({
+    required Getter<Opt<V>> getter,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+    required Stream<Opt<V>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        get: getter.get,
+        set: set,
+        changes: changes,
+        lookup: lookup,
+      );
+  PrxSingleBase$Impl<V> fromRxVar$Iface<V>({
+    required RxVar<Opt<V>> rxVar,
+  }) =>
+      create(
+        set: rxVar.set,
+        get: rxVar.get,
+        changes: () => rxVar.changes,
+        lookup: () => rxVar.lookup,
+      );
+  PrxSingleBase$Impl<V> fromRxVar<V>({
+    required IRxVar<Opt<V>> rxVar,
+  }) =>
+      create(
+        set: rxVar.data$.set,
+        get: rxVar.data$.get,
+        changes: rxVar.data$.changes,
+        lookup: rxVar.data$.lookup,
+      );
+  PrxSingleBase$Impl<V> fromSetter<V>({
+    required Setter<Opt<V>> setter,
+    required Opt<V> Function() get,
+    required Stream<Opt<V>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        set: setter.set,
+        get: get,
+        changes: changes,
+        lookup: lookup,
+      );
 }
 
 const prxSingleBase$Factory = PrxSingleBase$Factory();
 
-extension PrxSingleBase$Ext$Mk on Mk {
+extension Mk$Ext$PrxSingleBase on Mk {
   PrxSingleBase$Factory get PrxSingleBase => prxSingleBase$Factory;
 }
 
-abstract class PrxCollectionOfType$IData<C, L> {
+abstract class PrxCollectionOfType$IData<C, L>
+    implements
+        RxVal$IData<Opt<C>>,
+        PrxCollectionBase$IData<C>,
+        PrxBase$IData<C> {
   void Function(
     void Function(C) updates,
   ) get rebuild;
@@ -1043,6 +1206,10 @@ class PrxCollectionOfType$Impl<C, L> extends PrxCollectionOfType<C, L>
 typedef IPrxCollectionOfType<C, L> = HasData<PrxCollectionOfType$IData<C, L>>;
 
 extension IPrxCollectionOfType$Ext<C, L> on IPrxCollectionOfType<C, L> {
+  RxVal$Impl<Opt<C>> get asRxVal => RxVal$Impl(data$);
+  PrxCollectionBase$Impl<C> get asPrxCollectionBase =>
+      PrxCollectionBase$Impl(data$);
+  PrxBase$Impl<C> get asPrxBase => PrxBase$Impl(data$);
   void rebuild(
     void Function(C) updates,
   ) =>
@@ -1131,16 +1298,134 @@ class PrxCollectionOfType$Factory {
       PrxCollectionOfType$Delegate(
         delegate,
       );
+  PrxCollectionOfType$Impl<C, L> fromPrxValueOfType<C, L>({
+    required PrxValueOfType<C, L> prxValueOfType,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
+  }) =>
+      create(
+        get: prxValueOfType.get,
+        field: prxValueOfType.field,
+        changes: () => prxValueOfType.changes,
+        lookup: () => prxValueOfType.lookup,
+        rebuild: rebuild,
+      );
+  PrxCollectionOfType$Impl<C, L> fromRxVal$Iface<C, L>({
+    required RxVal<Opt<C>> rxVal,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
+    required HasFieldPath Function() field,
+  }) =>
+      create(
+        get: rxVal.get,
+        changes: () => rxVal.changes,
+        lookup: () => rxVal.lookup,
+        rebuild: rebuild,
+        field: field,
+      );
+  PrxCollectionOfType$Impl<C, L> fromRxVal<C, L>({
+    required IRxVal<Opt<C>> rxVal,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
+    required HasFieldPath Function() field,
+  }) =>
+      create(
+        get: rxVal.data$.get,
+        changes: rxVal.data$.changes,
+        lookup: rxVal.data$.lookup,
+        rebuild: rebuild,
+        field: field,
+      );
+  PrxCollectionOfType$Impl<C, L> fromGetter<C, L>({
+    required Getter<Opt<C>> getter,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
+    required HasFieldPath Function() field,
+    required Stream<Opt<C>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        get: getter.get,
+        rebuild: rebuild,
+        field: field,
+        changes: changes,
+        lookup: lookup,
+      );
+  PrxCollectionOfType$Impl<C, L> fromPrxCollectionBase$Iface<C, L>({
+    required PrxCollectionBase<C> prxCollectionBase,
+    required HasFieldPath Function() field,
+  }) =>
+      create(
+        rebuild: prxCollectionBase.rebuild,
+        get: prxCollectionBase.get,
+        changes: () => prxCollectionBase.changes,
+        lookup: () => prxCollectionBase.lookup,
+        field: field,
+      );
+  PrxCollectionOfType$Impl<C, L> fromPrxCollectionBase<C, L>({
+    required IPrxCollectionBase<C> prxCollectionBase,
+    required HasFieldPath Function() field,
+  }) =>
+      create(
+        rebuild: prxCollectionBase.data$.rebuild,
+        get: prxCollectionBase.data$.get,
+        changes: prxCollectionBase.data$.changes,
+        lookup: prxCollectionBase.data$.lookup,
+        field: field,
+      );
+  PrxCollectionOfType$Impl<C, L> fromPrxBase$Iface<C, L>({
+    required PrxBase<C> prxBase,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
+    required HasFieldPath Function() field,
+  }) =>
+      create(
+        get: prxBase.get,
+        changes: () => prxBase.changes,
+        lookup: () => prxBase.lookup,
+        rebuild: rebuild,
+        field: field,
+      );
+  PrxCollectionOfType$Impl<C, L> fromPrxBase<C, L>({
+    required IPrxBase<C> prxBase,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
+    required HasFieldPath Function() field,
+  }) =>
+      create(
+        get: prxBase.data$.get,
+        changes: prxBase.data$.changes,
+        lookup: prxBase.data$.lookup,
+        rebuild: rebuild,
+        field: field,
+      );
 }
 
 const prxCollectionOfType$Factory = PrxCollectionOfType$Factory();
 
-extension PrxCollectionOfType$Ext$Mk on Mk {
+extension Mk$Ext$PrxCollectionOfType on Mk {
   PrxCollectionOfType$Factory get PrxCollectionOfType =>
       prxCollectionOfType$Factory;
 }
 
-abstract class PrxSingleOfType$IData<V, L> implements PrxSingleBase$IData<V> {
+abstract class PrxSingleOfType$IData<V, L>
+    implements
+        RxVal$IData<Opt<V>>,
+        PrxSingleBase$IData<V>,
+        PrxBase$IData<V>,
+        RxVar$IData<Opt<V>> {
   void Function(
     Opt<V> value,
   ) get set;
@@ -1221,7 +1506,10 @@ class PrxSingleOfType$Impl<V, L> extends PrxSingleOfType<V, L>
 typedef IPrxSingleOfType<V, L> = HasData<PrxSingleOfType$IData<V, L>>;
 
 extension IPrxSingleOfType$Ext<V, L> on IPrxSingleOfType<V, L> {
+  RxVal$Impl<Opt<V>> get asRxVal => RxVal$Impl(data$);
   PrxSingleBase$Impl<V> get asPrxSingleBase => PrxSingleBase$Impl(data$);
+  PrxBase$Impl<V> get asPrxBase => PrxBase$Impl(data$);
+  RxVar$Impl<Opt<V>> get asRxVar => RxVar$Impl(data$);
   void set(
     Opt<V> value,
   ) =>
@@ -1310,6 +1598,67 @@ class PrxSingleOfType$Factory {
       PrxSingleOfType$Delegate(
         delegate,
       );
+  PrxSingleOfType$Impl<V, L> fromPrxValueOfType<V, L>({
+    required PrxValueOfType<V, L> prxValueOfType,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+  }) =>
+      create(
+        get: prxValueOfType.get,
+        field: prxValueOfType.field,
+        changes: () => prxValueOfType.changes,
+        lookup: () => prxValueOfType.lookup,
+        set: set,
+      );
+  PrxSingleOfType$Impl<V, L> fromRxVal$Iface<V, L>({
+    required RxVal<Opt<V>> rxVal,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+    required HasFieldPath Function() field,
+  }) =>
+      create(
+        get: rxVal.get,
+        changes: () => rxVal.changes,
+        lookup: () => rxVal.lookup,
+        set: set,
+        field: field,
+      );
+  PrxSingleOfType$Impl<V, L> fromRxVal<V, L>({
+    required IRxVal<Opt<V>> rxVal,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+    required HasFieldPath Function() field,
+  }) =>
+      create(
+        get: rxVal.data$.get,
+        changes: rxVal.data$.changes,
+        lookup: rxVal.data$.lookup,
+        set: set,
+        field: field,
+      );
+  PrxSingleOfType$Impl<V, L> fromGetter<V, L>({
+    required Getter<Opt<V>> getter,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+    required HasFieldPath Function() field,
+    required Stream<Opt<V>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        get: getter.get,
+        set: set,
+        field: field,
+        changes: changes,
+        lookup: lookup,
+      );
   PrxSingleOfType$Impl<V, L> fromPrxSingleBase$Iface<V, L>({
     required PrxSingleBase<V> prxSingleBase,
     required HasFieldPath Function() field,
@@ -1332,19 +1681,86 @@ class PrxSingleOfType$Factory {
         lookup: prxSingleBase.data$.lookup,
         field: field,
       );
+  PrxSingleOfType$Impl<V, L> fromPrxBase$Iface<V, L>({
+    required PrxBase<V> prxBase,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+    required HasFieldPath Function() field,
+  }) =>
+      create(
+        get: prxBase.get,
+        changes: () => prxBase.changes,
+        lookup: () => prxBase.lookup,
+        set: set,
+        field: field,
+      );
+  PrxSingleOfType$Impl<V, L> fromPrxBase<V, L>({
+    required IPrxBase<V> prxBase,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+    required HasFieldPath Function() field,
+  }) =>
+      create(
+        get: prxBase.data$.get,
+        changes: prxBase.data$.changes,
+        lookup: prxBase.data$.lookup,
+        set: set,
+        field: field,
+      );
+  PrxSingleOfType$Impl<V, L> fromRxVar$Iface<V, L>({
+    required RxVar<Opt<V>> rxVar,
+    required HasFieldPath Function() field,
+  }) =>
+      create(
+        set: rxVar.set,
+        get: rxVar.get,
+        changes: () => rxVar.changes,
+        lookup: () => rxVar.lookup,
+        field: field,
+      );
+  PrxSingleOfType$Impl<V, L> fromRxVar<V, L>({
+    required IRxVar<Opt<V>> rxVar,
+    required HasFieldPath Function() field,
+  }) =>
+      create(
+        set: rxVar.data$.set,
+        get: rxVar.data$.get,
+        changes: rxVar.data$.changes,
+        lookup: rxVar.data$.lookup,
+        field: field,
+      );
+  PrxSingleOfType$Impl<V, L> fromSetter<V, L>({
+    required Setter<Opt<V>> setter,
+    required Opt<V> Function() get,
+    required HasFieldPath Function() field,
+    required Stream<Opt<V>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        set: setter.set,
+        get: get,
+        field: field,
+        changes: changes,
+        lookup: lookup,
+      );
 }
 
 const prxSingleOfType$Factory = PrxSingleOfType$Factory();
 
-extension PrxSingleOfType$Ext$Mk on Mk {
+extension Mk$Ext$PrxSingleOfType on Mk {
   PrxSingleOfType$Factory get PrxSingleOfType => prxSingleOfType$Factory;
 }
 
 abstract class PrxCollection$IData<C, L>
     implements
+        PrxCollectionOfType$IData<C, L>,
         RxVal$IData<Opt<C>>,
         PrxCollectionBase$IData<C>,
-        PrxCollectionOfType$IData<C, L> {
+        PrxBase$IData<C> {
   HasFieldPath Function() get field;
   Opt<C> Function() get get;
   void Function(
@@ -1425,11 +1841,12 @@ class PrxCollection$Impl<C, L> extends PrxCollection<C, L>
 typedef IPrxCollection<C, L> = HasData<PrxCollection$IData<C, L>>;
 
 extension IPrxCollection$Ext<C, L> on IPrxCollection<C, L> {
+  PrxCollectionOfType$Impl<C, L> get asPrxCollectionOfType =>
+      PrxCollectionOfType$Impl(data$);
   RxVal$Impl<Opt<C>> get asRxVal => RxVal$Impl(data$);
   PrxCollectionBase$Impl<C> get asPrxCollectionBase =>
       PrxCollectionBase$Impl(data$);
-  PrxCollectionOfType$Impl<C, L> get asPrxCollectionOfType =>
-      PrxCollectionOfType$Impl(data$);
+  PrxBase$Impl<C> get asPrxBase => PrxBase$Impl(data$);
   HasFieldPath field() => data$.field();
   Opt<C> get() => data$.get();
   void rebuild(
@@ -1518,6 +1935,40 @@ class PrxCollection$Factory {
       PrxCollection$Delegate(
         delegate,
       );
+  PrxCollection$Impl<C, L> fromPrxCollectionOfType$Iface<C, L>({
+    required PrxCollectionOfType<C, L> prxCollectionOfType,
+  }) =>
+      create(
+        field: prxCollectionOfType.field,
+        get: prxCollectionOfType.get,
+        rebuild: prxCollectionOfType.rebuild,
+        changes: () => prxCollectionOfType.changes,
+        lookup: () => prxCollectionOfType.lookup,
+      );
+  PrxCollection$Impl<C, L> fromPrxCollectionOfType<C, L>({
+    required IPrxCollectionOfType<C, L> prxCollectionOfType,
+  }) =>
+      create(
+        field: prxCollectionOfType.data$.field,
+        get: prxCollectionOfType.data$.get,
+        rebuild: prxCollectionOfType.data$.rebuild,
+        changes: prxCollectionOfType.data$.changes,
+        lookup: prxCollectionOfType.data$.lookup,
+      );
+  PrxCollection$Impl<C, L> fromPrxValueOfType<C, L>({
+    required PrxValueOfType<C, L> prxValueOfType,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
+  }) =>
+      create(
+        field: prxValueOfType.field,
+        get: prxValueOfType.get,
+        changes: () => prxValueOfType.changes,
+        lookup: () => prxValueOfType.lookup,
+        rebuild: rebuild,
+      );
   PrxCollection$Impl<C, L> fromRxVal$Iface<C, L>({
     required RxVal<Opt<C>> rxVal,
     required HasFieldPath Function() field,
@@ -1548,6 +1999,23 @@ class PrxCollection$Factory {
         field: field,
         rebuild: rebuild,
       );
+  PrxCollection$Impl<C, L> fromGetter<C, L>({
+    required Getter<Opt<C>> getter,
+    required HasFieldPath Function() field,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
+    required Stream<Opt<C>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        get: getter.get,
+        field: field,
+        rebuild: rebuild,
+        changes: changes,
+        lookup: lookup,
+      );
   PrxCollection$Impl<C, L> fromPrxCollectionBase$Iface<C, L>({
     required PrxCollectionBase<C> prxCollectionBase,
     required HasFieldPath Function() field,
@@ -1570,39 +2038,51 @@ class PrxCollection$Factory {
         lookup: prxCollectionBase.data$.lookup,
         field: field,
       );
-  PrxCollection$Impl<C, L> fromPrxCollectionOfType$Iface<C, L>({
-    required PrxCollectionOfType<C, L> prxCollectionOfType,
+  PrxCollection$Impl<C, L> fromPrxBase$Iface<C, L>({
+    required PrxBase<C> prxBase,
+    required HasFieldPath Function() field,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
   }) =>
       create(
-        field: prxCollectionOfType.field,
-        get: prxCollectionOfType.get,
-        rebuild: prxCollectionOfType.rebuild,
-        changes: () => prxCollectionOfType.changes,
-        lookup: () => prxCollectionOfType.lookup,
+        get: prxBase.get,
+        changes: () => prxBase.changes,
+        lookup: () => prxBase.lookup,
+        field: field,
+        rebuild: rebuild,
       );
-  PrxCollection$Impl<C, L> fromPrxCollectionOfType<C, L>({
-    required IPrxCollectionOfType<C, L> prxCollectionOfType,
+  PrxCollection$Impl<C, L> fromPrxBase<C, L>({
+    required IPrxBase<C> prxBase,
+    required HasFieldPath Function() field,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
   }) =>
       create(
-        field: prxCollectionOfType.data$.field,
-        get: prxCollectionOfType.data$.get,
-        rebuild: prxCollectionOfType.data$.rebuild,
-        changes: prxCollectionOfType.data$.changes,
-        lookup: prxCollectionOfType.data$.lookup,
+        get: prxBase.data$.get,
+        changes: prxBase.data$.changes,
+        lookup: prxBase.data$.lookup,
+        field: field,
+        rebuild: rebuild,
       );
 }
 
 const prxCollection$Factory = PrxCollection$Factory();
 
-extension PrxCollection$Ext$Mk on Mk {
+extension Mk$Ext$PrxCollection on Mk {
   PrxCollection$Factory get PrxCollection => prxCollection$Factory;
 }
 
 abstract class PrxSingle$IData<T, L>
     implements
-        RxVar$IData<Opt<T>>,
+        PrxSingleOfType$IData<T, L>,
+        RxVal$IData<Opt<T>>,
         PrxSingleBase$IData<T>,
-        PrxSingleOfType$IData<T, L> {
+        PrxBase$IData<T>,
+        RxVar$IData<Opt<T>> {
   HasFieldPath Function() get field;
   Opt<T> Function() get get;
   void Function(
@@ -1683,10 +2163,12 @@ class PrxSingle$Impl<T, L> extends PrxSingle<T, L>
 typedef IPrxSingle<T, L> = HasData<PrxSingle$IData<T, L>>;
 
 extension IPrxSingle$Ext<T, L> on IPrxSingle<T, L> {
-  RxVar$Impl<Opt<T>> get asRxVar => RxVar$Impl(data$);
-  PrxSingleBase$Impl<T> get asPrxSingleBase => PrxSingleBase$Impl(data$);
   PrxSingleOfType$Impl<T, L> get asPrxSingleOfType =>
       PrxSingleOfType$Impl(data$);
+  RxVal$Impl<Opt<T>> get asRxVal => RxVal$Impl(data$);
+  PrxSingleBase$Impl<T> get asPrxSingleBase => PrxSingleBase$Impl(data$);
+  PrxBase$Impl<T> get asPrxBase => PrxBase$Impl(data$);
+  RxVar$Impl<Opt<T>> get asRxVar => RxVar$Impl(data$);
   HasFieldPath field() => data$.field();
   Opt<T> get() => data$.get();
   void set(
@@ -1775,27 +2257,86 @@ class PrxSingle$Factory {
       PrxSingle$Delegate(
         delegate,
       );
-  PrxSingle$Impl<T, L> fromRxVar$Iface<T, L>({
-    required RxVar<Opt<T>> rxVar,
-    required HasFieldPath Function() field,
+  PrxSingle$Impl<T, L> fromPrxSingleOfType$Iface<T, L>({
+    required PrxSingleOfType<T, L> prxSingleOfType,
   }) =>
       create(
-        get: rxVar.get,
-        set: rxVar.set,
-        changes: () => rxVar.changes,
-        lookup: () => rxVar.lookup,
-        field: field,
+        field: prxSingleOfType.field,
+        get: prxSingleOfType.get,
+        set: prxSingleOfType.set,
+        changes: () => prxSingleOfType.changes,
+        lookup: () => prxSingleOfType.lookup,
       );
-  PrxSingle$Impl<T, L> fromRxVar<T, L>({
-    required IRxVar<Opt<T>> rxVar,
-    required HasFieldPath Function() field,
+  PrxSingle$Impl<T, L> fromPrxSingleOfType<T, L>({
+    required IPrxSingleOfType<T, L> prxSingleOfType,
   }) =>
       create(
-        get: rxVar.data$.get,
-        set: rxVar.data$.set,
-        changes: rxVar.data$.changes,
-        lookup: rxVar.data$.lookup,
+        field: prxSingleOfType.data$.field,
+        get: prxSingleOfType.data$.get,
+        set: prxSingleOfType.data$.set,
+        changes: prxSingleOfType.data$.changes,
+        lookup: prxSingleOfType.data$.lookup,
+      );
+  PrxSingle$Impl<T, L> fromPrxValueOfType<T, L>({
+    required PrxValueOfType<T, L> prxValueOfType,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+  }) =>
+      create(
+        field: prxValueOfType.field,
+        get: prxValueOfType.get,
+        changes: () => prxValueOfType.changes,
+        lookup: () => prxValueOfType.lookup,
+        set: set,
+      );
+  PrxSingle$Impl<T, L> fromRxVal$Iface<T, L>({
+    required RxVal<Opt<T>> rxVal,
+    required HasFieldPath Function() field,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+  }) =>
+      create(
+        get: rxVal.get,
+        changes: () => rxVal.changes,
+        lookup: () => rxVal.lookup,
         field: field,
+        set: set,
+      );
+  PrxSingle$Impl<T, L> fromRxVal<T, L>({
+    required IRxVal<Opt<T>> rxVal,
+    required HasFieldPath Function() field,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+  }) =>
+      create(
+        get: rxVal.data$.get,
+        changes: rxVal.data$.changes,
+        lookup: rxVal.data$.lookup,
+        field: field,
+        set: set,
+      );
+  PrxSingle$Impl<T, L> fromGetter<T, L>({
+    required Getter<Opt<T>> getter,
+    required HasFieldPath Function() field,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+    required Stream<Opt<T>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        get: getter.get,
+        field: field,
+        set: set,
+        changes: changes,
+        lookup: lookup,
       );
   PrxSingle$Impl<T, L> fromPrxSingleBase$Iface<T, L>({
     required PrxSingleBase<T> prxSingleBase,
@@ -1819,30 +2360,76 @@ class PrxSingle$Factory {
         lookup: prxSingleBase.data$.lookup,
         field: field,
       );
-  PrxSingle$Impl<T, L> fromPrxSingleOfType$Iface<T, L>({
-    required PrxSingleOfType<T, L> prxSingleOfType,
+  PrxSingle$Impl<T, L> fromPrxBase$Iface<T, L>({
+    required PrxBase<T> prxBase,
+    required HasFieldPath Function() field,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
   }) =>
       create(
-        field: prxSingleOfType.field,
-        get: prxSingleOfType.get,
-        set: prxSingleOfType.set,
-        changes: () => prxSingleOfType.changes,
-        lookup: () => prxSingleOfType.lookup,
+        get: prxBase.get,
+        changes: () => prxBase.changes,
+        lookup: () => prxBase.lookup,
+        field: field,
+        set: set,
       );
-  PrxSingle$Impl<T, L> fromPrxSingleOfType<T, L>({
-    required IPrxSingleOfType<T, L> prxSingleOfType,
+  PrxSingle$Impl<T, L> fromPrxBase<T, L>({
+    required IPrxBase<T> prxBase,
+    required HasFieldPath Function() field,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
   }) =>
       create(
-        field: prxSingleOfType.data$.field,
-        get: prxSingleOfType.data$.get,
-        set: prxSingleOfType.data$.set,
-        changes: prxSingleOfType.data$.changes,
-        lookup: prxSingleOfType.data$.lookup,
+        get: prxBase.data$.get,
+        changes: prxBase.data$.changes,
+        lookup: prxBase.data$.lookup,
+        field: field,
+        set: set,
+      );
+  PrxSingle$Impl<T, L> fromRxVar$Iface<T, L>({
+    required RxVar<Opt<T>> rxVar,
+    required HasFieldPath Function() field,
+  }) =>
+      create(
+        get: rxVar.get,
+        set: rxVar.set,
+        changes: () => rxVar.changes,
+        lookup: () => rxVar.lookup,
+        field: field,
+      );
+  PrxSingle$Impl<T, L> fromRxVar<T, L>({
+    required IRxVar<Opt<T>> rxVar,
+    required HasFieldPath Function() field,
+  }) =>
+      create(
+        get: rxVar.data$.get,
+        set: rxVar.data$.set,
+        changes: rxVar.data$.changes,
+        lookup: rxVar.data$.lookup,
+        field: field,
+      );
+  PrxSingle$Impl<T, L> fromSetter<T, L>({
+    required Setter<Opt<T>> setter,
+    required HasFieldPath Function() field,
+    required Opt<T> Function() get,
+    required Stream<Opt<T>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        set: setter.set,
+        field: field,
+        get: get,
+        changes: changes,
+        lookup: lookup,
       );
 }
 
 const prxSingle$Factory = PrxSingle$Factory();
 
-extension PrxSingle$Ext$Mk on Mk {
+extension Mk$Ext$PrxSingle on Mk {
   PrxSingle$Factory get PrxSingle => prxSingle$Factory;
 }

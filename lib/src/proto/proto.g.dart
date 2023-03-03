@@ -43,7 +43,7 @@ class Cardinality$Factory {
 
 const cardinality$Factory = Cardinality$Factory();
 
-extension Cardinality$Ext$Mk on Mk {
+extension Mk$Ext$Cardinality on Mk {
   Cardinality$Factory get Cardinality => cardinality$Factory;
 }
 
@@ -322,7 +322,7 @@ class MapOf$Factory {
 
 const mapOf$Factory = MapOf$Factory();
 
-extension MapOf$Ext$Mk on Mk {
+extension Mk$Ext$MapOf on Mk {
   MapOf$Factory get MapOf => mapOf$Factory;
 }
 
@@ -362,7 +362,7 @@ class NonMap$Factory {
 
 const nonMap$Factory = NonMap$Factory();
 
-extension NonMap$Ext$Mk on Mk {
+extension Mk$Ext$NonMap on Mk {
   NonMap$Factory get NonMap => nonMap$Factory;
 }
 
@@ -574,7 +574,7 @@ class Single$Factory {
 
 const single$Factory = Single$Factory();
 
-extension Single$Ext$Mk on Mk {
+extension Mk$Ext$Single on Mk {
   Single$Factory get Single => single$Factory;
 }
 
@@ -614,7 +614,7 @@ class Repeated$Factory {
 
 const repeated$Factory = Repeated$Factory();
 
-extension Repeated$Ext$Mk on Mk {
+extension Mk$Ext$Repeated on Mk {
   Repeated$Factory get Repeated => repeated$Factory;
 }
 
@@ -654,7 +654,7 @@ class OneOf$Factory {
 
 const oneOf$Factory = OneOf$Factory();
 
-extension OneOf$Ext$Mk on Mk {
+extension Mk$Ext$OneOf on Mk {
   OneOf$Factory get OneOf => oneOf$Factory;
 }
 
@@ -678,7 +678,7 @@ class ValueType$Factory {
 
 const valueType$Factory = ValueType$Factory();
 
-extension ValueType$Ext$Mk on Mk {
+extension Mk$Ext$ValueType on Mk {
   ValueType$Factory get ValueType => valueType$Factory;
 }
 
@@ -845,7 +845,7 @@ class BoolType$Factory {
 
 const boolType$Factory = BoolType$Factory();
 
-extension BoolType$Ext$Mk on Mk {
+extension Mk$Ext$BoolType on Mk {
   BoolType$Factory get BoolType => boolType$Factory;
 }
 
@@ -869,7 +869,7 @@ class IntType$Factory {
 
 const intType$Factory = IntType$Factory();
 
-extension IntType$Ext$Mk on Mk {
+extension Mk$Ext$IntType on Mk {
   IntType$Factory get IntType => intType$Factory;
 }
 
@@ -893,7 +893,7 @@ class StringType$Factory {
 
 const stringType$Factory = StringType$Factory();
 
-extension StringType$Ext$Mk on Mk {
+extension Mk$Ext$StringType on Mk {
   StringType$Factory get StringType => stringType$Factory;
 }
 
@@ -917,7 +917,7 @@ class EnumType$Factory {
 
 const enumType$Factory = EnumType$Factory();
 
-extension EnumType$Ext$Mk on Mk {
+extension Mk$Ext$EnumType on Mk {
   EnumType$Factory get EnumType => enumType$Factory;
 }
 
@@ -957,6 +957,6 @@ class MessageType$Factory {
 
 const messageType$Factory = MessageType$Factory();
 
-extension MessageType$Ext$Mk on Mk {
+extension Mk$Ext$MessageType on Mk {
   MessageType$Factory get MessageType => messageType$Factory;
 }

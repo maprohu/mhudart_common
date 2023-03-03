@@ -92,7 +92,7 @@ extension RxValOptBuiltListX<T> on RxValImplOpt<BuiltList<T>> {
   IRxVal<BuiltList<T>> orEmpty() => orDefault(BuiltList());
 }
 
-@Impl([RxVar])
+@Impl()
 abstract class RxVarDefault<T> implements RxVar<Opt<T>> {
   Opt<T> defaultValue();
 }

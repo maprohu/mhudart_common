@@ -45,7 +45,7 @@ class PdmLevel$Factory {
 
 const pdmLevel$Factory = PdmLevel$Factory();
 
-extension PdmLevel$Ext$Mk on Mk {
+extension Mk$Ext$PdmLevel on Mk {
   PdmLevel$Factory get PdmLevel => pdmLevel$Factory;
 }
 
@@ -227,7 +227,7 @@ class PdmTop$Factory {
 
 const pdmTop$Factory = PdmTop$Factory();
 
-extension PdmTop$Ext$Mk on Mk {
+extension Mk$Ext$PdmTop on Mk {
   PdmTop$Factory get PdmTop => pdmTop$Factory;
 }
 
@@ -267,7 +267,7 @@ class PdmNested$Factory {
 
 const pdmNested$Factory = PdmNested$Factory();
 
-extension PdmNested$Ext$Mk on Mk {
+extension Mk$Ext$PdmNested on Mk {
   PdmNested$Factory get PdmNested => pdmNested$Factory;
 }
 
@@ -291,7 +291,7 @@ class PdxBase$Factory {
 
 const pdxBase$Factory = PdxBase$Factory();
 
-extension PdxBase$Ext$Mk on Mk {
+extension Mk$Ext$PdxBase on Mk {
   PdxBase$Factory get PdxBase => pdxBase$Factory;
 }
 
@@ -453,7 +453,7 @@ class PdxTop$Factory {
 
 const pdxTop$Factory = PdxTop$Factory();
 
-extension PdxTop$Ext$Mk on Mk {
+extension Mk$Ext$PdxTop on Mk {
   PdxTop$Factory get PdxTop => pdxTop$Factory;
 }
 
@@ -493,7 +493,7 @@ class PdxOneof$Factory {
 
 const pdxOneof$Factory = PdxOneof$Factory();
 
-extension PdxOneof$Ext$Mk on Mk {
+extension Mk$Ext$PdxOneof on Mk {
   PdxOneof$Factory get PdxOneof => pdxOneof$Factory;
 }
 
@@ -710,10 +710,54 @@ class PdRoot$Factory {
       PdRoot$Delegate(
         delegate,
       );
+  PdRoot$Impl<M, F, E> fromPdMsgContainer<M, F, E>({
+    required PdMsgContainer<M, F, E> pdMsgContainer,
+    required M Function(
+      PdMsg<M, F, E> msg,
+    )
+        msgPayload,
+    required F Function(
+      PdFld<M, F, E> fld,
+    )
+        fldPayload,
+    required E Function(
+      PdEnum<M, F, E> enm,
+    )
+        enumPayload,
+    required FileDescriptorSet Function() descriptorSet,
+  }) =>
+      create(
+        msgPayload: msgPayload,
+        fldPayload: fldPayload,
+        enumPayload: enumPayload,
+        descriptorSet: descriptorSet,
+      );
+  PdRoot$Impl<M, F, E> fromPdEnumResolver<M, F, E>({
+    required PdEnumResolver<M, F, E> pdEnumResolver,
+    required M Function(
+      PdMsg<M, F, E> msg,
+    )
+        msgPayload,
+    required F Function(
+      PdFld<M, F, E> fld,
+    )
+        fldPayload,
+    required E Function(
+      PdEnum<M, F, E> enm,
+    )
+        enumPayload,
+    required FileDescriptorSet Function() descriptorSet,
+  }) =>
+      create(
+        msgPayload: msgPayload,
+        fldPayload: fldPayload,
+        enumPayload: enumPayload,
+        descriptorSet: descriptorSet,
+      );
 }
 
 const pdRoot$Factory = PdRoot$Factory();
 
-extension PdRoot$Ext$Mk on Mk {
+extension Mk$Ext$PdRoot on Mk {
   PdRoot$Factory get PdRoot => pdRoot$Factory;
 }

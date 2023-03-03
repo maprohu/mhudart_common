@@ -45,7 +45,7 @@ class PmAccessRead$Factory {
 
 const pmAccessRead$Factory = PmAccessRead$Factory();
 
-extension PmAccessRead$Ext$Mk on Mk {
+extension Mk$Ext$PmAccessRead on Mk {
   PmAccessRead$Factory get PmAccessRead => pmAccessRead$Factory;
 }
 
@@ -231,7 +231,7 @@ class PmAccessFull$Factory {
 
 const pmAccessFull$Factory = PmAccessFull$Factory();
 
-extension PmAccessFull$Ext$Mk on Mk {
+extension Mk$Ext$PmAccessFull on Mk {
   PmAccessFull$Factory get PmAccessFull => pmAccessFull$Factory;
 }
 
@@ -345,8 +345,7 @@ extension PmAccessFull$WhenX<T, V>
       )));
 }
 
-typedef PmAccessMessage<T, V>
-    = PmAccessMessage$Base<PmMsgField<T, V>, T, V>;
+typedef PmAccessMessage<T, V> = PmAccessMessage$Base<PmMsgField<T, V>, T, V>;
 
 abstract class PmAccessMessage$Base<I$ extends PmMsgField<T, V>, T, V>
     extends PmAccessFull$Base<I$, T, V> {
@@ -385,6 +384,6 @@ class PmAccessMessage$Factory {
 
 const pmAccessMessage$Factory = PmAccessMessage$Factory();
 
-extension PmAccessMessage$Ext$Mk on Mk {
+extension Mk$Ext$PmAccessMessage on Mk {
   PmAccessMessage$Factory get PmAccessMessage => pmAccessMessage$Factory;
 }

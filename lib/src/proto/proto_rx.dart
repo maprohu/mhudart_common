@@ -13,21 +13,21 @@ abstract class PrxMessageOfLib<L> extends PrxOfLib<L> {
   PmMessage message();
 }
 
-@Impl([RxVar])
+@Impl()
 abstract class PrxMessage<T, L> extends RxVar<Opt<T>>
     implements PrxMessageOfLib<L> {
   PmMessageOfType<T> message();
 }
 
-@Impl([RxVal])
+@Impl()
 abstract class PrxBase<T> implements RxVal<Opt<T>> {}
 
-@Impl([RxVal, PrxBase])
+@Impl()
 abstract class PrxCollectionBase<C> implements PrxBase<C> {
   void rebuild(void Function(C collection) updates);
 }
 
-@Impl([RxVar, PrxBase])
+@Impl()
 abstract class PrxSingleBase<V> implements PrxBase<V>, RxVar<Opt<V>> {}
 
 abstract class PrxValueOfType<V, L> implements RxVal<Opt<V>> {
@@ -38,18 +38,18 @@ abstract class PrxValueOfType<V, L> implements RxVal<Opt<V>> {
 abstract class PrxCollectionOfType<C, L>
     implements PrxValueOfType<C, L>, PrxCollectionBase<C> {}
 
-@Impl([PrxSingleBase])
+@Impl()
 abstract class PrxSingleOfType<V, L>
     implements PrxValueOfType<V, L>, PrxSingleBase<V> {}
 
 abstract class PrxValue<V, L> implements PrxBase<V>, PrxValueOfType<V, L> {
 }
 
-@Impl([RxVal, PrxCollectionBase, PrxCollectionOfType])
+@Impl()
 abstract class PrxCollection<C, L>
     implements PrxCollectionOfType<C, L>, PrxValue<C, L> {}
 
-@Impl([RxVar, PrxSingleBase, PrxSingleOfType])
+@Impl()
 abstract class PrxSingle<T, L>
     implements PrxSingleOfType<T, L>, PrxValue<T, L> {}
 

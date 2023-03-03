@@ -29,7 +29,7 @@ class PdfCardinality$Factory {
 
 const pdfCardinality$Factory = PdfCardinality$Factory();
 
-extension PdfCardinality$Ext$Mk on Mk {
+extension Mk$Ext$PdfCardinality on Mk {
   PdfCardinality$Factory get PdfCardinality => pdfCardinality$Factory;
 }
 
@@ -203,7 +203,7 @@ class PdfMapOf$Factory {
 
 const pdfMapOf$Factory = PdfMapOf$Factory();
 
-extension PdfMapOf$Ext$Mk on Mk {
+extension Mk$Ext$PdfMapOf on Mk {
   PdfMapOf$Factory get PdfMapOf => pdfMapOf$Factory;
 }
 
@@ -231,7 +231,7 @@ class PdfNonMap$Factory {
 
 const pdfNonMap$Factory = PdfNonMap$Factory();
 
-extension PdfNonMap$Ext$Mk on Mk {
+extension Mk$Ext$PdfNonMap on Mk {
   PdfNonMap$Factory get PdfNonMap => pdfNonMap$Factory;
 }
 
@@ -342,7 +342,7 @@ class PdfSingle$Factory {
 
 const pdfSingle$Factory = PdfSingle$Factory();
 
-extension PdfSingle$Ext$Mk on Mk {
+extension Mk$Ext$PdfSingle on Mk {
   PdfSingle$Factory get PdfSingle => pdfSingle$Factory;
 }
 
@@ -370,7 +370,7 @@ class PdfRepeated$Factory {
 
 const pdfRepeated$Factory = PdfRepeated$Factory();
 
-extension PdfRepeated$Ext$Mk on Mk {
+extension Mk$Ext$PdfRepeated on Mk {
   PdfRepeated$Factory get PdfRepeated => pdfRepeated$Factory;
 }
 
@@ -395,7 +395,7 @@ class PdfValueType$Factory {
 
 const pdfValueType$Factory = PdfValueType$Factory();
 
-extension PdfValueType$Ext$Mk on Mk {
+extension Mk$Ext$PdfValueType on Mk {
   PdfValueType$Factory get PdfValueType => pdfValueType$Factory;
 }
 
@@ -629,7 +629,7 @@ class PdfBoolType$Factory {
 
 const pdfBoolType$Factory = PdfBoolType$Factory();
 
-extension PdfBoolType$Ext$Mk on Mk {
+extension Mk$Ext$PdfBoolType on Mk {
   PdfBoolType$Factory get PdfBoolType => pdfBoolType$Factory;
 }
 
@@ -655,7 +655,7 @@ class PdfDoubleType$Factory {
 
 const pdfDoubleType$Factory = PdfDoubleType$Factory();
 
-extension PdfDoubleType$Ext$Mk on Mk {
+extension Mk$Ext$PdfDoubleType on Mk {
   PdfDoubleType$Factory get PdfDoubleType => pdfDoubleType$Factory;
 }
 
@@ -681,7 +681,7 @@ class PdfIntType$Factory {
 
 const pdfIntType$Factory = PdfIntType$Factory();
 
-extension PdfIntType$Ext$Mk on Mk {
+extension Mk$Ext$PdfIntType on Mk {
   PdfIntType$Factory get PdfIntType => pdfIntType$Factory;
 }
 
@@ -707,7 +707,7 @@ class PdfInt64Type$Factory {
 
 const pdfInt64Type$Factory = PdfInt64Type$Factory();
 
-extension PdfInt64Type$Ext$Mk on Mk {
+extension Mk$Ext$PdfInt64Type on Mk {
   PdfInt64Type$Factory get PdfInt64Type => pdfInt64Type$Factory;
 }
 
@@ -733,7 +733,7 @@ class PdfStringType$Factory {
 
 const pdfStringType$Factory = PdfStringType$Factory();
 
-extension PdfStringType$Ext$Mk on Mk {
+extension Mk$Ext$PdfStringType on Mk {
   PdfStringType$Factory get PdfStringType => pdfStringType$Factory;
 }
 
@@ -759,7 +759,7 @@ class PdfBytesType$Factory {
 
 const pdfBytesType$Factory = PdfBytesType$Factory();
 
-extension PdfBytesType$Ext$Mk on Mk {
+extension Mk$Ext$PdfBytesType on Mk {
   PdfBytesType$Factory get PdfBytesType => pdfBytesType$Factory;
 }
 
@@ -800,7 +800,7 @@ class PdfEnumType$Factory {
 
 const pdfEnumType$Factory = PdfEnumType$Factory();
 
-extension PdfEnumType$Ext$Mk on Mk {
+extension Mk$Ext$PdfEnumType on Mk {
   PdfEnumType$Factory get PdfEnumType => pdfEnumType$Factory;
 }
 
@@ -841,6 +841,6 @@ class PdfMessageType$Factory {
 
 const pdfMessageType$Factory = PdfMessageType$Factory();
 
-extension PdfMessageType$Ext$Mk on Mk {
+extension Mk$Ext$PdfMessageType on Mk {
   PdfMessageType$Factory get PdfMessageType => pdfMessageType$Factory;
 }

@@ -19,7 +19,7 @@ abstract class RxVal<T> implements Getter<T> {
 }
 
 
-@Impl([RxVal])
+@Impl()
 abstract class RxVar<T> implements RxVal<T>, Variable<T> {
 }
 

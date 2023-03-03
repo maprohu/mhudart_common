@@ -116,11 +116,21 @@ class RxVal$Factory {
       RxVal$Delegate(
         delegate,
       );
+  RxVal$Impl<T> fromGetter<T>({
+    required Getter<T> getter,
+    required Stream<T> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        get: getter.get,
+        changes: changes,
+        lookup: lookup,
+      );
 }
 
 const rxVal$Factory = RxVal$Factory();
 
-extension RxVal$Ext$Mk on Mk {
+extension Mk$Ext$RxVal on Mk {
   RxVal$Factory get RxVal => rxVal$Factory;
 }
 
@@ -303,15 +313,43 @@ class RxVar$Factory {
         lookup: rxVal.data$.lookup,
         set: set,
       );
+  RxVar$Impl<T> fromGetter<T>({
+    required Getter<T> getter,
+    required void Function(
+      T value,
+    )
+        set,
+    required Stream<T> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        get: getter.get,
+        set: set,
+        changes: changes,
+        lookup: lookup,
+      );
+  RxVar$Impl<T> fromSetter<T>({
+    required Setter<T> setter,
+    required T Function() get,
+    required Stream<T> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        set: setter.set,
+        get: get,
+        changes: changes,
+        lookup: lookup,
+      );
 }
 
 const rxVar$Factory = RxVar$Factory();
 
-extension RxVar$Ext$Mk on Mk {
+extension Mk$Ext$RxVar on Mk {
   RxVar$Factory get RxVar => rxVar$Factory;
 }
 
-abstract class RxVarDefault$IData<T> implements RxVar$IData<Opt<T>> {
+abstract class RxVarDefault$IData<T>
+    implements RxVar$IData<Opt<T>>, RxVal$IData<Opt<T>> {
   Opt<T> Function() get defaultValue;
   void Function(
     Opt<T> value,
@@ -393,6 +431,7 @@ typedef IRxVarDefault<T> = HasData<RxVarDefault$IData<T>>;
 
 extension IRxVarDefault$Ext<T> on IRxVarDefault<T> {
   RxVar$Impl<Opt<T>> get asRxVar => RxVar$Impl(data$);
+  RxVal$Impl<Opt<T>> get asRxVal => RxVal$Impl(data$);
   Opt<T> defaultValue() => data$.defaultValue();
   void set(
     Opt<T> value,
@@ -503,10 +542,71 @@ class RxVarDefault$Factory {
         lookup: rxVar.data$.lookup,
         defaultValue: defaultValue,
       );
+  RxVarDefault$Impl<T> fromRxVal$Iface<T>({
+    required RxVal<Opt<T>> rxVal,
+    required Opt<T> Function() defaultValue,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+  }) =>
+      create(
+        get: rxVal.get,
+        changes: () => rxVal.changes,
+        lookup: () => rxVal.lookup,
+        defaultValue: defaultValue,
+        set: set,
+      );
+  RxVarDefault$Impl<T> fromRxVal<T>({
+    required IRxVal<Opt<T>> rxVal,
+    required Opt<T> Function() defaultValue,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+  }) =>
+      create(
+        get: rxVal.data$.get,
+        changes: rxVal.data$.changes,
+        lookup: rxVal.data$.lookup,
+        defaultValue: defaultValue,
+        set: set,
+      );
+  RxVarDefault$Impl<T> fromGetter<T>({
+    required Getter<Opt<T>> getter,
+    required Opt<T> Function() defaultValue,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+    required Stream<Opt<T>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        get: getter.get,
+        defaultValue: defaultValue,
+        set: set,
+        changes: changes,
+        lookup: lookup,
+      );
+  RxVarDefault$Impl<T> fromSetter<T>({
+    required Setter<Opt<T>> setter,
+    required Opt<T> Function() defaultValue,
+    required Opt<T> Function() get,
+    required Stream<Opt<T>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      create(
+        set: setter.set,
+        defaultValue: defaultValue,
+        get: get,
+        changes: changes,
+        lookup: lookup,
+      );
 }
 
 const rxVarDefault$Factory = RxVarDefault$Factory();
 
-extension RxVarDefault$Ext$Mk on Mk {
+extension Mk$Ext$RxVarDefault on Mk {
   RxVarDefault$Factory get RxVarDefault => rxVarDefault$Factory;
 }
