@@ -36,12 +36,12 @@ extension OptRxValX<T> on RxValImplOpt<T> {
 
 extension RxVarOptX<T> on RxVarImplOpt<T> {
   IRxVar<T> orDefaultVar(T defaultValue) => mk.RxVar.fromRxVal(
-        rxVal: asRxVal.orDefault(defaultValue),
+        rxVal: asRxVal().orDefault(defaultValue),
         set: (v) => value = v.here(),
       );
 
   RxVarImplOpt<V> castOptVar<V>() => mk.RxVar.fromRxVal(
-        rxVal: asRxVal.castOptVal<V>(),
+        rxVal: asRxVal().castOptVal<V>(),
         set: (v) => set(v.castOpt<T>()),
       );
 

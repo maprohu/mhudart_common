@@ -10,10 +10,13 @@ import '../.dart_tool/build/entrypoint/build.dart' as build;
 void main(
   List<String> args, [
   SendPort? sendPort,
-])  {
+]) {
   try {
     final buildDir = Directory.current.dir('.dart_tool/build');
-    buildDir.listSync().whereNot((d) => basename(d.path) == 'entrypoint').forEach((d) => d.deleteSync(recursive: true));
+    buildDir
+        .listSync()
+        .whereNot((d) => basename(d.path) == 'entrypoint')
+        .forEach((d) => d.deleteSync(recursive: true));
   } catch (_) {}
   build.main([
     'build',

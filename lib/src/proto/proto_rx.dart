@@ -138,9 +138,9 @@ extension PrxSingleBaseFactoryX on PrxSingleBase$Factory {
   }) =>
       mk.PrxSingleBase.fromRxVar(
         rxVar: mk.RxVar.fromRxVal(
-          rxVal: rxVar.asRxVal.expandOpt((v) => field.getOpt(v)),
+          rxVal: rxVar.asRxVal().expandOpt((v) => field.getOpt(v)),
           set: (opt) {
-            rxVar.asRxVar.rebuildWith(
+            rxVar.asRxVar().rebuildWith(
               updates: (value) {
                 field.setOpt(value, opt);
               },
@@ -172,7 +172,7 @@ extension PrxCollectionBaseFactoryX on PrxCollectionBase$Factory {
   }) =>
       mk.PrxCollectionBase.fromRxVal(
         rxVal: rxVar.mapOpt(field.get),
-        rebuild: (updates) => rxVar.asRxVar.rebuildWith(
+        rebuild: (updates) => rxVar.asRxVar().rebuildWith(
           updates: (value) {
             updates(field.get(value));
           },
@@ -200,7 +200,7 @@ extension PrxCollectionFactoryX on PrxCollection$Factory {
 
 extension PrxCollectionBaseX<T> on IPrxCollectionBase<T> {
   PrxCollectionBase$Impl<V> castPrx<V>() => mk.PrxCollectionBase.fromRxVal(
-        rxVal: asRxVal.castOptVal<V>(),
+        rxVal: asRxVal().castOptVal<V>(),
         rebuild: (updates) => rebuild(
           (t) => updates(t as V),
         ),

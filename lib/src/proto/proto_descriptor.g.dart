@@ -501,6 +501,58 @@ extension Mk$Ext$PdxOneof on Mk {
 // ImplGenerator
 // **************************************************************************
 
+class PdRoot$Impl<M, F, E> extends PdRoot<M, F, E>
+    implements HasData<PdRoot$IData<M, F, E>> {
+  PdRoot$Impl(
+    this.data$,
+  ) : super();
+  final PdRoot$IData<M, F, E> data$;
+  M msgPayload(
+    PdMsg<M, F, E> msg,
+  ) =>
+      data$.msgPayload(
+        msg,
+      );
+  F fldPayload(
+    PdFld<M, F, E> fld,
+  ) =>
+      data$.fldPayload(
+        fld,
+      );
+  E enumPayload(
+    PdEnum<M, F, E> enm,
+  ) =>
+      data$.enumPayload(
+        enm,
+      );
+  FileDescriptorSet get descriptorSet => data$.descriptorSet();
+}
+
+extension HasData$PdRoot$Impl$Ext<M, F, E> on HasData<PdRoot$IData<M, F, E>> {
+  M msgPayload(
+    PdMsg<M, F, E> msg,
+  ) =>
+      data$.msgPayload(
+        msg,
+      );
+  F fldPayload(
+    PdFld<M, F, E> fld,
+  ) =>
+      data$.fldPayload(
+        fld,
+      );
+  E enumPayload(
+    PdEnum<M, F, E> enm,
+  ) =>
+      data$.enumPayload(
+        enm,
+      );
+  FileDescriptorSet get descriptorSet => data$.descriptorSet();
+  PdRoot$Impl<M, F, E> asPdRoot() => PdRoot$Impl(
+        data$,
+      );
+}
+
 abstract class PdRoot$IData<M, F, E> {
   M Function(
     PdMsg<M, F, E> msg,
@@ -513,6 +565,8 @@ abstract class PdRoot$IData<M, F, E> {
   ) get enumPayload;
   FileDescriptorSet Function() get descriptorSet;
 }
+
+typedef IPdRoot<M, F, E> = HasData<PdRoot$IData<M, F, E>>;
 
 class PdRoot$Data<M, F, E> implements PdRoot$IData<M, F, E> {
   PdRoot$Data({
@@ -578,63 +632,42 @@ extension PdRoot$Data$Ext<M, F, E> on PdRoot$Data<M, F, E> {
       );
 }
 
-class PdRoot$Impl<M, F, E> extends PdRoot<M, F, E>
-    implements HasData<PdRoot$IData<M, F, E>> {
-  final PdRoot$IData<M, F, E> data$;
-  PdRoot$Impl(this.data$);
-  M msgPayload(
-    PdMsg<M, F, E> msg,
-  ) =>
-      data$.msgPayload(msg);
-  F fldPayload(
-    PdFld<M, F, E> fld,
-  ) =>
-      data$.fldPayload(fld);
-  E enumPayload(
-    PdEnum<M, F, E> enm,
-  ) =>
-      data$.enumPayload(enm);
-  FileDescriptorSet get descriptorSet => data$.descriptorSet();
-}
-
-typedef IPdRoot<M, F, E> = HasData<PdRoot$IData<M, F, E>>;
-
-extension IPdRoot$Ext<M, F, E> on IPdRoot<M, F, E> {
-  M msgPayload(
-    PdMsg<M, F, E> msg,
-  ) =>
-      data$.msgPayload(msg);
-  F fldPayload(
-    PdFld<M, F, E> fld,
-  ) =>
-      data$.fldPayload(fld);
-  E enumPayload(
-    PdEnum<M, F, E> enm,
-  ) =>
-      data$.enumPayload(enm);
-  FileDescriptorSet get descriptorSet => data$.descriptorSet();
-}
-
 class PdRoot$Delegate<M, F, E> extends PdRoot<M, F, E> {
-  final PdRoot<M, F, E> Function() _delegate;
-  PdRoot$Delegate(this._delegate);
+  PdRoot$Delegate(
+    this.delegate$,
+  ) : super();
+  final PdRoot<M, F, E> Function() delegate$;
   M msgPayload(
     PdMsg<M, F, E> msg,
   ) =>
-      _delegate().msgPayload(msg);
+      delegate$().msgPayload(
+        msg,
+      );
   F fldPayload(
     PdFld<M, F, E> fld,
   ) =>
-      _delegate().fldPayload(fld);
+      delegate$().fldPayload(
+        fld,
+      );
   E enumPayload(
     PdEnum<M, F, E> enm,
   ) =>
-      _delegate().enumPayload(enm);
-  FileDescriptorSet get descriptorSet => _delegate().descriptorSet;
+      delegate$().enumPayload(
+        enm,
+      );
+  FileDescriptorSet get descriptorSet => delegate$().descriptorSet;
 }
 
 class PdRoot$Factory {
-  const PdRoot$Factory();
+  const PdRoot$Factory._();
+  static const instance = PdRoot$Factory._();
+}
+
+extension Mk$PdRoot$Ext on Mk {
+  PdRoot$Factory get PdRoot => PdRoot$Factory.instance;
+}
+
+extension PdRoot$Factory$Ext on PdRoot$Factory {
   PdRoot$Impl<M, F, E> call<M, F, E>({
     required M Function(
       PdMsg<M, F, E> msg,
@@ -701,14 +734,8 @@ class PdRoot$Factory {
           msgPayload: msgPayload,
           fldPayload: fldPayload,
           enumPayload: enumPayload,
-          descriptorSet: descriptorSet.asConstant(),
+          descriptorSet: () => descriptorSet,
         ),
-      );
-  PdRoot<M, F, E> delegate<M, F, E>(
-    PdRoot<M, F, E> Function() delegate,
-  ) =>
-      PdRoot$Delegate(
-        delegate,
       );
   PdRoot$Impl<M, F, E> fromPdMsgContainer<M, F, E>({
     required PdMsgContainer<M, F, E> pdMsgContainer,
@@ -726,11 +753,13 @@ class PdRoot$Factory {
         enumPayload,
     required FileDescriptorSet Function() descriptorSet,
   }) =>
-      create(
-        msgPayload: msgPayload,
-        fldPayload: fldPayload,
-        enumPayload: enumPayload,
-        descriptorSet: descriptorSet,
+      PdRoot$Impl(
+        PdRoot$Data(
+          msgPayload: msgPayload,
+          fldPayload: fldPayload,
+          enumPayload: enumPayload,
+          descriptorSet: descriptorSet,
+        ),
       );
   PdRoot$Impl<M, F, E> fromPdEnumResolver<M, F, E>({
     required PdEnumResolver<M, F, E> pdEnumResolver,
@@ -748,16 +777,12 @@ class PdRoot$Factory {
         enumPayload,
     required FileDescriptorSet Function() descriptorSet,
   }) =>
-      create(
-        msgPayload: msgPayload,
-        fldPayload: fldPayload,
-        enumPayload: enumPayload,
-        descriptorSet: descriptorSet,
+      PdRoot$Impl(
+        PdRoot$Data(
+          msgPayload: msgPayload,
+          fldPayload: fldPayload,
+          enumPayload: enumPayload,
+          descriptorSet: descriptorSet,
+        ),
       );
-}
-
-const pdRoot$Factory = PdRoot$Factory();
-
-extension Mk$Ext$PdRoot on Mk {
-  PdRoot$Factory get PdRoot => pdRoot$Factory;
 }
