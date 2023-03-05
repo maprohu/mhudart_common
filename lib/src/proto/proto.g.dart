@@ -100,6 +100,33 @@ class Cardinality$Visitor$Impl<R$> extends Cardinality$Visitor<R$>
       );
 }
 
+extension Cardinality$Visitor$Impl$Ext<R$> on Cardinality$Visitor$Impl<R$> {
+  Cardinality$Visitor$Impl<R$> overrideWith(
+    Cardinality$Visitor$Impl<R$> override$,
+  ) =>
+      Cardinality$Visitor$Impl(data$.overrideWith(override$.data$));
+}
+
+extension Cardinality$Visitor$Ext<R$> on Cardinality$Visitor<R$> {
+  Cardinality$Visitor$Impl<R$> asImpl() =>
+      castOrCreate<Cardinality$Visitor$Impl<R$>>(() => wrap$());
+  Cardinality$Visitor$Impl<R$> wrap$() => Cardinality$Visitor$Impl(
+        Cardinality$Visitor$Data(
+          cardinality: cardinality,
+          mapOf: mapOf,
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+          oneOf: oneOf,
+        ),
+      );
+  Cardinality$Visitor$Impl<R$> get toImpl => asImpl();
+  Cardinality$Visitor$Impl<R$> overrideWith(
+    Cardinality$Visitor<R$> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$Cardinality$Visitor$Impl$Ext<R$>
     on HasData<Cardinality$Visitor$IData<R$>> {
   R$ cardinality(
@@ -142,6 +169,79 @@ extension HasData$Cardinality$Visitor$Impl$Ext<R$>
       Cardinality$Visitor$Impl(
         data$,
       );
+  Cardinality$Visitor$Impl<R$> get toImpl => asCardinality$Visitor();
+  Cardinality$Visitor$Impl<R$> copyWith({
+    R$ Function(
+      FieldInfo cardinality,
+    )?
+        cardinality,
+    R$ Function(
+      MapFieldInfo mapOf,
+    )?
+        mapOf,
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
+  }) =>
+      Cardinality$Visitor$Impl(data$.copyWith(
+        cardinality: cardinality,
+        mapOf: mapOf,
+        nonMap: nonMap,
+        single: single,
+        repeated: repeated,
+        oneOf: oneOf,
+      ));
+  Cardinality$Visitor$Impl<R$> copyWithOpt({
+    R$ Function(
+      FieldInfo cardinality,
+    )?
+        cardinality,
+    R$ Function(
+      MapFieldInfo mapOf,
+    )?
+        mapOf,
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
+  }) =>
+      Cardinality$Visitor$Impl(data$.copyWithOpt(
+        cardinality: cardinality,
+        mapOf: mapOf,
+        nonMap: nonMap,
+        single: single,
+        repeated: repeated,
+        oneOf: oneOf,
+      ));
+  Cardinality$Visitor$Impl<R$> overrideWith(
+    HasData<Cardinality$Visitor$IData<R$>> override$,
+  ) =>
+      Cardinality$Visitor$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class Cardinality$Visitor$IData<R$> {
@@ -168,6 +268,81 @@ abstract class Cardinality$Visitor$IData<R$> {
 
 typedef ICardinality$Visitor<R$> = HasData<Cardinality$Visitor$IData<R$>>;
 
+extension Cardinality$Visitor$IData$Ext<R$> on Cardinality$Visitor$IData<R$> {
+  Cardinality$Visitor$Data<R$> copyWith({
+    R$ Function(
+      FieldInfo cardinality,
+    )?
+        cardinality,
+    R$ Function(
+      MapFieldInfo mapOf,
+    )?
+        mapOf,
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
+  }) =>
+      Cardinality$Visitor$Data(
+        cardinality: cardinality ?? this.cardinality,
+        mapOf: mapOf ?? this.mapOf,
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+        oneOf: oneOf ?? this.oneOf,
+      );
+  Cardinality$Visitor$Data<R$> copyWithOpt({
+    R$ Function(
+      FieldInfo cardinality,
+    )?
+        cardinality,
+    R$ Function(
+      MapFieldInfo mapOf,
+    )?
+        mapOf,
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
+  }) =>
+      Cardinality$Visitor$Data(
+        cardinality: cardinality ?? this.cardinality,
+        mapOf: mapOf ?? this.mapOf,
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+        oneOf: oneOf ?? this.oneOf,
+      );
+  Cardinality$Visitor$Impl<R$> asCardinality$Visitor() =>
+      Cardinality$Visitor$Impl(
+        this,
+      );
+}
+
 class Cardinality$Visitor$Data<R$> implements Cardinality$Visitor$IData<R$> {
   Cardinality$Visitor$Data({
     required this.cardinality,
@@ -177,6 +352,16 @@ class Cardinality$Visitor$Data<R$> implements Cardinality$Visitor$IData<R$> {
     required this.repeated,
     required this.oneOf,
   });
+  Cardinality$Visitor$Data.fromBase(
+    Cardinality$Visitor<R$> base,
+  ) : this(
+          cardinality: base.cardinality,
+          mapOf: base.mapOf,
+          nonMap: base.nonMap,
+          single: base.single,
+          repeated: base.repeated,
+          oneOf: base.oneOf,
+        );
   final R$ Function(
     FieldInfo cardinality,
   ) cardinality;
@@ -630,6 +815,31 @@ class NonMap$Visitor$Impl<R$> extends NonMap$Visitor<R$>
       );
 }
 
+extension NonMap$Visitor$Impl$Ext<R$> on NonMap$Visitor$Impl<R$> {
+  NonMap$Visitor$Impl<R$> overrideWith(
+    NonMap$Visitor$Impl<R$> override$,
+  ) =>
+      NonMap$Visitor$Impl(data$.overrideWith(override$.data$));
+}
+
+extension NonMap$Visitor$Ext<R$> on NonMap$Visitor<R$> {
+  NonMap$Visitor$Impl<R$> asImpl() =>
+      castOrCreate<NonMap$Visitor$Impl<R$>>(() => wrap$());
+  NonMap$Visitor$Impl<R$> wrap$() => NonMap$Visitor$Impl(
+        NonMap$Visitor$Data(
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+          oneOf: oneOf,
+        ),
+      );
+  NonMap$Visitor$Impl<R$> get toImpl => asImpl();
+  NonMap$Visitor$Impl<R$> overrideWith(
+    NonMap$Visitor<R$> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$NonMap$Visitor$Impl$Ext<R$>
     on HasData<NonMap$Visitor$IData<R$>> {
   R$ nonMap(
@@ -659,6 +869,59 @@ extension HasData$NonMap$Visitor$Impl$Ext<R$>
   NonMap$Visitor$Impl<R$> asNonMap$Visitor() => NonMap$Visitor$Impl(
         data$,
       );
+  NonMap$Visitor$Impl<R$> get toImpl => asNonMap$Visitor();
+  NonMap$Visitor$Impl<R$> copyWith({
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
+  }) =>
+      NonMap$Visitor$Impl(data$.copyWith(
+        nonMap: nonMap,
+        single: single,
+        repeated: repeated,
+        oneOf: oneOf,
+      ));
+  NonMap$Visitor$Impl<R$> copyWithOpt({
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
+  }) =>
+      NonMap$Visitor$Impl(data$.copyWithOpt(
+        nonMap: nonMap,
+        single: single,
+        repeated: repeated,
+        oneOf: oneOf,
+      ));
+  NonMap$Visitor$Impl<R$> overrideWith(
+    HasData<NonMap$Visitor$IData<R$>> override$,
+  ) =>
+      NonMap$Visitor$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class NonMap$Visitor$IData<R$> {
@@ -679,6 +942,60 @@ abstract class NonMap$Visitor$IData<R$> {
 
 typedef INonMap$Visitor<R$> = HasData<NonMap$Visitor$IData<R$>>;
 
+extension NonMap$Visitor$IData$Ext<R$> on NonMap$Visitor$IData<R$> {
+  NonMap$Visitor$Data<R$> copyWith({
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
+  }) =>
+      NonMap$Visitor$Data(
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+        oneOf: oneOf ?? this.oneOf,
+      );
+  NonMap$Visitor$Data<R$> copyWithOpt({
+    R$ Function(
+      FieldInfo nonMap,
+    )?
+        nonMap,
+    R$ Function(
+      FieldInfo single,
+    )?
+        single,
+    R$ Function(
+      FieldInfo repeated,
+    )?
+        repeated,
+    R$ Function(
+      FieldInfo oneOf,
+    )?
+        oneOf,
+  }) =>
+      NonMap$Visitor$Data(
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+        oneOf: oneOf ?? this.oneOf,
+      );
+  NonMap$Visitor$Impl<R$> asNonMap$Visitor() => NonMap$Visitor$Impl(
+        this,
+      );
+}
+
 class NonMap$Visitor$Data<R$> implements NonMap$Visitor$IData<R$> {
   NonMap$Visitor$Data({
     required this.nonMap,
@@ -686,6 +1003,14 @@ class NonMap$Visitor$Data<R$> implements NonMap$Visitor$IData<R$> {
     required this.repeated,
     required this.oneOf,
   });
+  NonMap$Visitor$Data.fromBase(
+    NonMap$Visitor<R$> base,
+  ) : this(
+          nonMap: base.nonMap,
+          single: base.single,
+          repeated: base.repeated,
+          oneOf: base.oneOf,
+        );
   final R$ Function(
     FieldInfo nonMap,
   ) nonMap;
@@ -1100,6 +1425,33 @@ class ValueType$Visitor$Impl<R$> extends ValueType$Visitor<R$>
       );
 }
 
+extension ValueType$Visitor$Impl$Ext<R$> on ValueType$Visitor$Impl<R$> {
+  ValueType$Visitor$Impl<R$> overrideWith(
+    ValueType$Visitor$Impl<R$> override$,
+  ) =>
+      ValueType$Visitor$Impl(data$.overrideWith(override$.data$));
+}
+
+extension ValueType$Visitor$Ext<R$> on ValueType$Visitor<R$> {
+  ValueType$Visitor$Impl<R$> asImpl() =>
+      castOrCreate<ValueType$Visitor$Impl<R$>>(() => wrap$());
+  ValueType$Visitor$Impl<R$> wrap$() => ValueType$Visitor$Impl(
+        ValueType$Visitor$Data(
+          valueType: valueType,
+          boolType: boolType,
+          intType: intType,
+          stringType: stringType,
+          enumType: enumType,
+          messageType: messageType,
+        ),
+      );
+  ValueType$Visitor$Impl<R$> get toImpl => asImpl();
+  ValueType$Visitor$Impl<R$> overrideWith(
+    ValueType$Visitor<R$> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$ValueType$Visitor$Impl$Ext<R$>
     on HasData<ValueType$Visitor$IData<R$>> {
   R$ valueType() => data$.valueType();
@@ -1116,6 +1468,49 @@ extension HasData$ValueType$Visitor$Impl$Ext<R$>
   ValueType$Visitor$Impl<R$> asValueType$Visitor() => ValueType$Visitor$Impl(
         data$,
       );
+  ValueType$Visitor$Impl<R$> get toImpl => asValueType$Visitor();
+  ValueType$Visitor$Impl<R$> copyWith({
+    R$ Function()? valueType,
+    R$ Function()? boolType,
+    R$ Function()? intType,
+    R$ Function()? stringType,
+    R$ Function()? enumType,
+    R$ Function(
+      BuilderInfo messageType,
+    )?
+        messageType,
+  }) =>
+      ValueType$Visitor$Impl(data$.copyWith(
+        valueType: valueType,
+        boolType: boolType,
+        intType: intType,
+        stringType: stringType,
+        enumType: enumType,
+        messageType: messageType,
+      ));
+  ValueType$Visitor$Impl<R$> copyWithOpt({
+    R$ Function()? valueType,
+    R$ Function()? boolType,
+    R$ Function()? intType,
+    R$ Function()? stringType,
+    R$ Function()? enumType,
+    R$ Function(
+      BuilderInfo messageType,
+    )?
+        messageType,
+  }) =>
+      ValueType$Visitor$Impl(data$.copyWithOpt(
+        valueType: valueType,
+        boolType: boolType,
+        intType: intType,
+        stringType: stringType,
+        enumType: enumType,
+        messageType: messageType,
+      ));
+  ValueType$Visitor$Impl<R$> overrideWith(
+    HasData<ValueType$Visitor$IData<R$>> override$,
+  ) =>
+      ValueType$Visitor$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class ValueType$Visitor$IData<R$> {
@@ -1132,6 +1527,50 @@ abstract class ValueType$Visitor$IData<R$> {
 
 typedef IValueType$Visitor<R$> = HasData<ValueType$Visitor$IData<R$>>;
 
+extension ValueType$Visitor$IData$Ext<R$> on ValueType$Visitor$IData<R$> {
+  ValueType$Visitor$Data<R$> copyWith({
+    R$ Function()? valueType,
+    R$ Function()? boolType,
+    R$ Function()? intType,
+    R$ Function()? stringType,
+    R$ Function()? enumType,
+    R$ Function(
+      BuilderInfo messageType,
+    )?
+        messageType,
+  }) =>
+      ValueType$Visitor$Data(
+        valueType: valueType ?? this.valueType,
+        boolType: boolType ?? this.boolType,
+        intType: intType ?? this.intType,
+        stringType: stringType ?? this.stringType,
+        enumType: enumType ?? this.enumType,
+        messageType: messageType ?? this.messageType,
+      );
+  ValueType$Visitor$Data<R$> copyWithOpt({
+    R$ Function()? valueType,
+    R$ Function()? boolType,
+    R$ Function()? intType,
+    R$ Function()? stringType,
+    R$ Function()? enumType,
+    R$ Function(
+      BuilderInfo messageType,
+    )?
+        messageType,
+  }) =>
+      ValueType$Visitor$Data(
+        valueType: valueType ?? this.valueType,
+        boolType: boolType ?? this.boolType,
+        intType: intType ?? this.intType,
+        stringType: stringType ?? this.stringType,
+        enumType: enumType ?? this.enumType,
+        messageType: messageType ?? this.messageType,
+      );
+  ValueType$Visitor$Impl<R$> asValueType$Visitor() => ValueType$Visitor$Impl(
+        this,
+      );
+}
+
 class ValueType$Visitor$Data<R$> implements ValueType$Visitor$IData<R$> {
   ValueType$Visitor$Data({
     required this.valueType,
@@ -1141,6 +1580,16 @@ class ValueType$Visitor$Data<R$> implements ValueType$Visitor$IData<R$> {
     required this.enumType,
     required this.messageType,
   });
+  ValueType$Visitor$Data.fromBase(
+    ValueType$Visitor<R$> base,
+  ) : this(
+          valueType: base.valueType,
+          boolType: base.boolType,
+          intType: base.intType,
+          stringType: base.stringType,
+          enumType: base.enumType,
+          messageType: base.messageType,
+        );
   final R$ Function() valueType;
   final R$ Function() boolType;
   final R$ Function() intType;

@@ -81,6 +81,31 @@ class PmAccessRead$Visitor$Impl<R$, T, V> extends PmAccessRead$Visitor<R$, T, V>
       );
 }
 
+extension PmAccessRead$Visitor$Impl$Ext<R$, T, V>
+    on PmAccessRead$Visitor$Impl<R$, T, V> {
+  PmAccessRead$Visitor$Impl<R$, T, V> overrideWith(
+    PmAccessRead$Visitor$Impl<R$, T, V> override$,
+  ) =>
+      PmAccessRead$Visitor$Impl(data$.overrideWith(override$.data$));
+}
+
+extension PmAccessRead$Visitor$Ext<R$, T, V> on PmAccessRead$Visitor<R$, T, V> {
+  PmAccessRead$Visitor$Impl<R$, T, V> asImpl() =>
+      castOrCreate<PmAccessRead$Visitor$Impl<R$, T, V>>(() => wrap$());
+  PmAccessRead$Visitor$Impl<R$, T, V> wrap$() => PmAccessRead$Visitor$Impl(
+        PmAccessRead$Visitor$Data(
+          read: read,
+          full: full,
+          message: message,
+        ),
+      );
+  PmAccessRead$Visitor$Impl<R$, T, V> get toImpl => asImpl();
+  PmAccessRead$Visitor$Impl<R$, T, V> overrideWith(
+    PmAccessRead$Visitor<R$, T, V> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$PmAccessRead$Visitor$Impl$Ext<R$, T, V>
     on HasData<PmAccessRead$Visitor$IData<R$, T, V>> {
   R$ read(
@@ -105,6 +130,49 @@ extension HasData$PmAccessRead$Visitor$Impl$Ext<R$, T, V>
       PmAccessRead$Visitor$Impl(
         data$,
       );
+  PmAccessRead$Visitor$Impl<R$, T, V> get toImpl => asPmAccessRead$Visitor();
+  PmAccessRead$Visitor$Impl<R$, T, V> copyWith({
+    R$ Function(
+      PmReadField<T, V> read,
+    )?
+        read,
+    R$ Function(
+      PmFullField<T, V> full,
+    )?
+        full,
+    R$ Function(
+      PmMsgField<T, V> message,
+    )?
+        message,
+  }) =>
+      PmAccessRead$Visitor$Impl(data$.copyWith(
+        read: read,
+        full: full,
+        message: message,
+      ));
+  PmAccessRead$Visitor$Impl<R$, T, V> copyWithOpt({
+    R$ Function(
+      PmReadField<T, V> read,
+    )?
+        read,
+    R$ Function(
+      PmFullField<T, V> full,
+    )?
+        full,
+    R$ Function(
+      PmMsgField<T, V> message,
+    )?
+        message,
+  }) =>
+      PmAccessRead$Visitor$Impl(data$.copyWithOpt(
+        read: read,
+        full: full,
+        message: message,
+      ));
+  PmAccessRead$Visitor$Impl<R$, T, V> overrideWith(
+    HasData<PmAccessRead$Visitor$IData<R$, T, V>> override$,
+  ) =>
+      PmAccessRead$Visitor$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class PmAccessRead$Visitor$IData<R$, T, V> {
@@ -123,6 +191,52 @@ abstract class PmAccessRead$Visitor$IData<R$, T, V> {
 typedef IPmAccessRead$Visitor<R$, T, V>
     = HasData<PmAccessRead$Visitor$IData<R$, T, V>>;
 
+extension PmAccessRead$Visitor$IData$Ext<R$, T, V>
+    on PmAccessRead$Visitor$IData<R$, T, V> {
+  PmAccessRead$Visitor$Data<R$, T, V> copyWith({
+    R$ Function(
+      PmReadField<T, V> read,
+    )?
+        read,
+    R$ Function(
+      PmFullField<T, V> full,
+    )?
+        full,
+    R$ Function(
+      PmMsgField<T, V> message,
+    )?
+        message,
+  }) =>
+      PmAccessRead$Visitor$Data(
+        read: read ?? this.read,
+        full: full ?? this.full,
+        message: message ?? this.message,
+      );
+  PmAccessRead$Visitor$Data<R$, T, V> copyWithOpt({
+    R$ Function(
+      PmReadField<T, V> read,
+    )?
+        read,
+    R$ Function(
+      PmFullField<T, V> full,
+    )?
+        full,
+    R$ Function(
+      PmMsgField<T, V> message,
+    )?
+        message,
+  }) =>
+      PmAccessRead$Visitor$Data(
+        read: read ?? this.read,
+        full: full ?? this.full,
+        message: message ?? this.message,
+      );
+  PmAccessRead$Visitor$Impl<R$, T, V> asPmAccessRead$Visitor() =>
+      PmAccessRead$Visitor$Impl(
+        this,
+      );
+}
+
 class PmAccessRead$Visitor$Data<R$, T, V>
     implements PmAccessRead$Visitor$IData<R$, T, V> {
   PmAccessRead$Visitor$Data({
@@ -130,6 +244,13 @@ class PmAccessRead$Visitor$Data<R$, T, V>
     required this.full,
     required this.message,
   });
+  PmAccessRead$Visitor$Data.fromBase(
+    PmAccessRead$Visitor<R$, T, V> base,
+  ) : this(
+          read: base.read,
+          full: base.full,
+          message: base.message,
+        );
   final R$ Function(
     PmReadField<T, V> read,
   ) read;
@@ -400,6 +521,30 @@ class PmAccessFull$Visitor$Impl<R$, T, V> extends PmAccessFull$Visitor<R$, T, V>
       );
 }
 
+extension PmAccessFull$Visitor$Impl$Ext<R$, T, V>
+    on PmAccessFull$Visitor$Impl<R$, T, V> {
+  PmAccessFull$Visitor$Impl<R$, T, V> overrideWith(
+    PmAccessFull$Visitor$Impl<R$, T, V> override$,
+  ) =>
+      PmAccessFull$Visitor$Impl(data$.overrideWith(override$.data$));
+}
+
+extension PmAccessFull$Visitor$Ext<R$, T, V> on PmAccessFull$Visitor<R$, T, V> {
+  PmAccessFull$Visitor$Impl<R$, T, V> asImpl() =>
+      castOrCreate<PmAccessFull$Visitor$Impl<R$, T, V>>(() => wrap$());
+  PmAccessFull$Visitor$Impl<R$, T, V> wrap$() => PmAccessFull$Visitor$Impl(
+        PmAccessFull$Visitor$Data(
+          full: full,
+          message: message,
+        ),
+      );
+  PmAccessFull$Visitor$Impl<R$, T, V> get toImpl => asImpl();
+  PmAccessFull$Visitor$Impl<R$, T, V> overrideWith(
+    PmAccessFull$Visitor<R$, T, V> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$PmAccessFull$Visitor$Impl$Ext<R$, T, V>
     on HasData<PmAccessFull$Visitor$IData<R$, T, V>> {
   R$ full(
@@ -418,6 +563,39 @@ extension HasData$PmAccessFull$Visitor$Impl$Ext<R$, T, V>
       PmAccessFull$Visitor$Impl(
         data$,
       );
+  PmAccessFull$Visitor$Impl<R$, T, V> get toImpl => asPmAccessFull$Visitor();
+  PmAccessFull$Visitor$Impl<R$, T, V> copyWith({
+    R$ Function(
+      PmFullField<T, V> full,
+    )?
+        full,
+    R$ Function(
+      PmMsgField<T, V> message,
+    )?
+        message,
+  }) =>
+      PmAccessFull$Visitor$Impl(data$.copyWith(
+        full: full,
+        message: message,
+      ));
+  PmAccessFull$Visitor$Impl<R$, T, V> copyWithOpt({
+    R$ Function(
+      PmFullField<T, V> full,
+    )?
+        full,
+    R$ Function(
+      PmMsgField<T, V> message,
+    )?
+        message,
+  }) =>
+      PmAccessFull$Visitor$Impl(data$.copyWithOpt(
+        full: full,
+        message: message,
+      ));
+  PmAccessFull$Visitor$Impl<R$, T, V> overrideWith(
+    HasData<PmAccessFull$Visitor$IData<R$, T, V>> override$,
+  ) =>
+      PmAccessFull$Visitor$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class PmAccessFull$Visitor$IData<R$, T, V> {
@@ -433,12 +611,54 @@ abstract class PmAccessFull$Visitor$IData<R$, T, V> {
 typedef IPmAccessFull$Visitor<R$, T, V>
     = HasData<PmAccessFull$Visitor$IData<R$, T, V>>;
 
+extension PmAccessFull$Visitor$IData$Ext<R$, T, V>
+    on PmAccessFull$Visitor$IData<R$, T, V> {
+  PmAccessFull$Visitor$Data<R$, T, V> copyWith({
+    R$ Function(
+      PmFullField<T, V> full,
+    )?
+        full,
+    R$ Function(
+      PmMsgField<T, V> message,
+    )?
+        message,
+  }) =>
+      PmAccessFull$Visitor$Data(
+        full: full ?? this.full,
+        message: message ?? this.message,
+      );
+  PmAccessFull$Visitor$Data<R$, T, V> copyWithOpt({
+    R$ Function(
+      PmFullField<T, V> full,
+    )?
+        full,
+    R$ Function(
+      PmMsgField<T, V> message,
+    )?
+        message,
+  }) =>
+      PmAccessFull$Visitor$Data(
+        full: full ?? this.full,
+        message: message ?? this.message,
+      );
+  PmAccessFull$Visitor$Impl<R$, T, V> asPmAccessFull$Visitor() =>
+      PmAccessFull$Visitor$Impl(
+        this,
+      );
+}
+
 class PmAccessFull$Visitor$Data<R$, T, V>
     implements PmAccessFull$Visitor$IData<R$, T, V> {
   PmAccessFull$Visitor$Data({
     required this.full,
     required this.message,
   });
+  PmAccessFull$Visitor$Data.fromBase(
+    PmAccessFull$Visitor<R$, T, V> base,
+  ) : this(
+          full: base.full,
+          message: base.message,
+        );
   final R$ Function(
     PmFullField<T, V> full,
   ) full;

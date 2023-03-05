@@ -18,6 +18,29 @@ class RxVal$Impl<T> extends RxVal<T> implements HasData<RxVal$IData<T>> {
   T get() => data$.get();
 }
 
+extension RxVal$Impl$Ext<T> on RxVal$Impl<T> {
+  RxVal$Impl<T> overrideWith(
+    RxVal$Impl<T> override$,
+  ) =>
+      RxVal$Impl(data$.overrideWith(override$.data$));
+}
+
+extension RxVal$Ext<T> on RxVal<T> {
+  RxVal$Impl<T> asImpl() => castOrCreate<RxVal$Impl<T>>(() => wrap$());
+  RxVal$Impl<T> wrap$() => RxVal$Impl(
+        RxVal$Data(
+          changes: () => changes,
+          lookup: () => lookup,
+          get: get,
+        ),
+      );
+  RxVal$Impl<T> get toImpl => asImpl();
+  RxVal$Impl<T> overrideWith(
+    RxVal<T> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$RxVal$Impl$Ext<T> on HasData<RxVal$IData<T>> {
   Stream<T> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
@@ -25,6 +48,31 @@ extension HasData$RxVal$Impl$Ext<T> on HasData<RxVal$IData<T>> {
   RxVal$Impl<T> asRxVal() => RxVal$Impl(
         data$,
       );
+  RxVal$Impl<T> get toImpl => asRxVal();
+  RxVal$Impl<T> copyWith({
+    Stream<T> Function()? changes,
+    Lookup Function()? lookup,
+    T Function()? get,
+  }) =>
+      RxVal$Impl(data$.copyWith(
+        changes: changes,
+        lookup: lookup,
+        get: get,
+      ));
+  RxVal$Impl<T> copyWithOpt({
+    Stream<T> Function()? changes,
+    Lookup Function()? lookup,
+    T Function()? get,
+  }) =>
+      RxVal$Impl(data$.copyWithOpt(
+        changes: changes,
+        lookup: lookup,
+        get: get,
+      ));
+  RxVal$Impl<T> overrideWith(
+    HasData<RxVal$IData<T>> override$,
+  ) =>
+      RxVal$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class RxVal$IData<T> {
@@ -36,12 +84,45 @@ abstract class RxVal$IData<T> {
 
 typedef IRxVal<T> = HasData<RxVal$IData<T>>;
 
+extension RxVal$IData$Ext<T> on RxVal$IData<T> {
+  RxVal$Data<T> copyWith({
+    Stream<T> Function()? changes,
+    Lookup Function()? lookup,
+    T Function()? get,
+  }) =>
+      RxVal$Data(
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+      );
+  RxVal$Data<T> copyWithOpt({
+    Stream<T> Function()? changes,
+    Lookup Function()? lookup,
+    T Function()? get,
+  }) =>
+      RxVal$Data(
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+      );
+  RxVal$Impl<T> asRxVal() => RxVal$Impl(
+        this,
+      );
+}
+
 class RxVal$Data<T> implements RxVal$IData<T> {
   RxVal$Data({
     required this.changes,
     required this.lookup,
     required this.get,
   });
+  RxVal$Data.fromBase(
+    RxVal<T> base,
+  ) : this(
+          changes: () => base.changes,
+          lookup: () => base.lookup,
+          get: base.get,
+        );
   final Stream<T> Function() changes;
   final Lookup Function() lookup;
   final T Function() get;
@@ -156,6 +237,30 @@ class RxVar$Impl<T> extends RxVar<T> implements HasData<RxVar$IData<T>> {
       );
 }
 
+extension RxVar$Impl$Ext<T> on RxVar$Impl<T> {
+  RxVar$Impl<T> overrideWith(
+    RxVar$Impl<T> override$,
+  ) =>
+      RxVar$Impl(data$.overrideWith(override$.data$));
+}
+
+extension RxVar$Ext<T> on RxVar<T> {
+  RxVar$Impl<T> asImpl() => castOrCreate<RxVar$Impl<T>>(() => wrap$());
+  RxVar$Impl<T> wrap$() => RxVar$Impl(
+        RxVar$Data(
+          changes: () => changes,
+          lookup: () => lookup,
+          get: get,
+          set: set,
+        ),
+      );
+  RxVar$Impl<T> get toImpl => asImpl();
+  RxVar$Impl<T> overrideWith(
+    RxVar<T> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$RxVar$Impl$Ext<T> on HasData<RxVar$IData<T>> {
   Stream<T> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
@@ -169,6 +274,41 @@ extension HasData$RxVar$Impl$Ext<T> on HasData<RxVar$IData<T>> {
   RxVar$Impl<T> asRxVar() => RxVar$Impl(
         data$,
       );
+  RxVar$Impl<T> get toImpl => asRxVar();
+  RxVar$Impl<T> copyWith({
+    Stream<T> Function()? changes,
+    Lookup Function()? lookup,
+    T Function()? get,
+    void Function(
+      T value,
+    )?
+        set,
+  }) =>
+      RxVar$Impl(data$.copyWith(
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+  RxVar$Impl<T> copyWithOpt({
+    Stream<T> Function()? changes,
+    Lookup Function()? lookup,
+    T Function()? get,
+    void Function(
+      T value,
+    )?
+        set,
+  }) =>
+      RxVar$Impl(data$.copyWithOpt(
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+  RxVar$Impl<T> overrideWith(
+    HasData<RxVar$IData<T>> override$,
+  ) =>
+      RxVar$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class RxVar$IData<T> implements RxVal$IData<T> {
@@ -183,6 +323,42 @@ abstract class RxVar$IData<T> implements RxVal$IData<T> {
 
 typedef IRxVar<T> = HasData<RxVar$IData<T>>;
 
+extension RxVar$IData$Ext<T> on RxVar$IData<T> {
+  RxVar$Data<T> copyWith({
+    Stream<T> Function()? changes,
+    Lookup Function()? lookup,
+    T Function()? get,
+    void Function(
+      T value,
+    )?
+        set,
+  }) =>
+      RxVar$Data(
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  RxVar$Data<T> copyWithOpt({
+    Stream<T> Function()? changes,
+    Lookup Function()? lookup,
+    T Function()? get,
+    void Function(
+      T value,
+    )?
+        set,
+  }) =>
+      RxVar$Data(
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  RxVar$Impl<T> asRxVar() => RxVar$Impl(
+        this,
+      );
+}
+
 class RxVar$Data<T> implements RxVar$IData<T> {
   RxVar$Data({
     required this.changes,
@@ -190,6 +366,14 @@ class RxVar$Data<T> implements RxVar$IData<T> {
     required this.get,
     required this.set,
   });
+  RxVar$Data.fromBase(
+    RxVar<T> base,
+  ) : this(
+          changes: () => base.changes,
+          lookup: () => base.lookup,
+          get: base.get,
+          set: base.set,
+        );
   final Stream<T> Function() changes;
   final Lookup Function() lookup;
   final T Function() get;
@@ -387,6 +571,32 @@ class RxVarDefault$Impl<T> extends RxVarDefault<T>
       );
 }
 
+extension RxVarDefault$Impl$Ext<T> on RxVarDefault$Impl<T> {
+  RxVarDefault$Impl<T> overrideWith(
+    RxVarDefault$Impl<T> override$,
+  ) =>
+      RxVarDefault$Impl(data$.overrideWith(override$.data$));
+}
+
+extension RxVarDefault$Ext<T> on RxVarDefault<T> {
+  RxVarDefault$Impl<T> asImpl() =>
+      castOrCreate<RxVarDefault$Impl<T>>(() => wrap$());
+  RxVarDefault$Impl<T> wrap$() => RxVarDefault$Impl(
+        RxVarDefault$Data(
+          defaultValue: defaultValue,
+          changes: () => changes,
+          lookup: () => lookup,
+          get: get,
+          set: set,
+        ),
+      );
+  RxVarDefault$Impl<T> get toImpl => asImpl();
+  RxVarDefault$Impl<T> overrideWith(
+    RxVarDefault<T> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$RxVarDefault$Impl$Ext<T> on HasData<RxVarDefault$IData<T>> {
   Opt<T> defaultValue() => data$.defaultValue();
   Stream<Opt<T>> get changes => data$.changes();
@@ -401,6 +611,45 @@ extension HasData$RxVarDefault$Impl$Ext<T> on HasData<RxVarDefault$IData<T>> {
   RxVarDefault$Impl<T> asRxVarDefault() => RxVarDefault$Impl(
         data$,
       );
+  RxVarDefault$Impl<T> get toImpl => asRxVarDefault();
+  RxVarDefault$Impl<T> copyWith({
+    Opt<T> Function()? defaultValue,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+  }) =>
+      RxVarDefault$Impl(data$.copyWith(
+        defaultValue: defaultValue,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+  RxVarDefault$Impl<T> copyWithOpt({
+    Opt<T> Function()? defaultValue,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+  }) =>
+      RxVarDefault$Impl(data$.copyWithOpt(
+        defaultValue: defaultValue,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+  RxVarDefault$Impl<T> overrideWith(
+    HasData<RxVarDefault$IData<T>> override$,
+  ) =>
+      RxVarDefault$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class RxVarDefault$IData<T> implements RxVar$IData<Opt<T>> {
@@ -416,6 +665,46 @@ abstract class RxVarDefault$IData<T> implements RxVar$IData<Opt<T>> {
 
 typedef IRxVarDefault<T> = HasData<RxVarDefault$IData<T>>;
 
+extension RxVarDefault$IData$Ext<T> on RxVarDefault$IData<T> {
+  RxVarDefault$Data<T> copyWith({
+    Opt<T> Function()? defaultValue,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+  }) =>
+      RxVarDefault$Data(
+        defaultValue: defaultValue ?? this.defaultValue,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  RxVarDefault$Data<T> copyWithOpt({
+    Opt<T> Function()? defaultValue,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+  }) =>
+      RxVarDefault$Data(
+        defaultValue: defaultValue ?? this.defaultValue,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  RxVarDefault$Impl<T> asRxVarDefault() => RxVarDefault$Impl(
+        this,
+      );
+}
+
 class RxVarDefault$Data<T> implements RxVarDefault$IData<T> {
   RxVarDefault$Data({
     required this.defaultValue,
@@ -424,6 +713,15 @@ class RxVarDefault$Data<T> implements RxVarDefault$IData<T> {
     required this.get,
     required this.set,
   });
+  RxVarDefault$Data.fromBase(
+    RxVarDefault<T> base,
+  ) : this(
+          defaultValue: base.defaultValue,
+          changes: () => base.changes,
+          lookup: () => base.lookup,
+          get: base.get,
+          set: base.set,
+        );
   final Opt<T> Function() defaultValue;
   final Stream<Opt<T>> Function() changes;
   final Lookup Function() lookup;

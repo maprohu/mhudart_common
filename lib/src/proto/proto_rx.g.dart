@@ -51,6 +51,31 @@ class PrxtType$Visitor$Impl<R$> extends PrxtType$Visitor<R$>
   R$ core() => data$.core();
 }
 
+extension PrxtType$Visitor$Impl$Ext<R$> on PrxtType$Visitor$Impl<R$> {
+  PrxtType$Visitor$Impl<R$> overrideWith(
+    PrxtType$Visitor$Impl<R$> override$,
+  ) =>
+      PrxtType$Visitor$Impl(data$.overrideWith(override$.data$));
+}
+
+extension PrxtType$Visitor$Ext<R$> on PrxtType$Visitor<R$> {
+  PrxtType$Visitor$Impl<R$> asImpl() =>
+      castOrCreate<PrxtType$Visitor$Impl<R$>>(() => wrap$());
+  PrxtType$Visitor$Impl<R$> wrap$() => PrxtType$Visitor$Impl(
+        PrxtType$Visitor$Data(
+          type: type,
+          msg: msg,
+          enm: enm,
+          core: core,
+        ),
+      );
+  PrxtType$Visitor$Impl<R$> get toImpl => asImpl();
+  PrxtType$Visitor$Impl<R$> overrideWith(
+    PrxtType$Visitor<R$> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$PrxtType$Visitor$Impl$Ext<R$>
     on HasData<PrxtType$Visitor$IData<R$>> {
   R$ type() => data$.type();
@@ -60,6 +85,35 @@ extension HasData$PrxtType$Visitor$Impl$Ext<R$>
   PrxtType$Visitor$Impl<R$> asPrxtType$Visitor() => PrxtType$Visitor$Impl(
         data$,
       );
+  PrxtType$Visitor$Impl<R$> get toImpl => asPrxtType$Visitor();
+  PrxtType$Visitor$Impl<R$> copyWith({
+    R$ Function()? type,
+    R$ Function()? msg,
+    R$ Function()? enm,
+    R$ Function()? core,
+  }) =>
+      PrxtType$Visitor$Impl(data$.copyWith(
+        type: type,
+        msg: msg,
+        enm: enm,
+        core: core,
+      ));
+  PrxtType$Visitor$Impl<R$> copyWithOpt({
+    R$ Function()? type,
+    R$ Function()? msg,
+    R$ Function()? enm,
+    R$ Function()? core,
+  }) =>
+      PrxtType$Visitor$Impl(data$.copyWithOpt(
+        type: type,
+        msg: msg,
+        enm: enm,
+        core: core,
+      ));
+  PrxtType$Visitor$Impl<R$> overrideWith(
+    HasData<PrxtType$Visitor$IData<R$>> override$,
+  ) =>
+      PrxtType$Visitor$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class PrxtType$Visitor$IData<R$> {
@@ -72,6 +126,36 @@ abstract class PrxtType$Visitor$IData<R$> {
 
 typedef IPrxtType$Visitor<R$> = HasData<PrxtType$Visitor$IData<R$>>;
 
+extension PrxtType$Visitor$IData$Ext<R$> on PrxtType$Visitor$IData<R$> {
+  PrxtType$Visitor$Data<R$> copyWith({
+    R$ Function()? type,
+    R$ Function()? msg,
+    R$ Function()? enm,
+    R$ Function()? core,
+  }) =>
+      PrxtType$Visitor$Data(
+        type: type ?? this.type,
+        msg: msg ?? this.msg,
+        enm: enm ?? this.enm,
+        core: core ?? this.core,
+      );
+  PrxtType$Visitor$Data<R$> copyWithOpt({
+    R$ Function()? type,
+    R$ Function()? msg,
+    R$ Function()? enm,
+    R$ Function()? core,
+  }) =>
+      PrxtType$Visitor$Data(
+        type: type ?? this.type,
+        msg: msg ?? this.msg,
+        enm: enm ?? this.enm,
+        core: core ?? this.core,
+      );
+  PrxtType$Visitor$Impl<R$> asPrxtType$Visitor() => PrxtType$Visitor$Impl(
+        this,
+      );
+}
+
 class PrxtType$Visitor$Data<R$> implements PrxtType$Visitor$IData<R$> {
   PrxtType$Visitor$Data({
     required this.type,
@@ -79,6 +163,14 @@ class PrxtType$Visitor$Data<R$> implements PrxtType$Visitor$IData<R$> {
     required this.enm,
     required this.core,
   });
+  PrxtType$Visitor$Data.fromBase(
+    PrxtType$Visitor<R$> base,
+  ) : this(
+          type: base.type,
+          msg: base.msg,
+          enm: base.enm,
+          core: base.core,
+        );
   final R$ Function() type;
   final R$ Function() msg;
   final R$ Function() enm;
@@ -304,6 +396,32 @@ class PrxMessage$Impl<T, L> extends PrxMessage<T, L>
       );
 }
 
+extension PrxMessage$Impl$Ext<T, L> on PrxMessage$Impl<T, L> {
+  PrxMessage$Impl<T, L> overrideWith(
+    PrxMessage$Impl<T, L> override$,
+  ) =>
+      PrxMessage$Impl(data$.overrideWith(override$.data$));
+}
+
+extension PrxMessage$Ext<T, L> on PrxMessage<T, L> {
+  PrxMessage$Impl<T, L> asImpl() =>
+      castOrCreate<PrxMessage$Impl<T, L>>(() => wrap$());
+  PrxMessage$Impl<T, L> wrap$() => PrxMessage$Impl(
+        PrxMessage$Data(
+          message: message,
+          changes: () => changes,
+          lookup: () => lookup,
+          get: get,
+          set: set,
+        ),
+      );
+  PrxMessage$Impl<T, L> get toImpl => asImpl();
+  PrxMessage$Impl<T, L> overrideWith(
+    PrxMessage<T, L> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$PrxMessage$Impl$Ext<T, L> on HasData<PrxMessage$IData<T, L>> {
   PmMessageOfType<T> message() => data$.message();
   Stream<Opt<T>> get changes => data$.changes();
@@ -318,6 +436,45 @@ extension HasData$PrxMessage$Impl$Ext<T, L> on HasData<PrxMessage$IData<T, L>> {
   PrxMessage$Impl<T, L> asPrxMessage() => PrxMessage$Impl(
         data$,
       );
+  PrxMessage$Impl<T, L> get toImpl => asPrxMessage();
+  PrxMessage$Impl<T, L> copyWith({
+    PmMessageOfType<T> Function()? message,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+  }) =>
+      PrxMessage$Impl(data$.copyWith(
+        message: message,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+  PrxMessage$Impl<T, L> copyWithOpt({
+    PmMessageOfType<T> Function()? message,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+  }) =>
+      PrxMessage$Impl(data$.copyWithOpt(
+        message: message,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+  PrxMessage$Impl<T, L> overrideWith(
+    HasData<PrxMessage$IData<T, L>> override$,
+  ) =>
+      PrxMessage$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class PrxMessage$IData<T, L> implements RxVar$IData<Opt<T>> {
@@ -333,6 +490,46 @@ abstract class PrxMessage$IData<T, L> implements RxVar$IData<Opt<T>> {
 
 typedef IPrxMessage<T, L> = HasData<PrxMessage$IData<T, L>>;
 
+extension PrxMessage$IData$Ext<T, L> on PrxMessage$IData<T, L> {
+  PrxMessage$Data<T, L> copyWith({
+    PmMessageOfType<T> Function()? message,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+  }) =>
+      PrxMessage$Data(
+        message: message ?? this.message,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  PrxMessage$Data<T, L> copyWithOpt({
+    PmMessageOfType<T> Function()? message,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+  }) =>
+      PrxMessage$Data(
+        message: message ?? this.message,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  PrxMessage$Impl<T, L> asPrxMessage() => PrxMessage$Impl(
+        this,
+      );
+}
+
 class PrxMessage$Data<T, L> implements PrxMessage$IData<T, L> {
   PrxMessage$Data({
     required this.message,
@@ -341,6 +538,15 @@ class PrxMessage$Data<T, L> implements PrxMessage$IData<T, L> {
     required this.get,
     required this.set,
   });
+  PrxMessage$Data.fromBase(
+    PrxMessage<T, L> base,
+  ) : this(
+          message: base.message,
+          changes: () => base.changes,
+          lookup: () => base.lookup,
+          get: base.get,
+          set: base.set,
+        );
   final PmMessageOfType<T> Function() message;
   final Stream<Opt<T>> Function() changes;
   final Lookup Function() lookup;
@@ -583,6 +789,29 @@ class PrxBase$Impl<T> extends PrxBase<T> implements HasData<PrxBase$IData<T>> {
   Opt<T> get() => data$.get();
 }
 
+extension PrxBase$Impl$Ext<T> on PrxBase$Impl<T> {
+  PrxBase$Impl<T> overrideWith(
+    PrxBase$Impl<T> override$,
+  ) =>
+      PrxBase$Impl(data$.overrideWith(override$.data$));
+}
+
+extension PrxBase$Ext<T> on PrxBase<T> {
+  PrxBase$Impl<T> asImpl() => castOrCreate<PrxBase$Impl<T>>(() => wrap$());
+  PrxBase$Impl<T> wrap$() => PrxBase$Impl(
+        PrxBase$Data(
+          changes: () => changes,
+          lookup: () => lookup,
+          get: get,
+        ),
+      );
+  PrxBase$Impl<T> get toImpl => asImpl();
+  PrxBase$Impl<T> overrideWith(
+    PrxBase<T> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$PrxBase$Impl$Ext<T> on HasData<PrxBase$IData<T>> {
   Stream<Opt<T>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
@@ -590,6 +819,31 @@ extension HasData$PrxBase$Impl$Ext<T> on HasData<PrxBase$IData<T>> {
   PrxBase$Impl<T> asPrxBase() => PrxBase$Impl(
         data$,
       );
+  PrxBase$Impl<T> get toImpl => asPrxBase();
+  PrxBase$Impl<T> copyWith({
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+  }) =>
+      PrxBase$Impl(data$.copyWith(
+        changes: changes,
+        lookup: lookup,
+        get: get,
+      ));
+  PrxBase$Impl<T> copyWithOpt({
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+  }) =>
+      PrxBase$Impl(data$.copyWithOpt(
+        changes: changes,
+        lookup: lookup,
+        get: get,
+      ));
+  PrxBase$Impl<T> overrideWith(
+    HasData<PrxBase$IData<T>> override$,
+  ) =>
+      PrxBase$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class PrxBase$IData<T> implements RxVal$IData<Opt<T>> {
@@ -601,12 +855,45 @@ abstract class PrxBase$IData<T> implements RxVal$IData<Opt<T>> {
 
 typedef IPrxBase<T> = HasData<PrxBase$IData<T>>;
 
+extension PrxBase$IData$Ext<T> on PrxBase$IData<T> {
+  PrxBase$Data<T> copyWith({
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+  }) =>
+      PrxBase$Data(
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+      );
+  PrxBase$Data<T> copyWithOpt({
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+  }) =>
+      PrxBase$Data(
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+      );
+  PrxBase$Impl<T> asPrxBase() => PrxBase$Impl(
+        this,
+      );
+}
+
 class PrxBase$Data<T> implements PrxBase$IData<T> {
   PrxBase$Data({
     required this.changes,
     required this.lookup,
     required this.get,
   });
+  PrxBase$Data.fromBase(
+    PrxBase<T> base,
+  ) : this(
+          changes: () => base.changes,
+          lookup: () => base.lookup,
+          get: base.get,
+        );
   final Stream<Opt<T>> Function() changes;
   final Lookup Function() lookup;
   final Opt<T> Function() get;
@@ -732,6 +1019,31 @@ class PrxCollectionBase$Impl<C> extends PrxCollectionBase<C>
   Opt<C> get() => data$.get();
 }
 
+extension PrxCollectionBase$Impl$Ext<C> on PrxCollectionBase$Impl<C> {
+  PrxCollectionBase$Impl<C> overrideWith(
+    PrxCollectionBase$Impl<C> override$,
+  ) =>
+      PrxCollectionBase$Impl(data$.overrideWith(override$.data$));
+}
+
+extension PrxCollectionBase$Ext<C> on PrxCollectionBase<C> {
+  PrxCollectionBase$Impl<C> asImpl() =>
+      castOrCreate<PrxCollectionBase$Impl<C>>(() => wrap$());
+  PrxCollectionBase$Impl<C> wrap$() => PrxCollectionBase$Impl(
+        PrxCollectionBase$Data(
+          rebuild: rebuild,
+          changes: () => changes,
+          lookup: () => lookup,
+          get: get,
+        ),
+      );
+  PrxCollectionBase$Impl<C> get toImpl => asImpl();
+  PrxCollectionBase$Impl<C> overrideWith(
+    PrxCollectionBase<C> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$PrxCollectionBase$Impl$Ext<C>
     on HasData<PrxCollectionBase$IData<C>> {
   void rebuild(
@@ -746,6 +1058,41 @@ extension HasData$PrxCollectionBase$Impl$Ext<C>
   PrxCollectionBase$Impl<C> asPrxCollectionBase() => PrxCollectionBase$Impl(
         data$,
       );
+  PrxCollectionBase$Impl<C> get toImpl => asPrxCollectionBase();
+  PrxCollectionBase$Impl<C> copyWith({
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<C> Function()? get,
+  }) =>
+      PrxCollectionBase$Impl(data$.copyWith(
+        rebuild: rebuild,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+      ));
+  PrxCollectionBase$Impl<C> copyWithOpt({
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<C> Function()? get,
+  }) =>
+      PrxCollectionBase$Impl(data$.copyWithOpt(
+        rebuild: rebuild,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+      ));
+  PrxCollectionBase$Impl<C> overrideWith(
+    HasData<PrxCollectionBase$IData<C>> override$,
+  ) =>
+      PrxCollectionBase$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class PrxCollectionBase$IData<C> implements PrxBase$IData<C> {
@@ -760,6 +1107,42 @@ abstract class PrxCollectionBase$IData<C> implements PrxBase$IData<C> {
 
 typedef IPrxCollectionBase<C> = HasData<PrxCollectionBase$IData<C>>;
 
+extension PrxCollectionBase$IData$Ext<C> on PrxCollectionBase$IData<C> {
+  PrxCollectionBase$Data<C> copyWith({
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<C> Function()? get,
+  }) =>
+      PrxCollectionBase$Data(
+        rebuild: rebuild ?? this.rebuild,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+      );
+  PrxCollectionBase$Data<C> copyWithOpt({
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<C> Function()? get,
+  }) =>
+      PrxCollectionBase$Data(
+        rebuild: rebuild ?? this.rebuild,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+      );
+  PrxCollectionBase$Impl<C> asPrxCollectionBase() => PrxCollectionBase$Impl(
+        this,
+      );
+}
+
 class PrxCollectionBase$Data<C> implements PrxCollectionBase$IData<C> {
   PrxCollectionBase$Data({
     required this.rebuild,
@@ -767,6 +1150,14 @@ class PrxCollectionBase$Data<C> implements PrxCollectionBase$IData<C> {
     required this.lookup,
     required this.get,
   });
+  PrxCollectionBase$Data.fromBase(
+    PrxCollectionBase<C> base,
+  ) : this(
+          rebuild: base.rebuild,
+          changes: () => base.changes,
+          lookup: () => base.lookup,
+          get: base.get,
+        );
   final void Function(
     void Function(C) updates,
   ) rebuild;
@@ -952,6 +1343,31 @@ class PrxSingleBase$Impl<V> extends PrxSingleBase<V>
       );
 }
 
+extension PrxSingleBase$Impl$Ext<V> on PrxSingleBase$Impl<V> {
+  PrxSingleBase$Impl<V> overrideWith(
+    PrxSingleBase$Impl<V> override$,
+  ) =>
+      PrxSingleBase$Impl(data$.overrideWith(override$.data$));
+}
+
+extension PrxSingleBase$Ext<V> on PrxSingleBase<V> {
+  PrxSingleBase$Impl<V> asImpl() =>
+      castOrCreate<PrxSingleBase$Impl<V>>(() => wrap$());
+  PrxSingleBase$Impl<V> wrap$() => PrxSingleBase$Impl(
+        PrxSingleBase$Data(
+          changes: () => changes,
+          lookup: () => lookup,
+          get: get,
+          set: set,
+        ),
+      );
+  PrxSingleBase$Impl<V> get toImpl => asImpl();
+  PrxSingleBase$Impl<V> overrideWith(
+    PrxSingleBase<V> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$PrxSingleBase$Impl$Ext<V> on HasData<PrxSingleBase$IData<V>> {
   Stream<Opt<V>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
@@ -965,6 +1381,41 @@ extension HasData$PrxSingleBase$Impl$Ext<V> on HasData<PrxSingleBase$IData<V>> {
   PrxSingleBase$Impl<V> asPrxSingleBase() => PrxSingleBase$Impl(
         data$,
       );
+  PrxSingleBase$Impl<V> get toImpl => asPrxSingleBase();
+  PrxSingleBase$Impl<V> copyWith({
+    Stream<Opt<V>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<V> Function()? get,
+    void Function(
+      Opt<V> value,
+    )?
+        set,
+  }) =>
+      PrxSingleBase$Impl(data$.copyWith(
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+  PrxSingleBase$Impl<V> copyWithOpt({
+    Stream<Opt<V>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<V> Function()? get,
+    void Function(
+      Opt<V> value,
+    )?
+        set,
+  }) =>
+      PrxSingleBase$Impl(data$.copyWithOpt(
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+  PrxSingleBase$Impl<V> overrideWith(
+    HasData<PrxSingleBase$IData<V>> override$,
+  ) =>
+      PrxSingleBase$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class PrxSingleBase$IData<V>
@@ -980,6 +1431,42 @@ abstract class PrxSingleBase$IData<V>
 
 typedef IPrxSingleBase<V> = HasData<PrxSingleBase$IData<V>>;
 
+extension PrxSingleBase$IData$Ext<V> on PrxSingleBase$IData<V> {
+  PrxSingleBase$Data<V> copyWith({
+    Stream<Opt<V>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<V> Function()? get,
+    void Function(
+      Opt<V> value,
+    )?
+        set,
+  }) =>
+      PrxSingleBase$Data(
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  PrxSingleBase$Data<V> copyWithOpt({
+    Stream<Opt<V>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<V> Function()? get,
+    void Function(
+      Opt<V> value,
+    )?
+        set,
+  }) =>
+      PrxSingleBase$Data(
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  PrxSingleBase$Impl<V> asPrxSingleBase() => PrxSingleBase$Impl(
+        this,
+      );
+}
+
 class PrxSingleBase$Data<V> implements PrxSingleBase$IData<V> {
   PrxSingleBase$Data({
     required this.changes,
@@ -987,6 +1474,14 @@ class PrxSingleBase$Data<V> implements PrxSingleBase$IData<V> {
     required this.get,
     required this.set,
   });
+  PrxSingleBase$Data.fromBase(
+    PrxSingleBase<V> base,
+  ) : this(
+          changes: () => base.changes,
+          lookup: () => base.lookup,
+          get: base.get,
+          set: base.set,
+        );
   final Stream<Opt<V>> Function() changes;
   final Lookup Function() lookup;
   final Opt<V> Function() get;
@@ -1210,6 +1705,32 @@ class PrxCollectionOfType$Impl<C, L> extends PrxCollectionOfType<C, L>
       );
 }
 
+extension PrxCollectionOfType$Impl$Ext<C, L> on PrxCollectionOfType$Impl<C, L> {
+  PrxCollectionOfType$Impl<C, L> overrideWith(
+    PrxCollectionOfType$Impl<C, L> override$,
+  ) =>
+      PrxCollectionOfType$Impl(data$.overrideWith(override$.data$));
+}
+
+extension PrxCollectionOfType$Ext<C, L> on PrxCollectionOfType<C, L> {
+  PrxCollectionOfType$Impl<C, L> asImpl() =>
+      castOrCreate<PrxCollectionOfType$Impl<C, L>>(() => wrap$());
+  PrxCollectionOfType$Impl<C, L> wrap$() => PrxCollectionOfType$Impl(
+        PrxCollectionOfType$Data(
+          field: field,
+          changes: () => changes,
+          lookup: () => lookup,
+          get: get,
+          rebuild: rebuild,
+        ),
+      );
+  PrxCollectionOfType$Impl<C, L> get toImpl => asImpl();
+  PrxCollectionOfType$Impl<C, L> overrideWith(
+    PrxCollectionOfType<C, L> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$PrxCollectionOfType$Impl$Ext<C, L>
     on HasData<PrxCollectionOfType$IData<C, L>> {
   HasFieldPath field() => data$.field();
@@ -1226,6 +1747,45 @@ extension HasData$PrxCollectionOfType$Impl$Ext<C, L>
       PrxCollectionOfType$Impl(
         data$,
       );
+  PrxCollectionOfType$Impl<C, L> get toImpl => asPrxCollectionOfType();
+  PrxCollectionOfType$Impl<C, L> copyWith({
+    HasFieldPath Function()? field,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<C> Function()? get,
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+  }) =>
+      PrxCollectionOfType$Impl(data$.copyWith(
+        field: field,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        rebuild: rebuild,
+      ));
+  PrxCollectionOfType$Impl<C, L> copyWithOpt({
+    HasFieldPath Function()? field,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<C> Function()? get,
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+  }) =>
+      PrxCollectionOfType$Impl(data$.copyWithOpt(
+        field: field,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        rebuild: rebuild,
+      ));
+  PrxCollectionOfType$Impl<C, L> overrideWith(
+    HasData<PrxCollectionOfType$IData<C, L>> override$,
+  ) =>
+      PrxCollectionOfType$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class PrxCollectionOfType$IData<C, L>
@@ -1242,6 +1802,48 @@ abstract class PrxCollectionOfType$IData<C, L>
 
 typedef IPrxCollectionOfType<C, L> = HasData<PrxCollectionOfType$IData<C, L>>;
 
+extension PrxCollectionOfType$IData$Ext<C, L>
+    on PrxCollectionOfType$IData<C, L> {
+  PrxCollectionOfType$Data<C, L> copyWith({
+    HasFieldPath Function()? field,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<C> Function()? get,
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+  }) =>
+      PrxCollectionOfType$Data(
+        field: field ?? this.field,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        rebuild: rebuild ?? this.rebuild,
+      );
+  PrxCollectionOfType$Data<C, L> copyWithOpt({
+    HasFieldPath Function()? field,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<C> Function()? get,
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+  }) =>
+      PrxCollectionOfType$Data(
+        field: field ?? this.field,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        rebuild: rebuild ?? this.rebuild,
+      );
+  PrxCollectionOfType$Impl<C, L> asPrxCollectionOfType() =>
+      PrxCollectionOfType$Impl(
+        this,
+      );
+}
+
 class PrxCollectionOfType$Data<C, L>
     implements PrxCollectionOfType$IData<C, L> {
   PrxCollectionOfType$Data({
@@ -1251,6 +1853,15 @@ class PrxCollectionOfType$Data<C, L>
     required this.get,
     required this.rebuild,
   });
+  PrxCollectionOfType$Data.fromBase(
+    PrxCollectionOfType<C, L> base,
+  ) : this(
+          field: base.field,
+          changes: () => base.changes,
+          lookup: () => base.lookup,
+          get: base.get,
+          rebuild: base.rebuild,
+        );
   final HasFieldPath Function() field;
   final Stream<Opt<C>> Function() changes;
   final Lookup Function() lookup;
@@ -1484,6 +2095,32 @@ class PrxSingleOfType$Impl<V, L> extends PrxSingleOfType<V, L>
       );
 }
 
+extension PrxSingleOfType$Impl$Ext<V, L> on PrxSingleOfType$Impl<V, L> {
+  PrxSingleOfType$Impl<V, L> overrideWith(
+    PrxSingleOfType$Impl<V, L> override$,
+  ) =>
+      PrxSingleOfType$Impl(data$.overrideWith(override$.data$));
+}
+
+extension PrxSingleOfType$Ext<V, L> on PrxSingleOfType<V, L> {
+  PrxSingleOfType$Impl<V, L> asImpl() =>
+      castOrCreate<PrxSingleOfType$Impl<V, L>>(() => wrap$());
+  PrxSingleOfType$Impl<V, L> wrap$() => PrxSingleOfType$Impl(
+        PrxSingleOfType$Data(
+          field: field,
+          changes: () => changes,
+          lookup: () => lookup,
+          get: get,
+          set: set,
+        ),
+      );
+  PrxSingleOfType$Impl<V, L> get toImpl => asImpl();
+  PrxSingleOfType$Impl<V, L> overrideWith(
+    PrxSingleOfType<V, L> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$PrxSingleOfType$Impl$Ext<V, L>
     on HasData<PrxSingleOfType$IData<V, L>> {
   HasFieldPath field() => data$.field();
@@ -1499,6 +2136,45 @@ extension HasData$PrxSingleOfType$Impl$Ext<V, L>
   PrxSingleOfType$Impl<V, L> asPrxSingleOfType() => PrxSingleOfType$Impl(
         data$,
       );
+  PrxSingleOfType$Impl<V, L> get toImpl => asPrxSingleOfType();
+  PrxSingleOfType$Impl<V, L> copyWith({
+    HasFieldPath Function()? field,
+    Stream<Opt<V>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<V> Function()? get,
+    void Function(
+      Opt<V> value,
+    )?
+        set,
+  }) =>
+      PrxSingleOfType$Impl(data$.copyWith(
+        field: field,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+  PrxSingleOfType$Impl<V, L> copyWithOpt({
+    HasFieldPath Function()? field,
+    Stream<Opt<V>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<V> Function()? get,
+    void Function(
+      Opt<V> value,
+    )?
+        set,
+  }) =>
+      PrxSingleOfType$Impl(data$.copyWithOpt(
+        field: field,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+  PrxSingleOfType$Impl<V, L> overrideWith(
+    HasData<PrxSingleOfType$IData<V, L>> override$,
+  ) =>
+      PrxSingleOfType$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class PrxSingleOfType$IData<V, L> implements PrxSingleBase$IData<V> {
@@ -1514,6 +2190,46 @@ abstract class PrxSingleOfType$IData<V, L> implements PrxSingleBase$IData<V> {
 
 typedef IPrxSingleOfType<V, L> = HasData<PrxSingleOfType$IData<V, L>>;
 
+extension PrxSingleOfType$IData$Ext<V, L> on PrxSingleOfType$IData<V, L> {
+  PrxSingleOfType$Data<V, L> copyWith({
+    HasFieldPath Function()? field,
+    Stream<Opt<V>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<V> Function()? get,
+    void Function(
+      Opt<V> value,
+    )?
+        set,
+  }) =>
+      PrxSingleOfType$Data(
+        field: field ?? this.field,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  PrxSingleOfType$Data<V, L> copyWithOpt({
+    HasFieldPath Function()? field,
+    Stream<Opt<V>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<V> Function()? get,
+    void Function(
+      Opt<V> value,
+    )?
+        set,
+  }) =>
+      PrxSingleOfType$Data(
+        field: field ?? this.field,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  PrxSingleOfType$Impl<V, L> asPrxSingleOfType() => PrxSingleOfType$Impl(
+        this,
+      );
+}
+
 class PrxSingleOfType$Data<V, L> implements PrxSingleOfType$IData<V, L> {
   PrxSingleOfType$Data({
     required this.field,
@@ -1522,6 +2238,15 @@ class PrxSingleOfType$Data<V, L> implements PrxSingleOfType$IData<V, L> {
     required this.get,
     required this.set,
   });
+  PrxSingleOfType$Data.fromBase(
+    PrxSingleOfType<V, L> base,
+  ) : this(
+          field: base.field,
+          changes: () => base.changes,
+          lookup: () => base.lookup,
+          get: base.get,
+          set: base.set,
+        );
   final HasFieldPath Function() field;
   final Stream<Opt<V>> Function() changes;
   final Lookup Function() lookup;
@@ -1799,6 +2524,32 @@ class PrxCollection$Impl<C, L> extends PrxCollection<C, L>
       );
 }
 
+extension PrxCollection$Impl$Ext<C, L> on PrxCollection$Impl<C, L> {
+  PrxCollection$Impl<C, L> overrideWith(
+    PrxCollection$Impl<C, L> override$,
+  ) =>
+      PrxCollection$Impl(data$.overrideWith(override$.data$));
+}
+
+extension PrxCollection$Ext<C, L> on PrxCollection<C, L> {
+  PrxCollection$Impl<C, L> asImpl() =>
+      castOrCreate<PrxCollection$Impl<C, L>>(() => wrap$());
+  PrxCollection$Impl<C, L> wrap$() => PrxCollection$Impl(
+        PrxCollection$Data(
+          field: field,
+          changes: () => changes,
+          lookup: () => lookup,
+          get: get,
+          rebuild: rebuild,
+        ),
+      );
+  PrxCollection$Impl<C, L> get toImpl => asImpl();
+  PrxCollection$Impl<C, L> overrideWith(
+    PrxCollection<C, L> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$PrxCollection$Impl$Ext<C, L>
     on HasData<PrxCollection$IData<C, L>> {
   HasFieldPath field() => data$.field();
@@ -1814,6 +2565,45 @@ extension HasData$PrxCollection$Impl$Ext<C, L>
   PrxCollection$Impl<C, L> asPrxCollection() => PrxCollection$Impl(
         data$,
       );
+  PrxCollection$Impl<C, L> get toImpl => asPrxCollection();
+  PrxCollection$Impl<C, L> copyWith({
+    HasFieldPath Function()? field,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<C> Function()? get,
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+  }) =>
+      PrxCollection$Impl(data$.copyWith(
+        field: field,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        rebuild: rebuild,
+      ));
+  PrxCollection$Impl<C, L> copyWithOpt({
+    HasFieldPath Function()? field,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<C> Function()? get,
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+  }) =>
+      PrxCollection$Impl(data$.copyWithOpt(
+        field: field,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        rebuild: rebuild,
+      ));
+  PrxCollection$Impl<C, L> overrideWith(
+    HasData<PrxCollection$IData<C, L>> override$,
+  ) =>
+      PrxCollection$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class PrxCollection$IData<C, L>
@@ -1830,6 +2620,46 @@ abstract class PrxCollection$IData<C, L>
 
 typedef IPrxCollection<C, L> = HasData<PrxCollection$IData<C, L>>;
 
+extension PrxCollection$IData$Ext<C, L> on PrxCollection$IData<C, L> {
+  PrxCollection$Data<C, L> copyWith({
+    HasFieldPath Function()? field,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<C> Function()? get,
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+  }) =>
+      PrxCollection$Data(
+        field: field ?? this.field,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        rebuild: rebuild ?? this.rebuild,
+      );
+  PrxCollection$Data<C, L> copyWithOpt({
+    HasFieldPath Function()? field,
+    Stream<Opt<C>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<C> Function()? get,
+    void Function(
+      void Function(C) updates,
+    )?
+        rebuild,
+  }) =>
+      PrxCollection$Data(
+        field: field ?? this.field,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        rebuild: rebuild ?? this.rebuild,
+      );
+  PrxCollection$Impl<C, L> asPrxCollection() => PrxCollection$Impl(
+        this,
+      );
+}
+
 class PrxCollection$Data<C, L> implements PrxCollection$IData<C, L> {
   PrxCollection$Data({
     required this.field,
@@ -1838,6 +2668,15 @@ class PrxCollection$Data<C, L> implements PrxCollection$IData<C, L> {
     required this.get,
     required this.rebuild,
   });
+  PrxCollection$Data.fromBase(
+    PrxCollection<C, L> base,
+  ) : this(
+          field: base.field,
+          changes: () => base.changes,
+          lookup: () => base.lookup,
+          get: base.get,
+          rebuild: base.rebuild,
+        );
   final HasFieldPath Function() field;
   final Stream<Opt<C>> Function() changes;
   final Lookup Function() lookup;
@@ -2098,6 +2937,32 @@ class PrxSingle$Impl<T, L> extends PrxSingle<T, L>
       );
 }
 
+extension PrxSingle$Impl$Ext<T, L> on PrxSingle$Impl<T, L> {
+  PrxSingle$Impl<T, L> overrideWith(
+    PrxSingle$Impl<T, L> override$,
+  ) =>
+      PrxSingle$Impl(data$.overrideWith(override$.data$));
+}
+
+extension PrxSingle$Ext<T, L> on PrxSingle<T, L> {
+  PrxSingle$Impl<T, L> asImpl() =>
+      castOrCreate<PrxSingle$Impl<T, L>>(() => wrap$());
+  PrxSingle$Impl<T, L> wrap$() => PrxSingle$Impl(
+        PrxSingle$Data(
+          field: field,
+          changes: () => changes,
+          lookup: () => lookup,
+          get: get,
+          set: set,
+        ),
+      );
+  PrxSingle$Impl<T, L> get toImpl => asImpl();
+  PrxSingle$Impl<T, L> overrideWith(
+    PrxSingle<T, L> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$PrxSingle$Impl$Ext<T, L> on HasData<PrxSingle$IData<T, L>> {
   HasFieldPath field() => data$.field();
   Stream<Opt<T>> get changes => data$.changes();
@@ -2112,6 +2977,45 @@ extension HasData$PrxSingle$Impl$Ext<T, L> on HasData<PrxSingle$IData<T, L>> {
   PrxSingle$Impl<T, L> asPrxSingle() => PrxSingle$Impl(
         data$,
       );
+  PrxSingle$Impl<T, L> get toImpl => asPrxSingle();
+  PrxSingle$Impl<T, L> copyWith({
+    HasFieldPath Function()? field,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+  }) =>
+      PrxSingle$Impl(data$.copyWith(
+        field: field,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+  PrxSingle$Impl<T, L> copyWithOpt({
+    HasFieldPath Function()? field,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+  }) =>
+      PrxSingle$Impl(data$.copyWithOpt(
+        field: field,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+  PrxSingle$Impl<T, L> overrideWith(
+    HasData<PrxSingle$IData<T, L>> override$,
+  ) =>
+      PrxSingle$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class PrxSingle$IData<T, L> implements PrxSingleOfType$IData<T, L> {
@@ -2127,6 +3031,46 @@ abstract class PrxSingle$IData<T, L> implements PrxSingleOfType$IData<T, L> {
 
 typedef IPrxSingle<T, L> = HasData<PrxSingle$IData<T, L>>;
 
+extension PrxSingle$IData$Ext<T, L> on PrxSingle$IData<T, L> {
+  PrxSingle$Data<T, L> copyWith({
+    HasFieldPath Function()? field,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+  }) =>
+      PrxSingle$Data(
+        field: field ?? this.field,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  PrxSingle$Data<T, L> copyWithOpt({
+    HasFieldPath Function()? field,
+    Stream<Opt<T>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<T> Function()? get,
+    void Function(
+      Opt<T> value,
+    )?
+        set,
+  }) =>
+      PrxSingle$Data(
+        field: field ?? this.field,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  PrxSingle$Impl<T, L> asPrxSingle() => PrxSingle$Impl(
+        this,
+      );
+}
+
 class PrxSingle$Data<T, L> implements PrxSingle$IData<T, L> {
   PrxSingle$Data({
     required this.field,
@@ -2135,6 +3079,15 @@ class PrxSingle$Data<T, L> implements PrxSingle$IData<T, L> {
     required this.get,
     required this.set,
   });
+  PrxSingle$Data.fromBase(
+    PrxSingle<T, L> base,
+  ) : this(
+          field: base.field,
+          changes: () => base.changes,
+          lookup: () => base.lookup,
+          get: base.get,
+          set: base.set,
+        );
   final HasFieldPath Function() field;
   final Stream<Opt<T>> Function() changes;
   final Lookup Function() lookup;

@@ -60,6 +60,35 @@ class PdfCardinality$Visitor$Impl<R$, M, F, E>
   R$ repeated() => data$.repeated();
 }
 
+extension PdfCardinality$Visitor$Impl$Ext<R$, M, F, E>
+    on PdfCardinality$Visitor$Impl<R$, M, F, E> {
+  PdfCardinality$Visitor$Impl<R$, M, F, E> overrideWith(
+    PdfCardinality$Visitor$Impl<R$, M, F, E> override$,
+  ) =>
+      PdfCardinality$Visitor$Impl(data$.overrideWith(override$.data$));
+}
+
+extension PdfCardinality$Visitor$Ext<R$, M, F, E>
+    on PdfCardinality$Visitor<R$, M, F, E> {
+  PdfCardinality$Visitor$Impl<R$, M, F, E> asImpl() =>
+      castOrCreate<PdfCardinality$Visitor$Impl<R$, M, F, E>>(() => wrap$());
+  PdfCardinality$Visitor$Impl<R$, M, F, E> wrap$() =>
+      PdfCardinality$Visitor$Impl(
+        PdfCardinality$Visitor$Data(
+          cardinality: cardinality,
+          mapOf: mapOf,
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+        ),
+      );
+  PdfCardinality$Visitor$Impl<R$, M, F, E> get toImpl => asImpl();
+  PdfCardinality$Visitor$Impl<R$, M, F, E> overrideWith(
+    PdfCardinality$Visitor<R$, M, F, E> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$PdfCardinality$Visitor$Impl$Ext<R$, M, F, E>
     on HasData<PdfCardinality$Visitor$IData<R$, M, F, E>> {
   R$ cardinality() => data$.cardinality();
@@ -76,6 +105,46 @@ extension HasData$PdfCardinality$Visitor$Impl$Ext<R$, M, F, E>
       PdfCardinality$Visitor$Impl(
         data$,
       );
+  PdfCardinality$Visitor$Impl<R$, M, F, E> get toImpl =>
+      asPdfCardinality$Visitor();
+  PdfCardinality$Visitor$Impl<R$, M, F, E> copyWith({
+    R$ Function()? cardinality,
+    R$ Function(
+      MapFields<M, F, E> mapOf,
+    )?
+        mapOf,
+    R$ Function()? nonMap,
+    R$ Function()? single,
+    R$ Function()? repeated,
+  }) =>
+      PdfCardinality$Visitor$Impl(data$.copyWith(
+        cardinality: cardinality,
+        mapOf: mapOf,
+        nonMap: nonMap,
+        single: single,
+        repeated: repeated,
+      ));
+  PdfCardinality$Visitor$Impl<R$, M, F, E> copyWithOpt({
+    R$ Function()? cardinality,
+    R$ Function(
+      MapFields<M, F, E> mapOf,
+    )?
+        mapOf,
+    R$ Function()? nonMap,
+    R$ Function()? single,
+    R$ Function()? repeated,
+  }) =>
+      PdfCardinality$Visitor$Impl(data$.copyWithOpt(
+        cardinality: cardinality,
+        mapOf: mapOf,
+        nonMap: nonMap,
+        single: single,
+        repeated: repeated,
+      ));
+  PdfCardinality$Visitor$Impl<R$, M, F, E> overrideWith(
+    HasData<PdfCardinality$Visitor$IData<R$, M, F, E>> override$,
+  ) =>
+      PdfCardinality$Visitor$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class PdfCardinality$Visitor$IData<R$, M, F, E> {
@@ -92,6 +161,48 @@ abstract class PdfCardinality$Visitor$IData<R$, M, F, E> {
 typedef IPdfCardinality$Visitor<R$, M, F, E>
     = HasData<PdfCardinality$Visitor$IData<R$, M, F, E>>;
 
+extension PdfCardinality$Visitor$IData$Ext<R$, M, F, E>
+    on PdfCardinality$Visitor$IData<R$, M, F, E> {
+  PdfCardinality$Visitor$Data<R$, M, F, E> copyWith({
+    R$ Function()? cardinality,
+    R$ Function(
+      MapFields<M, F, E> mapOf,
+    )?
+        mapOf,
+    R$ Function()? nonMap,
+    R$ Function()? single,
+    R$ Function()? repeated,
+  }) =>
+      PdfCardinality$Visitor$Data(
+        cardinality: cardinality ?? this.cardinality,
+        mapOf: mapOf ?? this.mapOf,
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+      );
+  PdfCardinality$Visitor$Data<R$, M, F, E> copyWithOpt({
+    R$ Function()? cardinality,
+    R$ Function(
+      MapFields<M, F, E> mapOf,
+    )?
+        mapOf,
+    R$ Function()? nonMap,
+    R$ Function()? single,
+    R$ Function()? repeated,
+  }) =>
+      PdfCardinality$Visitor$Data(
+        cardinality: cardinality ?? this.cardinality,
+        mapOf: mapOf ?? this.mapOf,
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+      );
+  PdfCardinality$Visitor$Impl<R$, M, F, E> asPdfCardinality$Visitor() =>
+      PdfCardinality$Visitor$Impl(
+        this,
+      );
+}
+
 class PdfCardinality$Visitor$Data<R$, M, F, E>
     implements PdfCardinality$Visitor$IData<R$, M, F, E> {
   PdfCardinality$Visitor$Data({
@@ -101,6 +212,15 @@ class PdfCardinality$Visitor$Data<R$, M, F, E>
     required this.single,
     required this.repeated,
   });
+  PdfCardinality$Visitor$Data.fromBase(
+    PdfCardinality$Visitor<R$, M, F, E> base,
+  ) : this(
+          cardinality: base.cardinality,
+          mapOf: base.mapOf,
+          nonMap: base.nonMap,
+          single: base.single,
+          repeated: base.repeated,
+        );
   final R$ Function() cardinality;
   final R$ Function(
     MapFields<M, F, E> mapOf,
@@ -366,6 +486,31 @@ class PdfNonMap$Visitor$Impl<R$, M, F, E> extends PdfNonMap$Visitor<R$, M, F, E>
   R$ repeated() => data$.repeated();
 }
 
+extension PdfNonMap$Visitor$Impl$Ext<R$, M, F, E>
+    on PdfNonMap$Visitor$Impl<R$, M, F, E> {
+  PdfNonMap$Visitor$Impl<R$, M, F, E> overrideWith(
+    PdfNonMap$Visitor$Impl<R$, M, F, E> override$,
+  ) =>
+      PdfNonMap$Visitor$Impl(data$.overrideWith(override$.data$));
+}
+
+extension PdfNonMap$Visitor$Ext<R$, M, F, E> on PdfNonMap$Visitor<R$, M, F, E> {
+  PdfNonMap$Visitor$Impl<R$, M, F, E> asImpl() =>
+      castOrCreate<PdfNonMap$Visitor$Impl<R$, M, F, E>>(() => wrap$());
+  PdfNonMap$Visitor$Impl<R$, M, F, E> wrap$() => PdfNonMap$Visitor$Impl(
+        PdfNonMap$Visitor$Data(
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+        ),
+      );
+  PdfNonMap$Visitor$Impl<R$, M, F, E> get toImpl => asImpl();
+  PdfNonMap$Visitor$Impl<R$, M, F, E> overrideWith(
+    PdfNonMap$Visitor<R$, M, F, E> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$PdfNonMap$Visitor$Impl$Ext<R$, M, F, E>
     on HasData<PdfNonMap$Visitor$IData<R$, M, F, E>> {
   R$ nonMap() => data$.nonMap();
@@ -375,6 +520,31 @@ extension HasData$PdfNonMap$Visitor$Impl$Ext<R$, M, F, E>
       PdfNonMap$Visitor$Impl(
         data$,
       );
+  PdfNonMap$Visitor$Impl<R$, M, F, E> get toImpl => asPdfNonMap$Visitor();
+  PdfNonMap$Visitor$Impl<R$, M, F, E> copyWith({
+    R$ Function()? nonMap,
+    R$ Function()? single,
+    R$ Function()? repeated,
+  }) =>
+      PdfNonMap$Visitor$Impl(data$.copyWith(
+        nonMap: nonMap,
+        single: single,
+        repeated: repeated,
+      ));
+  PdfNonMap$Visitor$Impl<R$, M, F, E> copyWithOpt({
+    R$ Function()? nonMap,
+    R$ Function()? single,
+    R$ Function()? repeated,
+  }) =>
+      PdfNonMap$Visitor$Impl(data$.copyWithOpt(
+        nonMap: nonMap,
+        single: single,
+        repeated: repeated,
+      ));
+  PdfNonMap$Visitor$Impl<R$, M, F, E> overrideWith(
+    HasData<PdfNonMap$Visitor$IData<R$, M, F, E>> override$,
+  ) =>
+      PdfNonMap$Visitor$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class PdfNonMap$Visitor$IData<R$, M, F, E> {
@@ -387,6 +557,34 @@ abstract class PdfNonMap$Visitor$IData<R$, M, F, E> {
 typedef IPdfNonMap$Visitor<R$, M, F, E>
     = HasData<PdfNonMap$Visitor$IData<R$, M, F, E>>;
 
+extension PdfNonMap$Visitor$IData$Ext<R$, M, F, E>
+    on PdfNonMap$Visitor$IData<R$, M, F, E> {
+  PdfNonMap$Visitor$Data<R$, M, F, E> copyWith({
+    R$ Function()? nonMap,
+    R$ Function()? single,
+    R$ Function()? repeated,
+  }) =>
+      PdfNonMap$Visitor$Data(
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+      );
+  PdfNonMap$Visitor$Data<R$, M, F, E> copyWithOpt({
+    R$ Function()? nonMap,
+    R$ Function()? single,
+    R$ Function()? repeated,
+  }) =>
+      PdfNonMap$Visitor$Data(
+        nonMap: nonMap ?? this.nonMap,
+        single: single ?? this.single,
+        repeated: repeated ?? this.repeated,
+      );
+  PdfNonMap$Visitor$Impl<R$, M, F, E> asPdfNonMap$Visitor() =>
+      PdfNonMap$Visitor$Impl(
+        this,
+      );
+}
+
 class PdfNonMap$Visitor$Data<R$, M, F, E>
     implements PdfNonMap$Visitor$IData<R$, M, F, E> {
   PdfNonMap$Visitor$Data({
@@ -394,6 +592,13 @@ class PdfNonMap$Visitor$Data<R$, M, F, E>
     required this.single,
     required this.repeated,
   });
+  PdfNonMap$Visitor$Data.fromBase(
+    PdfNonMap$Visitor<R$, M, F, E> base,
+  ) : this(
+          nonMap: base.nonMap,
+          single: base.single,
+          repeated: base.repeated,
+        );
   final R$ Function() nonMap;
   final R$ Function() single;
   final R$ Function() repeated;
@@ -630,6 +835,38 @@ class PdfValueType$Visitor$Impl<R$, M, F, E>
       );
 }
 
+extension PdfValueType$Visitor$Impl$Ext<R$, M, F, E>
+    on PdfValueType$Visitor$Impl<R$, M, F, E> {
+  PdfValueType$Visitor$Impl<R$, M, F, E> overrideWith(
+    PdfValueType$Visitor$Impl<R$, M, F, E> override$,
+  ) =>
+      PdfValueType$Visitor$Impl(data$.overrideWith(override$.data$));
+}
+
+extension PdfValueType$Visitor$Ext<R$, M, F, E>
+    on PdfValueType$Visitor<R$, M, F, E> {
+  PdfValueType$Visitor$Impl<R$, M, F, E> asImpl() =>
+      castOrCreate<PdfValueType$Visitor$Impl<R$, M, F, E>>(() => wrap$());
+  PdfValueType$Visitor$Impl<R$, M, F, E> wrap$() => PdfValueType$Visitor$Impl(
+        PdfValueType$Visitor$Data(
+          valueType: valueType,
+          boolType: boolType,
+          doubleType: doubleType,
+          intType: intType,
+          int64Type: int64Type,
+          stringType: stringType,
+          bytesType: bytesType,
+          enumType: enumType,
+          messageType: messageType,
+        ),
+      );
+  PdfValueType$Visitor$Impl<R$, M, F, E> get toImpl => asImpl();
+  PdfValueType$Visitor$Impl<R$, M, F, E> overrideWith(
+    PdfValueType$Visitor<R$, M, F, E> override$,
+  ) =>
+      toImpl.overrideWith(override$.toImpl);
+}
+
 extension HasData$PdfValueType$Visitor$Impl$Ext<R$, M, F, E>
     on HasData<PdfValueType$Visitor$IData<R$, M, F, E>> {
   R$ valueType() => data$.valueType();
@@ -655,6 +892,67 @@ extension HasData$PdfValueType$Visitor$Impl$Ext<R$, M, F, E>
       PdfValueType$Visitor$Impl(
         data$,
       );
+  PdfValueType$Visitor$Impl<R$, M, F, E> get toImpl => asPdfValueType$Visitor();
+  PdfValueType$Visitor$Impl<R$, M, F, E> copyWith({
+    R$ Function()? valueType,
+    R$ Function()? boolType,
+    R$ Function()? doubleType,
+    R$ Function()? intType,
+    R$ Function()? int64Type,
+    R$ Function()? stringType,
+    R$ Function()? bytesType,
+    R$ Function(
+      PdEnum<M, F, E> enumType,
+    )?
+        enumType,
+    R$ Function(
+      PdMsg<M, F, E> messageType,
+    )?
+        messageType,
+  }) =>
+      PdfValueType$Visitor$Impl(data$.copyWith(
+        valueType: valueType,
+        boolType: boolType,
+        doubleType: doubleType,
+        intType: intType,
+        int64Type: int64Type,
+        stringType: stringType,
+        bytesType: bytesType,
+        enumType: enumType,
+        messageType: messageType,
+      ));
+  PdfValueType$Visitor$Impl<R$, M, F, E> copyWithOpt({
+    R$ Function()? valueType,
+    R$ Function()? boolType,
+    R$ Function()? doubleType,
+    R$ Function()? intType,
+    R$ Function()? int64Type,
+    R$ Function()? stringType,
+    R$ Function()? bytesType,
+    R$ Function(
+      PdEnum<M, F, E> enumType,
+    )?
+        enumType,
+    R$ Function(
+      PdMsg<M, F, E> messageType,
+    )?
+        messageType,
+  }) =>
+      PdfValueType$Visitor$Impl(data$.copyWithOpt(
+        valueType: valueType,
+        boolType: boolType,
+        doubleType: doubleType,
+        intType: intType,
+        int64Type: int64Type,
+        stringType: stringType,
+        bytesType: bytesType,
+        enumType: enumType,
+        messageType: messageType,
+      ));
+  PdfValueType$Visitor$Impl<R$, M, F, E> overrideWith(
+    HasData<PdfValueType$Visitor$IData<R$, M, F, E>> override$,
+  ) =>
+      PdfValueType$Visitor$Impl(data$.overrideWith(override$.data$));
 }
 
 abstract class PdfValueType$Visitor$IData<R$, M, F, E> {
@@ -677,6 +975,70 @@ abstract class PdfValueType$Visitor$IData<R$, M, F, E> {
 typedef IPdfValueType$Visitor<R$, M, F, E>
     = HasData<PdfValueType$Visitor$IData<R$, M, F, E>>;
 
+extension PdfValueType$Visitor$IData$Ext<R$, M, F, E>
+    on PdfValueType$Visitor$IData<R$, M, F, E> {
+  PdfValueType$Visitor$Data<R$, M, F, E> copyWith({
+    R$ Function()? valueType,
+    R$ Function()? boolType,
+    R$ Function()? doubleType,
+    R$ Function()? intType,
+    R$ Function()? int64Type,
+    R$ Function()? stringType,
+    R$ Function()? bytesType,
+    R$ Function(
+      PdEnum<M, F, E> enumType,
+    )?
+        enumType,
+    R$ Function(
+      PdMsg<M, F, E> messageType,
+    )?
+        messageType,
+  }) =>
+      PdfValueType$Visitor$Data(
+        valueType: valueType ?? this.valueType,
+        boolType: boolType ?? this.boolType,
+        doubleType: doubleType ?? this.doubleType,
+        intType: intType ?? this.intType,
+        int64Type: int64Type ?? this.int64Type,
+        stringType: stringType ?? this.stringType,
+        bytesType: bytesType ?? this.bytesType,
+        enumType: enumType ?? this.enumType,
+        messageType: messageType ?? this.messageType,
+      );
+  PdfValueType$Visitor$Data<R$, M, F, E> copyWithOpt({
+    R$ Function()? valueType,
+    R$ Function()? boolType,
+    R$ Function()? doubleType,
+    R$ Function()? intType,
+    R$ Function()? int64Type,
+    R$ Function()? stringType,
+    R$ Function()? bytesType,
+    R$ Function(
+      PdEnum<M, F, E> enumType,
+    )?
+        enumType,
+    R$ Function(
+      PdMsg<M, F, E> messageType,
+    )?
+        messageType,
+  }) =>
+      PdfValueType$Visitor$Data(
+        valueType: valueType ?? this.valueType,
+        boolType: boolType ?? this.boolType,
+        doubleType: doubleType ?? this.doubleType,
+        intType: intType ?? this.intType,
+        int64Type: int64Type ?? this.int64Type,
+        stringType: stringType ?? this.stringType,
+        bytesType: bytesType ?? this.bytesType,
+        enumType: enumType ?? this.enumType,
+        messageType: messageType ?? this.messageType,
+      );
+  PdfValueType$Visitor$Impl<R$, M, F, E> asPdfValueType$Visitor() =>
+      PdfValueType$Visitor$Impl(
+        this,
+      );
+}
+
 class PdfValueType$Visitor$Data<R$, M, F, E>
     implements PdfValueType$Visitor$IData<R$, M, F, E> {
   PdfValueType$Visitor$Data({
@@ -690,6 +1052,19 @@ class PdfValueType$Visitor$Data<R$, M, F, E>
     required this.enumType,
     required this.messageType,
   });
+  PdfValueType$Visitor$Data.fromBase(
+    PdfValueType$Visitor<R$, M, F, E> base,
+  ) : this(
+          valueType: base.valueType,
+          boolType: base.boolType,
+          doubleType: base.doubleType,
+          intType: base.intType,
+          int64Type: base.int64Type,
+          stringType: base.stringType,
+          bytesType: base.bytesType,
+          enumType: base.enumType,
+          messageType: base.messageType,
+        );
   final R$ Function() valueType;
   final R$ Function() boolType;
   final R$ Function() doubleType;
