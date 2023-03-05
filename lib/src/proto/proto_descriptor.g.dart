@@ -55,7 +55,60 @@ abstract class PdmLevel$Visitor<R$, M, F, E> {
   R$ nested(PdMsg<M, F, E> value);
 }
 
+class PdmLevel$Visitor$Impl<R$, M, F, E> extends PdmLevel$Visitor<R$, M, F, E>
+    implements HasData<PdmLevel$Visitor$IData<R$, M, F, E>> {
+  PdmLevel$Visitor$Impl(
+    this.data$,
+  ) : super();
+  final PdmLevel$Visitor$IData<R$, M, F, E> data$;
+  R$ level(
+    PdMsgContainer<M, F, E> level,
+  ) =>
+      data$.level(
+        level,
+      );
+  R$ top(
+    PdRoot<M, F, E> top,
+  ) =>
+      data$.top(
+        top,
+      );
+  R$ nested(
+    PdMsg<M, F, E> nested,
+  ) =>
+      data$.nested(
+        nested,
+      );
+}
+
+extension HasData$PdmLevel$Visitor$Impl$Ext<R$, M, F, E>
+    on HasData<PdmLevel$Visitor$IData<R$, M, F, E>> {
+  R$ level(
+    PdMsgContainer<M, F, E> level,
+  ) =>
+      data$.level(
+        level,
+      );
+  R$ top(
+    PdRoot<M, F, E> top,
+  ) =>
+      data$.top(
+        top,
+      );
+  R$ nested(
+    PdMsg<M, F, E> nested,
+  ) =>
+      data$.nested(
+        nested,
+      );
+  PdmLevel$Visitor$Impl<R$, M, F, E> asPdmLevel$Visitor() =>
+      PdmLevel$Visitor$Impl(
+        data$,
+      );
+}
+
 abstract class PdmLevel$Visitor$IData<R$, M, F, E> {
+  PdmLevel$Visitor$IData();
   R$ Function(
     PdMsgContainer<M, F, E> level,
   ) get level;
@@ -66,6 +119,9 @@ abstract class PdmLevel$Visitor$IData<R$, M, F, E> {
     PdMsg<M, F, E> nested,
   ) get nested;
 }
+
+typedef IPdmLevel$Visitor<R$, M, F, E>
+    = HasData<PdmLevel$Visitor$IData<R$, M, F, E>>;
 
 class PdmLevel$Visitor$Data<R$, M, F, E>
     implements PdmLevel$Visitor$IData<R$, M, F, E> {
@@ -150,22 +206,106 @@ extension PdmLevel$Visitor$Data$Ext<R$, M, F, E>
       );
 }
 
-class PdmLevel$Visitor$Impl<R$, M, F, E> extends PdmLevel$Visitor<R$, M, F, E>
-    implements HasData<PdmLevel$Visitor$IData<R$, M, F, E>> {
-  final PdmLevel$Visitor$IData<R$, M, F, E> data$;
-  PdmLevel$Visitor$Impl(this.data$);
+class PdmLevel$Visitor$Delegate<R$, M, F, E>
+    extends PdmLevel$Visitor<R$, M, F, E> {
+  PdmLevel$Visitor$Delegate(
+    this.delegate$,
+  ) : super();
+  final PdmLevel$Visitor<R$, M, F, E> Function() delegate$;
   R$ level(
     PdMsgContainer<M, F, E> level,
   ) =>
-      data$.level(level);
+      delegate$().level(
+        level,
+      );
   R$ top(
     PdRoot<M, F, E> top,
   ) =>
-      data$.top(top);
+      delegate$().top(
+        top,
+      );
   R$ nested(
     PdMsg<M, F, E> nested,
   ) =>
-      data$.nested(nested);
+      delegate$().nested(
+        nested,
+      );
+}
+
+class PdmLevel$Visitor$Factory {
+  const PdmLevel$Visitor$Factory._();
+  static const instance = PdmLevel$Visitor$Factory._();
+}
+
+extension Mk$PdmLevel$Visitor$Ext on Mk {
+  PdmLevel$Visitor$Factory get PdmLevel$Visitor =>
+      PdmLevel$Visitor$Factory.instance;
+}
+
+extension PdmLevel$Visitor$Factory$Ext on PdmLevel$Visitor$Factory {
+  PdmLevel$Visitor$Impl<R$, M, F, E> call<R$, M, F, E>({
+    required R$ Function(
+      PdMsgContainer<M, F, E> level,
+    )
+        level,
+    required R$ Function(
+      PdRoot<M, F, E> top,
+    )
+        top,
+    required R$ Function(
+      PdMsg<M, F, E> nested,
+    )
+        nested,
+  }) =>
+      PdmLevel$Visitor$Impl(
+        PdmLevel$Visitor$Data(
+          level: level,
+          top: top,
+          nested: nested,
+        ),
+      );
+  PdmLevel$Visitor$Impl<R$, M, F, E> create<R$, M, F, E>({
+    required R$ Function(
+      PdMsgContainer<M, F, E> level,
+    )
+        level,
+    required R$ Function(
+      PdRoot<M, F, E> top,
+    )
+        top,
+    required R$ Function(
+      PdMsg<M, F, E> nested,
+    )
+        nested,
+  }) =>
+      PdmLevel$Visitor$Impl(
+        PdmLevel$Visitor$Data(
+          level: level,
+          top: top,
+          nested: nested,
+        ),
+      );
+  PdmLevel$Visitor$Impl<R$, M, F, E> data<R$, M, F, E>({
+    required R$ Function(
+      PdMsgContainer<M, F, E> level,
+    )
+        level,
+    required R$ Function(
+      PdRoot<M, F, E> top,
+    )
+        top,
+    required R$ Function(
+      PdMsg<M, F, E> nested,
+    )
+        nested,
+  }) =>
+      PdmLevel$Visitor$Impl(
+        PdmLevel$Visitor$Data(
+          level: level,
+          top: top,
+          nested: nested,
+        ),
+      );
 }
 
 extension PdmLevel$WhenX<M, F, E>
@@ -301,7 +441,49 @@ abstract class PdxBase$Visitor<R$, M, F, E> {
   R$ oneof(PdOneof<M, F, E> value);
 }
 
+class PdxBase$Visitor$Impl<R$, M, F, E> extends PdxBase$Visitor<R$, M, F, E>
+    implements HasData<PdxBase$Visitor$IData<R$, M, F, E>> {
+  PdxBase$Visitor$Impl(
+    this.data$,
+  ) : super();
+  final PdxBase$Visitor$IData<R$, M, F, E> data$;
+  R$ base() => data$.base();
+  R$ top(
+    PdFld<M, F, E> top,
+  ) =>
+      data$.top(
+        top,
+      );
+  R$ oneof(
+    PdOneof<M, F, E> oneof,
+  ) =>
+      data$.oneof(
+        oneof,
+      );
+}
+
+extension HasData$PdxBase$Visitor$Impl$Ext<R$, M, F, E>
+    on HasData<PdxBase$Visitor$IData<R$, M, F, E>> {
+  R$ base() => data$.base();
+  R$ top(
+    PdFld<M, F, E> top,
+  ) =>
+      data$.top(
+        top,
+      );
+  R$ oneof(
+    PdOneof<M, F, E> oneof,
+  ) =>
+      data$.oneof(
+        oneof,
+      );
+  PdxBase$Visitor$Impl<R$, M, F, E> asPdxBase$Visitor() => PdxBase$Visitor$Impl(
+        data$,
+      );
+}
+
 abstract class PdxBase$Visitor$IData<R$, M, F, E> {
+  PdxBase$Visitor$IData();
   R$ Function() get base;
   R$ Function(
     PdFld<M, F, E> top,
@@ -310,6 +492,9 @@ abstract class PdxBase$Visitor$IData<R$, M, F, E> {
     PdOneof<M, F, E> oneof,
   ) get oneof;
 }
+
+typedef IPdxBase$Visitor<R$, M, F, E>
+    = HasData<PdxBase$Visitor$IData<R$, M, F, E>>;
 
 class PdxBase$Visitor$Data<R$, M, F, E>
     implements PdxBase$Visitor$IData<R$, M, F, E> {
@@ -383,19 +568,92 @@ extension PdxBase$Visitor$Data$Ext<R$, M, F, E>
       );
 }
 
-class PdxBase$Visitor$Impl<R$, M, F, E> extends PdxBase$Visitor<R$, M, F, E>
-    implements HasData<PdxBase$Visitor$IData<R$, M, F, E>> {
-  final PdxBase$Visitor$IData<R$, M, F, E> data$;
-  PdxBase$Visitor$Impl(this.data$);
-  R$ base() => data$.base();
+class PdxBase$Visitor$Delegate<R$, M, F, E>
+    extends PdxBase$Visitor<R$, M, F, E> {
+  PdxBase$Visitor$Delegate(
+    this.delegate$,
+  ) : super();
+  final PdxBase$Visitor<R$, M, F, E> Function() delegate$;
+  R$ base() => delegate$().base();
   R$ top(
     PdFld<M, F, E> top,
   ) =>
-      data$.top(top);
+      delegate$().top(
+        top,
+      );
   R$ oneof(
     PdOneof<M, F, E> oneof,
   ) =>
-      data$.oneof(oneof);
+      delegate$().oneof(
+        oneof,
+      );
+}
+
+class PdxBase$Visitor$Factory {
+  const PdxBase$Visitor$Factory._();
+  static const instance = PdxBase$Visitor$Factory._();
+}
+
+extension Mk$PdxBase$Visitor$Ext on Mk {
+  PdxBase$Visitor$Factory get PdxBase$Visitor =>
+      PdxBase$Visitor$Factory.instance;
+}
+
+extension PdxBase$Visitor$Factory$Ext on PdxBase$Visitor$Factory {
+  PdxBase$Visitor$Impl<R$, M, F, E> call<R$, M, F, E>({
+    required R$ Function() base,
+    required R$ Function(
+      PdFld<M, F, E> top,
+    )
+        top,
+    required R$ Function(
+      PdOneof<M, F, E> oneof,
+    )
+        oneof,
+  }) =>
+      PdxBase$Visitor$Impl(
+        PdxBase$Visitor$Data(
+          base: base,
+          top: top,
+          oneof: oneof,
+        ),
+      );
+  PdxBase$Visitor$Impl<R$, M, F, E> create<R$, M, F, E>({
+    required R$ Function() base,
+    required R$ Function(
+      PdFld<M, F, E> top,
+    )
+        top,
+    required R$ Function(
+      PdOneof<M, F, E> oneof,
+    )
+        oneof,
+  }) =>
+      PdxBase$Visitor$Impl(
+        PdxBase$Visitor$Data(
+          base: base,
+          top: top,
+          oneof: oneof,
+        ),
+      );
+  PdxBase$Visitor$Impl<R$, M, F, E> data<R$, M, F, E>({
+    required R$ Function() base,
+    required R$ Function(
+      PdFld<M, F, E> top,
+    )
+        top,
+    required R$ Function(
+      PdOneof<M, F, E> oneof,
+    )
+        oneof,
+  }) =>
+      PdxBase$Visitor$Impl(
+        PdxBase$Visitor$Data(
+          base: base,
+          top: top,
+          oneof: oneof,
+        ),
+      );
 }
 
 extension PdxBase$WhenX<M, F, E> on PdxBase$Base<void, M, F, E> {
@@ -554,6 +812,7 @@ extension HasData$PdRoot$Impl$Ext<M, F, E> on HasData<PdRoot$IData<M, F, E>> {
 }
 
 abstract class PdRoot$IData<M, F, E> {
+  PdRoot$IData();
   M Function(
     PdMsg<M, F, E> msg,
   ) get msgPayload;

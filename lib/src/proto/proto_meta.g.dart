@@ -55,7 +55,60 @@ abstract class PmAccessRead$Visitor<R$, T, V> {
   R$ message(PmMsgField<T, V> value);
 }
 
+class PmAccessRead$Visitor$Impl<R$, T, V> extends PmAccessRead$Visitor<R$, T, V>
+    implements HasData<PmAccessRead$Visitor$IData<R$, T, V>> {
+  PmAccessRead$Visitor$Impl(
+    this.data$,
+  ) : super();
+  final PmAccessRead$Visitor$IData<R$, T, V> data$;
+  R$ read(
+    PmReadField<T, V> read,
+  ) =>
+      data$.read(
+        read,
+      );
+  R$ full(
+    PmFullField<T, V> full,
+  ) =>
+      data$.full(
+        full,
+      );
+  R$ message(
+    PmMsgField<T, V> message,
+  ) =>
+      data$.message(
+        message,
+      );
+}
+
+extension HasData$PmAccessRead$Visitor$Impl$Ext<R$, T, V>
+    on HasData<PmAccessRead$Visitor$IData<R$, T, V>> {
+  R$ read(
+    PmReadField<T, V> read,
+  ) =>
+      data$.read(
+        read,
+      );
+  R$ full(
+    PmFullField<T, V> full,
+  ) =>
+      data$.full(
+        full,
+      );
+  R$ message(
+    PmMsgField<T, V> message,
+  ) =>
+      data$.message(
+        message,
+      );
+  PmAccessRead$Visitor$Impl<R$, T, V> asPmAccessRead$Visitor() =>
+      PmAccessRead$Visitor$Impl(
+        data$,
+      );
+}
+
 abstract class PmAccessRead$Visitor$IData<R$, T, V> {
+  PmAccessRead$Visitor$IData();
   R$ Function(
     PmReadField<T, V> read,
   ) get read;
@@ -66,6 +119,9 @@ abstract class PmAccessRead$Visitor$IData<R$, T, V> {
     PmMsgField<T, V> message,
   ) get message;
 }
+
+typedef IPmAccessRead$Visitor<R$, T, V>
+    = HasData<PmAccessRead$Visitor$IData<R$, T, V>>;
 
 class PmAccessRead$Visitor$Data<R$, T, V>
     implements PmAccessRead$Visitor$IData<R$, T, V> {
@@ -150,22 +206,106 @@ extension PmAccessRead$Visitor$Data$Ext<R$, T, V>
       );
 }
 
-class PmAccessRead$Visitor$Impl<R$, T, V> extends PmAccessRead$Visitor<R$, T, V>
-    implements HasData<PmAccessRead$Visitor$IData<R$, T, V>> {
-  final PmAccessRead$Visitor$IData<R$, T, V> data$;
-  PmAccessRead$Visitor$Impl(this.data$);
+class PmAccessRead$Visitor$Delegate<R$, T, V>
+    extends PmAccessRead$Visitor<R$, T, V> {
+  PmAccessRead$Visitor$Delegate(
+    this.delegate$,
+  ) : super();
+  final PmAccessRead$Visitor<R$, T, V> Function() delegate$;
   R$ read(
     PmReadField<T, V> read,
   ) =>
-      data$.read(read);
+      delegate$().read(
+        read,
+      );
   R$ full(
     PmFullField<T, V> full,
   ) =>
-      data$.full(full);
+      delegate$().full(
+        full,
+      );
   R$ message(
     PmMsgField<T, V> message,
   ) =>
-      data$.message(message);
+      delegate$().message(
+        message,
+      );
+}
+
+class PmAccessRead$Visitor$Factory {
+  const PmAccessRead$Visitor$Factory._();
+  static const instance = PmAccessRead$Visitor$Factory._();
+}
+
+extension Mk$PmAccessRead$Visitor$Ext on Mk {
+  PmAccessRead$Visitor$Factory get PmAccessRead$Visitor =>
+      PmAccessRead$Visitor$Factory.instance;
+}
+
+extension PmAccessRead$Visitor$Factory$Ext on PmAccessRead$Visitor$Factory {
+  PmAccessRead$Visitor$Impl<R$, T, V> call<R$, T, V>({
+    required R$ Function(
+      PmReadField<T, V> read,
+    )
+        read,
+    required R$ Function(
+      PmFullField<T, V> full,
+    )
+        full,
+    required R$ Function(
+      PmMsgField<T, V> message,
+    )
+        message,
+  }) =>
+      PmAccessRead$Visitor$Impl(
+        PmAccessRead$Visitor$Data(
+          read: read,
+          full: full,
+          message: message,
+        ),
+      );
+  PmAccessRead$Visitor$Impl<R$, T, V> create<R$, T, V>({
+    required R$ Function(
+      PmReadField<T, V> read,
+    )
+        read,
+    required R$ Function(
+      PmFullField<T, V> full,
+    )
+        full,
+    required R$ Function(
+      PmMsgField<T, V> message,
+    )
+        message,
+  }) =>
+      PmAccessRead$Visitor$Impl(
+        PmAccessRead$Visitor$Data(
+          read: read,
+          full: full,
+          message: message,
+        ),
+      );
+  PmAccessRead$Visitor$Impl<R$, T, V> data<R$, T, V>({
+    required R$ Function(
+      PmReadField<T, V> read,
+    )
+        read,
+    required R$ Function(
+      PmFullField<T, V> full,
+    )
+        full,
+    required R$ Function(
+      PmMsgField<T, V> message,
+    )
+        message,
+  }) =>
+      PmAccessRead$Visitor$Impl(
+        PmAccessRead$Visitor$Data(
+          read: read,
+          full: full,
+          message: message,
+        ),
+      );
 }
 
 extension PmAccessRead$WhenX<T, V>
@@ -240,7 +380,48 @@ abstract class PmAccessFull$Visitor<R$, T, V> {
   R$ message(PmMsgField<T, V> value);
 }
 
+class PmAccessFull$Visitor$Impl<R$, T, V> extends PmAccessFull$Visitor<R$, T, V>
+    implements HasData<PmAccessFull$Visitor$IData<R$, T, V>> {
+  PmAccessFull$Visitor$Impl(
+    this.data$,
+  ) : super();
+  final PmAccessFull$Visitor$IData<R$, T, V> data$;
+  R$ full(
+    PmFullField<T, V> full,
+  ) =>
+      data$.full(
+        full,
+      );
+  R$ message(
+    PmMsgField<T, V> message,
+  ) =>
+      data$.message(
+        message,
+      );
+}
+
+extension HasData$PmAccessFull$Visitor$Impl$Ext<R$, T, V>
+    on HasData<PmAccessFull$Visitor$IData<R$, T, V>> {
+  R$ full(
+    PmFullField<T, V> full,
+  ) =>
+      data$.full(
+        full,
+      );
+  R$ message(
+    PmMsgField<T, V> message,
+  ) =>
+      data$.message(
+        message,
+      );
+  PmAccessFull$Visitor$Impl<R$, T, V> asPmAccessFull$Visitor() =>
+      PmAccessFull$Visitor$Impl(
+        data$,
+      );
+}
+
 abstract class PmAccessFull$Visitor$IData<R$, T, V> {
+  PmAccessFull$Visitor$IData();
   R$ Function(
     PmFullField<T, V> full,
   ) get full;
@@ -248,6 +429,9 @@ abstract class PmAccessFull$Visitor$IData<R$, T, V> {
     PmMsgField<T, V> message,
   ) get message;
 }
+
+typedef IPmAccessFull$Visitor<R$, T, V>
+    = HasData<PmAccessFull$Visitor$IData<R$, T, V>>;
 
 class PmAccessFull$Visitor$Data<R$, T, V>
     implements PmAccessFull$Visitor$IData<R$, T, V> {
@@ -312,18 +496,85 @@ extension PmAccessFull$Visitor$Data$Ext<R$, T, V>
       );
 }
 
-class PmAccessFull$Visitor$Impl<R$, T, V> extends PmAccessFull$Visitor<R$, T, V>
-    implements HasData<PmAccessFull$Visitor$IData<R$, T, V>> {
-  final PmAccessFull$Visitor$IData<R$, T, V> data$;
-  PmAccessFull$Visitor$Impl(this.data$);
+class PmAccessFull$Visitor$Delegate<R$, T, V>
+    extends PmAccessFull$Visitor<R$, T, V> {
+  PmAccessFull$Visitor$Delegate(
+    this.delegate$,
+  ) : super();
+  final PmAccessFull$Visitor<R$, T, V> Function() delegate$;
   R$ full(
     PmFullField<T, V> full,
   ) =>
-      data$.full(full);
+      delegate$().full(
+        full,
+      );
   R$ message(
     PmMsgField<T, V> message,
   ) =>
-      data$.message(message);
+      delegate$().message(
+        message,
+      );
+}
+
+class PmAccessFull$Visitor$Factory {
+  const PmAccessFull$Visitor$Factory._();
+  static const instance = PmAccessFull$Visitor$Factory._();
+}
+
+extension Mk$PmAccessFull$Visitor$Ext on Mk {
+  PmAccessFull$Visitor$Factory get PmAccessFull$Visitor =>
+      PmAccessFull$Visitor$Factory.instance;
+}
+
+extension PmAccessFull$Visitor$Factory$Ext on PmAccessFull$Visitor$Factory {
+  PmAccessFull$Visitor$Impl<R$, T, V> call<R$, T, V>({
+    required R$ Function(
+      PmFullField<T, V> full,
+    )
+        full,
+    required R$ Function(
+      PmMsgField<T, V> message,
+    )
+        message,
+  }) =>
+      PmAccessFull$Visitor$Impl(
+        PmAccessFull$Visitor$Data(
+          full: full,
+          message: message,
+        ),
+      );
+  PmAccessFull$Visitor$Impl<R$, T, V> create<R$, T, V>({
+    required R$ Function(
+      PmFullField<T, V> full,
+    )
+        full,
+    required R$ Function(
+      PmMsgField<T, V> message,
+    )
+        message,
+  }) =>
+      PmAccessFull$Visitor$Impl(
+        PmAccessFull$Visitor$Data(
+          full: full,
+          message: message,
+        ),
+      );
+  PmAccessFull$Visitor$Impl<R$, T, V> data<R$, T, V>({
+    required R$ Function(
+      PmFullField<T, V> full,
+    )
+        full,
+    required R$ Function(
+      PmMsgField<T, V> message,
+    )
+        message,
+  }) =>
+      PmAccessFull$Visitor$Impl(
+        PmAccessFull$Visitor$Data(
+          full: full,
+          message: message,
+        ),
+      );
 }
 
 extension PmAccessFull$WhenX<T, V>

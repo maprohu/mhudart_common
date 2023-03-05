@@ -28,6 +28,7 @@ extension HasData$RxVal$Impl$Ext<T> on HasData<RxVal$IData<T>> {
 }
 
 abstract class RxVal$IData<T> {
+  RxVal$IData();
   Stream<T> Function() get changes;
   Lookup Function() get lookup;
   T Function() get get;
@@ -171,6 +172,7 @@ extension HasData$RxVar$Impl$Ext<T> on HasData<RxVar$IData<T>> {
 }
 
 abstract class RxVar$IData<T> implements RxVal$IData<T> {
+  RxVar$IData();
   Stream<T> Function() get changes;
   Lookup Function() get lookup;
   T Function() get get;
@@ -402,6 +404,7 @@ extension HasData$RxVarDefault$Impl$Ext<T> on HasData<RxVarDefault$IData<T>> {
 }
 
 abstract class RxVarDefault$IData<T> implements RxVar$IData<Opt<T>> {
+  RxVarDefault$IData();
   Opt<T> Function() get defaultValue;
   Stream<Opt<T>> Function() get changes;
   Lookup Function() get lookup;

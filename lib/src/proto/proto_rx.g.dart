@@ -39,12 +39,38 @@ abstract class PrxtType$Visitor<R$> {
   R$ core();
 }
 
+class PrxtType$Visitor$Impl<R$> extends PrxtType$Visitor<R$>
+    implements HasData<PrxtType$Visitor$IData<R$>> {
+  PrxtType$Visitor$Impl(
+    this.data$,
+  ) : super();
+  final PrxtType$Visitor$IData<R$> data$;
+  R$ type() => data$.type();
+  R$ msg() => data$.msg();
+  R$ enm() => data$.enm();
+  R$ core() => data$.core();
+}
+
+extension HasData$PrxtType$Visitor$Impl$Ext<R$>
+    on HasData<PrxtType$Visitor$IData<R$>> {
+  R$ type() => data$.type();
+  R$ msg() => data$.msg();
+  R$ enm() => data$.enm();
+  R$ core() => data$.core();
+  PrxtType$Visitor$Impl<R$> asPrxtType$Visitor() => PrxtType$Visitor$Impl(
+        data$,
+      );
+}
+
 abstract class PrxtType$Visitor$IData<R$> {
+  PrxtType$Visitor$IData();
   R$ Function() get type;
   R$ Function() get msg;
   R$ Function() get enm;
   R$ Function() get core;
 }
+
+typedef IPrxtType$Visitor<R$> = HasData<PrxtType$Visitor$IData<R$>>;
 
 class PrxtType$Visitor$Data<R$> implements PrxtType$Visitor$IData<R$> {
   PrxtType$Visitor$Data({
@@ -103,14 +129,70 @@ extension PrxtType$Visitor$Data$Ext<R$> on PrxtType$Visitor$Data<R$> {
       );
 }
 
-class PrxtType$Visitor$Impl<R$> extends PrxtType$Visitor<R$>
-    implements HasData<PrxtType$Visitor$IData<R$>> {
-  final PrxtType$Visitor$IData<R$> data$;
-  PrxtType$Visitor$Impl(this.data$);
-  R$ type() => data$.type();
-  R$ msg() => data$.msg();
-  R$ enm() => data$.enm();
-  R$ core() => data$.core();
+class PrxtType$Visitor$Delegate<R$> extends PrxtType$Visitor<R$> {
+  PrxtType$Visitor$Delegate(
+    this.delegate$,
+  ) : super();
+  final PrxtType$Visitor<R$> Function() delegate$;
+  R$ type() => delegate$().type();
+  R$ msg() => delegate$().msg();
+  R$ enm() => delegate$().enm();
+  R$ core() => delegate$().core();
+}
+
+class PrxtType$Visitor$Factory {
+  const PrxtType$Visitor$Factory._();
+  static const instance = PrxtType$Visitor$Factory._();
+}
+
+extension Mk$PrxtType$Visitor$Ext on Mk {
+  PrxtType$Visitor$Factory get PrxtType$Visitor =>
+      PrxtType$Visitor$Factory.instance;
+}
+
+extension PrxtType$Visitor$Factory$Ext on PrxtType$Visitor$Factory {
+  PrxtType$Visitor$Impl<R$> call<R$>({
+    required R$ Function() type,
+    required R$ Function() msg,
+    required R$ Function() enm,
+    required R$ Function() core,
+  }) =>
+      PrxtType$Visitor$Impl(
+        PrxtType$Visitor$Data(
+          type: type,
+          msg: msg,
+          enm: enm,
+          core: core,
+        ),
+      );
+  PrxtType$Visitor$Impl<R$> create<R$>({
+    required R$ Function() type,
+    required R$ Function() msg,
+    required R$ Function() enm,
+    required R$ Function() core,
+  }) =>
+      PrxtType$Visitor$Impl(
+        PrxtType$Visitor$Data(
+          type: type,
+          msg: msg,
+          enm: enm,
+          core: core,
+        ),
+      );
+  PrxtType$Visitor$Impl<R$> data<R$>({
+    required R$ Function() type,
+    required R$ Function() msg,
+    required R$ Function() enm,
+    required R$ Function() core,
+  }) =>
+      PrxtType$Visitor$Impl(
+        PrxtType$Visitor$Data(
+          type: type,
+          msg: msg,
+          enm: enm,
+          core: core,
+        ),
+      );
 }
 
 extension PrxtType$WhenX on PrxtType$Base<void> {
@@ -239,6 +321,7 @@ extension HasData$PrxMessage$Impl$Ext<T, L> on HasData<PrxMessage$IData<T, L>> {
 }
 
 abstract class PrxMessage$IData<T, L> implements RxVar$IData<Opt<T>> {
+  PrxMessage$IData();
   PmMessageOfType<T> Function() get message;
   Stream<Opt<T>> Function() get changes;
   Lookup Function() get lookup;
@@ -510,6 +593,7 @@ extension HasData$PrxBase$Impl$Ext<T> on HasData<PrxBase$IData<T>> {
 }
 
 abstract class PrxBase$IData<T> implements RxVal$IData<Opt<T>> {
+  PrxBase$IData();
   Stream<Opt<T>> Function() get changes;
   Lookup Function() get lookup;
   Opt<T> Function() get get;
@@ -665,6 +749,7 @@ extension HasData$PrxCollectionBase$Impl$Ext<C>
 }
 
 abstract class PrxCollectionBase$IData<C> implements PrxBase$IData<C> {
+  PrxCollectionBase$IData();
   void Function(
     void Function(C) updates,
   ) get rebuild;
@@ -884,6 +969,7 @@ extension HasData$PrxSingleBase$Impl$Ext<V> on HasData<PrxSingleBase$IData<V>> {
 
 abstract class PrxSingleBase$IData<V>
     implements PrxBase$IData<V>, RxVar$IData<Opt<V>> {
+  PrxSingleBase$IData();
   Stream<Opt<V>> Function() get changes;
   Lookup Function() get lookup;
   Opt<V> Function() get get;
@@ -1144,6 +1230,7 @@ extension HasData$PrxCollectionOfType$Impl$Ext<C, L>
 
 abstract class PrxCollectionOfType$IData<C, L>
     implements PrxCollectionBase$IData<C> {
+  PrxCollectionOfType$IData();
   HasFieldPath Function() get field;
   Stream<Opt<C>> Function() get changes;
   Lookup Function() get lookup;
@@ -1415,6 +1502,7 @@ extension HasData$PrxSingleOfType$Impl$Ext<V, L>
 }
 
 abstract class PrxSingleOfType$IData<V, L> implements PrxSingleBase$IData<V> {
+  PrxSingleOfType$IData();
   HasFieldPath Function() get field;
   Stream<Opt<V>> Function() get changes;
   Lookup Function() get lookup;
@@ -1730,6 +1818,7 @@ extension HasData$PrxCollection$Impl$Ext<C, L>
 
 abstract class PrxCollection$IData<C, L>
     implements PrxCollectionOfType$IData<C, L> {
+  PrxCollection$IData();
   HasFieldPath Function() get field;
   Stream<Opt<C>> Function() get changes;
   Lookup Function() get lookup;
@@ -2026,6 +2115,7 @@ extension HasData$PrxSingle$Impl$Ext<T, L> on HasData<PrxSingle$IData<T, L>> {
 }
 
 abstract class PrxSingle$IData<T, L> implements PrxSingleOfType$IData<T, L> {
+  PrxSingle$IData();
   HasFieldPath Function() get field;
   Stream<Opt<T>> Function() get changes;
   Lookup Function() get lookup;

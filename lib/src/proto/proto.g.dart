@@ -56,7 +56,96 @@ abstract class Cardinality$Visitor<R$> {
   R$ oneOf(FieldInfo value);
 }
 
+class Cardinality$Visitor$Impl<R$> extends Cardinality$Visitor<R$>
+    implements HasData<Cardinality$Visitor$IData<R$>> {
+  Cardinality$Visitor$Impl(
+    this.data$,
+  ) : super();
+  final Cardinality$Visitor$IData<R$> data$;
+  R$ cardinality(
+    FieldInfo cardinality,
+  ) =>
+      data$.cardinality(
+        cardinality,
+      );
+  R$ mapOf(
+    MapFieldInfo mapOf,
+  ) =>
+      data$.mapOf(
+        mapOf,
+      );
+  R$ nonMap(
+    FieldInfo nonMap,
+  ) =>
+      data$.nonMap(
+        nonMap,
+      );
+  R$ single(
+    FieldInfo single,
+  ) =>
+      data$.single(
+        single,
+      );
+  R$ repeated(
+    FieldInfo repeated,
+  ) =>
+      data$.repeated(
+        repeated,
+      );
+  R$ oneOf(
+    FieldInfo oneOf,
+  ) =>
+      data$.oneOf(
+        oneOf,
+      );
+}
+
+extension HasData$Cardinality$Visitor$Impl$Ext<R$>
+    on HasData<Cardinality$Visitor$IData<R$>> {
+  R$ cardinality(
+    FieldInfo cardinality,
+  ) =>
+      data$.cardinality(
+        cardinality,
+      );
+  R$ mapOf(
+    MapFieldInfo mapOf,
+  ) =>
+      data$.mapOf(
+        mapOf,
+      );
+  R$ nonMap(
+    FieldInfo nonMap,
+  ) =>
+      data$.nonMap(
+        nonMap,
+      );
+  R$ single(
+    FieldInfo single,
+  ) =>
+      data$.single(
+        single,
+      );
+  R$ repeated(
+    FieldInfo repeated,
+  ) =>
+      data$.repeated(
+        repeated,
+      );
+  R$ oneOf(
+    FieldInfo oneOf,
+  ) =>
+      data$.oneOf(
+        oneOf,
+      );
+  Cardinality$Visitor$Impl<R$> asCardinality$Visitor() =>
+      Cardinality$Visitor$Impl(
+        data$,
+      );
+}
+
 abstract class Cardinality$Visitor$IData<R$> {
+  Cardinality$Visitor$IData();
   R$ Function(
     FieldInfo cardinality,
   ) get cardinality;
@@ -76,6 +165,8 @@ abstract class Cardinality$Visitor$IData<R$> {
     FieldInfo oneOf,
   ) get oneOf;
 }
+
+typedef ICardinality$Visitor<R$> = HasData<Cardinality$Visitor$IData<R$>>;
 
 class Cardinality$Visitor$Data<R$> implements Cardinality$Visitor$IData<R$> {
   Cardinality$Visitor$Data({
@@ -218,34 +309,168 @@ extension Cardinality$Visitor$Data$Ext<R$> on Cardinality$Visitor$Data<R$> {
       );
 }
 
-class Cardinality$Visitor$Impl<R$> extends Cardinality$Visitor<R$>
-    implements HasData<Cardinality$Visitor$IData<R$>> {
-  final Cardinality$Visitor$IData<R$> data$;
-  Cardinality$Visitor$Impl(this.data$);
+class Cardinality$Visitor$Delegate<R$> extends Cardinality$Visitor<R$> {
+  Cardinality$Visitor$Delegate(
+    this.delegate$,
+  ) : super();
+  final Cardinality$Visitor<R$> Function() delegate$;
   R$ cardinality(
     FieldInfo cardinality,
   ) =>
-      data$.cardinality(cardinality);
+      delegate$().cardinality(
+        cardinality,
+      );
   R$ mapOf(
     MapFieldInfo mapOf,
   ) =>
-      data$.mapOf(mapOf);
+      delegate$().mapOf(
+        mapOf,
+      );
   R$ nonMap(
     FieldInfo nonMap,
   ) =>
-      data$.nonMap(nonMap);
+      delegate$().nonMap(
+        nonMap,
+      );
   R$ single(
     FieldInfo single,
   ) =>
-      data$.single(single);
+      delegate$().single(
+        single,
+      );
   R$ repeated(
     FieldInfo repeated,
   ) =>
-      data$.repeated(repeated);
+      delegate$().repeated(
+        repeated,
+      );
   R$ oneOf(
     FieldInfo oneOf,
   ) =>
-      data$.oneOf(oneOf);
+      delegate$().oneOf(
+        oneOf,
+      );
+}
+
+class Cardinality$Visitor$Factory {
+  const Cardinality$Visitor$Factory._();
+  static const instance = Cardinality$Visitor$Factory._();
+}
+
+extension Mk$Cardinality$Visitor$Ext on Mk {
+  Cardinality$Visitor$Factory get Cardinality$Visitor =>
+      Cardinality$Visitor$Factory.instance;
+}
+
+extension Cardinality$Visitor$Factory$Ext on Cardinality$Visitor$Factory {
+  Cardinality$Visitor$Impl<R$> call<R$>({
+    required R$ Function(
+      FieldInfo cardinality,
+    )
+        cardinality,
+    required R$ Function(
+      MapFieldInfo mapOf,
+    )
+        mapOf,
+    required R$ Function(
+      FieldInfo nonMap,
+    )
+        nonMap,
+    required R$ Function(
+      FieldInfo single,
+    )
+        single,
+    required R$ Function(
+      FieldInfo repeated,
+    )
+        repeated,
+    required R$ Function(
+      FieldInfo oneOf,
+    )
+        oneOf,
+  }) =>
+      Cardinality$Visitor$Impl(
+        Cardinality$Visitor$Data(
+          cardinality: cardinality,
+          mapOf: mapOf,
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+          oneOf: oneOf,
+        ),
+      );
+  Cardinality$Visitor$Impl<R$> create<R$>({
+    required R$ Function(
+      FieldInfo cardinality,
+    )
+        cardinality,
+    required R$ Function(
+      MapFieldInfo mapOf,
+    )
+        mapOf,
+    required R$ Function(
+      FieldInfo nonMap,
+    )
+        nonMap,
+    required R$ Function(
+      FieldInfo single,
+    )
+        single,
+    required R$ Function(
+      FieldInfo repeated,
+    )
+        repeated,
+    required R$ Function(
+      FieldInfo oneOf,
+    )
+        oneOf,
+  }) =>
+      Cardinality$Visitor$Impl(
+        Cardinality$Visitor$Data(
+          cardinality: cardinality,
+          mapOf: mapOf,
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+          oneOf: oneOf,
+        ),
+      );
+  Cardinality$Visitor$Impl<R$> data<R$>({
+    required R$ Function(
+      FieldInfo cardinality,
+    )
+        cardinality,
+    required R$ Function(
+      MapFieldInfo mapOf,
+    )
+        mapOf,
+    required R$ Function(
+      FieldInfo nonMap,
+    )
+        nonMap,
+    required R$ Function(
+      FieldInfo single,
+    )
+        single,
+    required R$ Function(
+      FieldInfo repeated,
+    )
+        repeated,
+    required R$ Function(
+      FieldInfo oneOf,
+    )
+        oneOf,
+  }) =>
+      Cardinality$Visitor$Impl(
+        Cardinality$Visitor$Data(
+          cardinality: cardinality,
+          mapOf: mapOf,
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+          oneOf: oneOf,
+        ),
+      );
 }
 
 extension Cardinality$WhenX on Cardinality$Base<FieldInfo> {
@@ -373,7 +598,71 @@ abstract class NonMap$Visitor<R$> {
   R$ oneOf(FieldInfo value);
 }
 
+class NonMap$Visitor$Impl<R$> extends NonMap$Visitor<R$>
+    implements HasData<NonMap$Visitor$IData<R$>> {
+  NonMap$Visitor$Impl(
+    this.data$,
+  ) : super();
+  final NonMap$Visitor$IData<R$> data$;
+  R$ nonMap(
+    FieldInfo nonMap,
+  ) =>
+      data$.nonMap(
+        nonMap,
+      );
+  R$ single(
+    FieldInfo single,
+  ) =>
+      data$.single(
+        single,
+      );
+  R$ repeated(
+    FieldInfo repeated,
+  ) =>
+      data$.repeated(
+        repeated,
+      );
+  R$ oneOf(
+    FieldInfo oneOf,
+  ) =>
+      data$.oneOf(
+        oneOf,
+      );
+}
+
+extension HasData$NonMap$Visitor$Impl$Ext<R$>
+    on HasData<NonMap$Visitor$IData<R$>> {
+  R$ nonMap(
+    FieldInfo nonMap,
+  ) =>
+      data$.nonMap(
+        nonMap,
+      );
+  R$ single(
+    FieldInfo single,
+  ) =>
+      data$.single(
+        single,
+      );
+  R$ repeated(
+    FieldInfo repeated,
+  ) =>
+      data$.repeated(
+        repeated,
+      );
+  R$ oneOf(
+    FieldInfo oneOf,
+  ) =>
+      data$.oneOf(
+        oneOf,
+      );
+  NonMap$Visitor$Impl<R$> asNonMap$Visitor() => NonMap$Visitor$Impl(
+        data$,
+      );
+}
+
 abstract class NonMap$Visitor$IData<R$> {
+  NonMap$Visitor$IData();
   R$ Function(
     FieldInfo nonMap,
   ) get nonMap;
@@ -387,6 +676,8 @@ abstract class NonMap$Visitor$IData<R$> {
     FieldInfo oneOf,
   ) get oneOf;
 }
+
+typedef INonMap$Visitor<R$> = HasData<NonMap$Visitor$IData<R$>>;
 
 class NonMap$Visitor$Data<R$> implements NonMap$Visitor$IData<R$> {
   NonMap$Visitor$Data({
@@ -489,26 +780,125 @@ extension NonMap$Visitor$Data$Ext<R$> on NonMap$Visitor$Data<R$> {
       );
 }
 
-class NonMap$Visitor$Impl<R$> extends NonMap$Visitor<R$>
-    implements HasData<NonMap$Visitor$IData<R$>> {
-  final NonMap$Visitor$IData<R$> data$;
-  NonMap$Visitor$Impl(this.data$);
+class NonMap$Visitor$Delegate<R$> extends NonMap$Visitor<R$> {
+  NonMap$Visitor$Delegate(
+    this.delegate$,
+  ) : super();
+  final NonMap$Visitor<R$> Function() delegate$;
   R$ nonMap(
     FieldInfo nonMap,
   ) =>
-      data$.nonMap(nonMap);
+      delegate$().nonMap(
+        nonMap,
+      );
   R$ single(
     FieldInfo single,
   ) =>
-      data$.single(single);
+      delegate$().single(
+        single,
+      );
   R$ repeated(
     FieldInfo repeated,
   ) =>
-      data$.repeated(repeated);
+      delegate$().repeated(
+        repeated,
+      );
   R$ oneOf(
     FieldInfo oneOf,
   ) =>
-      data$.oneOf(oneOf);
+      delegate$().oneOf(
+        oneOf,
+      );
+}
+
+class NonMap$Visitor$Factory {
+  const NonMap$Visitor$Factory._();
+  static const instance = NonMap$Visitor$Factory._();
+}
+
+extension Mk$NonMap$Visitor$Ext on Mk {
+  NonMap$Visitor$Factory get NonMap$Visitor => NonMap$Visitor$Factory.instance;
+}
+
+extension NonMap$Visitor$Factory$Ext on NonMap$Visitor$Factory {
+  NonMap$Visitor$Impl<R$> call<R$>({
+    required R$ Function(
+      FieldInfo nonMap,
+    )
+        nonMap,
+    required R$ Function(
+      FieldInfo single,
+    )
+        single,
+    required R$ Function(
+      FieldInfo repeated,
+    )
+        repeated,
+    required R$ Function(
+      FieldInfo oneOf,
+    )
+        oneOf,
+  }) =>
+      NonMap$Visitor$Impl(
+        NonMap$Visitor$Data(
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+          oneOf: oneOf,
+        ),
+      );
+  NonMap$Visitor$Impl<R$> create<R$>({
+    required R$ Function(
+      FieldInfo nonMap,
+    )
+        nonMap,
+    required R$ Function(
+      FieldInfo single,
+    )
+        single,
+    required R$ Function(
+      FieldInfo repeated,
+    )
+        repeated,
+    required R$ Function(
+      FieldInfo oneOf,
+    )
+        oneOf,
+  }) =>
+      NonMap$Visitor$Impl(
+        NonMap$Visitor$Data(
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+          oneOf: oneOf,
+        ),
+      );
+  NonMap$Visitor$Impl<R$> data<R$>({
+    required R$ Function(
+      FieldInfo nonMap,
+    )
+        nonMap,
+    required R$ Function(
+      FieldInfo single,
+    )
+        single,
+    required R$ Function(
+      FieldInfo repeated,
+    )
+        repeated,
+    required R$ Function(
+      FieldInfo oneOf,
+    )
+        oneOf,
+  }) =>
+      NonMap$Visitor$Impl(
+        NonMap$Visitor$Data(
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+          oneOf: oneOf,
+        ),
+      );
 }
 
 extension NonMap$WhenX on NonMap$Base<FieldInfo> {
@@ -691,7 +1081,45 @@ abstract class ValueType$Visitor<R$> {
   R$ messageType(BuilderInfo value);
 }
 
+class ValueType$Visitor$Impl<R$> extends ValueType$Visitor<R$>
+    implements HasData<ValueType$Visitor$IData<R$>> {
+  ValueType$Visitor$Impl(
+    this.data$,
+  ) : super();
+  final ValueType$Visitor$IData<R$> data$;
+  R$ valueType() => data$.valueType();
+  R$ boolType() => data$.boolType();
+  R$ intType() => data$.intType();
+  R$ stringType() => data$.stringType();
+  R$ enumType() => data$.enumType();
+  R$ messageType(
+    BuilderInfo messageType,
+  ) =>
+      data$.messageType(
+        messageType,
+      );
+}
+
+extension HasData$ValueType$Visitor$Impl$Ext<R$>
+    on HasData<ValueType$Visitor$IData<R$>> {
+  R$ valueType() => data$.valueType();
+  R$ boolType() => data$.boolType();
+  R$ intType() => data$.intType();
+  R$ stringType() => data$.stringType();
+  R$ enumType() => data$.enumType();
+  R$ messageType(
+    BuilderInfo messageType,
+  ) =>
+      data$.messageType(
+        messageType,
+      );
+  ValueType$Visitor$Impl<R$> asValueType$Visitor() => ValueType$Visitor$Impl(
+        data$,
+      );
+}
+
 abstract class ValueType$Visitor$IData<R$> {
+  ValueType$Visitor$IData();
   R$ Function() get valueType;
   R$ Function() get boolType;
   R$ Function() get intType;
@@ -701,6 +1129,8 @@ abstract class ValueType$Visitor$IData<R$> {
     BuilderInfo messageType,
   ) get messageType;
 }
+
+typedef IValueType$Visitor<R$> = HasData<ValueType$Visitor$IData<R$>>;
 
 class ValueType$Visitor$Data<R$> implements ValueType$Visitor$IData<R$> {
   ValueType$Visitor$Data({
@@ -788,19 +1218,98 @@ extension ValueType$Visitor$Data$Ext<R$> on ValueType$Visitor$Data<R$> {
       );
 }
 
-class ValueType$Visitor$Impl<R$> extends ValueType$Visitor<R$>
-    implements HasData<ValueType$Visitor$IData<R$>> {
-  final ValueType$Visitor$IData<R$> data$;
-  ValueType$Visitor$Impl(this.data$);
-  R$ valueType() => data$.valueType();
-  R$ boolType() => data$.boolType();
-  R$ intType() => data$.intType();
-  R$ stringType() => data$.stringType();
-  R$ enumType() => data$.enumType();
+class ValueType$Visitor$Delegate<R$> extends ValueType$Visitor<R$> {
+  ValueType$Visitor$Delegate(
+    this.delegate$,
+  ) : super();
+  final ValueType$Visitor<R$> Function() delegate$;
+  R$ valueType() => delegate$().valueType();
+  R$ boolType() => delegate$().boolType();
+  R$ intType() => delegate$().intType();
+  R$ stringType() => delegate$().stringType();
+  R$ enumType() => delegate$().enumType();
   R$ messageType(
     BuilderInfo messageType,
   ) =>
-      data$.messageType(messageType);
+      delegate$().messageType(
+        messageType,
+      );
+}
+
+class ValueType$Visitor$Factory {
+  const ValueType$Visitor$Factory._();
+  static const instance = ValueType$Visitor$Factory._();
+}
+
+extension Mk$ValueType$Visitor$Ext on Mk {
+  ValueType$Visitor$Factory get ValueType$Visitor =>
+      ValueType$Visitor$Factory.instance;
+}
+
+extension ValueType$Visitor$Factory$Ext on ValueType$Visitor$Factory {
+  ValueType$Visitor$Impl<R$> call<R$>({
+    required R$ Function() valueType,
+    required R$ Function() boolType,
+    required R$ Function() intType,
+    required R$ Function() stringType,
+    required R$ Function() enumType,
+    required R$ Function(
+      BuilderInfo messageType,
+    )
+        messageType,
+  }) =>
+      ValueType$Visitor$Impl(
+        ValueType$Visitor$Data(
+          valueType: valueType,
+          boolType: boolType,
+          intType: intType,
+          stringType: stringType,
+          enumType: enumType,
+          messageType: messageType,
+        ),
+      );
+  ValueType$Visitor$Impl<R$> create<R$>({
+    required R$ Function() valueType,
+    required R$ Function() boolType,
+    required R$ Function() intType,
+    required R$ Function() stringType,
+    required R$ Function() enumType,
+    required R$ Function(
+      BuilderInfo messageType,
+    )
+        messageType,
+  }) =>
+      ValueType$Visitor$Impl(
+        ValueType$Visitor$Data(
+          valueType: valueType,
+          boolType: boolType,
+          intType: intType,
+          stringType: stringType,
+          enumType: enumType,
+          messageType: messageType,
+        ),
+      );
+  ValueType$Visitor$Impl<R$> data<R$>({
+    required R$ Function() valueType,
+    required R$ Function() boolType,
+    required R$ Function() intType,
+    required R$ Function() stringType,
+    required R$ Function() enumType,
+    required R$ Function(
+      BuilderInfo messageType,
+    )
+        messageType,
+  }) =>
+      ValueType$Visitor$Impl(
+        ValueType$Visitor$Data(
+          valueType: valueType,
+          boolType: boolType,
+          intType: intType,
+          stringType: stringType,
+          enumType: enumType,
+          messageType: messageType,
+        ),
+      );
 }
 
 extension ValueType$WhenX on ValueType$Base<void> {

@@ -41,7 +41,45 @@ abstract class PdfCardinality$Visitor<R$, M, F, E> {
   R$ repeated();
 }
 
+class PdfCardinality$Visitor$Impl<R$, M, F, E>
+    extends PdfCardinality$Visitor<R$, M, F, E>
+    implements HasData<PdfCardinality$Visitor$IData<R$, M, F, E>> {
+  PdfCardinality$Visitor$Impl(
+    this.data$,
+  ) : super();
+  final PdfCardinality$Visitor$IData<R$, M, F, E> data$;
+  R$ cardinality() => data$.cardinality();
+  R$ mapOf(
+    MapFields<M, F, E> mapOf,
+  ) =>
+      data$.mapOf(
+        mapOf,
+      );
+  R$ nonMap() => data$.nonMap();
+  R$ single() => data$.single();
+  R$ repeated() => data$.repeated();
+}
+
+extension HasData$PdfCardinality$Visitor$Impl$Ext<R$, M, F, E>
+    on HasData<PdfCardinality$Visitor$IData<R$, M, F, E>> {
+  R$ cardinality() => data$.cardinality();
+  R$ mapOf(
+    MapFields<M, F, E> mapOf,
+  ) =>
+      data$.mapOf(
+        mapOf,
+      );
+  R$ nonMap() => data$.nonMap();
+  R$ single() => data$.single();
+  R$ repeated() => data$.repeated();
+  PdfCardinality$Visitor$Impl<R$, M, F, E> asPdfCardinality$Visitor() =>
+      PdfCardinality$Visitor$Impl(
+        data$,
+      );
+}
+
 abstract class PdfCardinality$Visitor$IData<R$, M, F, E> {
+  PdfCardinality$Visitor$IData();
   R$ Function() get cardinality;
   R$ Function(
     MapFields<M, F, E> mapOf,
@@ -50,6 +88,9 @@ abstract class PdfCardinality$Visitor$IData<R$, M, F, E> {
   R$ Function() get single;
   R$ Function() get repeated;
 }
+
+typedef IPdfCardinality$Visitor<R$, M, F, E>
+    = HasData<PdfCardinality$Visitor$IData<R$, M, F, E>>;
 
 class PdfCardinality$Visitor$Data<R$, M, F, E>
     implements PdfCardinality$Visitor$IData<R$, M, F, E> {
@@ -130,19 +171,92 @@ extension PdfCardinality$Visitor$Data$Ext<R$, M, F, E>
       );
 }
 
-class PdfCardinality$Visitor$Impl<R$, M, F, E>
-    extends PdfCardinality$Visitor<R$, M, F, E>
-    implements HasData<PdfCardinality$Visitor$IData<R$, M, F, E>> {
-  final PdfCardinality$Visitor$IData<R$, M, F, E> data$;
-  PdfCardinality$Visitor$Impl(this.data$);
-  R$ cardinality() => data$.cardinality();
+class PdfCardinality$Visitor$Delegate<R$, M, F, E>
+    extends PdfCardinality$Visitor<R$, M, F, E> {
+  PdfCardinality$Visitor$Delegate(
+    this.delegate$,
+  ) : super();
+  final PdfCardinality$Visitor<R$, M, F, E> Function() delegate$;
+  R$ cardinality() => delegate$().cardinality();
   R$ mapOf(
     MapFields<M, F, E> mapOf,
   ) =>
-      data$.mapOf(mapOf);
-  R$ nonMap() => data$.nonMap();
-  R$ single() => data$.single();
-  R$ repeated() => data$.repeated();
+      delegate$().mapOf(
+        mapOf,
+      );
+  R$ nonMap() => delegate$().nonMap();
+  R$ single() => delegate$().single();
+  R$ repeated() => delegate$().repeated();
+}
+
+class PdfCardinality$Visitor$Factory {
+  const PdfCardinality$Visitor$Factory._();
+  static const instance = PdfCardinality$Visitor$Factory._();
+}
+
+extension Mk$PdfCardinality$Visitor$Ext on Mk {
+  PdfCardinality$Visitor$Factory get PdfCardinality$Visitor =>
+      PdfCardinality$Visitor$Factory.instance;
+}
+
+extension PdfCardinality$Visitor$Factory$Ext on PdfCardinality$Visitor$Factory {
+  PdfCardinality$Visitor$Impl<R$, M, F, E> call<R$, M, F, E>({
+    required R$ Function() cardinality,
+    required R$ Function(
+      MapFields<M, F, E> mapOf,
+    )
+        mapOf,
+    required R$ Function() nonMap,
+    required R$ Function() single,
+    required R$ Function() repeated,
+  }) =>
+      PdfCardinality$Visitor$Impl(
+        PdfCardinality$Visitor$Data(
+          cardinality: cardinality,
+          mapOf: mapOf,
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+        ),
+      );
+  PdfCardinality$Visitor$Impl<R$, M, F, E> create<R$, M, F, E>({
+    required R$ Function() cardinality,
+    required R$ Function(
+      MapFields<M, F, E> mapOf,
+    )
+        mapOf,
+    required R$ Function() nonMap,
+    required R$ Function() single,
+    required R$ Function() repeated,
+  }) =>
+      PdfCardinality$Visitor$Impl(
+        PdfCardinality$Visitor$Data(
+          cardinality: cardinality,
+          mapOf: mapOf,
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+        ),
+      );
+  PdfCardinality$Visitor$Impl<R$, M, F, E> data<R$, M, F, E>({
+    required R$ Function() cardinality,
+    required R$ Function(
+      MapFields<M, F, E> mapOf,
+    )
+        mapOf,
+    required R$ Function() nonMap,
+    required R$ Function() single,
+    required R$ Function() repeated,
+  }) =>
+      PdfCardinality$Visitor$Impl(
+        PdfCardinality$Visitor$Data(
+          cardinality: cardinality,
+          mapOf: mapOf,
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+        ),
+      );
 }
 
 extension PdfCardinality$WhenX<M, F, E> on PdfCardinality$Base<void, M, F, E> {
@@ -241,11 +355,37 @@ abstract class PdfNonMap$Visitor<R$, M, F, E> {
   R$ repeated();
 }
 
+class PdfNonMap$Visitor$Impl<R$, M, F, E> extends PdfNonMap$Visitor<R$, M, F, E>
+    implements HasData<PdfNonMap$Visitor$IData<R$, M, F, E>> {
+  PdfNonMap$Visitor$Impl(
+    this.data$,
+  ) : super();
+  final PdfNonMap$Visitor$IData<R$, M, F, E> data$;
+  R$ nonMap() => data$.nonMap();
+  R$ single() => data$.single();
+  R$ repeated() => data$.repeated();
+}
+
+extension HasData$PdfNonMap$Visitor$Impl$Ext<R$, M, F, E>
+    on HasData<PdfNonMap$Visitor$IData<R$, M, F, E>> {
+  R$ nonMap() => data$.nonMap();
+  R$ single() => data$.single();
+  R$ repeated() => data$.repeated();
+  PdfNonMap$Visitor$Impl<R$, M, F, E> asPdfNonMap$Visitor() =>
+      PdfNonMap$Visitor$Impl(
+        data$,
+      );
+}
+
 abstract class PdfNonMap$Visitor$IData<R$, M, F, E> {
+  PdfNonMap$Visitor$IData();
   R$ Function() get nonMap;
   R$ Function() get single;
   R$ Function() get repeated;
 }
+
+typedef IPdfNonMap$Visitor<R$, M, F, E>
+    = HasData<PdfNonMap$Visitor$IData<R$, M, F, E>>;
 
 class PdfNonMap$Visitor$Data<R$, M, F, E>
     implements PdfNonMap$Visitor$IData<R$, M, F, E> {
@@ -297,13 +437,64 @@ extension PdfNonMap$Visitor$Data$Ext<R$, M, F, E>
       );
 }
 
-class PdfNonMap$Visitor$Impl<R$, M, F, E> extends PdfNonMap$Visitor<R$, M, F, E>
-    implements HasData<PdfNonMap$Visitor$IData<R$, M, F, E>> {
-  final PdfNonMap$Visitor$IData<R$, M, F, E> data$;
-  PdfNonMap$Visitor$Impl(this.data$);
-  R$ nonMap() => data$.nonMap();
-  R$ single() => data$.single();
-  R$ repeated() => data$.repeated();
+class PdfNonMap$Visitor$Delegate<R$, M, F, E>
+    extends PdfNonMap$Visitor<R$, M, F, E> {
+  PdfNonMap$Visitor$Delegate(
+    this.delegate$,
+  ) : super();
+  final PdfNonMap$Visitor<R$, M, F, E> Function() delegate$;
+  R$ nonMap() => delegate$().nonMap();
+  R$ single() => delegate$().single();
+  R$ repeated() => delegate$().repeated();
+}
+
+class PdfNonMap$Visitor$Factory {
+  const PdfNonMap$Visitor$Factory._();
+  static const instance = PdfNonMap$Visitor$Factory._();
+}
+
+extension Mk$PdfNonMap$Visitor$Ext on Mk {
+  PdfNonMap$Visitor$Factory get PdfNonMap$Visitor =>
+      PdfNonMap$Visitor$Factory.instance;
+}
+
+extension PdfNonMap$Visitor$Factory$Ext on PdfNonMap$Visitor$Factory {
+  PdfNonMap$Visitor$Impl<R$, M, F, E> call<R$, M, F, E>({
+    required R$ Function() nonMap,
+    required R$ Function() single,
+    required R$ Function() repeated,
+  }) =>
+      PdfNonMap$Visitor$Impl(
+        PdfNonMap$Visitor$Data(
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+        ),
+      );
+  PdfNonMap$Visitor$Impl<R$, M, F, E> create<R$, M, F, E>({
+    required R$ Function() nonMap,
+    required R$ Function() single,
+    required R$ Function() repeated,
+  }) =>
+      PdfNonMap$Visitor$Impl(
+        PdfNonMap$Visitor$Data(
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+        ),
+      );
+  PdfNonMap$Visitor$Impl<R$, M, F, E> data<R$, M, F, E>({
+    required R$ Function() nonMap,
+    required R$ Function() single,
+    required R$ Function() repeated,
+  }) =>
+      PdfNonMap$Visitor$Impl(
+        PdfNonMap$Visitor$Data(
+          nonMap: nonMap,
+          single: single,
+          repeated: repeated,
+        ),
+      );
 }
 
 extension PdfNonMap$WhenX<M, F, E> on PdfNonMap$Base<void, M, F, E> {
@@ -411,7 +602,63 @@ abstract class PdfValueType$Visitor<R$, M, F, E> {
   R$ messageType(PdMsg<M, F, E> value);
 }
 
+class PdfValueType$Visitor$Impl<R$, M, F, E>
+    extends PdfValueType$Visitor<R$, M, F, E>
+    implements HasData<PdfValueType$Visitor$IData<R$, M, F, E>> {
+  PdfValueType$Visitor$Impl(
+    this.data$,
+  ) : super();
+  final PdfValueType$Visitor$IData<R$, M, F, E> data$;
+  R$ valueType() => data$.valueType();
+  R$ boolType() => data$.boolType();
+  R$ doubleType() => data$.doubleType();
+  R$ intType() => data$.intType();
+  R$ int64Type() => data$.int64Type();
+  R$ stringType() => data$.stringType();
+  R$ bytesType() => data$.bytesType();
+  R$ enumType(
+    PdEnum<M, F, E> enumType,
+  ) =>
+      data$.enumType(
+        enumType,
+      );
+  R$ messageType(
+    PdMsg<M, F, E> messageType,
+  ) =>
+      data$.messageType(
+        messageType,
+      );
+}
+
+extension HasData$PdfValueType$Visitor$Impl$Ext<R$, M, F, E>
+    on HasData<PdfValueType$Visitor$IData<R$, M, F, E>> {
+  R$ valueType() => data$.valueType();
+  R$ boolType() => data$.boolType();
+  R$ doubleType() => data$.doubleType();
+  R$ intType() => data$.intType();
+  R$ int64Type() => data$.int64Type();
+  R$ stringType() => data$.stringType();
+  R$ bytesType() => data$.bytesType();
+  R$ enumType(
+    PdEnum<M, F, E> enumType,
+  ) =>
+      data$.enumType(
+        enumType,
+      );
+  R$ messageType(
+    PdMsg<M, F, E> messageType,
+  ) =>
+      data$.messageType(
+        messageType,
+      );
+  PdfValueType$Visitor$Impl<R$, M, F, E> asPdfValueType$Visitor() =>
+      PdfValueType$Visitor$Impl(
+        data$,
+      );
+}
+
 abstract class PdfValueType$Visitor$IData<R$, M, F, E> {
+  PdfValueType$Visitor$IData();
   R$ Function() get valueType;
   R$ Function() get boolType;
   R$ Function() get doubleType;
@@ -426,6 +673,9 @@ abstract class PdfValueType$Visitor$IData<R$, M, F, E> {
     PdMsg<M, F, E> messageType,
   ) get messageType;
 }
+
+typedef IPdfValueType$Visitor<R$, M, F, E>
+    = HasData<PdfValueType$Visitor$IData<R$, M, F, E>>;
 
 class PdfValueType$Visitor$Data<R$, M, F, E>
     implements PdfValueType$Visitor$IData<R$, M, F, E> {
@@ -553,26 +803,134 @@ extension PdfValueType$Visitor$Data$Ext<R$, M, F, E>
       );
 }
 
-class PdfValueType$Visitor$Impl<R$, M, F, E>
-    extends PdfValueType$Visitor<R$, M, F, E>
-    implements HasData<PdfValueType$Visitor$IData<R$, M, F, E>> {
-  final PdfValueType$Visitor$IData<R$, M, F, E> data$;
-  PdfValueType$Visitor$Impl(this.data$);
-  R$ valueType() => data$.valueType();
-  R$ boolType() => data$.boolType();
-  R$ doubleType() => data$.doubleType();
-  R$ intType() => data$.intType();
-  R$ int64Type() => data$.int64Type();
-  R$ stringType() => data$.stringType();
-  R$ bytesType() => data$.bytesType();
+class PdfValueType$Visitor$Delegate<R$, M, F, E>
+    extends PdfValueType$Visitor<R$, M, F, E> {
+  PdfValueType$Visitor$Delegate(
+    this.delegate$,
+  ) : super();
+  final PdfValueType$Visitor<R$, M, F, E> Function() delegate$;
+  R$ valueType() => delegate$().valueType();
+  R$ boolType() => delegate$().boolType();
+  R$ doubleType() => delegate$().doubleType();
+  R$ intType() => delegate$().intType();
+  R$ int64Type() => delegate$().int64Type();
+  R$ stringType() => delegate$().stringType();
+  R$ bytesType() => delegate$().bytesType();
   R$ enumType(
     PdEnum<M, F, E> enumType,
   ) =>
-      data$.enumType(enumType);
+      delegate$().enumType(
+        enumType,
+      );
   R$ messageType(
     PdMsg<M, F, E> messageType,
   ) =>
-      data$.messageType(messageType);
+      delegate$().messageType(
+        messageType,
+      );
+}
+
+class PdfValueType$Visitor$Factory {
+  const PdfValueType$Visitor$Factory._();
+  static const instance = PdfValueType$Visitor$Factory._();
+}
+
+extension Mk$PdfValueType$Visitor$Ext on Mk {
+  PdfValueType$Visitor$Factory get PdfValueType$Visitor =>
+      PdfValueType$Visitor$Factory.instance;
+}
+
+extension PdfValueType$Visitor$Factory$Ext on PdfValueType$Visitor$Factory {
+  PdfValueType$Visitor$Impl<R$, M, F, E> call<R$, M, F, E>({
+    required R$ Function() valueType,
+    required R$ Function() boolType,
+    required R$ Function() doubleType,
+    required R$ Function() intType,
+    required R$ Function() int64Type,
+    required R$ Function() stringType,
+    required R$ Function() bytesType,
+    required R$ Function(
+      PdEnum<M, F, E> enumType,
+    )
+        enumType,
+    required R$ Function(
+      PdMsg<M, F, E> messageType,
+    )
+        messageType,
+  }) =>
+      PdfValueType$Visitor$Impl(
+        PdfValueType$Visitor$Data(
+          valueType: valueType,
+          boolType: boolType,
+          doubleType: doubleType,
+          intType: intType,
+          int64Type: int64Type,
+          stringType: stringType,
+          bytesType: bytesType,
+          enumType: enumType,
+          messageType: messageType,
+        ),
+      );
+  PdfValueType$Visitor$Impl<R$, M, F, E> create<R$, M, F, E>({
+    required R$ Function() valueType,
+    required R$ Function() boolType,
+    required R$ Function() doubleType,
+    required R$ Function() intType,
+    required R$ Function() int64Type,
+    required R$ Function() stringType,
+    required R$ Function() bytesType,
+    required R$ Function(
+      PdEnum<M, F, E> enumType,
+    )
+        enumType,
+    required R$ Function(
+      PdMsg<M, F, E> messageType,
+    )
+        messageType,
+  }) =>
+      PdfValueType$Visitor$Impl(
+        PdfValueType$Visitor$Data(
+          valueType: valueType,
+          boolType: boolType,
+          doubleType: doubleType,
+          intType: intType,
+          int64Type: int64Type,
+          stringType: stringType,
+          bytesType: bytesType,
+          enumType: enumType,
+          messageType: messageType,
+        ),
+      );
+  PdfValueType$Visitor$Impl<R$, M, F, E> data<R$, M, F, E>({
+    required R$ Function() valueType,
+    required R$ Function() boolType,
+    required R$ Function() doubleType,
+    required R$ Function() intType,
+    required R$ Function() int64Type,
+    required R$ Function() stringType,
+    required R$ Function() bytesType,
+    required R$ Function(
+      PdEnum<M, F, E> enumType,
+    )
+        enumType,
+    required R$ Function(
+      PdMsg<M, F, E> messageType,
+    )
+        messageType,
+  }) =>
+      PdfValueType$Visitor$Impl(
+        PdfValueType$Visitor$Data(
+          valueType: valueType,
+          boolType: boolType,
+          doubleType: doubleType,
+          intType: intType,
+          int64Type: int64Type,
+          stringType: stringType,
+          bytesType: bytesType,
+          enumType: enumType,
+          messageType: messageType,
+        ),
+      );
 }
 
 extension PdfValueType$WhenX<M, F, E> on PdfValueType$Base<void, M, F, E> {
