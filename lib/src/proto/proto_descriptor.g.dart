@@ -55,6 +55,7 @@ abstract class PdmLevel$Visitor<R$, M, F, E> {
   R$ nested(PdMsg<M, F, E> value);
 }
 
+/// [PdmLevel$Visitor]
 class PdmLevel$Visitor$Impl<R$, M, F, E> extends PdmLevel$Visitor<R$, M, F, E>
     implements HasData<PdmLevel$Visitor$IData<R$, M, F, E>> {
   PdmLevel$Visitor$Impl(
@@ -82,12 +83,7 @@ class PdmLevel$Visitor$Impl<R$, M, F, E> extends PdmLevel$Visitor<R$, M, F, E>
 }
 
 extension PdmLevel$Visitor$Impl$Ext<R$, M, F, E>
-    on PdmLevel$Visitor$Impl<R$, M, F, E> {
-  PdmLevel$Visitor$Impl<R$, M, F, E> overrideWith(
-    PdmLevel$Visitor$Impl<R$, M, F, E> override$,
-  ) =>
-      PdmLevel$Visitor$Impl(data$.overrideWith(override$.data$));
-}
+    on PdmLevel$Visitor$Impl<R$, M, F, E> {}
 
 extension PdmLevel$Visitor$Ext<R$, M, F, E> on PdmLevel$Visitor<R$, M, F, E> {
   PdmLevel$Visitor$Impl<R$, M, F, E> asImpl() =>
@@ -100,12 +96,47 @@ extension PdmLevel$Visitor$Ext<R$, M, F, E> on PdmLevel$Visitor<R$, M, F, E> {
         ),
       );
   PdmLevel$Visitor$Impl<R$, M, F, E> get toImpl => asImpl();
-  PdmLevel$Visitor$Impl<R$, M, F, E> overrideWith(
-    PdmLevel$Visitor<R$, M, F, E> override$,
-  ) =>
-      toImpl.overrideWith(override$.toImpl);
+  PdmLevel$Visitor$Impl<R$, M, F, E> copyWith({
+    R$ Function(
+      PdMsgContainer<M, F, E> level,
+    )?
+        level,
+    R$ Function(
+      PdRoot<M, F, E> top,
+    )?
+        top,
+    R$ Function(
+      PdMsg<M, F, E> nested,
+    )?
+        nested,
+  }) =>
+      HasData$PdmLevel$Visitor$Impl$Ext(toImpl).copyWith(
+        level: level,
+        top: top,
+        nested: nested,
+      );
+  PdmLevel$Visitor$Impl<R$, M, F, E> copyWithOpt({
+    R$ Function(
+      PdMsgContainer<M, F, E> level,
+    )?
+        level,
+    R$ Function(
+      PdRoot<M, F, E> top,
+    )?
+        top,
+    R$ Function(
+      PdMsg<M, F, E> nested,
+    )?
+        nested,
+  }) =>
+      HasData$PdmLevel$Visitor$Impl$Ext(toImpl).copyWithOpt(
+        level: level,
+        top: top,
+        nested: nested,
+      );
 }
 
+/// [PdmLevel$Visitor]
 extension HasData$PdmLevel$Visitor$Impl$Ext<R$, M, F, E>
     on HasData<PdmLevel$Visitor$IData<R$, M, F, E>> {
   R$ level(
@@ -169,12 +200,9 @@ extension HasData$PdmLevel$Visitor$Impl$Ext<R$, M, F, E>
         top: top,
         nested: nested,
       ));
-  PdmLevel$Visitor$Impl<R$, M, F, E> overrideWith(
-    HasData<PdmLevel$Visitor$IData<R$, M, F, E>> override$,
-  ) =>
-      PdmLevel$Visitor$Impl(data$.overrideWith(override$.data$));
 }
 
+/// [PdmLevel$Visitor]
 abstract class PdmLevel$Visitor$IData<R$, M, F, E> {
   PdmLevel$Visitor$IData();
   R$ Function(
@@ -188,6 +216,7 @@ abstract class PdmLevel$Visitor$IData<R$, M, F, E> {
   ) get nested;
 }
 
+/// [PdmLevel$Visitor]
 typedef IPdmLevel$Visitor<R$, M, F, E>
     = HasData<PdmLevel$Visitor$IData<R$, M, F, E>>;
 
@@ -237,6 +266,7 @@ extension PdmLevel$Visitor$IData$Ext<R$, M, F, E>
       );
 }
 
+/// [PdmLevel$Visitor]
 class PdmLevel$Visitor$Data<R$, M, F, E>
     implements PdmLevel$Visitor$IData<R$, M, F, E> {
   PdmLevel$Visitor$Data({
@@ -327,6 +357,51 @@ extension PdmLevel$Visitor$Data$Ext<R$, M, F, E>
       );
 }
 
+/// [PdmLevel$Visitor]
+class PdmLevel$Visitor$Ovr<R$, M, F, E>
+    implements Ovr<PdmLevel$Visitor$Data<R$, M, F, E>> {
+  PdmLevel$Visitor$Ovr({
+    required this.level,
+    required this.top,
+    required this.nested,
+  });
+  final Opt<
+      R$ Function(
+    PdMsgContainer<M, F, E> level,
+  )> level;
+  final Opt<
+      R$ Function(
+    PdRoot<M, F, E> top,
+  )> top;
+  final Opt<
+      R$ Function(
+    PdMsg<M, F, E> nested,
+  )> nested;
+  PdmLevel$Visitor$Data<R$, M, F, E> override$(
+    PdmLevel$Visitor$Data<R$, M, F, E> overriden$,
+  ) =>
+      PdmLevel$Visitor$Data(
+        level: level
+            .map<
+                R$ Function(
+              PdMsgContainer<M, F, E> level,
+            )>((v) => v.overrideWith(overriden$.level))
+            .orDefault(overriden$.level),
+        top: top
+            .map<
+                R$ Function(
+              PdRoot<M, F, E> top,
+            )>((v) => v.overrideWith(overriden$.top))
+            .orDefault(overriden$.top),
+        nested: nested
+            .map<
+                R$ Function(
+              PdMsg<M, F, E> nested,
+            )>((v) => v.overrideWith(overriden$.nested))
+            .orDefault(overriden$.nested),
+      );
+}
+
 class PdmLevel$Visitor$Delegate<R$, M, F, E>
     extends PdmLevel$Visitor<R$, M, F, E> {
   PdmLevel$Visitor$Delegate(
@@ -353,6 +428,7 @@ class PdmLevel$Visitor$Delegate<R$, M, F, E>
       );
 }
 
+/// [PdmLevel$Visitor]
 class PdmLevel$Visitor$Factory {
   const PdmLevel$Visitor$Factory._();
   static const instance = PdmLevel$Visitor$Factory._();
@@ -562,6 +638,7 @@ abstract class PdxBase$Visitor<R$, M, F, E> {
   R$ oneof(PdOneof<M, F, E> value);
 }
 
+/// [PdxBase$Visitor]
 class PdxBase$Visitor$Impl<R$, M, F, E> extends PdxBase$Visitor<R$, M, F, E>
     implements HasData<PdxBase$Visitor$IData<R$, M, F, E>> {
   PdxBase$Visitor$Impl(
@@ -584,12 +661,7 @@ class PdxBase$Visitor$Impl<R$, M, F, E> extends PdxBase$Visitor<R$, M, F, E>
 }
 
 extension PdxBase$Visitor$Impl$Ext<R$, M, F, E>
-    on PdxBase$Visitor$Impl<R$, M, F, E> {
-  PdxBase$Visitor$Impl<R$, M, F, E> overrideWith(
-    PdxBase$Visitor$Impl<R$, M, F, E> override$,
-  ) =>
-      PdxBase$Visitor$Impl(data$.overrideWith(override$.data$));
-}
+    on PdxBase$Visitor$Impl<R$, M, F, E> {}
 
 extension PdxBase$Visitor$Ext<R$, M, F, E> on PdxBase$Visitor<R$, M, F, E> {
   PdxBase$Visitor$Impl<R$, M, F, E> asImpl() =>
@@ -602,12 +674,41 @@ extension PdxBase$Visitor$Ext<R$, M, F, E> on PdxBase$Visitor<R$, M, F, E> {
         ),
       );
   PdxBase$Visitor$Impl<R$, M, F, E> get toImpl => asImpl();
-  PdxBase$Visitor$Impl<R$, M, F, E> overrideWith(
-    PdxBase$Visitor<R$, M, F, E> override$,
-  ) =>
-      toImpl.overrideWith(override$.toImpl);
+  PdxBase$Visitor$Impl<R$, M, F, E> copyWith({
+    R$ Function()? base,
+    R$ Function(
+      PdFld<M, F, E> top,
+    )?
+        top,
+    R$ Function(
+      PdOneof<M, F, E> oneof,
+    )?
+        oneof,
+  }) =>
+      HasData$PdxBase$Visitor$Impl$Ext(toImpl).copyWith(
+        base: base,
+        top: top,
+        oneof: oneof,
+      );
+  PdxBase$Visitor$Impl<R$, M, F, E> copyWithOpt({
+    R$ Function()? base,
+    R$ Function(
+      PdFld<M, F, E> top,
+    )?
+        top,
+    R$ Function(
+      PdOneof<M, F, E> oneof,
+    )?
+        oneof,
+  }) =>
+      HasData$PdxBase$Visitor$Impl$Ext(toImpl).copyWithOpt(
+        base: base,
+        top: top,
+        oneof: oneof,
+      );
 }
 
+/// [PdxBase$Visitor]
 extension HasData$PdxBase$Visitor$Impl$Ext<R$, M, F, E>
     on HasData<PdxBase$Visitor$IData<R$, M, F, E>> {
   R$ base() => data$.base();
@@ -659,12 +760,9 @@ extension HasData$PdxBase$Visitor$Impl$Ext<R$, M, F, E>
         top: top,
         oneof: oneof,
       ));
-  PdxBase$Visitor$Impl<R$, M, F, E> overrideWith(
-    HasData<PdxBase$Visitor$IData<R$, M, F, E>> override$,
-  ) =>
-      PdxBase$Visitor$Impl(data$.overrideWith(override$.data$));
 }
 
+/// [PdxBase$Visitor]
 abstract class PdxBase$Visitor$IData<R$, M, F, E> {
   PdxBase$Visitor$IData();
   R$ Function() get base;
@@ -676,6 +774,7 @@ abstract class PdxBase$Visitor$IData<R$, M, F, E> {
   ) get oneof;
 }
 
+/// [PdxBase$Visitor]
 typedef IPdxBase$Visitor<R$, M, F, E>
     = HasData<PdxBase$Visitor$IData<R$, M, F, E>>;
 
@@ -718,6 +817,7 @@ extension PdxBase$Visitor$IData$Ext<R$, M, F, E>
       );
 }
 
+/// [PdxBase$Visitor]
 class PdxBase$Visitor$Data<R$, M, F, E>
     implements PdxBase$Visitor$IData<R$, M, F, E> {
   PdxBase$Visitor$Data({
@@ -797,6 +897,45 @@ extension PdxBase$Visitor$Data$Ext<R$, M, F, E>
       );
 }
 
+/// [PdxBase$Visitor]
+class PdxBase$Visitor$Ovr<R$, M, F, E>
+    implements Ovr<PdxBase$Visitor$Data<R$, M, F, E>> {
+  PdxBase$Visitor$Ovr({
+    required this.base,
+    required this.top,
+    required this.oneof,
+  });
+  final Opt<R$ Function()> base;
+  final Opt<
+      R$ Function(
+    PdFld<M, F, E> top,
+  )> top;
+  final Opt<
+      R$ Function(
+    PdOneof<M, F, E> oneof,
+  )> oneof;
+  PdxBase$Visitor$Data<R$, M, F, E> override$(
+    PdxBase$Visitor$Data<R$, M, F, E> overriden$,
+  ) =>
+      PdxBase$Visitor$Data(
+        base: base
+            .map<R$ Function()>((v) => v.overrideWith(overriden$.base))
+            .orDefault(overriden$.base),
+        top: top
+            .map<
+                R$ Function(
+              PdFld<M, F, E> top,
+            )>((v) => v.overrideWith(overriden$.top))
+            .orDefault(overriden$.top),
+        oneof: oneof
+            .map<
+                R$ Function(
+              PdOneof<M, F, E> oneof,
+            )>((v) => v.overrideWith(overriden$.oneof))
+            .orDefault(overriden$.oneof),
+      );
+}
+
 class PdxBase$Visitor$Delegate<R$, M, F, E>
     extends PdxBase$Visitor<R$, M, F, E> {
   PdxBase$Visitor$Delegate(
@@ -818,6 +957,7 @@ class PdxBase$Visitor$Delegate<R$, M, F, E>
       );
 }
 
+/// [PdxBase$Visitor]
 class PdxBase$Visitor$Factory {
   const PdxBase$Visitor$Factory._();
   static const instance = PdxBase$Visitor$Factory._();
@@ -988,6 +1128,7 @@ extension Mk$Ext$PdxOneof on Mk {
 // ImplGenerator
 // **************************************************************************
 
+/// [PdRoot]
 class PdRoot$Impl<M, F, E> extends PdRoot<M, F, E>
     implements HasData<PdRoot$IData<M, F, E>> {
   PdRoot$Impl(
@@ -1015,12 +1156,7 @@ class PdRoot$Impl<M, F, E> extends PdRoot<M, F, E>
   FileDescriptorSet get descriptorSet => data$.descriptorSet();
 }
 
-extension PdRoot$Impl$Ext<M, F, E> on PdRoot$Impl<M, F, E> {
-  PdRoot$Impl<M, F, E> overrideWith(
-    PdRoot$Impl<M, F, E> override$,
-  ) =>
-      PdRoot$Impl(data$.overrideWith(override$.data$));
-}
+extension PdRoot$Impl$Ext<M, F, E> on PdRoot$Impl<M, F, E> {}
 
 extension PdRoot$Ext<M, F, E> on PdRoot<M, F, E> {
   PdRoot$Impl<M, F, E> asImpl() =>
@@ -1034,12 +1170,51 @@ extension PdRoot$Ext<M, F, E> on PdRoot<M, F, E> {
         ),
       );
   PdRoot$Impl<M, F, E> get toImpl => asImpl();
-  PdRoot$Impl<M, F, E> overrideWith(
-    PdRoot<M, F, E> override$,
-  ) =>
-      toImpl.overrideWith(override$.toImpl);
+  PdRoot$Impl<M, F, E> copyWith({
+    M Function(
+      PdMsg<M, F, E> msg,
+    )?
+        msgPayload,
+    F Function(
+      PdFld<M, F, E> fld,
+    )?
+        fldPayload,
+    E Function(
+      PdEnum<M, F, E> enm,
+    )?
+        enumPayload,
+    FileDescriptorSet Function()? descriptorSet,
+  }) =>
+      HasData$PdRoot$Impl$Ext(toImpl).copyWith(
+        msgPayload: msgPayload,
+        fldPayload: fldPayload,
+        enumPayload: enumPayload,
+        descriptorSet: descriptorSet,
+      );
+  PdRoot$Impl<M, F, E> copyWithOpt({
+    M Function(
+      PdMsg<M, F, E> msg,
+    )?
+        msgPayload,
+    F Function(
+      PdFld<M, F, E> fld,
+    )?
+        fldPayload,
+    E Function(
+      PdEnum<M, F, E> enm,
+    )?
+        enumPayload,
+    FileDescriptorSet Function()? descriptorSet,
+  }) =>
+      HasData$PdRoot$Impl$Ext(toImpl).copyWithOpt(
+        msgPayload: msgPayload,
+        fldPayload: fldPayload,
+        enumPayload: enumPayload,
+        descriptorSet: descriptorSet,
+      );
 }
 
+/// [PdRoot]
 extension HasData$PdRoot$Impl$Ext<M, F, E> on HasData<PdRoot$IData<M, F, E>> {
   M msgPayload(
     PdMsg<M, F, E> msg,
@@ -1106,12 +1281,9 @@ extension HasData$PdRoot$Impl$Ext<M, F, E> on HasData<PdRoot$IData<M, F, E>> {
         enumPayload: enumPayload,
         descriptorSet: descriptorSet,
       ));
-  PdRoot$Impl<M, F, E> overrideWith(
-    HasData<PdRoot$IData<M, F, E>> override$,
-  ) =>
-      PdRoot$Impl(data$.overrideWith(override$.data$));
 }
 
+/// [PdRoot]
 abstract class PdRoot$IData<M, F, E> {
   PdRoot$IData();
   M Function(
@@ -1126,6 +1298,7 @@ abstract class PdRoot$IData<M, F, E> {
   FileDescriptorSet Function() get descriptorSet;
 }
 
+/// [PdRoot]
 typedef IPdRoot<M, F, E> = HasData<PdRoot$IData<M, F, E>>;
 
 extension PdRoot$IData$Ext<M, F, E> on PdRoot$IData<M, F, E> {
@@ -1176,6 +1349,7 @@ extension PdRoot$IData$Ext<M, F, E> on PdRoot$IData<M, F, E> {
       );
 }
 
+/// [PdRoot]
 class PdRoot$Data<M, F, E> implements PdRoot$IData<M, F, E> {
   PdRoot$Data({
     required this.msgPayload,
@@ -1248,6 +1422,56 @@ extension PdRoot$Data$Ext<M, F, E> on PdRoot$Data<M, F, E> {
       );
 }
 
+/// [PdRoot]
+class PdRoot$Ovr<M, F, E> implements Ovr<PdRoot$Data<M, F, E>> {
+  PdRoot$Ovr({
+    required this.msgPayload,
+    required this.fldPayload,
+    required this.enumPayload,
+    required this.descriptorSet,
+  });
+  final Opt<
+      M Function(
+    PdMsg<M, F, E> msg,
+  )> msgPayload;
+  final Opt<
+      F Function(
+    PdFld<M, F, E> fld,
+  )> fldPayload;
+  final Opt<
+      E Function(
+    PdEnum<M, F, E> enm,
+  )> enumPayload;
+  final Opt<FileDescriptorSet Function()> descriptorSet;
+  PdRoot$Data<M, F, E> override$(
+    PdRoot$Data<M, F, E> overriden$,
+  ) =>
+      PdRoot$Data(
+        msgPayload: msgPayload
+            .map<
+                M Function(
+              PdMsg<M, F, E> msg,
+            )>((v) => v.overrideWith(overriden$.msgPayload))
+            .orDefault(overriden$.msgPayload),
+        fldPayload: fldPayload
+            .map<
+                F Function(
+              PdFld<M, F, E> fld,
+            )>((v) => v.overrideWith(overriden$.fldPayload))
+            .orDefault(overriden$.fldPayload),
+        enumPayload: enumPayload
+            .map<
+                E Function(
+              PdEnum<M, F, E> enm,
+            )>((v) => v.overrideWith(overriden$.enumPayload))
+            .orDefault(overriden$.enumPayload),
+        descriptorSet: descriptorSet
+            .map<FileDescriptorSet Function()>(
+                (v) => v.overrideWith(overriden$.descriptorSet))
+            .orDefault(overriden$.descriptorSet),
+      );
+}
+
 class PdRoot$Delegate<M, F, E> extends PdRoot<M, F, E> {
   PdRoot$Delegate(
     this.delegate$,
@@ -1274,6 +1498,7 @@ class PdRoot$Delegate<M, F, E> extends PdRoot<M, F, E> {
   FileDescriptorSet get descriptorSet => delegate$().descriptorSet;
 }
 
+/// [PdRoot]
 class PdRoot$Factory {
   const PdRoot$Factory._();
   static const instance = PdRoot$Factory._();

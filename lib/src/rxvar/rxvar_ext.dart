@@ -42,6 +42,10 @@ extension RxValFactoryX on RxVal$Factory {
       lookup: rxA.lookup.asConstant(),
     );
   }
+
+  IRxVal<T> constant<T>(T value) => mk.RxVar.variable(value);
+
+  IRxVal<Opt<T>> gone<T>() => constant(const Opt.gone());
 }
 
 extension RxVarFactoryX on RxVar$Factory {
@@ -57,7 +61,6 @@ extension RxVarFactoryX on RxVar$Factory {
       lookup: lookup,
     );
   }
-
 }
 
 extension RxValX<T> on IRxVal<T> {

@@ -12,6 +12,7 @@ extension RxVarXOpt<T> on IRxVar<T> {
         rxVal: toOptVal(),
         set: (opt) => opt.forEach(set),
       );
+
 }
 
 extension OptRxValX<T> on RxValImplOpt<T> {
@@ -72,6 +73,8 @@ extension RxVarOptX<T> on RxVarImplOpt<T> {
         rxVar: this,
         defaultValue: defaultValue.asConstant(),
       );
+
+  void setHere(T value) => set(Opt.here(value));
 }
 
 extension OptRxValNotNullX<T extends Object> on RxValImplOpt<T> {
