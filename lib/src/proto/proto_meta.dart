@@ -4,7 +4,7 @@ import 'package:protobuf/protobuf.dart';
 
 part 'proto_meta.g.dart';
 
-typedef FieldsList<T> = List<PmFieldOfMessage<T>>;
+typedef FieldsList<T extends GeneratedMessage> = List<PmFieldOfMessage<T>>;
 typedef OneOfs<T> = List<PmOneofOfMessage<T>>;
 
 abstract class PmLib {
@@ -20,6 +20,10 @@ abstract class PmLib {
 extension PmLibX on PmLib {
   PmMessage resolveMessage(Iterable<int> path) =>
       messages[path.first].resolveMessage(path.skip(1));
+
+  Iterable<PmMessage> get allMessages => messages.expand((e) => e.allMessages);
+
+  Iterable<PmField> get allFields => messages.expand((e) => e.allFields);
 }
 
 abstract class HasMessagePath {
@@ -40,30 +44,47 @@ abstract class PmMessage implements HasMessagePath {
   List<PmEnum> get nestedEnums$;
 
   List<PmOneof> get oneofs$;
+
+  R type$<R>(R Function<TM extends GeneratedMessage>() fn);
 }
 
 extension PmMessageX on PmMessage {
   PmMessage resolveMessage(Iterable<int> path) => path.isEmpty
       ? this
       : nestedMessages$[path.first].resolveMessage(path.skip(1));
+
+  Iterable<PmMessage> get allMessages => [this].followedBy(
+        nestedMessages$.expand((e) => e.allMessages),
+      );
+
+  Iterable<PmField> get allFields =>
+      Iterable<PmField>.empty().followedBy(fields$).followedBy(
+            nestedMessages$.expand((e) => e.allFields),
+          );
 }
 
-abstract class PmMessageOfType<T> implements PmMessage {
+abstract class PmMessageOfType<T extends GeneratedMessage> extends PmMessage {
+  const PmMessageOfType();
+
   T get emptyMessage$;
+
+  R type$<R>(R Function<TM extends GeneratedMessage>() fn) => fn<T>();
 
   List<PmFieldOfMessage<T>> get fields$;
 
   List<PmOneofOfMessage<T>> get oneofs$;
 }
 
-abstract class PmTopLevelMessage<T> implements PmMessageOfType<T> {
+abstract class PmTopLevelMessage<T extends GeneratedMessage>
+    extends PmMessageOfType<T> {
   const PmTopLevelMessage();
 
   @override
   Iterable<int> get path$ => [index$];
 }
 
-abstract class PmNestedMessage<T> implements PmMessageOfType<T> {
+abstract class PmNestedMessage<T extends GeneratedMessage>
+    extends PmMessageOfType<T> {
   const PmNestedMessage();
 
   PmMessageOfType<dynamic> get parent$;
@@ -79,11 +100,38 @@ abstract class HasFieldPath {
 }
 
 abstract class PmField implements HasFieldPath {
+  const PmField();
+
   PmMessage get message;
+
+  R type$<R>(R Function<TF>() fn);
+
+  R typeGeneratedMessage$<R>(R Function<TF extends GeneratedMessage>() fn) =>
+      throw this;
+
+  R singleType<R>(R Function<TF>() fn) => type$(fn);
 }
 
-abstract class PmFieldOfMessage<T> implements PmField {
+extension PmFieldX on PmField {
+  R messageFieldType<R>(R Function<TM extends GeneratedMessage, TF>() fn) =>
+      message.type$(
+        <M extends GeneratedMessage>() => type$(
+          <F>() => fn<M, F>(),
+        ),
+      );
+}
+
+abstract class PmFieldOfType<T> extends PmField {
+  const PmFieldOfType();
+
+  R type$<R>(R Function<TF>() fn) => fn<T>();
+}
+
+abstract class PmFieldOfMessage<T extends GeneratedMessage> implements PmField {
   PmMessageOfType<T> get message;
+
+  R typeGeneratedMessage$<R>(R Function<TF extends GeneratedMessage>() fn) =>
+      fn<T>();
 }
 
 abstract class PmReadField<T, V> {
@@ -113,28 +161,44 @@ abstract class PmMsgField<T, V> extends PmFullField<T, V> {
 }
 
 abstract class PmReadFieldOfMessagOfType<T extends GeneratedMessage, V>
-    implements PmFieldOfMessage<T>, PmReadField<T, V> {
+    extends PmFieldOfType<V> implements PmFieldOfMessage<T>, PmReadField<T, V> {
   const PmReadFieldOfMessagOfType();
 }
 
 abstract class PmFullFieldOfMessageOfType<T extends GeneratedMessage, V>
-    implements PmReadFieldOfMessagOfType<T, V>, PmFullField<T, V> {
+    extends PmReadFieldOfMessagOfType<T, V> implements PmFullField<T, V> {
   const PmFullFieldOfMessageOfType();
 }
 
 abstract class PmMsgFieldOfMessageOfType<T extends GeneratedMessage, V>
-    implements PmFullFieldOfMessageOfType<T, V>, PmMsgField<T, V> {
+    extends PmFullFieldOfMessageOfType<T, V> implements PmMsgField<T, V> {
   const PmMsgFieldOfMessageOfType();
 }
 
+// direct superclasses
+
+abstract class PmSingleField<T extends GeneratedMessage, V>
+    extends PmFullFieldOfMessageOfType<T, V> {
+  const PmSingleField();
+}
+
+abstract class PmMessageField<T extends GeneratedMessage, V>
+    extends PmMsgFieldOfMessageOfType<T, V> {
+  const PmMessageField();
+}
+
 abstract class PmRepeatedField<T extends GeneratedMessage, V>
-    implements PmReadFieldOfMessagOfType<T, List<V>> {
+    extends PmReadFieldOfMessagOfType<T, List<V>> {
   const PmRepeatedField();
+
+  R singleType<R>(R Function<TF>() fn) => fn<V>();
 }
 
 abstract class PmMapField<T extends GeneratedMessage, K, V>
-    implements PmReadFieldOfMessagOfType<T, Map<K, V>> {
+    extends PmReadFieldOfMessagOfType<T, Map<K, V>> {
   const PmMapField();
+
+  R singleType<R>(R Function<TF>() fn) => fn<V>();
 }
 
 abstract class PmEnum<E extends ProtobufEnum> {
@@ -166,7 +230,3 @@ abstract class PmOneofOfMessageOfType<T, V extends Enum>
     ]),
     prefix: 'pmAccess')
 abstract class _PmAccess<T, V> {}
-
-
-
-

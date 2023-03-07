@@ -71,7 +71,7 @@ Future<void> startUpdatingCollection<C, S, K>({
   required Future<void> Function(S state) dispose,
 }) async {
   final processing = configs.asyncListen((configs) async {
-    final unprocessed = map.value.toMap();
+    final unprocessed = map.get().toMap();
     final active = <K, S>{};
 
     await Future.wait(configs.map((config) async {
@@ -92,15 +92,15 @@ Future<void> startUpdatingCollection<C, S, K>({
       unprocessed.values.map(dispose),
     );
 
-    map.value = BuiltMap.of(active);
+    map.set(BuiltMap.of(active));
   });
 
   await disposers.add(() async {
     await processing.cancel();
 
-    final stopping = map.value.values.map(dispose);
+    final stopping = map.get().values.map(dispose);
 
-    map.value = BuiltMap();
+    map.set(BuiltMap());
 
     await Future.wait(stopping);
   });

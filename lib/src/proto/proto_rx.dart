@@ -14,54 +14,73 @@ abstract class PrxMessageOfLib<L> extends PrxOfLib<L> {
 }
 
 @Impl()
-abstract class PrxMessage<T, L> extends RxVar<Opt<T>>
+abstract class PrxMessage<T extends GeneratedMessage, L> extends RxVar<Opt<T>>
     implements PrxMessageOfLib<L> {
   PmMessageOfType<T> message();
 }
 
-@Impl()
-abstract class PrxBase<T> implements RxVal<Opt<T>> {}
-
-@Impl()
-abstract class PrxCollectionBase<C> implements PrxBase<C> {
-  void rebuild(void Function(C collection) updates);
-}
-
-@Impl()
-abstract class PrxSingleBase<V> implements PrxBase<V>, RxVar<Opt<V>> {}
-
-abstract class PrxValueOfType<V, L> implements RxVal<Opt<V>> {
+abstract class PrxField {
   HasFieldPath field();
 }
 
 @Impl()
-abstract class PrxCollectionOfType<C, L>
-    implements PrxValueOfType<C, L>, PrxCollectionBase<C> {}
+abstract class Prx {}
+
 
 @Impl()
-abstract class PrxSingleOfType<V, L>
-    implements PrxValueOfType<V, L>, PrxSingleBase<V> {}
+abstract class PrxOfType<T> implements Prx, RxVal<Opt<T>> {}
 
-abstract class PrxValue<V, L> implements PrxBase<V>, PrxValueOfType<V, L> {
+@Impl()
+abstract class PrxCollectionOfType<C> implements PrxOfType<C> {
+  void rebuild(void Function(C collection) updates);
 }
 
 @Impl()
-abstract class PrxCollection<C, L>
-    implements PrxCollectionOfType<C, L>, PrxValue<C, L> {}
+abstract class PrxSingleOfType<V> implements PrxOfType<V>, RxVar<Opt<V>> {}
+
+abstract class PrxFieldOfType<V> implements PrxField, PrxOfType<V> {}
+
+abstract class PrxFieldOfTypeOfLib<V, L> implements PrxFieldOfType<V> {}
 
 @Impl()
-abstract class PrxSingle<T, L>
-    implements PrxSingleOfType<T, L>, PrxValue<T, L> {}
+abstract class PrxCollectionFieldOfType<C>
+    implements PrxFieldOfType<C>, PrxCollectionOfType<C> {}
 
+@Impl()
+abstract class PrxCollectionFieldOfTypeOfLib<C, L>
+    implements PrxCollectionFieldOfType<C>, PrxFieldOfTypeOfLib<C, L>, PrxCollectionOfType<C> {}
 
-typedef IPrxMap<K, V, L> = PrxCollection$Impl<Map<K, V>, L>;
+@Impl()
+abstract class PrxSingleFieldOfType<V>
+    implements PrxSingleOfType<V>, PrxFieldOfType<V> {}
 
-typedef IPrxRepeated<T, L> = PrxCollection$Impl<List<T>, L>;
+@Impl()
+abstract class PrxSingleFieldOfTypeOfLib<V, L>
+    implements PrxSingleFieldOfType<V>, PrxFieldOfTypeOfLib<V, L> {}
 
+// abstract class PrxValue<V, L> implements PrxOfType<V>, PrxFieldOfTypeOfLib<V, L> {
+// }
 
+// @Impl()
+// abstract class PrxCollectionOfLib<C, L>
+//     implements PrxCollectionFieldOfTypeOfLib<C, L>, PrxValue<C, L> {}
 
+// direct superclasses
 
+@Impl()
+abstract class PrxSingle<T, L> implements PrxSingleFieldOfTypeOfLib<T, L> {}
 
+@Impl()
+abstract class PrxMap<K, V, L>
+    implements PrxCollectionFieldOfTypeOfLib<Map<K, V>, L> {}
+
+@Impl()
+abstract class PrxRepeated<T, L>
+    implements PrxCollectionFieldOfTypeOfLib<List<T>, L> {}
+
+// typedef IPrxMap<K, V, L> = PrxCollection$Impl<Map<K, V>, L>;
+//
+// typedef IPrxRepeated<T, L> = PrxCollection$Impl<List<T>, L>;
 
 @GenerateHierarchy(
     Hierarchy('type', children: [
@@ -88,31 +107,100 @@ extension PrxSingleMsgX<T extends GeneratedMessage> on IRxVar<Opt<T>> {
   PrxSingle$Impl<V, L> single<V, L>(PmFullFieldOfMessageOfType<T, V> field) =>
       mk.PrxSingle.fromField(this, field);
 
-  IPrxMap<K, V, L> mapOf<K, V, L>(PmReadFieldOfMessagOfType<T, Map<K, V>> field) =>
-      collection(field);
+  PrxMap$Impl<K, V, L> mapOf<K, V, L>(
+          PmReadFieldOfMessagOfType<T, Map<K, V>> field) =>
+      mk.PrxMap.fromField(this, field);
 
-  IPrxRepeated<V, L> repeated<V, L>(PmReadFieldOfMessagOfType<T, List<V>> field) =>
-      collection(field);
+  PrxRepeated$Impl<V, L> repeated<V, L>(
+          PmReadFieldOfMessagOfType<T, List<V>> field) =>
+      mk.PrxRepeated.fromField(this, field);
 
-  PrxCollection$Impl<C, L> collection<C, L>(PmReadFieldOfMessagOfType<T, C> field) =>
-      mk.PrxCollection.fromField(this, field);
+// PrxCollectionOfLib$Impl<C, L> collection<C, L>(PmReadFieldOfMessagOfType<T, C> field) =>
+//     mk.PrxCollectionOfLib.fromField(this, field);
 }
-
-
-
-
-
-
-
-
 
 extension PrxSingleFactoryX on PrxSingle$Factory {
   PrxSingle$Impl<V, L> fromField<T extends GeneratedMessage, V, L>(
     RxVarImplOpt<T> rxVar,
     PmFullFieldOfMessageOfType<T, V> field,
   ) =>
-      mk.PrxSingle.fromPrxSingleBase(
-        prxSingleBase: mk.PrxSingleBase.fromField<T, V, L>(
+      fromRxVar(
+        rxVar: mk.RxVar.prxSinglFromField(
+          rxVar: rxVar.noDefault(),
+          field: field,
+        ),
+        field: field.asConstant(),
+      );
+
+  PrxSingle$Impl<V, L> fromFieldRebuilder<T extends GeneratedMessage, V, L>({
+    required IRxVarDefault<T> rxVar,
+    required PmFullFieldOfMessageOfType<T, V> field,
+    required Rebuilder<T> rebuild,
+  }) =>
+      fromRxVar(
+        rxVar: mk.RxVar.prxSingleFromFieldRebuilder(
+          rxVar: rxVar,
+          field: field,
+          rebuild: rebuild,
+        ),
+        field: field.asConstant(),
+      );
+}
+
+extension PrxSingleOfTypeFactoryX on PrxSingleOfType$Factory {
+
+
+  PrxSingleOfType$Impl<V> fromFieldRebuilder<T, V>({
+    required IRxVarDefault<T> rxVar,
+    required PmFullField<T, V> field,
+    required Rebuilder<T> rebuild,
+  }) =>
+      fromRxVar(
+        rxVar: mk.RxVar.prxSingleFromFieldRebuilder(
+          rxVar: rxVar,
+          field: field,
+          rebuild: rebuild,
+        ),
+      );
+}
+
+extension RxVarFactoryXPrx on RxVar$Factory {
+  RxVar$Impl<Opt<V>> prxSinglFromField<T extends GeneratedMessage, V, L>({
+    required IRxVarDefault<T> rxVar,
+    required PmFullField<T, V> field,
+  }) =>
+      prxSingleFromFieldRebuilder(
+        rxVar: rxVar,
+        field: field,
+        rebuild: protoRebuilder<T>,
+      );
+
+  RxVar$Impl<Opt<V>> prxSingleFromFieldRebuilder<T, V, L>({
+    required IRxVarDefault<T> rxVar,
+    required PmFullField<T, V> field,
+    required Rebuilder<T> rebuild,
+  }) =>
+      fromRxVal(
+        rxVal: rxVar.asRxVal().expandOpt((v) => field.getOpt(v)),
+        set: (opt) {
+          rxVar.asRxVar().rebuildWith(
+                updates: (value) {
+                  field.setOpt(value, opt);
+                },
+                rebuild: rebuild,
+                defaultValue: rxVar.defaultValue,
+              );
+        },
+      );
+}
+
+extension PrxMapFactoryX on PrxMap$Factory {
+  PrxMap$Impl<K, V, L> fromField<T extends GeneratedMessage, K, V, L>(
+    RxVarImplOpt<T> rxVar,
+    PmReadFieldOfMessagOfType<T, Map<K, V>> field,
+  ) =>
+      mk.PrxMap.fromPrxCollectionOfType(
+        prxCollectionOfType: mk.PrxCollectionOfType.fromField<T, Map<K, V>>(
           rxVar: rxVar.noDefault(),
           field: field,
         ),
@@ -120,10 +208,24 @@ extension PrxSingleFactoryX on PrxSingle$Factory {
       );
 }
 
-extension PrxSingleBaseFactoryX on PrxSingleBase$Factory {
-  PrxSingleBase$Impl<V> fromField<T extends GeneratedMessage, V, L>({
+extension PrxRepeatedFactoryX on PrxRepeated$Factory {
+  PrxRepeated$Impl<V, L> fromField<T extends GeneratedMessage, V, L>(
+    RxVarImplOpt<T> rxVar,
+    PmReadFieldOfMessagOfType<T, List<V>> field,
+  ) =>
+      mk.PrxRepeated.fromPrxCollectionOfType(
+        prxCollectionOfType: mk.PrxCollectionOfType.fromField<T, List<V>>(
+          rxVar: rxVar.noDefault(),
+          field: field,
+        ),
+        field: field.asConstant(),
+      );
+}
+
+extension PrxCollectionOfType$FactoryX on PrxCollectionOfType$Factory {
+  PrxCollectionOfType$Impl<C> fromField<T extends GeneratedMessage, C>({
     required IRxVarDefault<T> rxVar,
-    required PmFullField<T, V> field,
+    required PmReadField<T, C> field,
   }) =>
       fromFieldRebuilder(
         rxVar: rxVar,
@@ -131,75 +233,71 @@ extension PrxSingleBaseFactoryX on PrxSingleBase$Factory {
         rebuild: protoRebuilder<T>,
       );
 
-  PrxSingleBase$Impl<V> fromFieldRebuilder<T, V, L>({
+  PrxCollectionOfType$Impl<C> fromFieldRebuilder<T, C>({
     required IRxVarDefault<T> rxVar,
-    required PmFullField<T, V> field,
+    required PmReadField<T, C> field,
     required Rebuilder<T> rebuild,
   }) =>
-      mk.PrxSingleBase.fromRxVar(
-        rxVar: mk.RxVar.fromRxVal(
-          rxVal: rxVar.asRxVal().expandOpt((v) => field.getOpt(v)),
-          set: (opt) {
-            rxVar.asRxVar().rebuildWith(
+      fromRxVal(
+        rxVal: rxVar.mapOpt(field.get),
+        rebuild: (updates) => rxVar.asRxVar().rebuildWith(
               updates: (value) {
-                field.setOpt(value, opt);
+                updates(field.get(value));
               },
               rebuild: rebuild,
               defaultValue: rxVar.defaultValue,
-            );
-          },
-        ),
-      );
-
-
-}
-
-extension PrxCollectionBaseFactoryX on PrxCollectionBase$Factory {
-  PrxCollectionBase$Impl<C> fromField<T extends GeneratedMessage, C>({
-    required IRxVarDefault<T> rxVar,
-    required PmReadField<T, C> field,
-  }) =>
-      fromFieldRebuilder(
-        rxVar: rxVar,
-        field: field,
-        rebuild: protoRebuilder<T>,
-      );
-
-  PrxCollectionBase$Impl<C> fromFieldRebuilder<T, C>({
-    required IRxVarDefault<T> rxVar,
-    required PmReadField<T, C> field,
-    required Rebuilder<T> rebuild,
-  }) =>
-      mk.PrxCollectionBase.fromRxVal(
-        rxVal: rxVar.mapOpt(field.get),
-        rebuild: (updates) => rxVar.asRxVar().rebuildWith(
-          updates: (value) {
-            updates(field.get(value));
-          },
-          rebuild: rebuild,
-          defaultValue: rxVar.defaultValue,
-        ),
+            ),
       );
 }
 
-extension PrxCollectionFactoryX on PrxCollection$Factory {
-  PrxCollection$Impl<C, L> fromField<T extends GeneratedMessage, C, L>(
-    RxVarImplOpt<T> rxVar,
-    PmReadFieldOfMessagOfType<T, C> field,
-  ) =>
-      mk.PrxCollection.fromPrxCollectionBase(
-        prxCollectionBase: mk.PrxCollectionBase.fromField<T, C>(
-          rxVar: rxVar.noDefault(),
-          field: field,
-        ),
-        field: field.asConstant(),
-      );
-}
+// extension PrxSingleBaseFactoryX on PrxSingleBase$Factory {
+//   PrxSingleBase$Impl<V> fromField<T extends GeneratedMessage, V, L>({
+//     required IRxVarDefault<T> rxVar,
+//     required PmFullField<T, V> field,
+//   }) =>
+//       fromFieldRebuilder(
+//         rxVar: rxVar,
+//         field: field,
+//         rebuild: protoRebuilder<T>,
+//       );
+//
+//   PrxSingleBase$Impl<V> fromFieldRebuilder<T, V, L>({
+//     required IRxVarDefault<T> rxVar,
+//     required PmFullField<T, V> field,
+//     required Rebuilder<T> rebuild,
+//   }) =>
+//       mk.PrxSingleBase.fromRxVar(
+//         rxVar: mk.RxVar.fromRxVal(
+//           rxVal: rxVar.asRxVal().expandOpt((v) => field.getOpt(v)),
+//           set: (opt) {
+//             rxVar.asRxVar().rebuildWith(
+//                   updates: (value) {
+//                     field.setOpt(value, opt);
+//                   },
+//                   rebuild: rebuild,
+//                   defaultValue: rxVar.defaultValue,
+//                 );
+//           },
+//         ),
+//       );
+// }
 
+// extension PrxCollectionFactoryX on PrxCollectionOfType$Factory {
+//   PrxCollectionOfType$Impl<C> fromField<T extends GeneratedMessage, C>({
+//     required RxVarImplOpt<T> rxVar,
+//     required PmReadFieldOfMessagOfType<T, C> field,
+//   } ) =>
+//       mk.PrxCollectionOfLib.fromPrxCollectionBase(
+//         prxCollectionBase: mk.PrxCollectionBase.fromField<T, C>(
+//           rxVar: rxVar.noDefault(),
+//           field: field,
+//         ),
+//         field: field.asConstant(),
+//       );
+// }
 
-
-extension PrxCollectionBaseX<T> on IPrxCollectionBase<T> {
-  PrxCollectionBase$Impl<V> castPrx<V>() => mk.PrxCollectionBase.fromRxVal(
+extension PrxCollectionBaseX<T> on IPrxCollectionOfType<T> {
+  PrxCollectionOfType$Impl<V> castPrx<V>() => mk.PrxCollectionOfType.fromRxVal(
         rxVal: asRxVal().castOptVal<V>(),
         rebuild: (updates) => rebuild(
           (t) => updates(t as V),
@@ -207,7 +305,7 @@ extension PrxCollectionBaseX<T> on IPrxCollectionBase<T> {
       );
 }
 
-extension PrxCollectionMapX<K, V> on IPrxCollectionBase<Map<K, V>> {
+extension PrxCollectionMapX<K, V> on IPrxCollectionOfType<Map<K, V>> {
   IRxVar<Opt<V>> call(K key) => item(key);
 
   IRxVar<Opt<V>> item(K key) => mk.RxVar.fromRxVal(
@@ -227,8 +325,8 @@ extension PrxCollectionMapX<K, V> on IPrxCollectionBase<Map<K, V>> {
       );
 }
 
-extension PrxCollectionListX<V> on IPrxCollectionBase<List<V>> {
-  RxVar$Impl<Opt<V>> item(int index) => mk.RxVar.fromRxVal(
+extension PrxCollectionListX<V> on IPrxCollectionOfType<List<V>> {
+  PrxSingleOfType$Impl<V> item(int index) => mk.PrxSingleOfType.fromRxVal(
         rxVal: expandOpt((m) => m.getOpt(index)),
         set: (opt) => rebuild((m) {
           opt.when(
