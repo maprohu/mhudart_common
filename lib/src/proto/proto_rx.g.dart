@@ -2974,7 +2974,7 @@ class PrxCollectionFieldOfType$Impl<C> extends PrxCollectionFieldOfType<C>
     this.data$,
   ) : super();
   final PrxCollectionFieldOfType$IData<C> data$;
-  HasFieldPath field() => data$.field();
+  PmCollectionField<C> field() => data$.field();
   Stream<Opt<C>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
   Opt<C> get() => data$.get();
@@ -3003,7 +3003,7 @@ extension PrxCollectionFieldOfType$Ext<C> on PrxCollectionFieldOfType<C> {
       );
   PrxCollectionFieldOfType$Impl<C> get toImpl => asImpl();
   PrxCollectionFieldOfType$Impl<C> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3020,7 +3020,7 @@ extension PrxCollectionFieldOfType$Ext<C> on PrxCollectionFieldOfType<C> {
         rebuild: rebuild,
       );
   PrxCollectionFieldOfType$Impl<C> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3041,7 +3041,7 @@ extension PrxCollectionFieldOfType$Ext<C> on PrxCollectionFieldOfType<C> {
 /// [PrxCollectionFieldOfType]
 extension HasData$PrxCollectionFieldOfType$Impl$Ext<C>
     on HasData<PrxCollectionFieldOfType$IData<C>> {
-  HasFieldPath field() => data$.field();
+  PmCollectionField<C> field() => data$.field();
   Stream<Opt<C>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
   Opt<C> get() => data$.get();
@@ -3057,7 +3057,7 @@ extension HasData$PrxCollectionFieldOfType$Impl$Ext<C>
       );
   PrxCollectionFieldOfType$Impl<C> get toImpl => asPrxCollectionFieldOfType();
   PrxCollectionFieldOfType$Impl<C> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3074,7 +3074,7 @@ extension HasData$PrxCollectionFieldOfType$Impl$Ext<C>
         rebuild: rebuild,
       ));
   PrxCollectionFieldOfType$Impl<C> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3096,7 +3096,7 @@ extension HasData$PrxCollectionFieldOfType$Impl$Ext<C>
 abstract class PrxCollectionFieldOfType$IData<C>
     implements PrxCollectionOfType$IData<C> {
   PrxCollectionFieldOfType$IData();
-  HasFieldPath Function() get field;
+  PmCollectionField<C> Function() get field;
   Stream<Opt<C>> Function() get changes;
   Lookup Function() get lookup;
   Opt<C> Function() get get;
@@ -3112,7 +3112,7 @@ typedef IPrxCollectionFieldOfType<C>
 extension PrxCollectionFieldOfType$IData$Ext<C>
     on PrxCollectionFieldOfType$IData<C> {
   PrxCollectionFieldOfType$Data<C> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3129,7 +3129,7 @@ extension PrxCollectionFieldOfType$IData$Ext<C>
         rebuild: rebuild ?? this.rebuild,
       );
   PrxCollectionFieldOfType$Data<C> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3170,7 +3170,7 @@ class PrxCollectionFieldOfType$Data<C>
           get: base.get,
           rebuild: base.rebuild,
         );
-  final HasFieldPath Function() field;
+  final PmCollectionField<C> Function() field;
   final Stream<Opt<C>> Function() changes;
   final Lookup Function() lookup;
   final Opt<C> Function() get;
@@ -3182,7 +3182,7 @@ class PrxCollectionFieldOfType$Data<C>
 extension PrxCollectionFieldOfType$Data$Ext<C>
     on PrxCollectionFieldOfType$Data<C> {
   PrxCollectionFieldOfType$Data<C> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3199,7 +3199,7 @@ extension PrxCollectionFieldOfType$Data$Ext<C>
         rebuild: rebuild ?? this.rebuild,
       );
   PrxCollectionFieldOfType$Data<C> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3227,7 +3227,7 @@ class PrxCollectionFieldOfType$Ovr<C>
     required this.get,
     required this.rebuild,
   });
-  final Opt<HasFieldPath Function()> field;
+  final Opt<PmCollectionField<C> Function()> field;
   final Opt<Stream<Opt<C>> Function()> changes;
   final Opt<Lookup Function()> lookup;
   final Opt<Opt<C> Function()> get;
@@ -3240,7 +3240,7 @@ class PrxCollectionFieldOfType$Ovr<C>
   ) =>
       PrxCollectionFieldOfType$Data(
         field: field
-            .map<HasFieldPath Function()>(
+            .map<PmCollectionField<C> Function()>(
                 (v) => v.overrideWith(overriden$.field))
             .orDefault(overriden$.field),
         changes: changes
@@ -3267,7 +3267,7 @@ class PrxCollectionFieldOfType$Delegate<C> extends PrxCollectionFieldOfType<C> {
     this.delegate$,
   ) : super();
   final PrxCollectionFieldOfType<C> Function() delegate$;
-  HasFieldPath field() => delegate$().field();
+  PmCollectionField<C> field() => delegate$().field();
   Stream<Opt<C>> get changes => delegate$().changes;
   Lookup get lookup => delegate$().lookup;
   Opt<C> get() => delegate$().get();
@@ -3293,7 +3293,7 @@ extension Mk$PrxCollectionFieldOfType$Ext on Mk {
 extension PrxCollectionFieldOfType$Factory$Ext
     on PrxCollectionFieldOfType$Factory {
   PrxCollectionFieldOfType$Impl<C> call<C>({
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
     required Stream<Opt<C>> Function() changes,
     required Lookup Function() lookup,
     required Opt<C> Function() get,
@@ -3312,7 +3312,7 @@ extension PrxCollectionFieldOfType$Factory$Ext
         ),
       );
   PrxCollectionFieldOfType$Impl<C> create<C>({
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
     required Stream<Opt<C>> Function() changes,
     required Lookup Function() lookup,
     required Opt<C> Function() get,
@@ -3331,7 +3331,7 @@ extension PrxCollectionFieldOfType$Factory$Ext
         ),
       );
   PrxCollectionFieldOfType$Impl<C> data<C>({
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
     required Stream<Opt<C>> changes,
     required Lookup lookup,
     required Opt<C> Function() get,
@@ -3349,28 +3349,9 @@ extension PrxCollectionFieldOfType$Factory$Ext
           rebuild: rebuild,
         ),
       );
-  PrxCollectionFieldOfType$Impl<C> fromPrxField<C>({
-    required PrxField prxField,
-    required Stream<Opt<C>> Function() changes,
-    required Lookup Function() lookup,
-    required Opt<C> Function() get,
-    required void Function(
-      void Function(C) updates,
-    )
-        rebuild,
-  }) =>
-      PrxCollectionFieldOfType$Impl(
-        PrxCollectionFieldOfType$Data(
-          field: prxField.field,
-          changes: changes,
-          lookup: lookup,
-          get: get,
-          rebuild: rebuild,
-        ),
-      );
   PrxCollectionFieldOfType$Impl<C> fromPrx<C>({
     required Prx prx,
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
     required Stream<Opt<C>> Function() changes,
     required Lookup Function() lookup,
     required Opt<C> Function() get,
@@ -3388,25 +3369,9 @@ extension PrxCollectionFieldOfType$Factory$Ext
           rebuild: rebuild,
         ),
       );
-  PrxCollectionFieldOfType$Impl<C> fromPrxFieldOfType<C>({
-    required PrxFieldOfType<C> prxFieldOfType,
-    required void Function(
-      void Function(C) updates,
-    )
-        rebuild,
-  }) =>
-      PrxCollectionFieldOfType$Impl(
-        PrxCollectionFieldOfType$Data(
-          field: prxFieldOfType.field,
-          changes: () => prxFieldOfType.changes,
-          lookup: () => prxFieldOfType.lookup,
-          get: prxFieldOfType.get,
-          rebuild: rebuild,
-        ),
-      );
   PrxCollectionFieldOfType$Impl<C> fromPrxOfType<C>({
     required HasData<PrxOfType$IData<C>> prxOfType,
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
     required void Function(
       void Function(C) updates,
     )
@@ -3423,7 +3388,7 @@ extension PrxCollectionFieldOfType$Factory$Ext
       );
   PrxCollectionFieldOfType$Impl<C> fromRxVal<C>({
     required HasData<RxVal$IData<Opt<C>>> rxVal,
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
     required void Function(
       void Function(C) updates,
     )
@@ -3440,7 +3405,7 @@ extension PrxCollectionFieldOfType$Factory$Ext
       );
   PrxCollectionFieldOfType$Impl<C> fromGetter<C>({
     required Getter<Opt<C>> getter,
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
     required Stream<Opt<C>> Function() changes,
     required Lookup Function() lookup,
     required void Function(
@@ -3459,7 +3424,7 @@ extension PrxCollectionFieldOfType$Factory$Ext
       );
   PrxCollectionFieldOfType$Impl<C> fromPrxCollectionOfType<C>({
     required HasData<PrxCollectionOfType$IData<C>> prxCollectionOfType,
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
   }) =>
       PrxCollectionFieldOfType$Impl(
         PrxCollectionFieldOfType$Data(
@@ -3480,7 +3445,7 @@ class PrxCollectionFieldOfTypeOfLib$Impl<C, L>
     this.data$,
   ) : super();
   final PrxCollectionFieldOfTypeOfLib$IData<C, L> data$;
-  HasFieldPath field() => data$.field();
+  PmCollectionField<C> field() => data$.field();
   Stream<Opt<C>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
   Opt<C> get() => data$.get();
@@ -3511,7 +3476,7 @@ extension PrxCollectionFieldOfTypeOfLib$Ext<C, L>
       );
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> get toImpl => asImpl();
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3528,7 +3493,7 @@ extension PrxCollectionFieldOfTypeOfLib$Ext<C, L>
         rebuild: rebuild,
       );
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3549,7 +3514,7 @@ extension PrxCollectionFieldOfTypeOfLib$Ext<C, L>
 /// [PrxCollectionFieldOfTypeOfLib]
 extension HasData$PrxCollectionFieldOfTypeOfLib$Impl$Ext<C, L>
     on HasData<PrxCollectionFieldOfTypeOfLib$IData<C, L>> {
-  HasFieldPath field() => data$.field();
+  PmCollectionField<C> field() => data$.field();
   Stream<Opt<C>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
   Opt<C> get() => data$.get();
@@ -3566,7 +3531,7 @@ extension HasData$PrxCollectionFieldOfTypeOfLib$Impl$Ext<C, L>
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> get toImpl =>
       asPrxCollectionFieldOfTypeOfLib();
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3583,7 +3548,7 @@ extension HasData$PrxCollectionFieldOfTypeOfLib$Impl$Ext<C, L>
         rebuild: rebuild,
       ));
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3605,7 +3570,7 @@ extension HasData$PrxCollectionFieldOfTypeOfLib$Impl$Ext<C, L>
 abstract class PrxCollectionFieldOfTypeOfLib$IData<C, L>
     implements PrxCollectionFieldOfType$IData<C>, PrxCollectionOfType$IData<C> {
   PrxCollectionFieldOfTypeOfLib$IData();
-  HasFieldPath Function() get field;
+  PmCollectionField<C> Function() get field;
   Stream<Opt<C>> Function() get changes;
   Lookup Function() get lookup;
   Opt<C> Function() get get;
@@ -3621,7 +3586,7 @@ typedef IPrxCollectionFieldOfTypeOfLib<C, L>
 extension PrxCollectionFieldOfTypeOfLib$IData$Ext<C, L>
     on PrxCollectionFieldOfTypeOfLib$IData<C, L> {
   PrxCollectionFieldOfTypeOfLib$Data<C, L> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3638,7 +3603,7 @@ extension PrxCollectionFieldOfTypeOfLib$IData$Ext<C, L>
         rebuild: rebuild ?? this.rebuild,
       );
   PrxCollectionFieldOfTypeOfLib$Data<C, L> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3679,7 +3644,7 @@ class PrxCollectionFieldOfTypeOfLib$Data<C, L>
           get: base.get,
           rebuild: base.rebuild,
         );
-  final HasFieldPath Function() field;
+  final PmCollectionField<C> Function() field;
   final Stream<Opt<C>> Function() changes;
   final Lookup Function() lookup;
   final Opt<C> Function() get;
@@ -3691,7 +3656,7 @@ class PrxCollectionFieldOfTypeOfLib$Data<C, L>
 extension PrxCollectionFieldOfTypeOfLib$Data$Ext<C, L>
     on PrxCollectionFieldOfTypeOfLib$Data<C, L> {
   PrxCollectionFieldOfTypeOfLib$Data<C, L> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3708,7 +3673,7 @@ extension PrxCollectionFieldOfTypeOfLib$Data$Ext<C, L>
         rebuild: rebuild ?? this.rebuild,
       );
   PrxCollectionFieldOfTypeOfLib$Data<C, L> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<C> Function()? field,
     Stream<Opt<C>> Function()? changes,
     Lookup Function()? lookup,
     Opt<C> Function()? get,
@@ -3736,7 +3701,7 @@ class PrxCollectionFieldOfTypeOfLib$Ovr<C, L>
     required this.get,
     required this.rebuild,
   });
-  final Opt<HasFieldPath Function()> field;
+  final Opt<PmCollectionField<C> Function()> field;
   final Opt<Stream<Opt<C>> Function()> changes;
   final Opt<Lookup Function()> lookup;
   final Opt<Opt<C> Function()> get;
@@ -3749,7 +3714,7 @@ class PrxCollectionFieldOfTypeOfLib$Ovr<C, L>
   ) =>
       PrxCollectionFieldOfTypeOfLib$Data(
         field: field
-            .map<HasFieldPath Function()>(
+            .map<PmCollectionField<C> Function()>(
                 (v) => v.overrideWith(overriden$.field))
             .orDefault(overriden$.field),
         changes: changes
@@ -3777,7 +3742,7 @@ class PrxCollectionFieldOfTypeOfLib$Delegate<C, L>
     this.delegate$,
   ) : super();
   final PrxCollectionFieldOfTypeOfLib<C, L> Function() delegate$;
-  HasFieldPath field() => delegate$().field();
+  PmCollectionField<C> field() => delegate$().field();
   Stream<Opt<C>> get changes => delegate$().changes;
   Lookup get lookup => delegate$().lookup;
   Opt<C> get() => delegate$().get();
@@ -3803,7 +3768,7 @@ extension Mk$PrxCollectionFieldOfTypeOfLib$Ext on Mk {
 extension PrxCollectionFieldOfTypeOfLib$Factory$Ext
     on PrxCollectionFieldOfTypeOfLib$Factory {
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> call<C, L>({
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
     required Stream<Opt<C>> Function() changes,
     required Lookup Function() lookup,
     required Opt<C> Function() get,
@@ -3822,7 +3787,7 @@ extension PrxCollectionFieldOfTypeOfLib$Factory$Ext
         ),
       );
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> create<C, L>({
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
     required Stream<Opt<C>> Function() changes,
     required Lookup Function() lookup,
     required Opt<C> Function() get,
@@ -3841,7 +3806,7 @@ extension PrxCollectionFieldOfTypeOfLib$Factory$Ext
         ),
       );
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> data<C, L>({
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
     required Stream<Opt<C>> changes,
     required Lookup lookup,
     required Opt<C> Function() get,
@@ -3872,28 +3837,9 @@ extension PrxCollectionFieldOfTypeOfLib$Factory$Ext
           rebuild: prxCollectionFieldOfType.data$.rebuild,
         ),
       );
-  PrxCollectionFieldOfTypeOfLib$Impl<C, L> fromPrxField<C, L>({
-    required PrxField prxField,
-    required Stream<Opt<C>> Function() changes,
-    required Lookup Function() lookup,
-    required Opt<C> Function() get,
-    required void Function(
-      void Function(C) updates,
-    )
-        rebuild,
-  }) =>
-      PrxCollectionFieldOfTypeOfLib$Impl(
-        PrxCollectionFieldOfTypeOfLib$Data(
-          field: prxField.field,
-          changes: changes,
-          lookup: lookup,
-          get: get,
-          rebuild: rebuild,
-        ),
-      );
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> fromPrx<C, L>({
     required Prx prx,
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
     required Stream<Opt<C>> Function() changes,
     required Lookup Function() lookup,
     required Opt<C> Function() get,
@@ -3911,25 +3857,9 @@ extension PrxCollectionFieldOfTypeOfLib$Factory$Ext
           rebuild: rebuild,
         ),
       );
-  PrxCollectionFieldOfTypeOfLib$Impl<C, L> fromPrxFieldOfType<C, L>({
-    required PrxFieldOfType<C> prxFieldOfType,
-    required void Function(
-      void Function(C) updates,
-    )
-        rebuild,
-  }) =>
-      PrxCollectionFieldOfTypeOfLib$Impl(
-        PrxCollectionFieldOfTypeOfLib$Data(
-          field: prxFieldOfType.field,
-          changes: () => prxFieldOfType.changes,
-          lookup: () => prxFieldOfType.lookup,
-          get: prxFieldOfType.get,
-          rebuild: rebuild,
-        ),
-      );
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> fromPrxOfType<C, L>({
     required HasData<PrxOfType$IData<C>> prxOfType,
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
     required void Function(
       void Function(C) updates,
     )
@@ -3946,7 +3876,7 @@ extension PrxCollectionFieldOfTypeOfLib$Factory$Ext
       );
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> fromRxVal<C, L>({
     required HasData<RxVal$IData<Opt<C>>> rxVal,
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
     required void Function(
       void Function(C) updates,
     )
@@ -3963,7 +3893,7 @@ extension PrxCollectionFieldOfTypeOfLib$Factory$Ext
       );
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> fromGetter<C, L>({
     required Getter<Opt<C>> getter,
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
     required Stream<Opt<C>> Function() changes,
     required Lookup Function() lookup,
     required void Function(
@@ -3982,7 +3912,7 @@ extension PrxCollectionFieldOfTypeOfLib$Factory$Ext
       );
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> fromPrxCollectionOfType<C, L>({
     required HasData<PrxCollectionOfType$IData<C>> prxCollectionOfType,
-    required HasFieldPath Function() field,
+    required PmCollectionField<C> Function() field,
   }) =>
       PrxCollectionFieldOfTypeOfLib$Impl(
         PrxCollectionFieldOfTypeOfLib$Data(
@@ -3991,22 +3921,6 @@ extension PrxCollectionFieldOfTypeOfLib$Factory$Ext
           get: prxCollectionOfType.data$.get,
           rebuild: prxCollectionOfType.data$.rebuild,
           field: field,
-        ),
-      );
-  PrxCollectionFieldOfTypeOfLib$Impl<C, L> fromPrxFieldOfTypeOfLib<C, L>({
-    required PrxFieldOfTypeOfLib<C, L> prxFieldOfTypeOfLib,
-    required void Function(
-      void Function(C) updates,
-    )
-        rebuild,
-  }) =>
-      PrxCollectionFieldOfTypeOfLib$Impl(
-        PrxCollectionFieldOfTypeOfLib$Data(
-          field: prxFieldOfTypeOfLib.field,
-          changes: () => prxFieldOfTypeOfLib.changes,
-          lookup: () => prxFieldOfTypeOfLib.lookup,
-          get: prxFieldOfTypeOfLib.get,
-          rebuild: rebuild,
         ),
       );
 }
@@ -5721,7 +5635,7 @@ class PrxMap$Impl<K, V, L> extends PrxMap<K, V, L>
     this.data$,
   ) : super();
   final PrxMap$IData<K, V, L> data$;
-  HasFieldPath field() => data$.field();
+  PmCollectionField<Map<K, V>> field() => data$.field();
   Stream<Opt<Map<K, V>>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
   Opt<Map<K, V>> get() => data$.get();
@@ -5749,7 +5663,7 @@ extension PrxMap$Ext<K, V, L> on PrxMap<K, V, L> {
       );
   PrxMap$Impl<K, V, L> get toImpl => asImpl();
   PrxMap$Impl<K, V, L> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<Map<K, V>> Function()? field,
     Stream<Opt<Map<K, V>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<Map<K, V>> Function()? get,
@@ -5766,7 +5680,7 @@ extension PrxMap$Ext<K, V, L> on PrxMap<K, V, L> {
         rebuild: rebuild,
       );
   PrxMap$Impl<K, V, L> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<Map<K, V>> Function()? field,
     Stream<Opt<Map<K, V>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<Map<K, V>> Function()? get,
@@ -5786,7 +5700,7 @@ extension PrxMap$Ext<K, V, L> on PrxMap<K, V, L> {
 
 /// [PrxMap]
 extension HasData$PrxMap$Impl$Ext<K, V, L> on HasData<PrxMap$IData<K, V, L>> {
-  HasFieldPath field() => data$.field();
+  PmCollectionField<Map<K, V>> field() => data$.field();
   Stream<Opt<Map<K, V>>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
   Opt<Map<K, V>> get() => data$.get();
@@ -5801,7 +5715,7 @@ extension HasData$PrxMap$Impl$Ext<K, V, L> on HasData<PrxMap$IData<K, V, L>> {
       );
   PrxMap$Impl<K, V, L> get toImpl => asPrxMap();
   PrxMap$Impl<K, V, L> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<Map<K, V>> Function()? field,
     Stream<Opt<Map<K, V>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<Map<K, V>> Function()? get,
@@ -5818,7 +5732,7 @@ extension HasData$PrxMap$Impl$Ext<K, V, L> on HasData<PrxMap$IData<K, V, L>> {
         rebuild: rebuild,
       ));
   PrxMap$Impl<K, V, L> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<Map<K, V>> Function()? field,
     Stream<Opt<Map<K, V>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<Map<K, V>> Function()? get,
@@ -5840,7 +5754,7 @@ extension HasData$PrxMap$Impl$Ext<K, V, L> on HasData<PrxMap$IData<K, V, L>> {
 abstract class PrxMap$IData<K, V, L>
     implements PrxCollectionFieldOfTypeOfLib$IData<Map<K, V>, L> {
   PrxMap$IData();
-  HasFieldPath Function() get field;
+  PmCollectionField<Map<K, V>> Function() get field;
   Stream<Opt<Map<K, V>>> Function() get changes;
   Lookup Function() get lookup;
   Opt<Map<K, V>> Function() get get;
@@ -5854,7 +5768,7 @@ typedef IPrxMap<K, V, L> = HasData<PrxMap$IData<K, V, L>>;
 
 extension PrxMap$IData$Ext<K, V, L> on PrxMap$IData<K, V, L> {
   PrxMap$Data<K, V, L> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<Map<K, V>> Function()? field,
     Stream<Opt<Map<K, V>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<Map<K, V>> Function()? get,
@@ -5871,7 +5785,7 @@ extension PrxMap$IData$Ext<K, V, L> on PrxMap$IData<K, V, L> {
         rebuild: rebuild ?? this.rebuild,
       );
   PrxMap$Data<K, V, L> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<Map<K, V>> Function()? field,
     Stream<Opt<Map<K, V>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<Map<K, V>> Function()? get,
@@ -5910,7 +5824,7 @@ class PrxMap$Data<K, V, L> implements PrxMap$IData<K, V, L> {
           get: base.get,
           rebuild: base.rebuild,
         );
-  final HasFieldPath Function() field;
+  final PmCollectionField<Map<K, V>> Function() field;
   final Stream<Opt<Map<K, V>>> Function() changes;
   final Lookup Function() lookup;
   final Opt<Map<K, V>> Function() get;
@@ -5921,7 +5835,7 @@ class PrxMap$Data<K, V, L> implements PrxMap$IData<K, V, L> {
 
 extension PrxMap$Data$Ext<K, V, L> on PrxMap$Data<K, V, L> {
   PrxMap$Data<K, V, L> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<Map<K, V>> Function()? field,
     Stream<Opt<Map<K, V>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<Map<K, V>> Function()? get,
@@ -5938,7 +5852,7 @@ extension PrxMap$Data$Ext<K, V, L> on PrxMap$Data<K, V, L> {
         rebuild: rebuild ?? this.rebuild,
       );
   PrxMap$Data<K, V, L> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<Map<K, V>> Function()? field,
     Stream<Opt<Map<K, V>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<Map<K, V>> Function()? get,
@@ -5965,7 +5879,7 @@ class PrxMap$Ovr<K, V, L> implements Ovr<PrxMap$Data<K, V, L>> {
     required this.get,
     required this.rebuild,
   });
-  final Opt<HasFieldPath Function()> field;
+  final Opt<PmCollectionField<Map<K, V>> Function()> field;
   final Opt<Stream<Opt<Map<K, V>>> Function()> changes;
   final Opt<Lookup Function()> lookup;
   final Opt<Opt<Map<K, V>> Function()> get;
@@ -5978,7 +5892,7 @@ class PrxMap$Ovr<K, V, L> implements Ovr<PrxMap$Data<K, V, L>> {
   ) =>
       PrxMap$Data(
         field: field
-            .map<HasFieldPath Function()>(
+            .map<PmCollectionField<Map<K, V>> Function()>(
                 (v) => v.overrideWith(overriden$.field))
             .orDefault(overriden$.field),
         changes: changes
@@ -6006,7 +5920,7 @@ class PrxMap$Delegate<K, V, L> extends PrxMap<K, V, L> {
     this.delegate$,
   ) : super();
   final PrxMap<K, V, L> Function() delegate$;
-  HasFieldPath field() => delegate$().field();
+  PmCollectionField<Map<K, V>> field() => delegate$().field();
   Stream<Opt<Map<K, V>>> get changes => delegate$().changes;
   Lookup get lookup => delegate$().lookup;
   Opt<Map<K, V>> get() => delegate$().get();
@@ -6030,7 +5944,7 @@ extension Mk$PrxMap$Ext on Mk {
 
 extension PrxMap$Factory$Ext on PrxMap$Factory {
   PrxMap$Impl<K, V, L> call<K, V, L>({
-    required HasFieldPath Function() field,
+    required PmCollectionField<Map<K, V>> Function() field,
     required Stream<Opt<Map<K, V>>> Function() changes,
     required Lookup Function() lookup,
     required Opt<Map<K, V>> Function() get,
@@ -6049,7 +5963,7 @@ extension PrxMap$Factory$Ext on PrxMap$Factory {
         ),
       );
   PrxMap$Impl<K, V, L> create<K, V, L>({
-    required HasFieldPath Function() field,
+    required PmCollectionField<Map<K, V>> Function() field,
     required Stream<Opt<Map<K, V>>> Function() changes,
     required Lookup Function() lookup,
     required Opt<Map<K, V>> Function() get,
@@ -6068,7 +5982,7 @@ extension PrxMap$Factory$Ext on PrxMap$Factory {
         ),
       );
   PrxMap$Impl<K, V, L> data<K, V, L>({
-    required HasFieldPath Function() field,
+    required PmCollectionField<Map<K, V>> Function() field,
     required Stream<Opt<Map<K, V>>> changes,
     required Lookup lookup,
     required Opt<Map<K, V>> Function() get,
@@ -6112,28 +6026,9 @@ extension PrxMap$Factory$Ext on PrxMap$Factory {
           rebuild: prxCollectionFieldOfType.data$.rebuild,
         ),
       );
-  PrxMap$Impl<K, V, L> fromPrxField<K, V, L>({
-    required PrxField prxField,
-    required Stream<Opt<Map<K, V>>> Function() changes,
-    required Lookup Function() lookup,
-    required Opt<Map<K, V>> Function() get,
-    required void Function(
-      void Function(Map<K, V>) updates,
-    )
-        rebuild,
-  }) =>
-      PrxMap$Impl(
-        PrxMap$Data(
-          field: prxField.field,
-          changes: changes,
-          lookup: lookup,
-          get: get,
-          rebuild: rebuild,
-        ),
-      );
   PrxMap$Impl<K, V, L> fromPrx<K, V, L>({
     required Prx prx,
-    required HasFieldPath Function() field,
+    required PmCollectionField<Map<K, V>> Function() field,
     required Stream<Opt<Map<K, V>>> Function() changes,
     required Lookup Function() lookup,
     required Opt<Map<K, V>> Function() get,
@@ -6151,25 +6046,9 @@ extension PrxMap$Factory$Ext on PrxMap$Factory {
           rebuild: rebuild,
         ),
       );
-  PrxMap$Impl<K, V, L> fromPrxFieldOfType<K, V, L>({
-    required PrxFieldOfType<Map<K, V>> prxFieldOfType,
-    required void Function(
-      void Function(Map<K, V>) updates,
-    )
-        rebuild,
-  }) =>
-      PrxMap$Impl(
-        PrxMap$Data(
-          field: prxFieldOfType.field,
-          changes: () => prxFieldOfType.changes,
-          lookup: () => prxFieldOfType.lookup,
-          get: prxFieldOfType.get,
-          rebuild: rebuild,
-        ),
-      );
   PrxMap$Impl<K, V, L> fromPrxOfType<K, V, L>({
     required HasData<PrxOfType$IData<Map<K, V>>> prxOfType,
-    required HasFieldPath Function() field,
+    required PmCollectionField<Map<K, V>> Function() field,
     required void Function(
       void Function(Map<K, V>) updates,
     )
@@ -6186,7 +6065,7 @@ extension PrxMap$Factory$Ext on PrxMap$Factory {
       );
   PrxMap$Impl<K, V, L> fromRxVal<K, V, L>({
     required HasData<RxVal$IData<Opt<Map<K, V>>>> rxVal,
-    required HasFieldPath Function() field,
+    required PmCollectionField<Map<K, V>> Function() field,
     required void Function(
       void Function(Map<K, V>) updates,
     )
@@ -6203,7 +6082,7 @@ extension PrxMap$Factory$Ext on PrxMap$Factory {
       );
   PrxMap$Impl<K, V, L> fromGetter<K, V, L>({
     required Getter<Opt<Map<K, V>>> getter,
-    required HasFieldPath Function() field,
+    required PmCollectionField<Map<K, V>> Function() field,
     required Stream<Opt<Map<K, V>>> Function() changes,
     required Lookup Function() lookup,
     required void Function(
@@ -6222,7 +6101,7 @@ extension PrxMap$Factory$Ext on PrxMap$Factory {
       );
   PrxMap$Impl<K, V, L> fromPrxCollectionOfType<K, V, L>({
     required HasData<PrxCollectionOfType$IData<Map<K, V>>> prxCollectionOfType,
-    required HasFieldPath Function() field,
+    required PmCollectionField<Map<K, V>> Function() field,
   }) =>
       PrxMap$Impl(
         PrxMap$Data(
@@ -6231,22 +6110,6 @@ extension PrxMap$Factory$Ext on PrxMap$Factory {
           get: prxCollectionOfType.data$.get,
           rebuild: prxCollectionOfType.data$.rebuild,
           field: field,
-        ),
-      );
-  PrxMap$Impl<K, V, L> fromPrxFieldOfTypeOfLib<K, V, L>({
-    required PrxFieldOfTypeOfLib<Map<K, V>, L> prxFieldOfTypeOfLib,
-    required void Function(
-      void Function(Map<K, V>) updates,
-    )
-        rebuild,
-  }) =>
-      PrxMap$Impl(
-        PrxMap$Data(
-          field: prxFieldOfTypeOfLib.field,
-          changes: () => prxFieldOfTypeOfLib.changes,
-          lookup: () => prxFieldOfTypeOfLib.lookup,
-          get: prxFieldOfTypeOfLib.get,
-          rebuild: rebuild,
         ),
       );
 }
@@ -6258,7 +6121,7 @@ class PrxRepeated$Impl<T, L> extends PrxRepeated<T, L>
     this.data$,
   ) : super();
   final PrxRepeated$IData<T, L> data$;
-  HasFieldPath field() => data$.field();
+  PmCollectionField<List<T>> field() => data$.field();
   Stream<Opt<List<T>>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
   Opt<List<T>> get() => data$.get();
@@ -6286,7 +6149,7 @@ extension PrxRepeated$Ext<T, L> on PrxRepeated<T, L> {
       );
   PrxRepeated$Impl<T, L> get toImpl => asImpl();
   PrxRepeated$Impl<T, L> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<List<T>> Function()? field,
     Stream<Opt<List<T>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<List<T>> Function()? get,
@@ -6303,7 +6166,7 @@ extension PrxRepeated$Ext<T, L> on PrxRepeated<T, L> {
         rebuild: rebuild,
       );
   PrxRepeated$Impl<T, L> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<List<T>> Function()? field,
     Stream<Opt<List<T>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<List<T>> Function()? get,
@@ -6324,7 +6187,7 @@ extension PrxRepeated$Ext<T, L> on PrxRepeated<T, L> {
 /// [PrxRepeated]
 extension HasData$PrxRepeated$Impl$Ext<T, L>
     on HasData<PrxRepeated$IData<T, L>> {
-  HasFieldPath field() => data$.field();
+  PmCollectionField<List<T>> field() => data$.field();
   Stream<Opt<List<T>>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
   Opt<List<T>> get() => data$.get();
@@ -6339,7 +6202,7 @@ extension HasData$PrxRepeated$Impl$Ext<T, L>
       );
   PrxRepeated$Impl<T, L> get toImpl => asPrxRepeated();
   PrxRepeated$Impl<T, L> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<List<T>> Function()? field,
     Stream<Opt<List<T>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<List<T>> Function()? get,
@@ -6356,7 +6219,7 @@ extension HasData$PrxRepeated$Impl$Ext<T, L>
         rebuild: rebuild,
       ));
   PrxRepeated$Impl<T, L> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<List<T>> Function()? field,
     Stream<Opt<List<T>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<List<T>> Function()? get,
@@ -6378,7 +6241,7 @@ extension HasData$PrxRepeated$Impl$Ext<T, L>
 abstract class PrxRepeated$IData<T, L>
     implements PrxCollectionFieldOfTypeOfLib$IData<List<T>, L> {
   PrxRepeated$IData();
-  HasFieldPath Function() get field;
+  PmCollectionField<List<T>> Function() get field;
   Stream<Opt<List<T>>> Function() get changes;
   Lookup Function() get lookup;
   Opt<List<T>> Function() get get;
@@ -6392,7 +6255,7 @@ typedef IPrxRepeated<T, L> = HasData<PrxRepeated$IData<T, L>>;
 
 extension PrxRepeated$IData$Ext<T, L> on PrxRepeated$IData<T, L> {
   PrxRepeated$Data<T, L> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<List<T>> Function()? field,
     Stream<Opt<List<T>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<List<T>> Function()? get,
@@ -6409,7 +6272,7 @@ extension PrxRepeated$IData$Ext<T, L> on PrxRepeated$IData<T, L> {
         rebuild: rebuild ?? this.rebuild,
       );
   PrxRepeated$Data<T, L> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<List<T>> Function()? field,
     Stream<Opt<List<T>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<List<T>> Function()? get,
@@ -6448,7 +6311,7 @@ class PrxRepeated$Data<T, L> implements PrxRepeated$IData<T, L> {
           get: base.get,
           rebuild: base.rebuild,
         );
-  final HasFieldPath Function() field;
+  final PmCollectionField<List<T>> Function() field;
   final Stream<Opt<List<T>>> Function() changes;
   final Lookup Function() lookup;
   final Opt<List<T>> Function() get;
@@ -6459,7 +6322,7 @@ class PrxRepeated$Data<T, L> implements PrxRepeated$IData<T, L> {
 
 extension PrxRepeated$Data$Ext<T, L> on PrxRepeated$Data<T, L> {
   PrxRepeated$Data<T, L> copyWith({
-    HasFieldPath Function()? field,
+    PmCollectionField<List<T>> Function()? field,
     Stream<Opt<List<T>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<List<T>> Function()? get,
@@ -6476,7 +6339,7 @@ extension PrxRepeated$Data$Ext<T, L> on PrxRepeated$Data<T, L> {
         rebuild: rebuild ?? this.rebuild,
       );
   PrxRepeated$Data<T, L> copyWithOpt({
-    HasFieldPath Function()? field,
+    PmCollectionField<List<T>> Function()? field,
     Stream<Opt<List<T>>> Function()? changes,
     Lookup Function()? lookup,
     Opt<List<T>> Function()? get,
@@ -6503,7 +6366,7 @@ class PrxRepeated$Ovr<T, L> implements Ovr<PrxRepeated$Data<T, L>> {
     required this.get,
     required this.rebuild,
   });
-  final Opt<HasFieldPath Function()> field;
+  final Opt<PmCollectionField<List<T>> Function()> field;
   final Opt<Stream<Opt<List<T>>> Function()> changes;
   final Opt<Lookup Function()> lookup;
   final Opt<Opt<List<T>> Function()> get;
@@ -6516,7 +6379,7 @@ class PrxRepeated$Ovr<T, L> implements Ovr<PrxRepeated$Data<T, L>> {
   ) =>
       PrxRepeated$Data(
         field: field
-            .map<HasFieldPath Function()>(
+            .map<PmCollectionField<List<T>> Function()>(
                 (v) => v.overrideWith(overriden$.field))
             .orDefault(overriden$.field),
         changes: changes
@@ -6543,7 +6406,7 @@ class PrxRepeated$Delegate<T, L> extends PrxRepeated<T, L> {
     this.delegate$,
   ) : super();
   final PrxRepeated<T, L> Function() delegate$;
-  HasFieldPath field() => delegate$().field();
+  PmCollectionField<List<T>> field() => delegate$().field();
   Stream<Opt<List<T>>> get changes => delegate$().changes;
   Lookup get lookup => delegate$().lookup;
   Opt<List<T>> get() => delegate$().get();
@@ -6567,7 +6430,7 @@ extension Mk$PrxRepeated$Ext on Mk {
 
 extension PrxRepeated$Factory$Ext on PrxRepeated$Factory {
   PrxRepeated$Impl<T, L> call<T, L>({
-    required HasFieldPath Function() field,
+    required PmCollectionField<List<T>> Function() field,
     required Stream<Opt<List<T>>> Function() changes,
     required Lookup Function() lookup,
     required Opt<List<T>> Function() get,
@@ -6586,7 +6449,7 @@ extension PrxRepeated$Factory$Ext on PrxRepeated$Factory {
         ),
       );
   PrxRepeated$Impl<T, L> create<T, L>({
-    required HasFieldPath Function() field,
+    required PmCollectionField<List<T>> Function() field,
     required Stream<Opt<List<T>>> Function() changes,
     required Lookup Function() lookup,
     required Opt<List<T>> Function() get,
@@ -6605,7 +6468,7 @@ extension PrxRepeated$Factory$Ext on PrxRepeated$Factory {
         ),
       );
   PrxRepeated$Impl<T, L> data<T, L>({
-    required HasFieldPath Function() field,
+    required PmCollectionField<List<T>> Function() field,
     required Stream<Opt<List<T>>> changes,
     required Lookup lookup,
     required Opt<List<T>> Function() get,
@@ -6649,28 +6512,9 @@ extension PrxRepeated$Factory$Ext on PrxRepeated$Factory {
           rebuild: prxCollectionFieldOfType.data$.rebuild,
         ),
       );
-  PrxRepeated$Impl<T, L> fromPrxField<T, L>({
-    required PrxField prxField,
-    required Stream<Opt<List<T>>> Function() changes,
-    required Lookup Function() lookup,
-    required Opt<List<T>> Function() get,
-    required void Function(
-      void Function(List<T>) updates,
-    )
-        rebuild,
-  }) =>
-      PrxRepeated$Impl(
-        PrxRepeated$Data(
-          field: prxField.field,
-          changes: changes,
-          lookup: lookup,
-          get: get,
-          rebuild: rebuild,
-        ),
-      );
   PrxRepeated$Impl<T, L> fromPrx<T, L>({
     required Prx prx,
-    required HasFieldPath Function() field,
+    required PmCollectionField<List<T>> Function() field,
     required Stream<Opt<List<T>>> Function() changes,
     required Lookup Function() lookup,
     required Opt<List<T>> Function() get,
@@ -6688,25 +6532,9 @@ extension PrxRepeated$Factory$Ext on PrxRepeated$Factory {
           rebuild: rebuild,
         ),
       );
-  PrxRepeated$Impl<T, L> fromPrxFieldOfType<T, L>({
-    required PrxFieldOfType<List<T>> prxFieldOfType,
-    required void Function(
-      void Function(List<T>) updates,
-    )
-        rebuild,
-  }) =>
-      PrxRepeated$Impl(
-        PrxRepeated$Data(
-          field: prxFieldOfType.field,
-          changes: () => prxFieldOfType.changes,
-          lookup: () => prxFieldOfType.lookup,
-          get: prxFieldOfType.get,
-          rebuild: rebuild,
-        ),
-      );
   PrxRepeated$Impl<T, L> fromPrxOfType<T, L>({
     required HasData<PrxOfType$IData<List<T>>> prxOfType,
-    required HasFieldPath Function() field,
+    required PmCollectionField<List<T>> Function() field,
     required void Function(
       void Function(List<T>) updates,
     )
@@ -6723,7 +6551,7 @@ extension PrxRepeated$Factory$Ext on PrxRepeated$Factory {
       );
   PrxRepeated$Impl<T, L> fromRxVal<T, L>({
     required HasData<RxVal$IData<Opt<List<T>>>> rxVal,
-    required HasFieldPath Function() field,
+    required PmCollectionField<List<T>> Function() field,
     required void Function(
       void Function(List<T>) updates,
     )
@@ -6740,7 +6568,7 @@ extension PrxRepeated$Factory$Ext on PrxRepeated$Factory {
       );
   PrxRepeated$Impl<T, L> fromGetter<T, L>({
     required Getter<Opt<List<T>>> getter,
-    required HasFieldPath Function() field,
+    required PmCollectionField<List<T>> Function() field,
     required Stream<Opt<List<T>>> Function() changes,
     required Lookup Function() lookup,
     required void Function(
@@ -6759,7 +6587,7 @@ extension PrxRepeated$Factory$Ext on PrxRepeated$Factory {
       );
   PrxRepeated$Impl<T, L> fromPrxCollectionOfType<T, L>({
     required HasData<PrxCollectionOfType$IData<List<T>>> prxCollectionOfType,
-    required HasFieldPath Function() field,
+    required PmCollectionField<List<T>> Function() field,
   }) =>
       PrxRepeated$Impl(
         PrxRepeated$Data(
@@ -6768,22 +6596,6 @@ extension PrxRepeated$Factory$Ext on PrxRepeated$Factory {
           get: prxCollectionOfType.data$.get,
           rebuild: prxCollectionOfType.data$.rebuild,
           field: field,
-        ),
-      );
-  PrxRepeated$Impl<T, L> fromPrxFieldOfTypeOfLib<T, L>({
-    required PrxFieldOfTypeOfLib<List<T>, L> prxFieldOfTypeOfLib,
-    required void Function(
-      void Function(List<T>) updates,
-    )
-        rebuild,
-  }) =>
-      PrxRepeated$Impl(
-        PrxRepeated$Data(
-          field: prxFieldOfTypeOfLib.field,
-          changes: () => prxFieldOfTypeOfLib.changes,
-          lookup: () => prxFieldOfTypeOfLib.lookup,
-          get: prxFieldOfTypeOfLib.get,
-          rebuild: rebuild,
         ),
       );
 }

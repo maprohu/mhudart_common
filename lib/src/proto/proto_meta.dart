@@ -36,6 +36,7 @@ abstract class PmMessage implements HasMessagePath {
   dynamic get emptyMessage$;
 
   int get index$;
+
   int get globalIndex$;
 
   List<PmField> get fields$;
@@ -98,6 +99,7 @@ abstract class HasFieldPath {
   HasMessagePath get message;
 
   int get index;
+
   int get globalIndex;
 }
 
@@ -138,6 +140,10 @@ abstract class PmFieldOfMessage<T extends GeneratedMessage> implements PmField {
 
 abstract class PmReadField<T, V> {
   V get(T message);
+}
+
+abstract class PmCollectionField<V> extends PmField  {
+  int length(V collection);
 }
 
 abstract class PmFullField<T, V> extends PmReadField<T, V> {
@@ -182,6 +188,11 @@ abstract class PmMsgFieldOfMessageOfType<T extends GeneratedMessage, V>
   const PmMsgFieldOfMessageOfType();
 }
 
+abstract class PmCollectionFieldOfMessageOfType<T extends GeneratedMessage, V>
+    extends PmReadFieldOfMessageOfType<T, V>
+    implements PmCollectionField<V> {
+  const PmCollectionFieldOfMessageOfType();
+}
 // direct superclasses
 
 abstract class PmSingleField<T extends GeneratedMessage, V>
@@ -195,15 +206,21 @@ abstract class PmMessageField<T extends GeneratedMessage, V>
 }
 
 abstract class PmRepeatedField<T extends GeneratedMessage, V>
-    extends PmReadFieldOfMessageOfType<T, List<V>> {
+    extends PmCollectionFieldOfMessageOfType<T, List<V>> {
   const PmRepeatedField();
+
+  @override
+  int length(List<V> collection) => collection.length;
 
   R singleType<R>(R Function<TF>() fn) => fn<V>();
 }
 
 abstract class PmMapField<T extends GeneratedMessage, K, V>
-    extends PmReadFieldOfMessageOfType<T, Map<K, V>> {
+    extends PmCollectionFieldOfMessageOfType<T, Map<K, V>> {
   const PmMapField();
+
+  @override
+  int length(Map<K, V> collection) => collection.length;
 
   R singleType<R>(R Function<TF>() fn) => fn<V>();
 }
@@ -214,7 +231,6 @@ abstract class PmEnum<E extends ProtobufEnum> {
   List<E> values();
 
   R type$<R>(R Function<TE extends ProtobufEnum>() fn) => fn<E>();
-
 }
 
 abstract class PmOneof {}

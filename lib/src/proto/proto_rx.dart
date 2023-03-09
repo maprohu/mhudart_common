@@ -79,7 +79,8 @@ abstract class PrxFieldOfTypeOfLib<V, L> implements PrxFieldOfType<V> {}
 @Impl()
 abstract class PrxCollectionFieldOfType<C> extends PrxField
     implements PrxFieldOfType<C>, PrxCollectionOfType<C> {
-
+  @override
+  PmCollectionField<C> field();
 }
 
 @Impl()
@@ -103,15 +104,11 @@ abstract class PrxSingle<T, L> extends PrxField
 
 @Impl()
 abstract class PrxMap<K, V, L>
-    extends PrxCollectionFieldOfTypeOfLib<Map<K, V>, L> {
-
-}
+    extends PrxCollectionFieldOfTypeOfLib<Map<K, V>, L> {}
 
 @Impl()
 abstract class PrxRepeated<T, L>
-    extends PrxCollectionFieldOfTypeOfLib<List<T>, L> {
-
-}
+    extends PrxCollectionFieldOfTypeOfLib<List<T>, L> {}
 
 @GenerateHierarchy(
     Hierarchy('type', children: [
@@ -139,11 +136,13 @@ extension PrxSingleMsgX<T extends GeneratedMessage> on IRxVar<Opt<T>> {
       mk.PrxSingle.fromField(this, field);
 
   PrxMap$Impl<K, V, L> mapOf<K, V, L>(
-          PmReadFieldOfMessageOfType<T, Map<K, V>> field) =>
+    PmCollectionFieldOfMessageOfType<T, Map<K, V>> field,
+  ) =>
       mk.PrxMap.fromField(this, field);
 
   PrxRepeated$Impl<V, L> repeated<V, L>(
-          PmReadFieldOfMessageOfType<T, List<V>> field) =>
+    PmCollectionFieldOfMessageOfType<T, List<V>> field,
+  ) =>
       mk.PrxRepeated.fromField(this, field);
 
 // PrxCollectionOfLib$Impl<C, L> collection<C, L>(PmReadFieldOfMessagOfType<T, C> field) =>
@@ -226,7 +225,7 @@ extension RxVarFactoryXPrx on RxVar$Factory {
 extension PrxMapFactoryX on PrxMap$Factory {
   PrxMap$Impl<K, V, L> fromField<T extends GeneratedMessage, K, V, L>(
     RxVarImplOpt<T> rxVar,
-    PmReadFieldOfMessageOfType<T, Map<K, V>> field,
+    PmCollectionFieldOfMessageOfType<T, Map<K, V>> field,
   ) =>
       mk.PrxMap.fromPrxCollectionOfType(
         prxCollectionOfType: mk.PrxCollectionOfType.fromField<T, Map<K, V>>(
@@ -240,7 +239,7 @@ extension PrxMapFactoryX on PrxMap$Factory {
 extension PrxRepeatedFactoryX on PrxRepeated$Factory {
   PrxRepeated$Impl<V, L> fromField<T extends GeneratedMessage, V, L>(
     RxVarImplOpt<T> rxVar,
-    PmReadFieldOfMessageOfType<T, List<V>> field,
+    PmCollectionFieldOfMessageOfType<T, List<V>> field,
   ) =>
       mk.PrxRepeated.fromPrxCollectionOfType(
         prxCollectionOfType: mk.PrxCollectionOfType.fromField<T, List<V>>(
