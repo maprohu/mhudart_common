@@ -10,20 +10,25 @@ part of 'proto_meta.dart';
 
 typedef PmAccessRead<T, V> = PmAccessRead$Base<PmReadField<T, V>, T, V>;
 
-abstract class PmAccessRead$Base<I$ extends PmReadField<T, V>, T, V>
-    extends Holder<I$> {
-  const PmAccessRead$Base(super.item);
-  R$ acceptPmAccessRead<R$>(PmAccessRead$Visitor<R$, T, V> visitor) =>
+class PmAccessRead$Base<I$ extends PmReadField<T, V>, T, V> extends Holder<I$> {
+  const PmAccessRead$Base(
+    super.item,
+  );
+  R$ acceptPmAccessRead<R$>(
+    PmAccessRead$Visitor<R$, T, V> visitor,
+  ) =>
       visitor.read(item);
 }
 
 class PmAccessRead$Impl<T, V>
     extends PmAccessRead$Base<PmReadField<T, V>, T, V> {
-  const PmAccessRead$Impl(super.item);
-  const PmAccessRead$Impl.create(
-    PmReadField<T, V> item,
+  const PmAccessRead$Impl(
+    super.item,
+  );
+  PmAccessRead$Impl.create(
+    PmReadField<T, V> read,
   ) : this(
-          item,
+          read,
         );
 }
 
@@ -43,16 +48,23 @@ class PmAccessRead$Factory {
       );
 }
 
-const pmAccessRead$Factory = PmAccessRead$Factory();
+const PmAccessRead$Factory pmAccessRead$Factory = PmAccessRead$Factory();
 
 extension Mk$Ext$PmAccessRead on Mk {
   PmAccessRead$Factory get PmAccessRead => pmAccessRead$Factory;
 }
 
 abstract class PmAccessRead$Visitor<R$, T, V> {
-  R$ read(PmReadField<T, V> value);
-  R$ full(PmFullField<T, V> value);
-  R$ message(PmMsgField<T, V> value);
+  PmAccessRead$Visitor();
+  R$ read(
+    PmReadField<T, V> read,
+  );
+  R$ full(
+    PmFullField<T, V> full,
+  );
+  R$ message(
+    PmMsgField<T, V> message,
+  );
 }
 
 /// [PmAccessRead$Visitor]
@@ -505,7 +517,7 @@ extension PmAccessRead$Visitor$Factory$Ext on PmAccessRead$Visitor$Factory {
       );
 }
 
-extension PmAccessRead$WhenX<T, V>
+extension PmAccessRead$Base$WhenExt<T, V>
     on PmAccessRead$Base<PmReadField<T, V>, T, V> {
   R$ when<R$>({
     R$ Function(
@@ -531,22 +543,30 @@ extension PmAccessRead$WhenX<T, V>
 
 typedef PmAccessFull<T, V> = PmAccessFull$Base<PmFullField<T, V>, T, V>;
 
-abstract class PmAccessFull$Base<I$ extends PmFullField<T, V>, T, V>
+class PmAccessFull$Base<I$ extends PmFullField<T, V>, T, V>
     extends PmAccessRead$Base<I$, T, V> {
-  const PmAccessFull$Base(super.item);
-  R$ acceptPmAccessFull<R$>(PmAccessFull$Visitor<R$, T, V> visitor) =>
+  const PmAccessFull$Base(
+    super.item,
+  );
+  R$ acceptPmAccessFull<R$>(
+    PmAccessFull$Visitor<R$, T, V> visitor,
+  ) =>
       visitor.full(item);
-  R$ acceptPmAccessRead<R$>(PmAccessRead$Visitor<R$, T, V> visitor) =>
+  R$ acceptPmAccessRead<R$>(
+    PmAccessRead$Visitor<R$, T, V> visitor,
+  ) =>
       visitor.full(item);
 }
 
 class PmAccessFull$Impl<T, V>
     extends PmAccessFull$Base<PmFullField<T, V>, T, V> {
-  const PmAccessFull$Impl(super.item);
-  const PmAccessFull$Impl.create(
-    PmFullField<T, V> item,
+  const PmAccessFull$Impl(
+    super.item,
+  );
+  PmAccessFull$Impl.create(
+    PmFullField<T, V> full,
   ) : this(
-          item,
+          full,
         );
 }
 
@@ -566,15 +586,20 @@ class PmAccessFull$Factory {
       );
 }
 
-const pmAccessFull$Factory = PmAccessFull$Factory();
+const PmAccessFull$Factory pmAccessFull$Factory = PmAccessFull$Factory();
 
 extension Mk$Ext$PmAccessFull on Mk {
   PmAccessFull$Factory get PmAccessFull => pmAccessFull$Factory;
 }
 
 abstract class PmAccessFull$Visitor<R$, T, V> {
-  R$ full(PmFullField<T, V> value);
-  R$ message(PmMsgField<T, V> value);
+  PmAccessFull$Visitor();
+  R$ full(
+    PmFullField<T, V> full,
+  );
+  R$ message(
+    PmMsgField<T, V> message,
+  );
 }
 
 /// [PmAccessFull$Visitor]
@@ -928,7 +953,7 @@ extension PmAccessFull$Visitor$Factory$Ext on PmAccessFull$Visitor$Factory {
       );
 }
 
-extension PmAccessFull$WhenX<T, V>
+extension PmAccessFull$Base$WhenExt<T, V>
     on PmAccessFull$Base<PmFullField<T, V>, T, V> {
   R$ when<R$>({
     R$ Function(
@@ -949,22 +974,30 @@ extension PmAccessFull$WhenX<T, V>
 
 typedef PmAccessMessage<T, V> = PmAccessMessage$Base<PmMsgField<T, V>, T, V>;
 
-abstract class PmAccessMessage$Base<I$ extends PmMsgField<T, V>, T, V>
+class PmAccessMessage$Base<I$ extends PmMsgField<T, V>, T, V>
     extends PmAccessFull$Base<I$, T, V> {
-  const PmAccessMessage$Base(super.item);
-  R$ acceptPmAccessFull<R$>(PmAccessFull$Visitor<R$, T, V> visitor) =>
+  const PmAccessMessage$Base(
+    super.item,
+  );
+  R$ acceptPmAccessFull<R$>(
+    PmAccessFull$Visitor<R$, T, V> visitor,
+  ) =>
       visitor.message(item);
-  R$ acceptPmAccessRead<R$>(PmAccessRead$Visitor<R$, T, V> visitor) =>
+  R$ acceptPmAccessRead<R$>(
+    PmAccessRead$Visitor<R$, T, V> visitor,
+  ) =>
       visitor.message(item);
 }
 
 class PmAccessMessage$Impl<T, V>
     extends PmAccessMessage$Base<PmMsgField<T, V>, T, V> {
-  const PmAccessMessage$Impl(super.item);
-  const PmAccessMessage$Impl.create(
-    PmMsgField<T, V> item,
+  const PmAccessMessage$Impl(
+    super.item,
+  );
+  PmAccessMessage$Impl.create(
+    PmMsgField<T, V> message,
   ) : this(
-          item,
+          message,
         );
 }
 
@@ -984,7 +1017,8 @@ class PmAccessMessage$Factory {
       );
 }
 
-const pmAccessMessage$Factory = PmAccessMessage$Factory();
+const PmAccessMessage$Factory pmAccessMessage$Factory =
+    PmAccessMessage$Factory();
 
 extension Mk$Ext$PmAccessMessage on Mk {
   PmAccessMessage$Factory get PmAccessMessage => pmAccessMessage$Factory;

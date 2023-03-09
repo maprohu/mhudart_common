@@ -10,14 +10,19 @@ part of 'proto_rx.dart';
 
 typedef PrxtType = PrxtType$Base<void>;
 
-abstract class PrxtType$Base<I$> extends Holder<I$> {
-  const PrxtType$Base(super.item);
-  R$ acceptPrxtType<R$>(PrxtType$Visitor<R$> visitor) => visitor.type();
+class PrxtType$Base<I$> extends Holder<I$> {
+  const PrxtType$Base(
+    super.item,
+  );
+  R$ acceptPrxtType<R$>(
+    PrxtType$Visitor<R$> visitor,
+  ) =>
+      visitor.type();
 }
 
 class PrxtType$Impl extends PrxtType$Base<void> {
   const PrxtType$Impl() : super(null);
-  const PrxtType$Impl.create() : this();
+  PrxtType$Impl.create() : this();
 }
 
 class PrxtType$Factory {
@@ -26,13 +31,14 @@ class PrxtType$Factory {
   PrxtType$Impl call() => PrxtType$Impl();
 }
 
-const prxtType$Factory = PrxtType$Factory();
+const PrxtType$Factory prxtType$Factory = PrxtType$Factory();
 
 extension Mk$Ext$PrxtType on Mk {
   PrxtType$Factory get PrxtType => prxtType$Factory;
 }
 
 abstract class PrxtType$Visitor<R$> {
+  PrxtType$Visitor();
   R$ type();
   R$ msg();
   R$ enm();
@@ -335,7 +341,7 @@ extension PrxtType$Visitor$Factory$Ext on PrxtType$Visitor$Factory {
       );
 }
 
-extension PrxtType$WhenX on PrxtType$Base<void> {
+extension PrxtType$Base$WhenExt on PrxtType$Base<void> {
   R$ when<R$>({
     R$ Function()? type,
     R$ Function()? msg,
@@ -352,14 +358,19 @@ extension PrxtType$WhenX on PrxtType$Base<void> {
 
 typedef PrxtMsg = PrxtMsg$Base<void>;
 
-abstract class PrxtMsg$Base<I$> extends PrxtType$Base<I$> {
-  const PrxtMsg$Base(super.item);
-  R$ acceptPrxtType<R$>(PrxtType$Visitor<R$> visitor) => visitor.msg();
+class PrxtMsg$Base<I$> extends PrxtType$Base<I$> {
+  const PrxtMsg$Base(
+    super.item,
+  );
+  R$ acceptPrxtType<R$>(
+    PrxtType$Visitor<R$> visitor,
+  ) =>
+      visitor.msg();
 }
 
 class PrxtMsg$Impl extends PrxtMsg$Base<void> {
   const PrxtMsg$Impl() : super(null);
-  const PrxtMsg$Impl.create() : this();
+  PrxtMsg$Impl.create() : this();
 }
 
 class PrxtMsg$Factory {
@@ -368,7 +379,7 @@ class PrxtMsg$Factory {
   PrxtMsg$Impl call() => PrxtMsg$Impl();
 }
 
-const prxtMsg$Factory = PrxtMsg$Factory();
+const PrxtMsg$Factory prxtMsg$Factory = PrxtMsg$Factory();
 
 extension Mk$Ext$PrxtMsg on Mk {
   PrxtMsg$Factory get PrxtMsg => prxtMsg$Factory;
@@ -376,14 +387,19 @@ extension Mk$Ext$PrxtMsg on Mk {
 
 typedef PrxtEnm = PrxtEnm$Base<void>;
 
-abstract class PrxtEnm$Base<I$> extends PrxtType$Base<I$> {
-  const PrxtEnm$Base(super.item);
-  R$ acceptPrxtType<R$>(PrxtType$Visitor<R$> visitor) => visitor.enm();
+class PrxtEnm$Base<I$> extends PrxtType$Base<I$> {
+  const PrxtEnm$Base(
+    super.item,
+  );
+  R$ acceptPrxtType<R$>(
+    PrxtType$Visitor<R$> visitor,
+  ) =>
+      visitor.enm();
 }
 
 class PrxtEnm$Impl extends PrxtEnm$Base<void> {
   const PrxtEnm$Impl() : super(null);
-  const PrxtEnm$Impl.create() : this();
+  PrxtEnm$Impl.create() : this();
 }
 
 class PrxtEnm$Factory {
@@ -392,7 +408,7 @@ class PrxtEnm$Factory {
   PrxtEnm$Impl call() => PrxtEnm$Impl();
 }
 
-const prxtEnm$Factory = PrxtEnm$Factory();
+const PrxtEnm$Factory prxtEnm$Factory = PrxtEnm$Factory();
 
 extension Mk$Ext$PrxtEnm on Mk {
   PrxtEnm$Factory get PrxtEnm => prxtEnm$Factory;
@@ -400,14 +416,19 @@ extension Mk$Ext$PrxtEnm on Mk {
 
 typedef PrxtCore = PrxtCore$Base<void>;
 
-abstract class PrxtCore$Base<I$> extends PrxtType$Base<I$> {
-  const PrxtCore$Base(super.item);
-  R$ acceptPrxtType<R$>(PrxtType$Visitor<R$> visitor) => visitor.core();
+class PrxtCore$Base<I$> extends PrxtType$Base<I$> {
+  const PrxtCore$Base(
+    super.item,
+  );
+  R$ acceptPrxtType<R$>(
+    PrxtType$Visitor<R$> visitor,
+  ) =>
+      visitor.core();
 }
 
 class PrxtCore$Impl extends PrxtCore$Base<void> {
   const PrxtCore$Impl() : super(null);
-  const PrxtCore$Impl.create() : this();
+  PrxtCore$Impl.create() : this();
 }
 
 class PrxtCore$Factory {
@@ -416,7 +437,7 @@ class PrxtCore$Factory {
   PrxtCore$Impl call() => PrxtCore$Impl();
 }
 
-const prxtCore$Factory = PrxtCore$Factory();
+const PrxtCore$Factory prxtCore$Factory = PrxtCore$Factory();
 
 extension Mk$Ext$PrxtCore on Mk {
   PrxtCore$Factory get PrxtCore => prxtCore$Factory;
@@ -426,315 +447,237 @@ extension Mk$Ext$PrxtCore on Mk {
 // ImplGenerator
 // **************************************************************************
 
-/// [PrxMessage]
-class PrxMessage$Impl<T extends GeneratedMessage, L> extends PrxMessage<T, L>
-    implements HasData<PrxMessage$IData<T, L>> {
-  PrxMessage$Impl(
+/// [PrxOfLib]
+class PrxOfLib$Impl<L> extends PrxOfLib<L>
+    implements HasData<PrxOfLib$IData<L>> {
+  PrxOfLib$Impl(
     this.data$,
   ) : super();
-  final PrxMessage$IData<T, L> data$;
-  PmMessageOfType<T> message() => data$.message();
-  Stream<Opt<T>> get changes => data$.changes();
-  Lookup get lookup => data$.lookup();
-  Opt<T> get() => data$.get();
-  void set(
-    Opt<T> value,
-  ) =>
-      data$.set(
-        value,
+  final PrxOfLib$IData<L> data$;
+}
+
+extension PrxOfLib$Impl$Ext<L> on PrxOfLib$Impl<L> {}
+
+extension PrxOfLib$Ext<L> on PrxOfLib<L> {
+  PrxOfLib$Impl<L> asImpl() => castOrCreate<PrxOfLib$Impl<L>>(() => wrap$());
+  PrxOfLib$Impl<L> wrap$() => PrxOfLib$Impl(
+        PrxOfLib$Data(),
+      );
+  PrxOfLib$Impl<L> get toImpl => asImpl();
+  PrxOfLib$Impl<L> copyWith() => HasData$PrxOfLib$Impl$Ext(toImpl).copyWith();
+  PrxOfLib$Impl<L> copyWithOpt() =>
+      HasData$PrxOfLib$Impl$Ext(toImpl).copyWithOpt();
+}
+
+/// [PrxOfLib]
+extension HasData$PrxOfLib$Impl$Ext<L> on HasData<PrxOfLib$IData<L>> {
+  PrxOfLib$Impl<L> asPrxOfLib() => PrxOfLib$Impl(
+        data$,
+      );
+  PrxOfLib$Impl<L> get toImpl => asPrxOfLib();
+  PrxOfLib$Impl<L> copyWith() => PrxOfLib$Impl(data$.copyWith());
+  PrxOfLib$Impl<L> copyWithOpt() => PrxOfLib$Impl(data$.copyWithOpt());
+}
+
+/// [PrxOfLib]
+abstract class PrxOfLib$IData<L> {
+  PrxOfLib$IData();
+}
+
+/// [PrxOfLib]
+typedef IPrxOfLib<L> = HasData<PrxOfLib$IData<L>>;
+
+extension PrxOfLib$IData$Ext<L> on PrxOfLib$IData<L> {
+  PrxOfLib$Data<L> copyWith() => PrxOfLib$Data();
+  PrxOfLib$Data<L> copyWithOpt() => PrxOfLib$Data();
+  PrxOfLib$Impl<L> asPrxOfLib() => PrxOfLib$Impl(
+        this,
       );
 }
 
-extension PrxMessage$Impl$Ext<T extends GeneratedMessage, L>
-    on PrxMessage$Impl<T, L> {}
+/// [PrxOfLib]
+class PrxOfLib$Data<L> implements PrxOfLib$IData<L> {
+  PrxOfLib$Data();
+  PrxOfLib$Data.fromBase(
+    PrxOfLib<L> base,
+  ) : this();
+}
 
-extension PrxMessage$Ext<T extends GeneratedMessage, L> on PrxMessage<T, L> {
-  PrxMessage$Impl<T, L> asImpl() =>
-      castOrCreate<PrxMessage$Impl<T, L>>(() => wrap$());
-  PrxMessage$Impl<T, L> wrap$() => PrxMessage$Impl(
+extension PrxOfLib$Data$Ext<L> on PrxOfLib$Data<L> {
+  PrxOfLib$Data<L> copyWith() => PrxOfLib$Data();
+  PrxOfLib$Data<L> copyWithOpt() => PrxOfLib$Data();
+}
+
+/// [PrxOfLib]
+class PrxOfLib$Ovr<L> implements Ovr<PrxOfLib$Data<L>> {
+  PrxOfLib$Ovr();
+  PrxOfLib$Data<L> override$(
+    PrxOfLib$Data<L> overriden$,
+  ) =>
+      PrxOfLib$Data();
+}
+
+class PrxOfLib$Delegate<L> extends PrxOfLib<L> {
+  PrxOfLib$Delegate(
+    this.delegate$,
+  ) : super();
+  final PrxOfLib<L> Function() delegate$;
+}
+
+/// [PrxOfLib]
+class PrxOfLib$Factory {
+  const PrxOfLib$Factory._();
+  static const instance = PrxOfLib$Factory._();
+}
+
+extension Mk$PrxOfLib$Ext on Mk {
+  PrxOfLib$Factory get PrxOfLib => PrxOfLib$Factory.instance;
+}
+
+extension PrxOfLib$Factory$Ext on PrxOfLib$Factory {
+  PrxOfLib$Impl<L> call<L>() => PrxOfLib$Impl(
+        PrxOfLib$Data(),
+      );
+  PrxOfLib$Impl<L> create<L>() => PrxOfLib$Impl(
+        PrxOfLib$Data(),
+      );
+  PrxOfLib$Impl<L> data<L>() => PrxOfLib$Impl(
+        PrxOfLib$Data(),
+      );
+}
+
+/// [PrxMessage]
+class PrxMessage$Impl extends PrxMessage implements HasData<PrxMessage$IData> {
+  const PrxMessage$Impl(
+    this.data$,
+  ) : super();
+  final PrxMessage$IData data$;
+  PmMessage message() => data$.message();
+}
+
+extension PrxMessage$Impl$Ext on PrxMessage$Impl {}
+
+extension PrxMessage$Ext on PrxMessage {
+  PrxMessage$Impl asImpl() => castOrCreate<PrxMessage$Impl>(() => wrap$());
+  PrxMessage$Impl wrap$() => PrxMessage$Impl(
         PrxMessage$Data(
           message: message,
-          changes: () => changes,
-          lookup: () => lookup,
-          get: get,
-          set: set,
         ),
       );
-  PrxMessage$Impl<T, L> get toImpl => asImpl();
-  PrxMessage$Impl<T, L> copyWith({
-    PmMessageOfType<T> Function()? message,
-    Stream<Opt<T>> Function()? changes,
-    Lookup Function()? lookup,
-    Opt<T> Function()? get,
-    void Function(
-      Opt<T> value,
-    )?
-        set,
+  PrxMessage$Impl get toImpl => asImpl();
+  PrxMessage$Impl copyWith({
+    PmMessage Function()? message,
   }) =>
       HasData$PrxMessage$Impl$Ext(toImpl).copyWith(
         message: message,
-        changes: changes,
-        lookup: lookup,
-        get: get,
-        set: set,
       );
-  PrxMessage$Impl<T, L> copyWithOpt({
-    PmMessageOfType<T> Function()? message,
-    Stream<Opt<T>> Function()? changes,
-    Lookup Function()? lookup,
-    Opt<T> Function()? get,
-    void Function(
-      Opt<T> value,
-    )?
-        set,
+  PrxMessage$Impl copyWithOpt({
+    PmMessage Function()? message,
   }) =>
       HasData$PrxMessage$Impl$Ext(toImpl).copyWithOpt(
         message: message,
-        changes: changes,
-        lookup: lookup,
-        get: get,
-        set: set,
       );
 }
 
 /// [PrxMessage]
-extension HasData$PrxMessage$Impl$Ext<T extends GeneratedMessage, L>
-    on HasData<PrxMessage$IData<T, L>> {
-  PmMessageOfType<T> message() => data$.message();
-  Stream<Opt<T>> get changes => data$.changes();
-  Lookup get lookup => data$.lookup();
-  Opt<T> get() => data$.get();
-  void set(
-    Opt<T> value,
-  ) =>
-      data$.set(
-        value,
-      );
-  PrxMessage$Impl<T, L> asPrxMessage() => PrxMessage$Impl(
+extension HasData$PrxMessage$Impl$Ext on HasData<PrxMessage$IData> {
+  PmMessage message() => data$.message();
+  PrxMessage$Impl asPrxMessage() => PrxMessage$Impl(
         data$,
       );
-  PrxMessage$Impl<T, L> get toImpl => asPrxMessage();
-  PrxMessage$Impl<T, L> copyWith({
-    PmMessageOfType<T> Function()? message,
-    Stream<Opt<T>> Function()? changes,
-    Lookup Function()? lookup,
-    Opt<T> Function()? get,
-    void Function(
-      Opt<T> value,
-    )?
-        set,
+  PrxMessage$Impl get toImpl => asPrxMessage();
+  PrxMessage$Impl copyWith({
+    PmMessage Function()? message,
   }) =>
       PrxMessage$Impl(data$.copyWith(
         message: message,
-        changes: changes,
-        lookup: lookup,
-        get: get,
-        set: set,
       ));
-  PrxMessage$Impl<T, L> copyWithOpt({
-    PmMessageOfType<T> Function()? message,
-    Stream<Opt<T>> Function()? changes,
-    Lookup Function()? lookup,
-    Opt<T> Function()? get,
-    void Function(
-      Opt<T> value,
-    )?
-        set,
+  PrxMessage$Impl copyWithOpt({
+    PmMessage Function()? message,
   }) =>
       PrxMessage$Impl(data$.copyWithOpt(
         message: message,
-        changes: changes,
-        lookup: lookup,
-        get: get,
-        set: set,
       ));
 }
 
 /// [PrxMessage]
-abstract class PrxMessage$IData<T extends GeneratedMessage, L>
-    implements RxVar$IData<Opt<T>> {
+abstract class PrxMessage$IData {
   PrxMessage$IData();
-  PmMessageOfType<T> Function() get message;
-  Stream<Opt<T>> Function() get changes;
-  Lookup Function() get lookup;
-  Opt<T> Function() get get;
-  void Function(
-    Opt<T> value,
-  ) get set;
+  PmMessage Function() get message;
 }
 
 /// [PrxMessage]
-typedef IPrxMessage<T extends GeneratedMessage, L>
-    = HasData<PrxMessage$IData<T, L>>;
+typedef IPrxMessage = HasData<PrxMessage$IData>;
 
-extension PrxMessage$IData$Ext<T extends GeneratedMessage, L>
-    on PrxMessage$IData<T, L> {
-  PrxMessage$Data<T, L> copyWith({
-    PmMessageOfType<T> Function()? message,
-    Stream<Opt<T>> Function()? changes,
-    Lookup Function()? lookup,
-    Opt<T> Function()? get,
-    void Function(
-      Opt<T> value,
-    )?
-        set,
+extension PrxMessage$IData$Ext on PrxMessage$IData {
+  PrxMessage$Data copyWith({
+    PmMessage Function()? message,
   }) =>
       PrxMessage$Data(
         message: message ?? this.message,
-        changes: changes ?? this.changes,
-        lookup: lookup ?? this.lookup,
-        get: get ?? this.get,
-        set: set ?? this.set,
       );
-  PrxMessage$Data<T, L> copyWithOpt({
-    PmMessageOfType<T> Function()? message,
-    Stream<Opt<T>> Function()? changes,
-    Lookup Function()? lookup,
-    Opt<T> Function()? get,
-    void Function(
-      Opt<T> value,
-    )?
-        set,
+  PrxMessage$Data copyWithOpt({
+    PmMessage Function()? message,
   }) =>
       PrxMessage$Data(
         message: message ?? this.message,
-        changes: changes ?? this.changes,
-        lookup: lookup ?? this.lookup,
-        get: get ?? this.get,
-        set: set ?? this.set,
       );
-  PrxMessage$Impl<T, L> asPrxMessage() => PrxMessage$Impl(
+  PrxMessage$Impl asPrxMessage() => PrxMessage$Impl(
         this,
       );
 }
 
 /// [PrxMessage]
-class PrxMessage$Data<T extends GeneratedMessage, L>
-    implements PrxMessage$IData<T, L> {
+class PrxMessage$Data implements PrxMessage$IData {
   PrxMessage$Data({
     required this.message,
-    required this.changes,
-    required this.lookup,
-    required this.get,
-    required this.set,
   });
   PrxMessage$Data.fromBase(
-    PrxMessage<T, L> base,
+    PrxMessage base,
   ) : this(
           message: base.message,
-          changes: () => base.changes,
-          lookup: () => base.lookup,
-          get: base.get,
-          set: base.set,
         );
-  final PmMessageOfType<T> Function() message;
-  final Stream<Opt<T>> Function() changes;
-  final Lookup Function() lookup;
-  final Opt<T> Function() get;
-  final void Function(
-    Opt<T> value,
-  ) set;
+  final PmMessage Function() message;
 }
 
-extension PrxMessage$Data$Ext<T extends GeneratedMessage, L>
-    on PrxMessage$Data<T, L> {
-  PrxMessage$Data<T, L> copyWith({
-    PmMessageOfType<T> Function()? message,
-    Stream<Opt<T>> Function()? changes,
-    Lookup Function()? lookup,
-    Opt<T> Function()? get,
-    void Function(
-      Opt<T> value,
-    )?
-        set,
+extension PrxMessage$Data$Ext on PrxMessage$Data {
+  PrxMessage$Data copyWith({
+    PmMessage Function()? message,
   }) =>
       PrxMessage$Data(
         message: message ?? this.message,
-        changes: changes ?? this.changes,
-        lookup: lookup ?? this.lookup,
-        get: get ?? this.get,
-        set: set ?? this.set,
       );
-  PrxMessage$Data<T, L> copyWithOpt({
-    PmMessageOfType<T> Function()? message,
-    Stream<Opt<T>> Function()? changes,
-    Lookup Function()? lookup,
-    Opt<T> Function()? get,
-    void Function(
-      Opt<T> value,
-    )?
-        set,
+  PrxMessage$Data copyWithOpt({
+    PmMessage Function()? message,
   }) =>
       PrxMessage$Data(
         message: message ?? this.message,
-        changes: changes ?? this.changes,
-        lookup: lookup ?? this.lookup,
-        get: get ?? this.get,
-        set: set ?? this.set,
       );
 }
 
 /// [PrxMessage]
-class PrxMessage$Ovr<T extends GeneratedMessage, L>
-    implements Ovr<PrxMessage$Data<T, L>> {
+class PrxMessage$Ovr implements Ovr<PrxMessage$Data> {
   PrxMessage$Ovr({
     required this.message,
-    required this.changes,
-    required this.lookup,
-    required this.get,
-    required this.set,
   });
-  final Opt<PmMessageOfType<T> Function()> message;
-  final Opt<Stream<Opt<T>> Function()> changes;
-  final Opt<Lookup Function()> lookup;
-  final Opt<Opt<T> Function()> get;
-  final Opt<
-      void Function(
-    Opt<T> value,
-  )> set;
-  PrxMessage$Data<T, L> override$(
-    PrxMessage$Data<T, L> overriden$,
+  final Opt<PmMessage Function()> message;
+  PrxMessage$Data override$(
+    PrxMessage$Data overriden$,
   ) =>
       PrxMessage$Data(
         message: message
-            .map<PmMessageOfType<T> Function()>(
+            .map<PmMessage Function()>(
                 (v) => v.overrideWith(overriden$.message))
             .orDefault(overriden$.message),
-        changes: changes
-            .map<Stream<Opt<T>> Function()>(
-                (v) => v.overrideWith(overriden$.changes))
-            .orDefault(overriden$.changes),
-        lookup: lookup
-            .map<Lookup Function()>((v) => v.overrideWith(overriden$.lookup))
-            .orDefault(overriden$.lookup),
-        get: get
-            .map<Opt<T> Function()>((v) => v.overrideWith(overriden$.get))
-            .orDefault(overriden$.get),
-        set: set
-            .map<
-                void Function(
-              Opt<T> value,
-            )>((v) => v.overrideWith(overriden$.set))
-            .orDefault(overriden$.set),
       );
 }
 
-class PrxMessage$Delegate<T extends GeneratedMessage, L>
-    extends PrxMessage<T, L> {
-  PrxMessage$Delegate(
+class PrxMessage$Delegate extends PrxMessage {
+  const PrxMessage$Delegate(
     this.delegate$,
   ) : super();
-  final PrxMessage<T, L> Function() delegate$;
-  PmMessageOfType<T> message() => delegate$().message();
-  Stream<Opt<T>> get changes => delegate$().changes;
-  Lookup get lookup => delegate$().lookup;
-  Opt<T> get() => delegate$().get();
-  void set(
-    Opt<T> value,
-  ) =>
-      delegate$().set(
-        value,
-      );
+  final PrxMessage Function() delegate$;
+  PmMessage message() => delegate$().message();
 }
 
 /// [PrxMessage]
@@ -748,56 +691,69 @@ extension Mk$PrxMessage$Ext on Mk {
 }
 
 extension PrxMessage$Factory$Ext on PrxMessage$Factory {
-  PrxMessage$Impl<T, L> call<T extends GeneratedMessage, L>({
-    required PmMessageOfType<T> Function() message,
-    required Stream<Opt<T>> Function() changes,
-    required Lookup Function() lookup,
-    required Opt<T> Function() get,
-    required void Function(
-      Opt<T> value,
-    )
-        set,
+  PrxMessage$Impl call({
+    required PmMessage Function() message,
   }) =>
       PrxMessage$Impl(
         PrxMessage$Data(
           message: message,
-          changes: changes,
-          lookup: lookup,
-          get: get,
-          set: set,
         ),
       );
-  PrxMessage$Impl<T, L> create<T extends GeneratedMessage, L>({
-    required PmMessageOfType<T> Function() message,
-    required Stream<Opt<T>> Function() changes,
-    required Lookup Function() lookup,
-    required Opt<T> Function() get,
-    required void Function(
-      Opt<T> value,
-    )
-        set,
+  PrxMessage$Impl create({
+    required PmMessage Function() message,
   }) =>
       PrxMessage$Impl(
         PrxMessage$Data(
           message: message,
-          changes: changes,
-          lookup: lookup,
-          get: get,
-          set: set,
         ),
       );
-  PrxMessage$Impl<T, L> data<T extends GeneratedMessage, L>({
-    required PmMessageOfType<T> Function() message,
-    required Stream<Opt<T>> changes,
-    required Lookup lookup,
-    required Opt<T> Function() get,
-    required void Function(
-      Opt<T> value,
-    )
-        set,
+  PrxMessage$Impl data({
+    required PmMessage Function() message,
   }) =>
       PrxMessage$Impl(
         PrxMessage$Data(
+          message: message,
+        ),
+      );
+  PrxMessage$Impl fromPrx({
+    required Prx prx,
+    required PmMessage Function() message,
+  }) =>
+      PrxMessage$Impl(
+        PrxMessage$Data(
+          message: message,
+        ),
+      );
+}
+
+/// [PrxMessageOfType]
+class PrxMessageOfType$Impl<M extends GeneratedMessage>
+    extends PrxMessageOfType<M> implements HasData<PrxMessageOfType$IData<M>> {
+  PrxMessageOfType$Impl(
+    this.data$,
+  ) : super();
+  final PrxMessageOfType$IData<M> data$;
+  PmMessageOfType<M> message() => data$.message();
+  Stream<Opt<M>> get changes => data$.changes();
+  Lookup get lookup => data$.lookup();
+  Opt<M> get() => data$.get();
+  void set(
+    Opt<M> value,
+  ) =>
+      data$.set(
+        value,
+      );
+}
+
+extension PrxMessageOfType$Impl$Ext<M extends GeneratedMessage>
+    on PrxMessageOfType$Impl<M> {}
+
+extension PrxMessageOfType$Ext<M extends GeneratedMessage>
+    on PrxMessageOfType<M> {
+  PrxMessageOfType$Impl<M> asImpl() =>
+      castOrCreate<PrxMessageOfType$Impl<M>>(() => wrap$());
+  PrxMessageOfType$Impl<M> wrap$() => PrxMessageOfType$Impl(
+        PrxMessageOfType$Data(
           message: message,
           changes: () => changes,
           lookup: () => lookup,
@@ -805,12 +761,358 @@ extension PrxMessage$Factory$Ext on PrxMessage$Factory {
           set: set,
         ),
       );
-  PrxMessage$Impl<T, L> fromRxVar<T extends GeneratedMessage, L>({
-    required HasData<RxVar$IData<Opt<T>>> rxVar,
-    required PmMessageOfType<T> Function() message,
+  PrxMessageOfType$Impl<M> get toImpl => asImpl();
+  PrxMessageOfType$Impl<M> copyWith({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
   }) =>
-      PrxMessage$Impl(
-        PrxMessage$Data(
+      HasData$PrxMessageOfType$Impl$Ext(toImpl).copyWith(
+        message: message,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      );
+  PrxMessageOfType$Impl<M> copyWithOpt({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
+  }) =>
+      HasData$PrxMessageOfType$Impl$Ext(toImpl).copyWithOpt(
+        message: message,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      );
+}
+
+/// [PrxMessageOfType]
+extension HasData$PrxMessageOfType$Impl$Ext<M extends GeneratedMessage>
+    on HasData<PrxMessageOfType$IData<M>> {
+  PmMessageOfType<M> message() => data$.message();
+  Stream<Opt<M>> get changes => data$.changes();
+  Lookup get lookup => data$.lookup();
+  Opt<M> get() => data$.get();
+  void set(
+    Opt<M> value,
+  ) =>
+      data$.set(
+        value,
+      );
+  PrxMessageOfType$Impl<M> asPrxMessageOfType() => PrxMessageOfType$Impl(
+        data$,
+      );
+  PrxMessageOfType$Impl<M> get toImpl => asPrxMessageOfType();
+  PrxMessageOfType$Impl<M> copyWith({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
+  }) =>
+      PrxMessageOfType$Impl(data$.copyWith(
+        message: message,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+  PrxMessageOfType$Impl<M> copyWithOpt({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
+  }) =>
+      PrxMessageOfType$Impl(data$.copyWithOpt(
+        message: message,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+}
+
+/// [PrxMessageOfType]
+abstract class PrxMessageOfType$IData<M extends GeneratedMessage>
+    implements RxVar$IData<Opt<M>> {
+  PrxMessageOfType$IData();
+  PmMessageOfType<M> Function() get message;
+  Stream<Opt<M>> Function() get changes;
+  Lookup Function() get lookup;
+  Opt<M> Function() get get;
+  void Function(
+    Opt<M> value,
+  ) get set;
+}
+
+/// [PrxMessageOfType]
+typedef IPrxMessageOfType<M extends GeneratedMessage>
+    = HasData<PrxMessageOfType$IData<M>>;
+
+extension PrxMessageOfType$IData$Ext<M extends GeneratedMessage>
+    on PrxMessageOfType$IData<M> {
+  PrxMessageOfType$Data<M> copyWith({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
+  }) =>
+      PrxMessageOfType$Data(
+        message: message ?? this.message,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  PrxMessageOfType$Data<M> copyWithOpt({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
+  }) =>
+      PrxMessageOfType$Data(
+        message: message ?? this.message,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  PrxMessageOfType$Impl<M> asPrxMessageOfType() => PrxMessageOfType$Impl(
+        this,
+      );
+}
+
+/// [PrxMessageOfType]
+class PrxMessageOfType$Data<M extends GeneratedMessage>
+    implements PrxMessageOfType$IData<M> {
+  PrxMessageOfType$Data({
+    required this.message,
+    required this.changes,
+    required this.lookup,
+    required this.get,
+    required this.set,
+  });
+  PrxMessageOfType$Data.fromBase(
+    PrxMessageOfType<M> base,
+  ) : this(
+          message: base.message,
+          changes: () => base.changes,
+          lookup: () => base.lookup,
+          get: base.get,
+          set: base.set,
+        );
+  final PmMessageOfType<M> Function() message;
+  final Stream<Opt<M>> Function() changes;
+  final Lookup Function() lookup;
+  final Opt<M> Function() get;
+  final void Function(
+    Opt<M> value,
+  ) set;
+}
+
+extension PrxMessageOfType$Data$Ext<M extends GeneratedMessage>
+    on PrxMessageOfType$Data<M> {
+  PrxMessageOfType$Data<M> copyWith({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
+  }) =>
+      PrxMessageOfType$Data(
+        message: message ?? this.message,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  PrxMessageOfType$Data<M> copyWithOpt({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
+  }) =>
+      PrxMessageOfType$Data(
+        message: message ?? this.message,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+}
+
+/// [PrxMessageOfType]
+class PrxMessageOfType$Ovr<M extends GeneratedMessage>
+    implements Ovr<PrxMessageOfType$Data<M>> {
+  PrxMessageOfType$Ovr({
+    required this.message,
+    required this.changes,
+    required this.lookup,
+    required this.get,
+    required this.set,
+  });
+  final Opt<PmMessageOfType<M> Function()> message;
+  final Opt<Stream<Opt<M>> Function()> changes;
+  final Opt<Lookup Function()> lookup;
+  final Opt<Opt<M> Function()> get;
+  final Opt<
+      void Function(
+    Opt<M> value,
+  )> set;
+  PrxMessageOfType$Data<M> override$(
+    PrxMessageOfType$Data<M> overriden$,
+  ) =>
+      PrxMessageOfType$Data(
+        message: message
+            .map<PmMessageOfType<M> Function()>(
+                (v) => v.overrideWith(overriden$.message))
+            .orDefault(overriden$.message),
+        changes: changes
+            .map<Stream<Opt<M>> Function()>(
+                (v) => v.overrideWith(overriden$.changes))
+            .orDefault(overriden$.changes),
+        lookup: lookup
+            .map<Lookup Function()>((v) => v.overrideWith(overriden$.lookup))
+            .orDefault(overriden$.lookup),
+        get: get
+            .map<Opt<M> Function()>((v) => v.overrideWith(overriden$.get))
+            .orDefault(overriden$.get),
+        set: set
+            .map<
+                void Function(
+              Opt<M> value,
+            )>((v) => v.overrideWith(overriden$.set))
+            .orDefault(overriden$.set),
+      );
+}
+
+class PrxMessageOfType$Delegate<M extends GeneratedMessage>
+    extends PrxMessageOfType<M> {
+  PrxMessageOfType$Delegate(
+    this.delegate$,
+  ) : super();
+  final PrxMessageOfType<M> Function() delegate$;
+  PmMessageOfType<M> message() => delegate$().message();
+  Stream<Opt<M>> get changes => delegate$().changes;
+  Lookup get lookup => delegate$().lookup;
+  Opt<M> get() => delegate$().get();
+  void set(
+    Opt<M> value,
+  ) =>
+      delegate$().set(
+        value,
+      );
+}
+
+/// [PrxMessageOfType]
+class PrxMessageOfType$Factory {
+  const PrxMessageOfType$Factory._();
+  static const instance = PrxMessageOfType$Factory._();
+}
+
+extension Mk$PrxMessageOfType$Ext on Mk {
+  PrxMessageOfType$Factory get PrxMessageOfType =>
+      PrxMessageOfType$Factory.instance;
+}
+
+extension PrxMessageOfType$Factory$Ext on PrxMessageOfType$Factory {
+  PrxMessageOfType$Impl<M> call<M extends GeneratedMessage>({
+    required PmMessageOfType<M> Function() message,
+    required Stream<Opt<M>> Function() changes,
+    required Lookup Function() lookup,
+    required Opt<M> Function() get,
+    required void Function(
+      Opt<M> value,
+    )
+        set,
+  }) =>
+      PrxMessageOfType$Impl(
+        PrxMessageOfType$Data(
+          message: message,
+          changes: changes,
+          lookup: lookup,
+          get: get,
+          set: set,
+        ),
+      );
+  PrxMessageOfType$Impl<M> create<M extends GeneratedMessage>({
+    required PmMessageOfType<M> Function() message,
+    required Stream<Opt<M>> Function() changes,
+    required Lookup Function() lookup,
+    required Opt<M> Function() get,
+    required void Function(
+      Opt<M> value,
+    )
+        set,
+  }) =>
+      PrxMessageOfType$Impl(
+        PrxMessageOfType$Data(
+          message: message,
+          changes: changes,
+          lookup: lookup,
+          get: get,
+          set: set,
+        ),
+      );
+  PrxMessageOfType$Impl<M> data<M extends GeneratedMessage>({
+    required PmMessageOfType<M> Function() message,
+    required Stream<Opt<M>> changes,
+    required Lookup lookup,
+    required Opt<M> Function() get,
+    required void Function(
+      Opt<M> value,
+    )
+        set,
+  }) =>
+      PrxMessageOfType$Impl(
+        PrxMessageOfType$Data(
+          message: message,
+          changes: () => changes,
+          lookup: () => lookup,
+          get: get,
+          set: set,
+        ),
+      );
+  PrxMessageOfType$Impl<M> fromRxVar<M extends GeneratedMessage>({
+    required HasData<RxVar$IData<Opt<M>>> rxVar,
+    required PmMessageOfType<M> Function() message,
+  }) =>
+      PrxMessageOfType$Impl(
+        PrxMessageOfType$Data(
           changes: rxVar.data$.changes,
           lookup: rxVar.data$.lookup,
           get: rxVar.data$.get,
@@ -818,16 +1120,16 @@ extension PrxMessage$Factory$Ext on PrxMessage$Factory {
           message: message,
         ),
       );
-  PrxMessage$Impl<T, L> fromRxVal<T extends GeneratedMessage, L>({
-    required HasData<RxVal$IData<Opt<T>>> rxVal,
-    required PmMessageOfType<T> Function() message,
+  PrxMessageOfType$Impl<M> fromRxVal<M extends GeneratedMessage>({
+    required HasData<RxVal$IData<Opt<M>>> rxVal,
+    required PmMessageOfType<M> Function() message,
     required void Function(
-      Opt<T> value,
+      Opt<M> value,
     )
         set,
   }) =>
-      PrxMessage$Impl(
-        PrxMessage$Data(
+      PrxMessageOfType$Impl(
+        PrxMessageOfType$Data(
           changes: rxVal.data$.changes,
           lookup: rxVal.data$.lookup,
           get: rxVal.data$.get,
@@ -835,18 +1137,18 @@ extension PrxMessage$Factory$Ext on PrxMessage$Factory {
           set: set,
         ),
       );
-  PrxMessage$Impl<T, L> fromGetter<T extends GeneratedMessage, L>({
-    required Getter<Opt<T>> getter,
-    required PmMessageOfType<T> Function() message,
-    required Stream<Opt<T>> Function() changes,
+  PrxMessageOfType$Impl<M> fromGetter<M extends GeneratedMessage>({
+    required Getter<Opt<M>> getter,
+    required PmMessageOfType<M> Function() message,
+    required Stream<Opt<M>> Function() changes,
     required Lookup Function() lookup,
     required void Function(
-      Opt<T> value,
+      Opt<M> value,
     )
         set,
   }) =>
-      PrxMessage$Impl(
-        PrxMessage$Data(
+      PrxMessageOfType$Impl(
+        PrxMessageOfType$Data(
           get: getter.get,
           message: message,
           changes: changes,
@@ -854,14 +1156,14 @@ extension PrxMessage$Factory$Ext on PrxMessage$Factory {
           set: set,
         ),
       );
-  PrxMessage$Impl<T, L> fromVariable<T extends GeneratedMessage, L>({
-    required Variable<Opt<T>> variable,
-    required PmMessageOfType<T> Function() message,
-    required Stream<Opt<T>> Function() changes,
+  PrxMessageOfType$Impl<M> fromVariable<M extends GeneratedMessage>({
+    required Variable<Opt<M>> variable,
+    required PmMessageOfType<M> Function() message,
+    required Stream<Opt<M>> Function() changes,
     required Lookup Function() lookup,
   }) =>
-      PrxMessage$Impl(
-        PrxMessage$Data(
+      PrxMessageOfType$Impl(
+        PrxMessageOfType$Data(
           get: variable.get,
           set: variable.set,
           message: message,
@@ -869,15 +1171,15 @@ extension PrxMessage$Factory$Ext on PrxMessage$Factory {
           lookup: lookup,
         ),
       );
-  PrxMessage$Impl<T, L> fromSetter<T extends GeneratedMessage, L>({
-    required Setter<Opt<T>> setter,
-    required PmMessageOfType<T> Function() message,
-    required Stream<Opt<T>> Function() changes,
+  PrxMessageOfType$Impl<M> fromSetter<M extends GeneratedMessage>({
+    required Setter<Opt<M>> setter,
+    required PmMessageOfType<M> Function() message,
+    required Stream<Opt<M>> Function() changes,
     required Lookup Function() lookup,
-    required Opt<T> Function() get,
+    required Opt<M> Function() get,
   }) =>
-      PrxMessage$Impl(
-        PrxMessage$Data(
+      PrxMessageOfType$Impl(
+        PrxMessageOfType$Data(
           set: setter.set,
           message: message,
           changes: changes,
@@ -885,19 +1187,531 @@ extension PrxMessage$Factory$Ext on PrxMessage$Factory {
           get: get,
         ),
       );
-  PrxMessage$Impl<T, L> fromPrxOfLib<T extends GeneratedMessage, L>({
-    required PrxOfLib<L> prxOfLib,
-    required PmMessageOfType<T> Function() message,
-    required Stream<Opt<T>> Function() changes,
+}
+
+/// [PrxMessageOfLib]
+class PrxMessageOfLib$Impl<L> extends PrxMessageOfLib<L>
+    implements HasData<PrxMessageOfLib$IData<L>> {
+  PrxMessageOfLib$Impl(
+    this.data$,
+  ) : super();
+  final PrxMessageOfLib$IData<L> data$;
+  PmMessage message() => data$.message();
+}
+
+extension PrxMessageOfLib$Impl$Ext<L> on PrxMessageOfLib$Impl<L> {}
+
+extension PrxMessageOfLib$Ext<L> on PrxMessageOfLib<L> {
+  PrxMessageOfLib$Impl<L> asImpl() =>
+      castOrCreate<PrxMessageOfLib$Impl<L>>(() => wrap$());
+  PrxMessageOfLib$Impl<L> wrap$() => PrxMessageOfLib$Impl(
+        PrxMessageOfLib$Data(
+          message: message,
+        ),
+      );
+  PrxMessageOfLib$Impl<L> get toImpl => asImpl();
+  PrxMessageOfLib$Impl<L> copyWith({
+    PmMessage Function()? message,
+  }) =>
+      HasData$PrxMessageOfLib$Impl$Ext(toImpl).copyWith(
+        message: message,
+      );
+  PrxMessageOfLib$Impl<L> copyWithOpt({
+    PmMessage Function()? message,
+  }) =>
+      HasData$PrxMessageOfLib$Impl$Ext(toImpl).copyWithOpt(
+        message: message,
+      );
+}
+
+/// [PrxMessageOfLib]
+extension HasData$PrxMessageOfLib$Impl$Ext<L>
+    on HasData<PrxMessageOfLib$IData<L>> {
+  PmMessage message() => data$.message();
+  PrxMessageOfLib$Impl<L> asPrxMessageOfLib() => PrxMessageOfLib$Impl(
+        data$,
+      );
+  PrxMessageOfLib$Impl<L> get toImpl => asPrxMessageOfLib();
+  PrxMessageOfLib$Impl<L> copyWith({
+    PmMessage Function()? message,
+  }) =>
+      PrxMessageOfLib$Impl(data$.copyWith(
+        message: message,
+      ));
+  PrxMessageOfLib$Impl<L> copyWithOpt({
+    PmMessage Function()? message,
+  }) =>
+      PrxMessageOfLib$Impl(data$.copyWithOpt(
+        message: message,
+      ));
+}
+
+/// [PrxMessageOfLib]
+abstract class PrxMessageOfLib$IData<L> implements PrxOfLib$IData<L> {
+  PrxMessageOfLib$IData();
+  PmMessage Function() get message;
+}
+
+/// [PrxMessageOfLib]
+typedef IPrxMessageOfLib<L> = HasData<PrxMessageOfLib$IData<L>>;
+
+extension PrxMessageOfLib$IData$Ext<L> on PrxMessageOfLib$IData<L> {
+  PrxMessageOfLib$Data<L> copyWith({
+    PmMessage Function()? message,
+  }) =>
+      PrxMessageOfLib$Data(
+        message: message ?? this.message,
+      );
+  PrxMessageOfLib$Data<L> copyWithOpt({
+    PmMessage Function()? message,
+  }) =>
+      PrxMessageOfLib$Data(
+        message: message ?? this.message,
+      );
+  PrxMessageOfLib$Impl<L> asPrxMessageOfLib() => PrxMessageOfLib$Impl(
+        this,
+      );
+}
+
+/// [PrxMessageOfLib]
+class PrxMessageOfLib$Data<L> implements PrxMessageOfLib$IData<L> {
+  PrxMessageOfLib$Data({
+    required this.message,
+  });
+  PrxMessageOfLib$Data.fromBase(
+    PrxMessageOfLib<L> base,
+  ) : this(
+          message: base.message,
+        );
+  final PmMessage Function() message;
+}
+
+extension PrxMessageOfLib$Data$Ext<L> on PrxMessageOfLib$Data<L> {
+  PrxMessageOfLib$Data<L> copyWith({
+    PmMessage Function()? message,
+  }) =>
+      PrxMessageOfLib$Data(
+        message: message ?? this.message,
+      );
+  PrxMessageOfLib$Data<L> copyWithOpt({
+    PmMessage Function()? message,
+  }) =>
+      PrxMessageOfLib$Data(
+        message: message ?? this.message,
+      );
+}
+
+/// [PrxMessageOfLib]
+class PrxMessageOfLib$Ovr<L> implements Ovr<PrxMessageOfLib$Data<L>> {
+  PrxMessageOfLib$Ovr({
+    required this.message,
+  });
+  final Opt<PmMessage Function()> message;
+  PrxMessageOfLib$Data<L> override$(
+    PrxMessageOfLib$Data<L> overriden$,
+  ) =>
+      PrxMessageOfLib$Data(
+        message: message
+            .map<PmMessage Function()>(
+                (v) => v.overrideWith(overriden$.message))
+            .orDefault(overriden$.message),
+      );
+}
+
+class PrxMessageOfLib$Delegate<L> extends PrxMessageOfLib<L> {
+  PrxMessageOfLib$Delegate(
+    this.delegate$,
+  ) : super();
+  final PrxMessageOfLib<L> Function() delegate$;
+  PmMessage message() => delegate$().message();
+}
+
+/// [PrxMessageOfLib]
+class PrxMessageOfLib$Factory {
+  const PrxMessageOfLib$Factory._();
+  static const instance = PrxMessageOfLib$Factory._();
+}
+
+extension Mk$PrxMessageOfLib$Ext on Mk {
+  PrxMessageOfLib$Factory get PrxMessageOfLib =>
+      PrxMessageOfLib$Factory.instance;
+}
+
+extension PrxMessageOfLib$Factory$Ext on PrxMessageOfLib$Factory {
+  PrxMessageOfLib$Impl<L> call<L>({
+    required PmMessage Function() message,
+  }) =>
+      PrxMessageOfLib$Impl(
+        PrxMessageOfLib$Data(
+          message: message,
+        ),
+      );
+  PrxMessageOfLib$Impl<L> create<L>({
+    required PmMessage Function() message,
+  }) =>
+      PrxMessageOfLib$Impl(
+        PrxMessageOfLib$Data(
+          message: message,
+        ),
+      );
+  PrxMessageOfLib$Impl<L> data<L>({
+    required PmMessage Function() message,
+  }) =>
+      PrxMessageOfLib$Impl(
+        PrxMessageOfLib$Data(
+          message: message,
+        ),
+      );
+  PrxMessageOfLib$Impl<L> fromPrxOfLib<L>({
+    required HasData<PrxOfLib$IData<L>> prxOfLib,
+    required PmMessage Function() message,
+  }) =>
+      PrxMessageOfLib$Impl(
+        PrxMessageOfLib$Data(
+          message: message,
+        ),
+      );
+}
+
+/// [PrxMessageBase]
+class PrxMessageBase$Impl<M extends GeneratedMessage, L>
+    extends PrxMessageBase<M, L>
+    implements HasData<PrxMessageBase$IData<M, L>> {
+  PrxMessageBase$Impl(
+    this.data$,
+  ) : super();
+  final PrxMessageBase$IData<M, L> data$;
+  PmMessageOfType<M> message() => data$.message();
+  Stream<Opt<M>> get changes => data$.changes();
+  Lookup get lookup => data$.lookup();
+  Opt<M> get() => data$.get();
+  void set(
+    Opt<M> value,
+  ) =>
+      data$.set(
+        value,
+      );
+}
+
+extension PrxMessageBase$Impl$Ext<M extends GeneratedMessage, L>
+    on PrxMessageBase$Impl<M, L> {}
+
+extension PrxMessageBase$Ext<M extends GeneratedMessage, L>
+    on PrxMessageBase<M, L> {
+  PrxMessageBase$Impl<M, L> asImpl() =>
+      castOrCreate<PrxMessageBase$Impl<M, L>>(() => wrap$());
+  PrxMessageBase$Impl<M, L> wrap$() => PrxMessageBase$Impl(
+        PrxMessageBase$Data(
+          message: message,
+          changes: () => changes,
+          lookup: () => lookup,
+          get: get,
+          set: set,
+        ),
+      );
+  PrxMessageBase$Impl<M, L> get toImpl => asImpl();
+  PrxMessageBase$Impl<M, L> copyWith({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
+  }) =>
+      HasData$PrxMessageBase$Impl$Ext(toImpl).copyWith(
+        message: message,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      );
+  PrxMessageBase$Impl<M, L> copyWithOpt({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
+  }) =>
+      HasData$PrxMessageBase$Impl$Ext(toImpl).copyWithOpt(
+        message: message,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      );
+}
+
+/// [PrxMessageBase]
+extension HasData$PrxMessageBase$Impl$Ext<M extends GeneratedMessage, L>
+    on HasData<PrxMessageBase$IData<M, L>> {
+  PmMessageOfType<M> message() => data$.message();
+  Stream<Opt<M>> get changes => data$.changes();
+  Lookup get lookup => data$.lookup();
+  Opt<M> get() => data$.get();
+  void set(
+    Opt<M> value,
+  ) =>
+      data$.set(
+        value,
+      );
+  PrxMessageBase$Impl<M, L> asPrxMessageBase() => PrxMessageBase$Impl(
+        data$,
+      );
+  PrxMessageBase$Impl<M, L> get toImpl => asPrxMessageBase();
+  PrxMessageBase$Impl<M, L> copyWith({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
+  }) =>
+      PrxMessageBase$Impl(data$.copyWith(
+        message: message,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+  PrxMessageBase$Impl<M, L> copyWithOpt({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
+  }) =>
+      PrxMessageBase$Impl(data$.copyWithOpt(
+        message: message,
+        changes: changes,
+        lookup: lookup,
+        get: get,
+        set: set,
+      ));
+}
+
+/// [PrxMessageBase]
+abstract class PrxMessageBase$IData<M extends GeneratedMessage, L>
+    implements
+        PrxMessage$IData,
+        PrxMessageOfType$IData<M>,
+        PrxMessageOfLib$IData<L> {
+  PrxMessageBase$IData();
+  PmMessageOfType<M> Function() get message;
+  Stream<Opt<M>> Function() get changes;
+  Lookup Function() get lookup;
+  Opt<M> Function() get get;
+  void Function(
+    Opt<M> value,
+  ) get set;
+}
+
+/// [PrxMessageBase]
+typedef IPrxMessageBase<M extends GeneratedMessage, L>
+    = HasData<PrxMessageBase$IData<M, L>>;
+
+extension PrxMessageBase$IData$Ext<M extends GeneratedMessage, L>
+    on PrxMessageBase$IData<M, L> {
+  PrxMessageBase$Data<M, L> copyWith({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
+  }) =>
+      PrxMessageBase$Data(
+        message: message ?? this.message,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  PrxMessageBase$Data<M, L> copyWithOpt({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
+  }) =>
+      PrxMessageBase$Data(
+        message: message ?? this.message,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  PrxMessageBase$Impl<M, L> asPrxMessageBase() => PrxMessageBase$Impl(
+        this,
+      );
+}
+
+/// [PrxMessageBase]
+class PrxMessageBase$Data<M extends GeneratedMessage, L>
+    implements PrxMessageBase$IData<M, L> {
+  PrxMessageBase$Data({
+    required this.message,
+    required this.changes,
+    required this.lookup,
+    required this.get,
+    required this.set,
+  });
+  PrxMessageBase$Data.fromBase(
+    PrxMessageBase<M, L> base,
+  ) : this(
+          message: base.message,
+          changes: () => base.changes,
+          lookup: () => base.lookup,
+          get: base.get,
+          set: base.set,
+        );
+  final PmMessageOfType<M> Function() message;
+  final Stream<Opt<M>> Function() changes;
+  final Lookup Function() lookup;
+  final Opt<M> Function() get;
+  final void Function(
+    Opt<M> value,
+  ) set;
+}
+
+extension PrxMessageBase$Data$Ext<M extends GeneratedMessage, L>
+    on PrxMessageBase$Data<M, L> {
+  PrxMessageBase$Data<M, L> copyWith({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
+  }) =>
+      PrxMessageBase$Data(
+        message: message ?? this.message,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+  PrxMessageBase$Data<M, L> copyWithOpt({
+    PmMessageOfType<M> Function()? message,
+    Stream<Opt<M>> Function()? changes,
+    Lookup Function()? lookup,
+    Opt<M> Function()? get,
+    void Function(
+      Opt<M> value,
+    )?
+        set,
+  }) =>
+      PrxMessageBase$Data(
+        message: message ?? this.message,
+        changes: changes ?? this.changes,
+        lookup: lookup ?? this.lookup,
+        get: get ?? this.get,
+        set: set ?? this.set,
+      );
+}
+
+/// [PrxMessageBase]
+class PrxMessageBase$Ovr<M extends GeneratedMessage, L>
+    implements Ovr<PrxMessageBase$Data<M, L>> {
+  PrxMessageBase$Ovr({
+    required this.message,
+    required this.changes,
+    required this.lookup,
+    required this.get,
+    required this.set,
+  });
+  final Opt<PmMessageOfType<M> Function()> message;
+  final Opt<Stream<Opt<M>> Function()> changes;
+  final Opt<Lookup Function()> lookup;
+  final Opt<Opt<M> Function()> get;
+  final Opt<
+      void Function(
+    Opt<M> value,
+  )> set;
+  PrxMessageBase$Data<M, L> override$(
+    PrxMessageBase$Data<M, L> overriden$,
+  ) =>
+      PrxMessageBase$Data(
+        message: message
+            .map<PmMessageOfType<M> Function()>(
+                (v) => v.overrideWith(overriden$.message))
+            .orDefault(overriden$.message),
+        changes: changes
+            .map<Stream<Opt<M>> Function()>(
+                (v) => v.overrideWith(overriden$.changes))
+            .orDefault(overriden$.changes),
+        lookup: lookup
+            .map<Lookup Function()>((v) => v.overrideWith(overriden$.lookup))
+            .orDefault(overriden$.lookup),
+        get: get
+            .map<Opt<M> Function()>((v) => v.overrideWith(overriden$.get))
+            .orDefault(overriden$.get),
+        set: set
+            .map<
+                void Function(
+              Opt<M> value,
+            )>((v) => v.overrideWith(overriden$.set))
+            .orDefault(overriden$.set),
+      );
+}
+
+class PrxMessageBase$Delegate<M extends GeneratedMessage, L>
+    extends PrxMessageBase<M, L> {
+  PrxMessageBase$Delegate(
+    this.delegate$,
+  ) : super();
+  final PrxMessageBase<M, L> Function() delegate$;
+  PmMessageOfType<M> message() => delegate$().message();
+  Stream<Opt<M>> get changes => delegate$().changes;
+  Lookup get lookup => delegate$().lookup;
+  Opt<M> get() => delegate$().get();
+  void set(
+    Opt<M> value,
+  ) =>
+      delegate$().set(
+        value,
+      );
+}
+
+/// [PrxMessageBase]
+class PrxMessageBase$Factory {
+  const PrxMessageBase$Factory._();
+  static const instance = PrxMessageBase$Factory._();
+}
+
+extension Mk$PrxMessageBase$Ext on Mk {
+  PrxMessageBase$Factory get PrxMessageBase => PrxMessageBase$Factory.instance;
+}
+
+extension PrxMessageBase$Factory$Ext on PrxMessageBase$Factory {
+  PrxMessageBase$Impl<M, L> call<M extends GeneratedMessage, L>({
+    required PmMessageOfType<M> Function() message,
+    required Stream<Opt<M>> Function() changes,
     required Lookup Function() lookup,
-    required Opt<T> Function() get,
+    required Opt<M> Function() get,
     required void Function(
-      Opt<T> value,
+      Opt<M> value,
     )
         set,
   }) =>
-      PrxMessage$Impl(
-        PrxMessage$Data(
+      PrxMessageBase$Impl(
+        PrxMessageBase$Data(
           message: message,
           changes: changes,
           lookup: lookup,
@@ -905,102 +1719,176 @@ extension PrxMessage$Factory$Ext on PrxMessage$Factory {
           set: set,
         ),
       );
-}
-
-/// [Prx]
-class Prx$Impl extends Prx implements HasData<Prx$IData> {
-  Prx$Impl(
-    this.data$,
-  ) : super();
-  final Prx$IData data$;
-}
-
-extension Prx$Impl$Ext on Prx$Impl {}
-
-extension Prx$Ext on Prx {
-  Prx$Impl asImpl() => castOrCreate<Prx$Impl>(() => wrap$());
-  Prx$Impl wrap$() => Prx$Impl(
-        Prx$Data(),
+  PrxMessageBase$Impl<M, L> create<M extends GeneratedMessage, L>({
+    required PmMessageOfType<M> Function() message,
+    required Stream<Opt<M>> Function() changes,
+    required Lookup Function() lookup,
+    required Opt<M> Function() get,
+    required void Function(
+      Opt<M> value,
+    )
+        set,
+  }) =>
+      PrxMessageBase$Impl(
+        PrxMessageBase$Data(
+          message: message,
+          changes: changes,
+          lookup: lookup,
+          get: get,
+          set: set,
+        ),
       );
-  Prx$Impl get toImpl => asImpl();
-  Prx$Impl copyWith() => HasData$Prx$Impl$Ext(toImpl).copyWith();
-  Prx$Impl copyWithOpt() => HasData$Prx$Impl$Ext(toImpl).copyWithOpt();
-}
-
-/// [Prx]
-extension HasData$Prx$Impl$Ext on HasData<Prx$IData> {
-  Prx$Impl asPrx() => Prx$Impl(
-        data$,
+  PrxMessageBase$Impl<M, L> data<M extends GeneratedMessage, L>({
+    required PmMessageOfType<M> Function() message,
+    required Stream<Opt<M>> changes,
+    required Lookup lookup,
+    required Opt<M> Function() get,
+    required void Function(
+      Opt<M> value,
+    )
+        set,
+  }) =>
+      PrxMessageBase$Impl(
+        PrxMessageBase$Data(
+          message: message,
+          changes: () => changes,
+          lookup: () => lookup,
+          get: get,
+          set: set,
+        ),
       );
-  Prx$Impl get toImpl => asPrx();
-  Prx$Impl copyWith() => Prx$Impl(data$.copyWith());
-  Prx$Impl copyWithOpt() => Prx$Impl(data$.copyWithOpt());
-}
-
-/// [Prx]
-abstract class Prx$IData {
-  Prx$IData();
-}
-
-/// [Prx]
-typedef IPrx = HasData<Prx$IData>;
-
-extension Prx$IData$Ext on Prx$IData {
-  Prx$Data copyWith() => Prx$Data();
-  Prx$Data copyWithOpt() => Prx$Data();
-  Prx$Impl asPrx() => Prx$Impl(
-        this,
+  PrxMessageBase$Impl<M, L> fromPrx<M extends GeneratedMessage, L>({
+    required Prx prx,
+    required PmMessageOfType<M> Function() message,
+    required Stream<Opt<M>> Function() changes,
+    required Lookup Function() lookup,
+    required Opt<M> Function() get,
+    required void Function(
+      Opt<M> value,
+    )
+        set,
+  }) =>
+      PrxMessageBase$Impl(
+        PrxMessageBase$Data(
+          message: message,
+          changes: changes,
+          lookup: lookup,
+          get: get,
+          set: set,
+        ),
       );
-}
-
-/// [Prx]
-class Prx$Data implements Prx$IData {
-  Prx$Data();
-  Prx$Data.fromBase(
-    Prx base,
-  ) : this();
-}
-
-extension Prx$Data$Ext on Prx$Data {
-  Prx$Data copyWith() => Prx$Data();
-  Prx$Data copyWithOpt() => Prx$Data();
-}
-
-/// [Prx]
-class Prx$Ovr implements Ovr<Prx$Data> {
-  Prx$Ovr();
-  Prx$Data override$(
-    Prx$Data overriden$,
-  ) =>
-      Prx$Data();
-}
-
-class Prx$Delegate extends Prx {
-  Prx$Delegate(
-    this.delegate$,
-  ) : super();
-  final Prx Function() delegate$;
-}
-
-/// [Prx]
-class Prx$Factory {
-  const Prx$Factory._();
-  static const instance = Prx$Factory._();
-}
-
-extension Mk$Prx$Ext on Mk {
-  Prx$Factory get Prx => Prx$Factory.instance;
-}
-
-extension Prx$Factory$Ext on Prx$Factory {
-  Prx$Impl call() => Prx$Impl(
-        Prx$Data(),
+  PrxMessageBase$Impl<M, L>
+      fromPrxMessageOfType<M extends GeneratedMessage, L>({
+    required HasData<PrxMessageOfType$IData<M>> prxMessageOfType,
+  }) =>
+          PrxMessageBase$Impl(
+            PrxMessageBase$Data(
+              message: prxMessageOfType.data$.message,
+              changes: prxMessageOfType.data$.changes,
+              lookup: prxMessageOfType.data$.lookup,
+              get: prxMessageOfType.data$.get,
+              set: prxMessageOfType.data$.set,
+            ),
+          );
+  PrxMessageBase$Impl<M, L> fromRxVar<M extends GeneratedMessage, L>({
+    required HasData<RxVar$IData<Opt<M>>> rxVar,
+    required PmMessageOfType<M> Function() message,
+  }) =>
+      PrxMessageBase$Impl(
+        PrxMessageBase$Data(
+          changes: rxVar.data$.changes,
+          lookup: rxVar.data$.lookup,
+          get: rxVar.data$.get,
+          set: rxVar.data$.set,
+          message: message,
+        ),
       );
-  Prx$Impl create() => Prx$Impl(
-        Prx$Data(),
+  PrxMessageBase$Impl<M, L> fromRxVal<M extends GeneratedMessage, L>({
+    required HasData<RxVal$IData<Opt<M>>> rxVal,
+    required PmMessageOfType<M> Function() message,
+    required void Function(
+      Opt<M> value,
+    )
+        set,
+  }) =>
+      PrxMessageBase$Impl(
+        PrxMessageBase$Data(
+          changes: rxVal.data$.changes,
+          lookup: rxVal.data$.lookup,
+          get: rxVal.data$.get,
+          message: message,
+          set: set,
+        ),
       );
-  Prx$Impl data() => Prx$Impl(
-        Prx$Data(),
+  PrxMessageBase$Impl<M, L> fromGetter<M extends GeneratedMessage, L>({
+    required Getter<Opt<M>> getter,
+    required PmMessageOfType<M> Function() message,
+    required Stream<Opt<M>> Function() changes,
+    required Lookup Function() lookup,
+    required void Function(
+      Opt<M> value,
+    )
+        set,
+  }) =>
+      PrxMessageBase$Impl(
+        PrxMessageBase$Data(
+          get: getter.get,
+          message: message,
+          changes: changes,
+          lookup: lookup,
+          set: set,
+        ),
+      );
+  PrxMessageBase$Impl<M, L> fromVariable<M extends GeneratedMessage, L>({
+    required Variable<Opt<M>> variable,
+    required PmMessageOfType<M> Function() message,
+    required Stream<Opt<M>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      PrxMessageBase$Impl(
+        PrxMessageBase$Data(
+          get: variable.get,
+          set: variable.set,
+          message: message,
+          changes: changes,
+          lookup: lookup,
+        ),
+      );
+  PrxMessageBase$Impl<M, L> fromSetter<M extends GeneratedMessage, L>({
+    required Setter<Opt<M>> setter,
+    required PmMessageOfType<M> Function() message,
+    required Stream<Opt<M>> Function() changes,
+    required Lookup Function() lookup,
+    required Opt<M> Function() get,
+  }) =>
+      PrxMessageBase$Impl(
+        PrxMessageBase$Data(
+          set: setter.set,
+          message: message,
+          changes: changes,
+          lookup: lookup,
+          get: get,
+        ),
+      );
+  PrxMessageBase$Impl<M, L> fromPrxOfLib<M extends GeneratedMessage, L>({
+    required HasData<PrxOfLib$IData<L>> prxOfLib,
+    required PmMessageOfType<M> Function() message,
+    required Stream<Opt<M>> Function() changes,
+    required Lookup Function() lookup,
+    required Opt<M> Function() get,
+    required void Function(
+      Opt<M> value,
+    )
+        set,
+  }) =>
+      PrxMessageBase$Impl(
+        PrxMessageBase$Data(
+          message: message,
+          changes: changes,
+          lookup: lookup,
+          get: get,
+          set: set,
+        ),
       );
 }
 
@@ -1082,7 +1970,7 @@ extension HasData$PrxOfType$Impl$Ext<T> on HasData<PrxOfType$IData<T>> {
 }
 
 /// [PrxOfType]
-abstract class PrxOfType$IData<T> implements Prx$IData, RxVal$IData<Opt<T>> {
+abstract class PrxOfType$IData<T> implements RxVal$IData<Opt<T>> {
   PrxOfType$IData();
   Stream<Opt<T>> Function() get changes;
   Lookup Function() get lookup;
@@ -1241,19 +2129,6 @@ extension PrxOfType$Factory$Ext on PrxOfType$Factory {
         PrxOfType$Data(
           changes: () => changes,
           lookup: () => lookup,
-          get: get,
-        ),
-      );
-  PrxOfType$Impl<T> fromPrx<T>({
-    required HasData<Prx$IData> prx,
-    required Stream<Opt<T>> Function() changes,
-    required Lookup Function() lookup,
-    required Opt<T> Function() get,
-  }) =>
-      PrxOfType$Impl(
-        PrxOfType$Data(
-          changes: changes,
-          lookup: lookup,
           get: get,
         ),
       );
@@ -1632,24 +2507,6 @@ extension PrxCollectionOfType$Factory$Ext on PrxCollectionOfType$Factory {
           lookup: prxOfType.data$.lookup,
           get: prxOfType.data$.get,
           rebuild: rebuild,
-        ),
-      );
-  PrxCollectionOfType$Impl<C> fromPrx<C>({
-    required HasData<Prx$IData> prx,
-    required void Function(
-      void Function(C) updates,
-    )
-        rebuild,
-    required Stream<Opt<C>> Function() changes,
-    required Lookup Function() lookup,
-    required Opt<C> Function() get,
-  }) =>
-      PrxCollectionOfType$Impl(
-        PrxCollectionOfType$Data(
-          rebuild: rebuild,
-          changes: changes,
-          lookup: lookup,
-          get: get,
         ),
       );
   PrxCollectionOfType$Impl<C> fromRxVal<C>({
@@ -2035,24 +2892,6 @@ extension PrxSingleOfType$Factory$Ext on PrxSingleOfType$Factory {
           changes: prxOfType.data$.changes,
           lookup: prxOfType.data$.lookup,
           get: prxOfType.data$.get,
-          set: set,
-        ),
-      );
-  PrxSingleOfType$Impl<V> fromPrx<V>({
-    required HasData<Prx$IData> prx,
-    required Stream<Opt<V>> Function() changes,
-    required Lookup Function() lookup,
-    required Opt<V> Function() get,
-    required void Function(
-      Opt<V> value,
-    )
-        set,
-  }) =>
-      PrxSingleOfType$Impl(
-        PrxSingleOfType$Data(
-          changes: changes,
-          lookup: lookup,
-          get: get,
           set: set,
         ),
       );
@@ -2510,22 +3349,6 @@ extension PrxCollectionFieldOfType$Factory$Ext
           rebuild: rebuild,
         ),
       );
-  PrxCollectionFieldOfType$Impl<C> fromPrxFieldOfType<C>({
-    required PrxFieldOfType<C> prxFieldOfType,
-    required void Function(
-      void Function(C) updates,
-    )
-        rebuild,
-  }) =>
-      PrxCollectionFieldOfType$Impl(
-        PrxCollectionFieldOfType$Data(
-          field: prxFieldOfType.field,
-          changes: () => prxFieldOfType.changes,
-          lookup: () => prxFieldOfType.lookup,
-          get: prxFieldOfType.get,
-          rebuild: rebuild,
-        ),
-      );
   PrxCollectionFieldOfType$Impl<C> fromPrxField<C>({
     required PrxField prxField,
     required Stream<Opt<C>> Function() changes,
@@ -2545,25 +3368,8 @@ extension PrxCollectionFieldOfType$Factory$Ext
           rebuild: rebuild,
         ),
       );
-  PrxCollectionFieldOfType$Impl<C> fromPrxOfType<C>({
-    required HasData<PrxOfType$IData<C>> prxOfType,
-    required HasFieldPath Function() field,
-    required void Function(
-      void Function(C) updates,
-    )
-        rebuild,
-  }) =>
-      PrxCollectionFieldOfType$Impl(
-        PrxCollectionFieldOfType$Data(
-          changes: prxOfType.data$.changes,
-          lookup: prxOfType.data$.lookup,
-          get: prxOfType.data$.get,
-          field: field,
-          rebuild: rebuild,
-        ),
-      );
   PrxCollectionFieldOfType$Impl<C> fromPrx<C>({
-    required HasData<Prx$IData> prx,
+    required Prx prx,
     required HasFieldPath Function() field,
     required Stream<Opt<C>> Function() changes,
     required Lookup Function() lookup,
@@ -2579,6 +3385,39 @@ extension PrxCollectionFieldOfType$Factory$Ext
           changes: changes,
           lookup: lookup,
           get: get,
+          rebuild: rebuild,
+        ),
+      );
+  PrxCollectionFieldOfType$Impl<C> fromPrxFieldOfType<C>({
+    required PrxFieldOfType<C> prxFieldOfType,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
+  }) =>
+      PrxCollectionFieldOfType$Impl(
+        PrxCollectionFieldOfType$Data(
+          field: prxFieldOfType.field,
+          changes: () => prxFieldOfType.changes,
+          lookup: () => prxFieldOfType.lookup,
+          get: prxFieldOfType.get,
+          rebuild: rebuild,
+        ),
+      );
+  PrxCollectionFieldOfType$Impl<C> fromPrxOfType<C>({
+    required HasData<PrxOfType$IData<C>> prxOfType,
+    required HasFieldPath Function() field,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
+  }) =>
+      PrxCollectionFieldOfType$Impl(
+        PrxCollectionFieldOfType$Data(
+          changes: prxOfType.data$.changes,
+          lookup: prxOfType.data$.lookup,
+          get: prxOfType.data$.get,
+          field: field,
           rebuild: rebuild,
         ),
       );
@@ -3033,22 +3872,6 @@ extension PrxCollectionFieldOfTypeOfLib$Factory$Ext
           rebuild: prxCollectionFieldOfType.data$.rebuild,
         ),
       );
-  PrxCollectionFieldOfTypeOfLib$Impl<C, L> fromPrxFieldOfType<C, L>({
-    required PrxFieldOfType<C> prxFieldOfType,
-    required void Function(
-      void Function(C) updates,
-    )
-        rebuild,
-  }) =>
-      PrxCollectionFieldOfTypeOfLib$Impl(
-        PrxCollectionFieldOfTypeOfLib$Data(
-          field: prxFieldOfType.field,
-          changes: () => prxFieldOfType.changes,
-          lookup: () => prxFieldOfType.lookup,
-          get: prxFieldOfType.get,
-          rebuild: rebuild,
-        ),
-      );
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> fromPrxField<C, L>({
     required PrxField prxField,
     required Stream<Opt<C>> Function() changes,
@@ -3068,25 +3891,8 @@ extension PrxCollectionFieldOfTypeOfLib$Factory$Ext
           rebuild: rebuild,
         ),
       );
-  PrxCollectionFieldOfTypeOfLib$Impl<C, L> fromPrxOfType<C, L>({
-    required HasData<PrxOfType$IData<C>> prxOfType,
-    required HasFieldPath Function() field,
-    required void Function(
-      void Function(C) updates,
-    )
-        rebuild,
-  }) =>
-      PrxCollectionFieldOfTypeOfLib$Impl(
-        PrxCollectionFieldOfTypeOfLib$Data(
-          changes: prxOfType.data$.changes,
-          lookup: prxOfType.data$.lookup,
-          get: prxOfType.data$.get,
-          field: field,
-          rebuild: rebuild,
-        ),
-      );
   PrxCollectionFieldOfTypeOfLib$Impl<C, L> fromPrx<C, L>({
-    required HasData<Prx$IData> prx,
+    required Prx prx,
     required HasFieldPath Function() field,
     required Stream<Opt<C>> Function() changes,
     required Lookup Function() lookup,
@@ -3102,6 +3908,39 @@ extension PrxCollectionFieldOfTypeOfLib$Factory$Ext
           changes: changes,
           lookup: lookup,
           get: get,
+          rebuild: rebuild,
+        ),
+      );
+  PrxCollectionFieldOfTypeOfLib$Impl<C, L> fromPrxFieldOfType<C, L>({
+    required PrxFieldOfType<C> prxFieldOfType,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
+  }) =>
+      PrxCollectionFieldOfTypeOfLib$Impl(
+        PrxCollectionFieldOfTypeOfLib$Data(
+          field: prxFieldOfType.field,
+          changes: () => prxFieldOfType.changes,
+          lookup: () => prxFieldOfType.lookup,
+          get: prxFieldOfType.get,
+          rebuild: rebuild,
+        ),
+      );
+  PrxCollectionFieldOfTypeOfLib$Impl<C, L> fromPrxOfType<C, L>({
+    required HasData<PrxOfType$IData<C>> prxOfType,
+    required HasFieldPath Function() field,
+    required void Function(
+      void Function(C) updates,
+    )
+        rebuild,
+  }) =>
+      PrxCollectionFieldOfTypeOfLib$Impl(
+        PrxCollectionFieldOfTypeOfLib$Data(
+          changes: prxOfType.data$.changes,
+          lookup: prxOfType.data$.lookup,
+          get: prxOfType.data$.get,
+          field: field,
           rebuild: rebuild,
         ),
       );
@@ -3179,6 +4018,7 @@ class PrxSingleFieldOfType$Impl<V> extends PrxSingleFieldOfType<V>
     this.data$,
   ) : super();
   final PrxSingleFieldOfType$IData<V> data$;
+  HasFieldPath field() => data$.field();
   Stream<Opt<V>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
   Opt<V> get() => data$.get();
@@ -3188,7 +4028,6 @@ class PrxSingleFieldOfType$Impl<V> extends PrxSingleFieldOfType<V>
       data$.set(
         value,
       );
-  HasFieldPath field() => data$.field();
 }
 
 extension PrxSingleFieldOfType$Impl$Ext<V> on PrxSingleFieldOfType$Impl<V> {}
@@ -3198,15 +4037,16 @@ extension PrxSingleFieldOfType$Ext<V> on PrxSingleFieldOfType<V> {
       castOrCreate<PrxSingleFieldOfType$Impl<V>>(() => wrap$());
   PrxSingleFieldOfType$Impl<V> wrap$() => PrxSingleFieldOfType$Impl(
         PrxSingleFieldOfType$Data(
+          field: field,
           changes: () => changes,
           lookup: () => lookup,
           get: get,
           set: set,
-          field: field,
         ),
       );
   PrxSingleFieldOfType$Impl<V> get toImpl => asImpl();
   PrxSingleFieldOfType$Impl<V> copyWith({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3214,16 +4054,16 @@ extension PrxSingleFieldOfType$Ext<V> on PrxSingleFieldOfType<V> {
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       HasData$PrxSingleFieldOfType$Impl$Ext(toImpl).copyWith(
+        field: field,
         changes: changes,
         lookup: lookup,
         get: get,
         set: set,
-        field: field,
       );
   PrxSingleFieldOfType$Impl<V> copyWithOpt({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3231,20 +4071,20 @@ extension PrxSingleFieldOfType$Ext<V> on PrxSingleFieldOfType<V> {
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       HasData$PrxSingleFieldOfType$Impl$Ext(toImpl).copyWithOpt(
+        field: field,
         changes: changes,
         lookup: lookup,
         get: get,
         set: set,
-        field: field,
       );
 }
 
 /// [PrxSingleFieldOfType]
 extension HasData$PrxSingleFieldOfType$Impl$Ext<V>
     on HasData<PrxSingleFieldOfType$IData<V>> {
+  HasFieldPath field() => data$.field();
   Stream<Opt<V>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
   Opt<V> get() => data$.get();
@@ -3254,13 +4094,13 @@ extension HasData$PrxSingleFieldOfType$Impl$Ext<V>
       data$.set(
         value,
       );
-  HasFieldPath field() => data$.field();
   PrxSingleFieldOfType$Impl<V> asPrxSingleFieldOfType() =>
       PrxSingleFieldOfType$Impl(
         data$,
       );
   PrxSingleFieldOfType$Impl<V> get toImpl => asPrxSingleFieldOfType();
   PrxSingleFieldOfType$Impl<V> copyWith({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3268,16 +4108,16 @@ extension HasData$PrxSingleFieldOfType$Impl$Ext<V>
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingleFieldOfType$Impl(data$.copyWith(
+        field: field,
         changes: changes,
         lookup: lookup,
         get: get,
         set: set,
-        field: field,
       ));
   PrxSingleFieldOfType$Impl<V> copyWithOpt({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3285,14 +4125,13 @@ extension HasData$PrxSingleFieldOfType$Impl$Ext<V>
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingleFieldOfType$Impl(data$.copyWithOpt(
+        field: field,
         changes: changes,
         lookup: lookup,
         get: get,
         set: set,
-        field: field,
       ));
 }
 
@@ -3300,13 +4139,13 @@ extension HasData$PrxSingleFieldOfType$Impl$Ext<V>
 abstract class PrxSingleFieldOfType$IData<V>
     implements PrxSingleOfType$IData<V> {
   PrxSingleFieldOfType$IData();
+  HasFieldPath Function() get field;
   Stream<Opt<V>> Function() get changes;
   Lookup Function() get lookup;
   Opt<V> Function() get get;
   void Function(
     Opt<V> value,
   ) get set;
-  HasFieldPath Function() get field;
 }
 
 /// [PrxSingleFieldOfType]
@@ -3314,6 +4153,7 @@ typedef IPrxSingleFieldOfType<V> = HasData<PrxSingleFieldOfType$IData<V>>;
 
 extension PrxSingleFieldOfType$IData$Ext<V> on PrxSingleFieldOfType$IData<V> {
   PrxSingleFieldOfType$Data<V> copyWith({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3321,16 +4161,16 @@ extension PrxSingleFieldOfType$IData$Ext<V> on PrxSingleFieldOfType$IData<V> {
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingleFieldOfType$Data(
+        field: field ?? this.field,
         changes: changes ?? this.changes,
         lookup: lookup ?? this.lookup,
         get: get ?? this.get,
         set: set ?? this.set,
-        field: field ?? this.field,
       );
   PrxSingleFieldOfType$Data<V> copyWithOpt({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3338,14 +4178,13 @@ extension PrxSingleFieldOfType$IData$Ext<V> on PrxSingleFieldOfType$IData<V> {
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingleFieldOfType$Data(
+        field: field ?? this.field,
         changes: changes ?? this.changes,
         lookup: lookup ?? this.lookup,
         get: get ?? this.get,
         set: set ?? this.set,
-        field: field ?? this.field,
       );
   PrxSingleFieldOfType$Impl<V> asPrxSingleFieldOfType() =>
       PrxSingleFieldOfType$Impl(
@@ -3356,32 +4195,33 @@ extension PrxSingleFieldOfType$IData$Ext<V> on PrxSingleFieldOfType$IData<V> {
 /// [PrxSingleFieldOfType]
 class PrxSingleFieldOfType$Data<V> implements PrxSingleFieldOfType$IData<V> {
   PrxSingleFieldOfType$Data({
+    required this.field,
     required this.changes,
     required this.lookup,
     required this.get,
     required this.set,
-    required this.field,
   });
   PrxSingleFieldOfType$Data.fromBase(
     PrxSingleFieldOfType<V> base,
   ) : this(
+          field: base.field,
           changes: () => base.changes,
           lookup: () => base.lookup,
           get: base.get,
           set: base.set,
-          field: base.field,
         );
+  final HasFieldPath Function() field;
   final Stream<Opt<V>> Function() changes;
   final Lookup Function() lookup;
   final Opt<V> Function() get;
   final void Function(
     Opt<V> value,
   ) set;
-  final HasFieldPath Function() field;
 }
 
 extension PrxSingleFieldOfType$Data$Ext<V> on PrxSingleFieldOfType$Data<V> {
   PrxSingleFieldOfType$Data<V> copyWith({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3389,16 +4229,16 @@ extension PrxSingleFieldOfType$Data$Ext<V> on PrxSingleFieldOfType$Data<V> {
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingleFieldOfType$Data(
+        field: field ?? this.field,
         changes: changes ?? this.changes,
         lookup: lookup ?? this.lookup,
         get: get ?? this.get,
         set: set ?? this.set,
-        field: field ?? this.field,
       );
   PrxSingleFieldOfType$Data<V> copyWithOpt({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3406,26 +4246,26 @@ extension PrxSingleFieldOfType$Data$Ext<V> on PrxSingleFieldOfType$Data<V> {
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingleFieldOfType$Data(
+        field: field ?? this.field,
         changes: changes ?? this.changes,
         lookup: lookup ?? this.lookup,
         get: get ?? this.get,
         set: set ?? this.set,
-        field: field ?? this.field,
       );
 }
 
 /// [PrxSingleFieldOfType]
 class PrxSingleFieldOfType$Ovr<V> implements Ovr<PrxSingleFieldOfType$Data<V>> {
   PrxSingleFieldOfType$Ovr({
+    required this.field,
     required this.changes,
     required this.lookup,
     required this.get,
     required this.set,
-    required this.field,
   });
+  final Opt<HasFieldPath Function()> field;
   final Opt<Stream<Opt<V>> Function()> changes;
   final Opt<Lookup Function()> lookup;
   final Opt<Opt<V> Function()> get;
@@ -3433,11 +4273,14 @@ class PrxSingleFieldOfType$Ovr<V> implements Ovr<PrxSingleFieldOfType$Data<V>> {
       void Function(
     Opt<V> value,
   )> set;
-  final Opt<HasFieldPath Function()> field;
   PrxSingleFieldOfType$Data<V> override$(
     PrxSingleFieldOfType$Data<V> overriden$,
   ) =>
       PrxSingleFieldOfType$Data(
+        field: field
+            .map<HasFieldPath Function()>(
+                (v) => v.overrideWith(overriden$.field))
+            .orDefault(overriden$.field),
         changes: changes
             .map<Stream<Opt<V>> Function()>(
                 (v) => v.overrideWith(overriden$.changes))
@@ -3454,10 +4297,6 @@ class PrxSingleFieldOfType$Ovr<V> implements Ovr<PrxSingleFieldOfType$Data<V>> {
               Opt<V> value,
             )>((v) => v.overrideWith(overriden$.set))
             .orDefault(overriden$.set),
-        field: field
-            .map<HasFieldPath Function()>(
-                (v) => v.overrideWith(overriden$.field))
-            .orDefault(overriden$.field),
       );
 }
 
@@ -3466,6 +4305,7 @@ class PrxSingleFieldOfType$Delegate<V> extends PrxSingleFieldOfType<V> {
     this.delegate$,
   ) : super();
   final PrxSingleFieldOfType<V> Function() delegate$;
+  HasFieldPath field() => delegate$().field();
   Stream<Opt<V>> get changes => delegate$().changes;
   Lookup get lookup => delegate$().lookup;
   Opt<V> get() => delegate$().get();
@@ -3475,7 +4315,6 @@ class PrxSingleFieldOfType$Delegate<V> extends PrxSingleFieldOfType<V> {
       delegate$().set(
         value,
       );
-  HasFieldPath field() => delegate$().field();
 }
 
 /// [PrxSingleFieldOfType]
@@ -3491,6 +4330,7 @@ extension Mk$PrxSingleFieldOfType$Ext on Mk {
 
 extension PrxSingleFieldOfType$Factory$Ext on PrxSingleFieldOfType$Factory {
   PrxSingleFieldOfType$Impl<V> call<V>({
+    required HasFieldPath Function() field,
     required Stream<Opt<V>> Function() changes,
     required Lookup Function() lookup,
     required Opt<V> Function() get,
@@ -3498,18 +4338,18 @@ extension PrxSingleFieldOfType$Factory$Ext on PrxSingleFieldOfType$Factory {
       Opt<V> value,
     )
         set,
-    required HasFieldPath Function() field,
   }) =>
       PrxSingleFieldOfType$Impl(
         PrxSingleFieldOfType$Data(
+          field: field,
           changes: changes,
           lookup: lookup,
           get: get,
           set: set,
-          field: field,
         ),
       );
   PrxSingleFieldOfType$Impl<V> create<V>({
+    required HasFieldPath Function() field,
     required Stream<Opt<V>> Function() changes,
     required Lookup Function() lookup,
     required Opt<V> Function() get,
@@ -3517,18 +4357,18 @@ extension PrxSingleFieldOfType$Factory$Ext on PrxSingleFieldOfType$Factory {
       Opt<V> value,
     )
         set,
-    required HasFieldPath Function() field,
   }) =>
       PrxSingleFieldOfType$Impl(
         PrxSingleFieldOfType$Data(
+          field: field,
           changes: changes,
           lookup: lookup,
           get: get,
           set: set,
-          field: field,
         ),
       );
   PrxSingleFieldOfType$Impl<V> data<V>({
+    required HasFieldPath Function() field,
     required Stream<Opt<V>> changes,
     required Lookup lookup,
     required Opt<V> Function() get,
@@ -3536,160 +4376,13 @@ extension PrxSingleFieldOfType$Factory$Ext on PrxSingleFieldOfType$Factory {
       Opt<V> value,
     )
         set,
-    required HasFieldPath Function() field,
   }) =>
       PrxSingleFieldOfType$Impl(
         PrxSingleFieldOfType$Data(
+          field: field,
           changes: () => changes,
           lookup: () => lookup,
           get: get,
-          set: set,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfType$Impl<V> fromPrxSingleOfType<V>({
-    required HasData<PrxSingleOfType$IData<V>> prxSingleOfType,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfType$Impl(
-        PrxSingleFieldOfType$Data(
-          changes: prxSingleOfType.data$.changes,
-          lookup: prxSingleOfType.data$.lookup,
-          get: prxSingleOfType.data$.get,
-          set: prxSingleOfType.data$.set,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfType$Impl<V> fromPrxOfType<V>({
-    required HasData<PrxOfType$IData<V>> prxOfType,
-    required void Function(
-      Opt<V> value,
-    )
-        set,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfType$Impl(
-        PrxSingleFieldOfType$Data(
-          changes: prxOfType.data$.changes,
-          lookup: prxOfType.data$.lookup,
-          get: prxOfType.data$.get,
-          set: set,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfType$Impl<V> fromPrx<V>({
-    required HasData<Prx$IData> prx,
-    required Stream<Opt<V>> Function() changes,
-    required Lookup Function() lookup,
-    required Opt<V> Function() get,
-    required void Function(
-      Opt<V> value,
-    )
-        set,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfType$Impl(
-        PrxSingleFieldOfType$Data(
-          changes: changes,
-          lookup: lookup,
-          get: get,
-          set: set,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfType$Impl<V> fromRxVal<V>({
-    required HasData<RxVal$IData<Opt<V>>> rxVal,
-    required void Function(
-      Opt<V> value,
-    )
-        set,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfType$Impl(
-        PrxSingleFieldOfType$Data(
-          changes: rxVal.data$.changes,
-          lookup: rxVal.data$.lookup,
-          get: rxVal.data$.get,
-          set: set,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfType$Impl<V> fromGetter<V>({
-    required Getter<Opt<V>> getter,
-    required Stream<Opt<V>> Function() changes,
-    required Lookup Function() lookup,
-    required void Function(
-      Opt<V> value,
-    )
-        set,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfType$Impl(
-        PrxSingleFieldOfType$Data(
-          get: getter.get,
-          changes: changes,
-          lookup: lookup,
-          set: set,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfType$Impl<V> fromRxVar<V>({
-    required HasData<RxVar$IData<Opt<V>>> rxVar,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfType$Impl(
-        PrxSingleFieldOfType$Data(
-          changes: rxVar.data$.changes,
-          lookup: rxVar.data$.lookup,
-          get: rxVar.data$.get,
-          set: rxVar.data$.set,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfType$Impl<V> fromVariable<V>({
-    required Variable<Opt<V>> variable,
-    required Stream<Opt<V>> Function() changes,
-    required Lookup Function() lookup,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfType$Impl(
-        PrxSingleFieldOfType$Data(
-          get: variable.get,
-          set: variable.set,
-          changes: changes,
-          lookup: lookup,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfType$Impl<V> fromSetter<V>({
-    required Setter<Opt<V>> setter,
-    required Stream<Opt<V>> Function() changes,
-    required Lookup Function() lookup,
-    required Opt<V> Function() get,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfType$Impl(
-        PrxSingleFieldOfType$Data(
-          set: setter.set,
-          changes: changes,
-          lookup: lookup,
-          get: get,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfType$Impl<V> fromPrxFieldOfType<V>({
-    required PrxFieldOfType<V> prxFieldOfType,
-    required void Function(
-      Opt<V> value,
-    )
-        set,
-  }) =>
-      PrxSingleFieldOfType$Impl(
-        PrxSingleFieldOfType$Data(
-          changes: () => prxFieldOfType.changes,
-          lookup: () => prxFieldOfType.lookup,
-          get: prxFieldOfType.get,
-          field: prxFieldOfType.field,
           set: set,
         ),
       );
@@ -3712,6 +4405,152 @@ extension PrxSingleFieldOfType$Factory$Ext on PrxSingleFieldOfType$Factory {
           set: set,
         ),
       );
+  PrxSingleFieldOfType$Impl<V> fromPrx<V>({
+    required Prx prx,
+    required HasFieldPath Function() field,
+    required Stream<Opt<V>> Function() changes,
+    required Lookup Function() lookup,
+    required Opt<V> Function() get,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+  }) =>
+      PrxSingleFieldOfType$Impl(
+        PrxSingleFieldOfType$Data(
+          field: field,
+          changes: changes,
+          lookup: lookup,
+          get: get,
+          set: set,
+        ),
+      );
+  PrxSingleFieldOfType$Impl<V> fromPrxSingleOfType<V>({
+    required HasData<PrxSingleOfType$IData<V>> prxSingleOfType,
+    required HasFieldPath Function() field,
+  }) =>
+      PrxSingleFieldOfType$Impl(
+        PrxSingleFieldOfType$Data(
+          changes: prxSingleOfType.data$.changes,
+          lookup: prxSingleOfType.data$.lookup,
+          get: prxSingleOfType.data$.get,
+          set: prxSingleOfType.data$.set,
+          field: field,
+        ),
+      );
+  PrxSingleFieldOfType$Impl<V> fromPrxOfType<V>({
+    required HasData<PrxOfType$IData<V>> prxOfType,
+    required HasFieldPath Function() field,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+  }) =>
+      PrxSingleFieldOfType$Impl(
+        PrxSingleFieldOfType$Data(
+          changes: prxOfType.data$.changes,
+          lookup: prxOfType.data$.lookup,
+          get: prxOfType.data$.get,
+          field: field,
+          set: set,
+        ),
+      );
+  PrxSingleFieldOfType$Impl<V> fromRxVal<V>({
+    required HasData<RxVal$IData<Opt<V>>> rxVal,
+    required HasFieldPath Function() field,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+  }) =>
+      PrxSingleFieldOfType$Impl(
+        PrxSingleFieldOfType$Data(
+          changes: rxVal.data$.changes,
+          lookup: rxVal.data$.lookup,
+          get: rxVal.data$.get,
+          field: field,
+          set: set,
+        ),
+      );
+  PrxSingleFieldOfType$Impl<V> fromGetter<V>({
+    required Getter<Opt<V>> getter,
+    required HasFieldPath Function() field,
+    required Stream<Opt<V>> Function() changes,
+    required Lookup Function() lookup,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+  }) =>
+      PrxSingleFieldOfType$Impl(
+        PrxSingleFieldOfType$Data(
+          get: getter.get,
+          field: field,
+          changes: changes,
+          lookup: lookup,
+          set: set,
+        ),
+      );
+  PrxSingleFieldOfType$Impl<V> fromRxVar<V>({
+    required HasData<RxVar$IData<Opt<V>>> rxVar,
+    required HasFieldPath Function() field,
+  }) =>
+      PrxSingleFieldOfType$Impl(
+        PrxSingleFieldOfType$Data(
+          changes: rxVar.data$.changes,
+          lookup: rxVar.data$.lookup,
+          get: rxVar.data$.get,
+          set: rxVar.data$.set,
+          field: field,
+        ),
+      );
+  PrxSingleFieldOfType$Impl<V> fromVariable<V>({
+    required Variable<Opt<V>> variable,
+    required HasFieldPath Function() field,
+    required Stream<Opt<V>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      PrxSingleFieldOfType$Impl(
+        PrxSingleFieldOfType$Data(
+          get: variable.get,
+          set: variable.set,
+          field: field,
+          changes: changes,
+          lookup: lookup,
+        ),
+      );
+  PrxSingleFieldOfType$Impl<V> fromSetter<V>({
+    required Setter<Opt<V>> setter,
+    required HasFieldPath Function() field,
+    required Stream<Opt<V>> Function() changes,
+    required Lookup Function() lookup,
+    required Opt<V> Function() get,
+  }) =>
+      PrxSingleFieldOfType$Impl(
+        PrxSingleFieldOfType$Data(
+          set: setter.set,
+          field: field,
+          changes: changes,
+          lookup: lookup,
+          get: get,
+        ),
+      );
+  PrxSingleFieldOfType$Impl<V> fromPrxFieldOfType<V>({
+    required PrxFieldOfType<V> prxFieldOfType,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+  }) =>
+      PrxSingleFieldOfType$Impl(
+        PrxSingleFieldOfType$Data(
+          field: prxFieldOfType.field,
+          changes: () => prxFieldOfType.changes,
+          lookup: () => prxFieldOfType.lookup,
+          get: prxFieldOfType.get,
+          set: set,
+        ),
+      );
 }
 
 /// [PrxSingleFieldOfTypeOfLib]
@@ -3722,6 +4561,7 @@ class PrxSingleFieldOfTypeOfLib$Impl<V, L>
     this.data$,
   ) : super();
   final PrxSingleFieldOfTypeOfLib$IData<V, L> data$;
+  HasFieldPath field() => data$.field();
   Stream<Opt<V>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
   Opt<V> get() => data$.get();
@@ -3731,7 +4571,6 @@ class PrxSingleFieldOfTypeOfLib$Impl<V, L>
       data$.set(
         value,
       );
-  HasFieldPath field() => data$.field();
 }
 
 extension PrxSingleFieldOfTypeOfLib$Impl$Ext<V, L>
@@ -3744,15 +4583,16 @@ extension PrxSingleFieldOfTypeOfLib$Ext<V, L>
   PrxSingleFieldOfTypeOfLib$Impl<V, L> wrap$() =>
       PrxSingleFieldOfTypeOfLib$Impl(
         PrxSingleFieldOfTypeOfLib$Data(
+          field: field,
           changes: () => changes,
           lookup: () => lookup,
           get: get,
           set: set,
-          field: field,
         ),
       );
   PrxSingleFieldOfTypeOfLib$Impl<V, L> get toImpl => asImpl();
   PrxSingleFieldOfTypeOfLib$Impl<V, L> copyWith({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3760,16 +4600,16 @@ extension PrxSingleFieldOfTypeOfLib$Ext<V, L>
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       HasData$PrxSingleFieldOfTypeOfLib$Impl$Ext(toImpl).copyWith(
+        field: field,
         changes: changes,
         lookup: lookup,
         get: get,
         set: set,
-        field: field,
       );
   PrxSingleFieldOfTypeOfLib$Impl<V, L> copyWithOpt({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3777,20 +4617,20 @@ extension PrxSingleFieldOfTypeOfLib$Ext<V, L>
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       HasData$PrxSingleFieldOfTypeOfLib$Impl$Ext(toImpl).copyWithOpt(
+        field: field,
         changes: changes,
         lookup: lookup,
         get: get,
         set: set,
-        field: field,
       );
 }
 
 /// [PrxSingleFieldOfTypeOfLib]
 extension HasData$PrxSingleFieldOfTypeOfLib$Impl$Ext<V, L>
     on HasData<PrxSingleFieldOfTypeOfLib$IData<V, L>> {
+  HasFieldPath field() => data$.field();
   Stream<Opt<V>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
   Opt<V> get() => data$.get();
@@ -3800,7 +4640,6 @@ extension HasData$PrxSingleFieldOfTypeOfLib$Impl$Ext<V, L>
       data$.set(
         value,
       );
-  HasFieldPath field() => data$.field();
   PrxSingleFieldOfTypeOfLib$Impl<V, L> asPrxSingleFieldOfTypeOfLib() =>
       PrxSingleFieldOfTypeOfLib$Impl(
         data$,
@@ -3808,6 +4647,7 @@ extension HasData$PrxSingleFieldOfTypeOfLib$Impl$Ext<V, L>
   PrxSingleFieldOfTypeOfLib$Impl<V, L> get toImpl =>
       asPrxSingleFieldOfTypeOfLib();
   PrxSingleFieldOfTypeOfLib$Impl<V, L> copyWith({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3815,16 +4655,16 @@ extension HasData$PrxSingleFieldOfTypeOfLib$Impl$Ext<V, L>
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingleFieldOfTypeOfLib$Impl(data$.copyWith(
+        field: field,
         changes: changes,
         lookup: lookup,
         get: get,
         set: set,
-        field: field,
       ));
   PrxSingleFieldOfTypeOfLib$Impl<V, L> copyWithOpt({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3832,14 +4672,13 @@ extension HasData$PrxSingleFieldOfTypeOfLib$Impl$Ext<V, L>
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingleFieldOfTypeOfLib$Impl(data$.copyWithOpt(
+        field: field,
         changes: changes,
         lookup: lookup,
         get: get,
         set: set,
-        field: field,
       ));
 }
 
@@ -3847,13 +4686,13 @@ extension HasData$PrxSingleFieldOfTypeOfLib$Impl$Ext<V, L>
 abstract class PrxSingleFieldOfTypeOfLib$IData<V, L>
     implements PrxSingleFieldOfType$IData<V> {
   PrxSingleFieldOfTypeOfLib$IData();
+  HasFieldPath Function() get field;
   Stream<Opt<V>> Function() get changes;
   Lookup Function() get lookup;
   Opt<V> Function() get get;
   void Function(
     Opt<V> value,
   ) get set;
-  HasFieldPath Function() get field;
 }
 
 /// [PrxSingleFieldOfTypeOfLib]
@@ -3863,6 +4702,7 @@ typedef IPrxSingleFieldOfTypeOfLib<V, L>
 extension PrxSingleFieldOfTypeOfLib$IData$Ext<V, L>
     on PrxSingleFieldOfTypeOfLib$IData<V, L> {
   PrxSingleFieldOfTypeOfLib$Data<V, L> copyWith({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3870,16 +4710,16 @@ extension PrxSingleFieldOfTypeOfLib$IData$Ext<V, L>
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingleFieldOfTypeOfLib$Data(
+        field: field ?? this.field,
         changes: changes ?? this.changes,
         lookup: lookup ?? this.lookup,
         get: get ?? this.get,
         set: set ?? this.set,
-        field: field ?? this.field,
       );
   PrxSingleFieldOfTypeOfLib$Data<V, L> copyWithOpt({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3887,14 +4727,13 @@ extension PrxSingleFieldOfTypeOfLib$IData$Ext<V, L>
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingleFieldOfTypeOfLib$Data(
+        field: field ?? this.field,
         changes: changes ?? this.changes,
         lookup: lookup ?? this.lookup,
         get: get ?? this.get,
         set: set ?? this.set,
-        field: field ?? this.field,
       );
   PrxSingleFieldOfTypeOfLib$Impl<V, L> asPrxSingleFieldOfTypeOfLib() =>
       PrxSingleFieldOfTypeOfLib$Impl(
@@ -3906,33 +4745,34 @@ extension PrxSingleFieldOfTypeOfLib$IData$Ext<V, L>
 class PrxSingleFieldOfTypeOfLib$Data<V, L>
     implements PrxSingleFieldOfTypeOfLib$IData<V, L> {
   PrxSingleFieldOfTypeOfLib$Data({
+    required this.field,
     required this.changes,
     required this.lookup,
     required this.get,
     required this.set,
-    required this.field,
   });
   PrxSingleFieldOfTypeOfLib$Data.fromBase(
     PrxSingleFieldOfTypeOfLib<V, L> base,
   ) : this(
+          field: base.field,
           changes: () => base.changes,
           lookup: () => base.lookup,
           get: base.get,
           set: base.set,
-          field: base.field,
         );
+  final HasFieldPath Function() field;
   final Stream<Opt<V>> Function() changes;
   final Lookup Function() lookup;
   final Opt<V> Function() get;
   final void Function(
     Opt<V> value,
   ) set;
-  final HasFieldPath Function() field;
 }
 
 extension PrxSingleFieldOfTypeOfLib$Data$Ext<V, L>
     on PrxSingleFieldOfTypeOfLib$Data<V, L> {
   PrxSingleFieldOfTypeOfLib$Data<V, L> copyWith({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3940,16 +4780,16 @@ extension PrxSingleFieldOfTypeOfLib$Data$Ext<V, L>
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingleFieldOfTypeOfLib$Data(
+        field: field ?? this.field,
         changes: changes ?? this.changes,
         lookup: lookup ?? this.lookup,
         get: get ?? this.get,
         set: set ?? this.set,
-        field: field ?? this.field,
       );
   PrxSingleFieldOfTypeOfLib$Data<V, L> copyWithOpt({
+    HasFieldPath Function()? field,
     Stream<Opt<V>> Function()? changes,
     Lookup Function()? lookup,
     Opt<V> Function()? get,
@@ -3957,14 +4797,13 @@ extension PrxSingleFieldOfTypeOfLib$Data$Ext<V, L>
       Opt<V> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingleFieldOfTypeOfLib$Data(
+        field: field ?? this.field,
         changes: changes ?? this.changes,
         lookup: lookup ?? this.lookup,
         get: get ?? this.get,
         set: set ?? this.set,
-        field: field ?? this.field,
       );
 }
 
@@ -3972,12 +4811,13 @@ extension PrxSingleFieldOfTypeOfLib$Data$Ext<V, L>
 class PrxSingleFieldOfTypeOfLib$Ovr<V, L>
     implements Ovr<PrxSingleFieldOfTypeOfLib$Data<V, L>> {
   PrxSingleFieldOfTypeOfLib$Ovr({
+    required this.field,
     required this.changes,
     required this.lookup,
     required this.get,
     required this.set,
-    required this.field,
   });
+  final Opt<HasFieldPath Function()> field;
   final Opt<Stream<Opt<V>> Function()> changes;
   final Opt<Lookup Function()> lookup;
   final Opt<Opt<V> Function()> get;
@@ -3985,11 +4825,14 @@ class PrxSingleFieldOfTypeOfLib$Ovr<V, L>
       void Function(
     Opt<V> value,
   )> set;
-  final Opt<HasFieldPath Function()> field;
   PrxSingleFieldOfTypeOfLib$Data<V, L> override$(
     PrxSingleFieldOfTypeOfLib$Data<V, L> overriden$,
   ) =>
       PrxSingleFieldOfTypeOfLib$Data(
+        field: field
+            .map<HasFieldPath Function()>(
+                (v) => v.overrideWith(overriden$.field))
+            .orDefault(overriden$.field),
         changes: changes
             .map<Stream<Opt<V>> Function()>(
                 (v) => v.overrideWith(overriden$.changes))
@@ -4006,10 +4849,6 @@ class PrxSingleFieldOfTypeOfLib$Ovr<V, L>
               Opt<V> value,
             )>((v) => v.overrideWith(overriden$.set))
             .orDefault(overriden$.set),
-        field: field
-            .map<HasFieldPath Function()>(
-                (v) => v.overrideWith(overriden$.field))
-            .orDefault(overriden$.field),
       );
 }
 
@@ -4019,6 +4858,7 @@ class PrxSingleFieldOfTypeOfLib$Delegate<V, L>
     this.delegate$,
   ) : super();
   final PrxSingleFieldOfTypeOfLib<V, L> Function() delegate$;
+  HasFieldPath field() => delegate$().field();
   Stream<Opt<V>> get changes => delegate$().changes;
   Lookup get lookup => delegate$().lookup;
   Opt<V> get() => delegate$().get();
@@ -4028,7 +4868,6 @@ class PrxSingleFieldOfTypeOfLib$Delegate<V, L>
       delegate$().set(
         value,
       );
-  HasFieldPath field() => delegate$().field();
 }
 
 /// [PrxSingleFieldOfTypeOfLib]
@@ -4045,6 +4884,7 @@ extension Mk$PrxSingleFieldOfTypeOfLib$Ext on Mk {
 extension PrxSingleFieldOfTypeOfLib$Factory$Ext
     on PrxSingleFieldOfTypeOfLib$Factory {
   PrxSingleFieldOfTypeOfLib$Impl<V, L> call<V, L>({
+    required HasFieldPath Function() field,
     required Stream<Opt<V>> Function() changes,
     required Lookup Function() lookup,
     required Opt<V> Function() get,
@@ -4052,18 +4892,18 @@ extension PrxSingleFieldOfTypeOfLib$Factory$Ext
       Opt<V> value,
     )
         set,
-    required HasFieldPath Function() field,
   }) =>
       PrxSingleFieldOfTypeOfLib$Impl(
         PrxSingleFieldOfTypeOfLib$Data(
+          field: field,
           changes: changes,
           lookup: lookup,
           get: get,
           set: set,
-          field: field,
         ),
       );
   PrxSingleFieldOfTypeOfLib$Impl<V, L> create<V, L>({
+    required HasFieldPath Function() field,
     required Stream<Opt<V>> Function() changes,
     required Lookup Function() lookup,
     required Opt<V> Function() get,
@@ -4071,18 +4911,18 @@ extension PrxSingleFieldOfTypeOfLib$Factory$Ext
       Opt<V> value,
     )
         set,
-    required HasFieldPath Function() field,
   }) =>
       PrxSingleFieldOfTypeOfLib$Impl(
         PrxSingleFieldOfTypeOfLib$Data(
+          field: field,
           changes: changes,
           lookup: lookup,
           get: get,
           set: set,
-          field: field,
         ),
       );
   PrxSingleFieldOfTypeOfLib$Impl<V, L> data<V, L>({
+    required HasFieldPath Function() field,
     required Stream<Opt<V>> changes,
     required Lookup lookup,
     required Opt<V> Function() get,
@@ -4090,172 +4930,13 @@ extension PrxSingleFieldOfTypeOfLib$Factory$Ext
       Opt<V> value,
     )
         set,
-    required HasFieldPath Function() field,
   }) =>
       PrxSingleFieldOfTypeOfLib$Impl(
         PrxSingleFieldOfTypeOfLib$Data(
+          field: field,
           changes: () => changes,
           lookup: () => lookup,
           get: get,
-          set: set,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromPrxSingleFieldOfType<V, L>({
-    required HasData<PrxSingleFieldOfType$IData<V>> prxSingleFieldOfType,
-  }) =>
-      PrxSingleFieldOfTypeOfLib$Impl(
-        PrxSingleFieldOfTypeOfLib$Data(
-          changes: prxSingleFieldOfType.data$.changes,
-          lookup: prxSingleFieldOfType.data$.lookup,
-          get: prxSingleFieldOfType.data$.get,
-          set: prxSingleFieldOfType.data$.set,
-          field: prxSingleFieldOfType.data$.field,
-        ),
-      );
-  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromPrxSingleOfType<V, L>({
-    required HasData<PrxSingleOfType$IData<V>> prxSingleOfType,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfTypeOfLib$Impl(
-        PrxSingleFieldOfTypeOfLib$Data(
-          changes: prxSingleOfType.data$.changes,
-          lookup: prxSingleOfType.data$.lookup,
-          get: prxSingleOfType.data$.get,
-          set: prxSingleOfType.data$.set,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromPrxOfType<V, L>({
-    required HasData<PrxOfType$IData<V>> prxOfType,
-    required void Function(
-      Opt<V> value,
-    )
-        set,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfTypeOfLib$Impl(
-        PrxSingleFieldOfTypeOfLib$Data(
-          changes: prxOfType.data$.changes,
-          lookup: prxOfType.data$.lookup,
-          get: prxOfType.data$.get,
-          set: set,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromPrx<V, L>({
-    required HasData<Prx$IData> prx,
-    required Stream<Opt<V>> Function() changes,
-    required Lookup Function() lookup,
-    required Opt<V> Function() get,
-    required void Function(
-      Opt<V> value,
-    )
-        set,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfTypeOfLib$Impl(
-        PrxSingleFieldOfTypeOfLib$Data(
-          changes: changes,
-          lookup: lookup,
-          get: get,
-          set: set,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromRxVal<V, L>({
-    required HasData<RxVal$IData<Opt<V>>> rxVal,
-    required void Function(
-      Opt<V> value,
-    )
-        set,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfTypeOfLib$Impl(
-        PrxSingleFieldOfTypeOfLib$Data(
-          changes: rxVal.data$.changes,
-          lookup: rxVal.data$.lookup,
-          get: rxVal.data$.get,
-          set: set,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromGetter<V, L>({
-    required Getter<Opt<V>> getter,
-    required Stream<Opt<V>> Function() changes,
-    required Lookup Function() lookup,
-    required void Function(
-      Opt<V> value,
-    )
-        set,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfTypeOfLib$Impl(
-        PrxSingleFieldOfTypeOfLib$Data(
-          get: getter.get,
-          changes: changes,
-          lookup: lookup,
-          set: set,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromRxVar<V, L>({
-    required HasData<RxVar$IData<Opt<V>>> rxVar,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfTypeOfLib$Impl(
-        PrxSingleFieldOfTypeOfLib$Data(
-          changes: rxVar.data$.changes,
-          lookup: rxVar.data$.lookup,
-          get: rxVar.data$.get,
-          set: rxVar.data$.set,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromVariable<V, L>({
-    required Variable<Opt<V>> variable,
-    required Stream<Opt<V>> Function() changes,
-    required Lookup Function() lookup,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfTypeOfLib$Impl(
-        PrxSingleFieldOfTypeOfLib$Data(
-          get: variable.get,
-          set: variable.set,
-          changes: changes,
-          lookup: lookup,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromSetter<V, L>({
-    required Setter<Opt<V>> setter,
-    required Stream<Opt<V>> Function() changes,
-    required Lookup Function() lookup,
-    required Opt<V> Function() get,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingleFieldOfTypeOfLib$Impl(
-        PrxSingleFieldOfTypeOfLib$Data(
-          set: setter.set,
-          changes: changes,
-          lookup: lookup,
-          get: get,
-          field: field,
-        ),
-      );
-  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromPrxFieldOfType<V, L>({
-    required PrxFieldOfType<V> prxFieldOfType,
-    required void Function(
-      Opt<V> value,
-    )
-        set,
-  }) =>
-      PrxSingleFieldOfTypeOfLib$Impl(
-        PrxSingleFieldOfTypeOfLib$Data(
-          changes: () => prxFieldOfType.changes,
-          lookup: () => prxFieldOfType.lookup,
-          get: prxFieldOfType.get,
-          field: prxFieldOfType.field,
           set: set,
         ),
       );
@@ -4278,6 +4959,164 @@ extension PrxSingleFieldOfTypeOfLib$Factory$Ext
           set: set,
         ),
       );
+  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromPrx<V, L>({
+    required Prx prx,
+    required HasFieldPath Function() field,
+    required Stream<Opt<V>> Function() changes,
+    required Lookup Function() lookup,
+    required Opt<V> Function() get,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+  }) =>
+      PrxSingleFieldOfTypeOfLib$Impl(
+        PrxSingleFieldOfTypeOfLib$Data(
+          field: field,
+          changes: changes,
+          lookup: lookup,
+          get: get,
+          set: set,
+        ),
+      );
+  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromPrxSingleFieldOfType<V, L>({
+    required HasData<PrxSingleFieldOfType$IData<V>> prxSingleFieldOfType,
+  }) =>
+      PrxSingleFieldOfTypeOfLib$Impl(
+        PrxSingleFieldOfTypeOfLib$Data(
+          field: prxSingleFieldOfType.data$.field,
+          changes: prxSingleFieldOfType.data$.changes,
+          lookup: prxSingleFieldOfType.data$.lookup,
+          get: prxSingleFieldOfType.data$.get,
+          set: prxSingleFieldOfType.data$.set,
+        ),
+      );
+  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromPrxSingleOfType<V, L>({
+    required HasData<PrxSingleOfType$IData<V>> prxSingleOfType,
+    required HasFieldPath Function() field,
+  }) =>
+      PrxSingleFieldOfTypeOfLib$Impl(
+        PrxSingleFieldOfTypeOfLib$Data(
+          changes: prxSingleOfType.data$.changes,
+          lookup: prxSingleOfType.data$.lookup,
+          get: prxSingleOfType.data$.get,
+          set: prxSingleOfType.data$.set,
+          field: field,
+        ),
+      );
+  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromPrxOfType<V, L>({
+    required HasData<PrxOfType$IData<V>> prxOfType,
+    required HasFieldPath Function() field,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+  }) =>
+      PrxSingleFieldOfTypeOfLib$Impl(
+        PrxSingleFieldOfTypeOfLib$Data(
+          changes: prxOfType.data$.changes,
+          lookup: prxOfType.data$.lookup,
+          get: prxOfType.data$.get,
+          field: field,
+          set: set,
+        ),
+      );
+  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromRxVal<V, L>({
+    required HasData<RxVal$IData<Opt<V>>> rxVal,
+    required HasFieldPath Function() field,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+  }) =>
+      PrxSingleFieldOfTypeOfLib$Impl(
+        PrxSingleFieldOfTypeOfLib$Data(
+          changes: rxVal.data$.changes,
+          lookup: rxVal.data$.lookup,
+          get: rxVal.data$.get,
+          field: field,
+          set: set,
+        ),
+      );
+  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromGetter<V, L>({
+    required Getter<Opt<V>> getter,
+    required HasFieldPath Function() field,
+    required Stream<Opt<V>> Function() changes,
+    required Lookup Function() lookup,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+  }) =>
+      PrxSingleFieldOfTypeOfLib$Impl(
+        PrxSingleFieldOfTypeOfLib$Data(
+          get: getter.get,
+          field: field,
+          changes: changes,
+          lookup: lookup,
+          set: set,
+        ),
+      );
+  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromRxVar<V, L>({
+    required HasData<RxVar$IData<Opt<V>>> rxVar,
+    required HasFieldPath Function() field,
+  }) =>
+      PrxSingleFieldOfTypeOfLib$Impl(
+        PrxSingleFieldOfTypeOfLib$Data(
+          changes: rxVar.data$.changes,
+          lookup: rxVar.data$.lookup,
+          get: rxVar.data$.get,
+          set: rxVar.data$.set,
+          field: field,
+        ),
+      );
+  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromVariable<V, L>({
+    required Variable<Opt<V>> variable,
+    required HasFieldPath Function() field,
+    required Stream<Opt<V>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      PrxSingleFieldOfTypeOfLib$Impl(
+        PrxSingleFieldOfTypeOfLib$Data(
+          get: variable.get,
+          set: variable.set,
+          field: field,
+          changes: changes,
+          lookup: lookup,
+        ),
+      );
+  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromSetter<V, L>({
+    required Setter<Opt<V>> setter,
+    required HasFieldPath Function() field,
+    required Stream<Opt<V>> Function() changes,
+    required Lookup Function() lookup,
+    required Opt<V> Function() get,
+  }) =>
+      PrxSingleFieldOfTypeOfLib$Impl(
+        PrxSingleFieldOfTypeOfLib$Data(
+          set: setter.set,
+          field: field,
+          changes: changes,
+          lookup: lookup,
+          get: get,
+        ),
+      );
+  PrxSingleFieldOfTypeOfLib$Impl<V, L> fromPrxFieldOfType<V, L>({
+    required PrxFieldOfType<V> prxFieldOfType,
+    required void Function(
+      Opt<V> value,
+    )
+        set,
+  }) =>
+      PrxSingleFieldOfTypeOfLib$Impl(
+        PrxSingleFieldOfTypeOfLib$Data(
+          field: prxFieldOfType.field,
+          changes: () => prxFieldOfType.changes,
+          lookup: () => prxFieldOfType.lookup,
+          get: prxFieldOfType.get,
+          set: set,
+        ),
+      );
   PrxSingleFieldOfTypeOfLib$Impl<V, L> fromPrxFieldOfTypeOfLib<V, L>({
     required PrxFieldOfTypeOfLib<V, L> prxFieldOfTypeOfLib,
     required void Function(
@@ -4287,10 +5126,10 @@ extension PrxSingleFieldOfTypeOfLib$Factory$Ext
   }) =>
       PrxSingleFieldOfTypeOfLib$Impl(
         PrxSingleFieldOfTypeOfLib$Data(
+          field: prxFieldOfTypeOfLib.field,
           changes: () => prxFieldOfTypeOfLib.changes,
           lookup: () => prxFieldOfTypeOfLib.lookup,
           get: prxFieldOfTypeOfLib.get,
-          field: prxFieldOfTypeOfLib.field,
           set: set,
         ),
       );
@@ -4303,6 +5142,7 @@ class PrxSingle$Impl<T, L> extends PrxSingle<T, L>
     this.data$,
   ) : super();
   final PrxSingle$IData<T, L> data$;
+  HasFieldPath field() => data$.field();
   Stream<Opt<T>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
   Opt<T> get() => data$.get();
@@ -4312,7 +5152,6 @@ class PrxSingle$Impl<T, L> extends PrxSingle<T, L>
       data$.set(
         value,
       );
-  HasFieldPath field() => data$.field();
 }
 
 extension PrxSingle$Impl$Ext<T, L> on PrxSingle$Impl<T, L> {}
@@ -4322,15 +5161,16 @@ extension PrxSingle$Ext<T, L> on PrxSingle<T, L> {
       castOrCreate<PrxSingle$Impl<T, L>>(() => wrap$());
   PrxSingle$Impl<T, L> wrap$() => PrxSingle$Impl(
         PrxSingle$Data(
+          field: field,
           changes: () => changes,
           lookup: () => lookup,
           get: get,
           set: set,
-          field: field,
         ),
       );
   PrxSingle$Impl<T, L> get toImpl => asImpl();
   PrxSingle$Impl<T, L> copyWith({
+    HasFieldPath Function()? field,
     Stream<Opt<T>> Function()? changes,
     Lookup Function()? lookup,
     Opt<T> Function()? get,
@@ -4338,16 +5178,16 @@ extension PrxSingle$Ext<T, L> on PrxSingle<T, L> {
       Opt<T> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       HasData$PrxSingle$Impl$Ext(toImpl).copyWith(
+        field: field,
         changes: changes,
         lookup: lookup,
         get: get,
         set: set,
-        field: field,
       );
   PrxSingle$Impl<T, L> copyWithOpt({
+    HasFieldPath Function()? field,
     Stream<Opt<T>> Function()? changes,
     Lookup Function()? lookup,
     Opt<T> Function()? get,
@@ -4355,19 +5195,19 @@ extension PrxSingle$Ext<T, L> on PrxSingle<T, L> {
       Opt<T> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       HasData$PrxSingle$Impl$Ext(toImpl).copyWithOpt(
+        field: field,
         changes: changes,
         lookup: lookup,
         get: get,
         set: set,
-        field: field,
       );
 }
 
 /// [PrxSingle]
 extension HasData$PrxSingle$Impl$Ext<T, L> on HasData<PrxSingle$IData<T, L>> {
+  HasFieldPath field() => data$.field();
   Stream<Opt<T>> get changes => data$.changes();
   Lookup get lookup => data$.lookup();
   Opt<T> get() => data$.get();
@@ -4377,12 +5217,12 @@ extension HasData$PrxSingle$Impl$Ext<T, L> on HasData<PrxSingle$IData<T, L>> {
       data$.set(
         value,
       );
-  HasFieldPath field() => data$.field();
   PrxSingle$Impl<T, L> asPrxSingle() => PrxSingle$Impl(
         data$,
       );
   PrxSingle$Impl<T, L> get toImpl => asPrxSingle();
   PrxSingle$Impl<T, L> copyWith({
+    HasFieldPath Function()? field,
     Stream<Opt<T>> Function()? changes,
     Lookup Function()? lookup,
     Opt<T> Function()? get,
@@ -4390,16 +5230,16 @@ extension HasData$PrxSingle$Impl$Ext<T, L> on HasData<PrxSingle$IData<T, L>> {
       Opt<T> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingle$Impl(data$.copyWith(
+        field: field,
         changes: changes,
         lookup: lookup,
         get: get,
         set: set,
-        field: field,
       ));
   PrxSingle$Impl<T, L> copyWithOpt({
+    HasFieldPath Function()? field,
     Stream<Opt<T>> Function()? changes,
     Lookup Function()? lookup,
     Opt<T> Function()? get,
@@ -4407,14 +5247,13 @@ extension HasData$PrxSingle$Impl$Ext<T, L> on HasData<PrxSingle$IData<T, L>> {
       Opt<T> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingle$Impl(data$.copyWithOpt(
+        field: field,
         changes: changes,
         lookup: lookup,
         get: get,
         set: set,
-        field: field,
       ));
 }
 
@@ -4422,13 +5261,13 @@ extension HasData$PrxSingle$Impl$Ext<T, L> on HasData<PrxSingle$IData<T, L>> {
 abstract class PrxSingle$IData<T, L>
     implements PrxSingleFieldOfTypeOfLib$IData<T, L> {
   PrxSingle$IData();
+  HasFieldPath Function() get field;
   Stream<Opt<T>> Function() get changes;
   Lookup Function() get lookup;
   Opt<T> Function() get get;
   void Function(
     Opt<T> value,
   ) get set;
-  HasFieldPath Function() get field;
 }
 
 /// [PrxSingle]
@@ -4436,6 +5275,7 @@ typedef IPrxSingle<T, L> = HasData<PrxSingle$IData<T, L>>;
 
 extension PrxSingle$IData$Ext<T, L> on PrxSingle$IData<T, L> {
   PrxSingle$Data<T, L> copyWith({
+    HasFieldPath Function()? field,
     Stream<Opt<T>> Function()? changes,
     Lookup Function()? lookup,
     Opt<T> Function()? get,
@@ -4443,16 +5283,16 @@ extension PrxSingle$IData$Ext<T, L> on PrxSingle$IData<T, L> {
       Opt<T> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingle$Data(
+        field: field ?? this.field,
         changes: changes ?? this.changes,
         lookup: lookup ?? this.lookup,
         get: get ?? this.get,
         set: set ?? this.set,
-        field: field ?? this.field,
       );
   PrxSingle$Data<T, L> copyWithOpt({
+    HasFieldPath Function()? field,
     Stream<Opt<T>> Function()? changes,
     Lookup Function()? lookup,
     Opt<T> Function()? get,
@@ -4460,14 +5300,13 @@ extension PrxSingle$IData$Ext<T, L> on PrxSingle$IData<T, L> {
       Opt<T> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingle$Data(
+        field: field ?? this.field,
         changes: changes ?? this.changes,
         lookup: lookup ?? this.lookup,
         get: get ?? this.get,
         set: set ?? this.set,
-        field: field ?? this.field,
       );
   PrxSingle$Impl<T, L> asPrxSingle() => PrxSingle$Impl(
         this,
@@ -4477,32 +5316,33 @@ extension PrxSingle$IData$Ext<T, L> on PrxSingle$IData<T, L> {
 /// [PrxSingle]
 class PrxSingle$Data<T, L> implements PrxSingle$IData<T, L> {
   PrxSingle$Data({
+    required this.field,
     required this.changes,
     required this.lookup,
     required this.get,
     required this.set,
-    required this.field,
   });
   PrxSingle$Data.fromBase(
     PrxSingle<T, L> base,
   ) : this(
+          field: base.field,
           changes: () => base.changes,
           lookup: () => base.lookup,
           get: base.get,
           set: base.set,
-          field: base.field,
         );
+  final HasFieldPath Function() field;
   final Stream<Opt<T>> Function() changes;
   final Lookup Function() lookup;
   final Opt<T> Function() get;
   final void Function(
     Opt<T> value,
   ) set;
-  final HasFieldPath Function() field;
 }
 
 extension PrxSingle$Data$Ext<T, L> on PrxSingle$Data<T, L> {
   PrxSingle$Data<T, L> copyWith({
+    HasFieldPath Function()? field,
     Stream<Opt<T>> Function()? changes,
     Lookup Function()? lookup,
     Opt<T> Function()? get,
@@ -4510,16 +5350,16 @@ extension PrxSingle$Data$Ext<T, L> on PrxSingle$Data<T, L> {
       Opt<T> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingle$Data(
+        field: field ?? this.field,
         changes: changes ?? this.changes,
         lookup: lookup ?? this.lookup,
         get: get ?? this.get,
         set: set ?? this.set,
-        field: field ?? this.field,
       );
   PrxSingle$Data<T, L> copyWithOpt({
+    HasFieldPath Function()? field,
     Stream<Opt<T>> Function()? changes,
     Lookup Function()? lookup,
     Opt<T> Function()? get,
@@ -4527,26 +5367,26 @@ extension PrxSingle$Data$Ext<T, L> on PrxSingle$Data<T, L> {
       Opt<T> value,
     )?
         set,
-    HasFieldPath Function()? field,
   }) =>
       PrxSingle$Data(
+        field: field ?? this.field,
         changes: changes ?? this.changes,
         lookup: lookup ?? this.lookup,
         get: get ?? this.get,
         set: set ?? this.set,
-        field: field ?? this.field,
       );
 }
 
 /// [PrxSingle]
 class PrxSingle$Ovr<T, L> implements Ovr<PrxSingle$Data<T, L>> {
   PrxSingle$Ovr({
+    required this.field,
     required this.changes,
     required this.lookup,
     required this.get,
     required this.set,
-    required this.field,
   });
+  final Opt<HasFieldPath Function()> field;
   final Opt<Stream<Opt<T>> Function()> changes;
   final Opt<Lookup Function()> lookup;
   final Opt<Opt<T> Function()> get;
@@ -4554,11 +5394,14 @@ class PrxSingle$Ovr<T, L> implements Ovr<PrxSingle$Data<T, L>> {
       void Function(
     Opt<T> value,
   )> set;
-  final Opt<HasFieldPath Function()> field;
   PrxSingle$Data<T, L> override$(
     PrxSingle$Data<T, L> overriden$,
   ) =>
       PrxSingle$Data(
+        field: field
+            .map<HasFieldPath Function()>(
+                (v) => v.overrideWith(overriden$.field))
+            .orDefault(overriden$.field),
         changes: changes
             .map<Stream<Opt<T>> Function()>(
                 (v) => v.overrideWith(overriden$.changes))
@@ -4575,10 +5418,6 @@ class PrxSingle$Ovr<T, L> implements Ovr<PrxSingle$Data<T, L>> {
               Opt<T> value,
             )>((v) => v.overrideWith(overriden$.set))
             .orDefault(overriden$.set),
-        field: field
-            .map<HasFieldPath Function()>(
-                (v) => v.overrideWith(overriden$.field))
-            .orDefault(overriden$.field),
       );
 }
 
@@ -4587,6 +5426,7 @@ class PrxSingle$Delegate<T, L> extends PrxSingle<T, L> {
     this.delegate$,
   ) : super();
   final PrxSingle<T, L> Function() delegate$;
+  HasFieldPath field() => delegate$().field();
   Stream<Opt<T>> get changes => delegate$().changes;
   Lookup get lookup => delegate$().lookup;
   Opt<T> get() => delegate$().get();
@@ -4596,7 +5436,6 @@ class PrxSingle$Delegate<T, L> extends PrxSingle<T, L> {
       delegate$().set(
         value,
       );
-  HasFieldPath field() => delegate$().field();
 }
 
 /// [PrxSingle]
@@ -4611,6 +5450,7 @@ extension Mk$PrxSingle$Ext on Mk {
 
 extension PrxSingle$Factory$Ext on PrxSingle$Factory {
   PrxSingle$Impl<T, L> call<T, L>({
+    required HasFieldPath Function() field,
     required Stream<Opt<T>> Function() changes,
     required Lookup Function() lookup,
     required Opt<T> Function() get,
@@ -4618,18 +5458,18 @@ extension PrxSingle$Factory$Ext on PrxSingle$Factory {
       Opt<T> value,
     )
         set,
-    required HasFieldPath Function() field,
   }) =>
       PrxSingle$Impl(
         PrxSingle$Data(
+          field: field,
           changes: changes,
           lookup: lookup,
           get: get,
           set: set,
-          field: field,
         ),
       );
   PrxSingle$Impl<T, L> create<T, L>({
+    required HasFieldPath Function() field,
     required Stream<Opt<T>> Function() changes,
     required Lookup Function() lookup,
     required Opt<T> Function() get,
@@ -4637,18 +5477,18 @@ extension PrxSingle$Factory$Ext on PrxSingle$Factory {
       Opt<T> value,
     )
         set,
-    required HasFieldPath Function() field,
   }) =>
       PrxSingle$Impl(
         PrxSingle$Data(
+          field: field,
           changes: changes,
           lookup: lookup,
           get: get,
           set: set,
-          field: field,
         ),
       );
   PrxSingle$Impl<T, L> data<T, L>({
+    required HasFieldPath Function() field,
     required Stream<Opt<T>> changes,
     required Lookup lookup,
     required Opt<T> Function() get,
@@ -4656,185 +5496,13 @@ extension PrxSingle$Factory$Ext on PrxSingle$Factory {
       Opt<T> value,
     )
         set,
-    required HasFieldPath Function() field,
   }) =>
       PrxSingle$Impl(
         PrxSingle$Data(
+          field: field,
           changes: () => changes,
           lookup: () => lookup,
           get: get,
-          set: set,
-          field: field,
-        ),
-      );
-  PrxSingle$Impl<T, L> fromPrxSingleFieldOfTypeOfLib<T, L>({
-    required HasData<PrxSingleFieldOfTypeOfLib$IData<T, L>>
-        prxSingleFieldOfTypeOfLib,
-  }) =>
-      PrxSingle$Impl(
-        PrxSingle$Data(
-          changes: prxSingleFieldOfTypeOfLib.data$.changes,
-          lookup: prxSingleFieldOfTypeOfLib.data$.lookup,
-          get: prxSingleFieldOfTypeOfLib.data$.get,
-          set: prxSingleFieldOfTypeOfLib.data$.set,
-          field: prxSingleFieldOfTypeOfLib.data$.field,
-        ),
-      );
-  PrxSingle$Impl<T, L> fromPrxSingleFieldOfType<T, L>({
-    required HasData<PrxSingleFieldOfType$IData<T>> prxSingleFieldOfType,
-  }) =>
-      PrxSingle$Impl(
-        PrxSingle$Data(
-          changes: prxSingleFieldOfType.data$.changes,
-          lookup: prxSingleFieldOfType.data$.lookup,
-          get: prxSingleFieldOfType.data$.get,
-          set: prxSingleFieldOfType.data$.set,
-          field: prxSingleFieldOfType.data$.field,
-        ),
-      );
-  PrxSingle$Impl<T, L> fromPrxSingleOfType<T, L>({
-    required HasData<PrxSingleOfType$IData<T>> prxSingleOfType,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingle$Impl(
-        PrxSingle$Data(
-          changes: prxSingleOfType.data$.changes,
-          lookup: prxSingleOfType.data$.lookup,
-          get: prxSingleOfType.data$.get,
-          set: prxSingleOfType.data$.set,
-          field: field,
-        ),
-      );
-  PrxSingle$Impl<T, L> fromPrxOfType<T, L>({
-    required HasData<PrxOfType$IData<T>> prxOfType,
-    required void Function(
-      Opt<T> value,
-    )
-        set,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingle$Impl(
-        PrxSingle$Data(
-          changes: prxOfType.data$.changes,
-          lookup: prxOfType.data$.lookup,
-          get: prxOfType.data$.get,
-          set: set,
-          field: field,
-        ),
-      );
-  PrxSingle$Impl<T, L> fromPrx<T, L>({
-    required HasData<Prx$IData> prx,
-    required Stream<Opt<T>> Function() changes,
-    required Lookup Function() lookup,
-    required Opt<T> Function() get,
-    required void Function(
-      Opt<T> value,
-    )
-        set,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingle$Impl(
-        PrxSingle$Data(
-          changes: changes,
-          lookup: lookup,
-          get: get,
-          set: set,
-          field: field,
-        ),
-      );
-  PrxSingle$Impl<T, L> fromRxVal<T, L>({
-    required HasData<RxVal$IData<Opt<T>>> rxVal,
-    required void Function(
-      Opt<T> value,
-    )
-        set,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingle$Impl(
-        PrxSingle$Data(
-          changes: rxVal.data$.changes,
-          lookup: rxVal.data$.lookup,
-          get: rxVal.data$.get,
-          set: set,
-          field: field,
-        ),
-      );
-  PrxSingle$Impl<T, L> fromGetter<T, L>({
-    required Getter<Opt<T>> getter,
-    required Stream<Opt<T>> Function() changes,
-    required Lookup Function() lookup,
-    required void Function(
-      Opt<T> value,
-    )
-        set,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingle$Impl(
-        PrxSingle$Data(
-          get: getter.get,
-          changes: changes,
-          lookup: lookup,
-          set: set,
-          field: field,
-        ),
-      );
-  PrxSingle$Impl<T, L> fromRxVar<T, L>({
-    required HasData<RxVar$IData<Opt<T>>> rxVar,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingle$Impl(
-        PrxSingle$Data(
-          changes: rxVar.data$.changes,
-          lookup: rxVar.data$.lookup,
-          get: rxVar.data$.get,
-          set: rxVar.data$.set,
-          field: field,
-        ),
-      );
-  PrxSingle$Impl<T, L> fromVariable<T, L>({
-    required Variable<Opt<T>> variable,
-    required Stream<Opt<T>> Function() changes,
-    required Lookup Function() lookup,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingle$Impl(
-        PrxSingle$Data(
-          get: variable.get,
-          set: variable.set,
-          changes: changes,
-          lookup: lookup,
-          field: field,
-        ),
-      );
-  PrxSingle$Impl<T, L> fromSetter<T, L>({
-    required Setter<Opt<T>> setter,
-    required Stream<Opt<T>> Function() changes,
-    required Lookup Function() lookup,
-    required Opt<T> Function() get,
-    required HasFieldPath Function() field,
-  }) =>
-      PrxSingle$Impl(
-        PrxSingle$Data(
-          set: setter.set,
-          changes: changes,
-          lookup: lookup,
-          get: get,
-          field: field,
-        ),
-      );
-  PrxSingle$Impl<T, L> fromPrxFieldOfType<T, L>({
-    required PrxFieldOfType<T> prxFieldOfType,
-    required void Function(
-      Opt<T> value,
-    )
-        set,
-  }) =>
-      PrxSingle$Impl(
-        PrxSingle$Data(
-          changes: () => prxFieldOfType.changes,
-          lookup: () => prxFieldOfType.lookup,
-          get: prxFieldOfType.get,
-          field: prxFieldOfType.field,
           set: set,
         ),
       );
@@ -4857,6 +5525,177 @@ extension PrxSingle$Factory$Ext on PrxSingle$Factory {
           set: set,
         ),
       );
+  PrxSingle$Impl<T, L> fromPrx<T, L>({
+    required Prx prx,
+    required HasFieldPath Function() field,
+    required Stream<Opt<T>> Function() changes,
+    required Lookup Function() lookup,
+    required Opt<T> Function() get,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+  }) =>
+      PrxSingle$Impl(
+        PrxSingle$Data(
+          field: field,
+          changes: changes,
+          lookup: lookup,
+          get: get,
+          set: set,
+        ),
+      );
+  PrxSingle$Impl<T, L> fromPrxSingleFieldOfTypeOfLib<T, L>({
+    required HasData<PrxSingleFieldOfTypeOfLib$IData<T, L>>
+        prxSingleFieldOfTypeOfLib,
+  }) =>
+      PrxSingle$Impl(
+        PrxSingle$Data(
+          field: prxSingleFieldOfTypeOfLib.data$.field,
+          changes: prxSingleFieldOfTypeOfLib.data$.changes,
+          lookup: prxSingleFieldOfTypeOfLib.data$.lookup,
+          get: prxSingleFieldOfTypeOfLib.data$.get,
+          set: prxSingleFieldOfTypeOfLib.data$.set,
+        ),
+      );
+  PrxSingle$Impl<T, L> fromPrxSingleFieldOfType<T, L>({
+    required HasData<PrxSingleFieldOfType$IData<T>> prxSingleFieldOfType,
+  }) =>
+      PrxSingle$Impl(
+        PrxSingle$Data(
+          field: prxSingleFieldOfType.data$.field,
+          changes: prxSingleFieldOfType.data$.changes,
+          lookup: prxSingleFieldOfType.data$.lookup,
+          get: prxSingleFieldOfType.data$.get,
+          set: prxSingleFieldOfType.data$.set,
+        ),
+      );
+  PrxSingle$Impl<T, L> fromPrxSingleOfType<T, L>({
+    required HasData<PrxSingleOfType$IData<T>> prxSingleOfType,
+    required HasFieldPath Function() field,
+  }) =>
+      PrxSingle$Impl(
+        PrxSingle$Data(
+          changes: prxSingleOfType.data$.changes,
+          lookup: prxSingleOfType.data$.lookup,
+          get: prxSingleOfType.data$.get,
+          set: prxSingleOfType.data$.set,
+          field: field,
+        ),
+      );
+  PrxSingle$Impl<T, L> fromPrxOfType<T, L>({
+    required HasData<PrxOfType$IData<T>> prxOfType,
+    required HasFieldPath Function() field,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+  }) =>
+      PrxSingle$Impl(
+        PrxSingle$Data(
+          changes: prxOfType.data$.changes,
+          lookup: prxOfType.data$.lookup,
+          get: prxOfType.data$.get,
+          field: field,
+          set: set,
+        ),
+      );
+  PrxSingle$Impl<T, L> fromRxVal<T, L>({
+    required HasData<RxVal$IData<Opt<T>>> rxVal,
+    required HasFieldPath Function() field,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+  }) =>
+      PrxSingle$Impl(
+        PrxSingle$Data(
+          changes: rxVal.data$.changes,
+          lookup: rxVal.data$.lookup,
+          get: rxVal.data$.get,
+          field: field,
+          set: set,
+        ),
+      );
+  PrxSingle$Impl<T, L> fromGetter<T, L>({
+    required Getter<Opt<T>> getter,
+    required HasFieldPath Function() field,
+    required Stream<Opt<T>> Function() changes,
+    required Lookup Function() lookup,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+  }) =>
+      PrxSingle$Impl(
+        PrxSingle$Data(
+          get: getter.get,
+          field: field,
+          changes: changes,
+          lookup: lookup,
+          set: set,
+        ),
+      );
+  PrxSingle$Impl<T, L> fromRxVar<T, L>({
+    required HasData<RxVar$IData<Opt<T>>> rxVar,
+    required HasFieldPath Function() field,
+  }) =>
+      PrxSingle$Impl(
+        PrxSingle$Data(
+          changes: rxVar.data$.changes,
+          lookup: rxVar.data$.lookup,
+          get: rxVar.data$.get,
+          set: rxVar.data$.set,
+          field: field,
+        ),
+      );
+  PrxSingle$Impl<T, L> fromVariable<T, L>({
+    required Variable<Opt<T>> variable,
+    required HasFieldPath Function() field,
+    required Stream<Opt<T>> Function() changes,
+    required Lookup Function() lookup,
+  }) =>
+      PrxSingle$Impl(
+        PrxSingle$Data(
+          get: variable.get,
+          set: variable.set,
+          field: field,
+          changes: changes,
+          lookup: lookup,
+        ),
+      );
+  PrxSingle$Impl<T, L> fromSetter<T, L>({
+    required Setter<Opt<T>> setter,
+    required HasFieldPath Function() field,
+    required Stream<Opt<T>> Function() changes,
+    required Lookup Function() lookup,
+    required Opt<T> Function() get,
+  }) =>
+      PrxSingle$Impl(
+        PrxSingle$Data(
+          set: setter.set,
+          field: field,
+          changes: changes,
+          lookup: lookup,
+          get: get,
+        ),
+      );
+  PrxSingle$Impl<T, L> fromPrxFieldOfType<T, L>({
+    required PrxFieldOfType<T> prxFieldOfType,
+    required void Function(
+      Opt<T> value,
+    )
+        set,
+  }) =>
+      PrxSingle$Impl(
+        PrxSingle$Data(
+          field: prxFieldOfType.field,
+          changes: () => prxFieldOfType.changes,
+          lookup: () => prxFieldOfType.lookup,
+          get: prxFieldOfType.get,
+          set: set,
+        ),
+      );
   PrxSingle$Impl<T, L> fromPrxFieldOfTypeOfLib<T, L>({
     required PrxFieldOfTypeOfLib<T, L> prxFieldOfTypeOfLib,
     required void Function(
@@ -4866,10 +5705,10 @@ extension PrxSingle$Factory$Ext on PrxSingle$Factory {
   }) =>
       PrxSingle$Impl(
         PrxSingle$Data(
+          field: prxFieldOfTypeOfLib.field,
           changes: () => prxFieldOfTypeOfLib.changes,
           lookup: () => prxFieldOfTypeOfLib.lookup,
           get: prxFieldOfTypeOfLib.get,
-          field: prxFieldOfTypeOfLib.field,
           set: set,
         ),
       );
@@ -5273,22 +6112,6 @@ extension PrxMap$Factory$Ext on PrxMap$Factory {
           rebuild: prxCollectionFieldOfType.data$.rebuild,
         ),
       );
-  PrxMap$Impl<K, V, L> fromPrxFieldOfType<K, V, L>({
-    required PrxFieldOfType<Map<K, V>> prxFieldOfType,
-    required void Function(
-      void Function(Map<K, V>) updates,
-    )
-        rebuild,
-  }) =>
-      PrxMap$Impl(
-        PrxMap$Data(
-          field: prxFieldOfType.field,
-          changes: () => prxFieldOfType.changes,
-          lookup: () => prxFieldOfType.lookup,
-          get: prxFieldOfType.get,
-          rebuild: rebuild,
-        ),
-      );
   PrxMap$Impl<K, V, L> fromPrxField<K, V, L>({
     required PrxField prxField,
     required Stream<Opt<Map<K, V>>> Function() changes,
@@ -5308,25 +6131,8 @@ extension PrxMap$Factory$Ext on PrxMap$Factory {
           rebuild: rebuild,
         ),
       );
-  PrxMap$Impl<K, V, L> fromPrxOfType<K, V, L>({
-    required HasData<PrxOfType$IData<Map<K, V>>> prxOfType,
-    required HasFieldPath Function() field,
-    required void Function(
-      void Function(Map<K, V>) updates,
-    )
-        rebuild,
-  }) =>
-      PrxMap$Impl(
-        PrxMap$Data(
-          changes: prxOfType.data$.changes,
-          lookup: prxOfType.data$.lookup,
-          get: prxOfType.data$.get,
-          field: field,
-          rebuild: rebuild,
-        ),
-      );
   PrxMap$Impl<K, V, L> fromPrx<K, V, L>({
-    required HasData<Prx$IData> prx,
+    required Prx prx,
     required HasFieldPath Function() field,
     required Stream<Opt<Map<K, V>>> Function() changes,
     required Lookup Function() lookup,
@@ -5342,6 +6148,39 @@ extension PrxMap$Factory$Ext on PrxMap$Factory {
           changes: changes,
           lookup: lookup,
           get: get,
+          rebuild: rebuild,
+        ),
+      );
+  PrxMap$Impl<K, V, L> fromPrxFieldOfType<K, V, L>({
+    required PrxFieldOfType<Map<K, V>> prxFieldOfType,
+    required void Function(
+      void Function(Map<K, V>) updates,
+    )
+        rebuild,
+  }) =>
+      PrxMap$Impl(
+        PrxMap$Data(
+          field: prxFieldOfType.field,
+          changes: () => prxFieldOfType.changes,
+          lookup: () => prxFieldOfType.lookup,
+          get: prxFieldOfType.get,
+          rebuild: rebuild,
+        ),
+      );
+  PrxMap$Impl<K, V, L> fromPrxOfType<K, V, L>({
+    required HasData<PrxOfType$IData<Map<K, V>>> prxOfType,
+    required HasFieldPath Function() field,
+    required void Function(
+      void Function(Map<K, V>) updates,
+    )
+        rebuild,
+  }) =>
+      PrxMap$Impl(
+        PrxMap$Data(
+          changes: prxOfType.data$.changes,
+          lookup: prxOfType.data$.lookup,
+          get: prxOfType.data$.get,
+          field: field,
           rebuild: rebuild,
         ),
       );
@@ -5810,22 +6649,6 @@ extension PrxRepeated$Factory$Ext on PrxRepeated$Factory {
           rebuild: prxCollectionFieldOfType.data$.rebuild,
         ),
       );
-  PrxRepeated$Impl<T, L> fromPrxFieldOfType<T, L>({
-    required PrxFieldOfType<List<T>> prxFieldOfType,
-    required void Function(
-      void Function(List<T>) updates,
-    )
-        rebuild,
-  }) =>
-      PrxRepeated$Impl(
-        PrxRepeated$Data(
-          field: prxFieldOfType.field,
-          changes: () => prxFieldOfType.changes,
-          lookup: () => prxFieldOfType.lookup,
-          get: prxFieldOfType.get,
-          rebuild: rebuild,
-        ),
-      );
   PrxRepeated$Impl<T, L> fromPrxField<T, L>({
     required PrxField prxField,
     required Stream<Opt<List<T>>> Function() changes,
@@ -5845,25 +6668,8 @@ extension PrxRepeated$Factory$Ext on PrxRepeated$Factory {
           rebuild: rebuild,
         ),
       );
-  PrxRepeated$Impl<T, L> fromPrxOfType<T, L>({
-    required HasData<PrxOfType$IData<List<T>>> prxOfType,
-    required HasFieldPath Function() field,
-    required void Function(
-      void Function(List<T>) updates,
-    )
-        rebuild,
-  }) =>
-      PrxRepeated$Impl(
-        PrxRepeated$Data(
-          changes: prxOfType.data$.changes,
-          lookup: prxOfType.data$.lookup,
-          get: prxOfType.data$.get,
-          field: field,
-          rebuild: rebuild,
-        ),
-      );
   PrxRepeated$Impl<T, L> fromPrx<T, L>({
-    required HasData<Prx$IData> prx,
+    required Prx prx,
     required HasFieldPath Function() field,
     required Stream<Opt<List<T>>> Function() changes,
     required Lookup Function() lookup,
@@ -5879,6 +6685,39 @@ extension PrxRepeated$Factory$Ext on PrxRepeated$Factory {
           changes: changes,
           lookup: lookup,
           get: get,
+          rebuild: rebuild,
+        ),
+      );
+  PrxRepeated$Impl<T, L> fromPrxFieldOfType<T, L>({
+    required PrxFieldOfType<List<T>> prxFieldOfType,
+    required void Function(
+      void Function(List<T>) updates,
+    )
+        rebuild,
+  }) =>
+      PrxRepeated$Impl(
+        PrxRepeated$Data(
+          field: prxFieldOfType.field,
+          changes: () => prxFieldOfType.changes,
+          lookup: () => prxFieldOfType.lookup,
+          get: prxFieldOfType.get,
+          rebuild: rebuild,
+        ),
+      );
+  PrxRepeated$Impl<T, L> fromPrxOfType<T, L>({
+    required HasData<PrxOfType$IData<List<T>>> prxOfType,
+    required HasFieldPath Function() field,
+    required void Function(
+      void Function(List<T>) updates,
+    )
+        rebuild,
+  }) =>
+      PrxRepeated$Impl(
+        PrxRepeated$Data(
+          changes: prxOfType.data$.changes,
+          lookup: prxOfType.data$.lookup,
+          get: prxOfType.data$.get,
+          field: field,
           rebuild: rebuild,
         ),
       );

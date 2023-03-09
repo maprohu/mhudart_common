@@ -7,28 +7,62 @@ import 'proto_meta.dart';
 
 part 'proto_rx.g.dart';
 
+abstract class Prx {
+  const Prx();
+
+  R whenPrx<R>({
+    required R Function(PrxMessage message) message,
+    required R Function(PrxField field) field,
+  });
+}
+
+@Impl()
 abstract class PrxOfLib<L> {}
 
+@Impl()
+abstract class PrxMessage extends Prx {
+  const PrxMessage();
+
+  PmMessage message();
+
+  R whenPrx<R>({
+    required R Function(PrxMessage message) message,
+    required R Function(PrxField field) field,
+  }) =>
+      message(this);
+}
+
+@Impl()
+abstract class PrxMessageOfType<M extends GeneratedMessage>
+    implements RxVar<Opt<M>> {
+  PmMessageOfType<M> message();
+}
+
+@Impl()
 abstract class PrxMessageOfLib<L> extends PrxOfLib<L> {
   PmMessage message();
 }
 
-@Impl()
-abstract class PrxMessage<T extends GeneratedMessage, L> extends RxVar<Opt<T>>
-    implements PrxMessageOfLib<L> {
-  PmMessageOfType<T> message();
-}
+// direct superclass
 
-abstract class PrxField {
+@Impl()
+abstract class PrxMessageBase<M extends GeneratedMessage, L> extends PrxMessage
+    implements PrxMessageOfType<M>, PrxMessageOfLib<L> {}
+
+abstract class PrxField extends Prx {
+  const PrxField();
+
   HasFieldPath field();
+
+  R whenPrx<R>({
+    required R Function(PrxMessage message) message,
+    required R Function(PrxField field) field,
+  }) =>
+      field(this);
 }
 
 @Impl()
-abstract class Prx {}
-
-
-@Impl()
-abstract class PrxOfType<T> implements Prx, RxVal<Opt<T>> {}
+abstract class PrxOfType<T> implements RxVal<Opt<T>> {}
 
 @Impl()
 abstract class PrxCollectionOfType<C> implements PrxOfType<C> {
@@ -43,44 +77,41 @@ abstract class PrxFieldOfType<V> implements PrxField, PrxOfType<V> {}
 abstract class PrxFieldOfTypeOfLib<V, L> implements PrxFieldOfType<V> {}
 
 @Impl()
-abstract class PrxCollectionFieldOfType<C>
-    implements PrxFieldOfType<C>, PrxCollectionOfType<C> {}
+abstract class PrxCollectionFieldOfType<C> extends PrxField
+    implements PrxFieldOfType<C>, PrxCollectionOfType<C> {
+
+}
 
 @Impl()
 abstract class PrxCollectionFieldOfTypeOfLib<C, L>
-    implements PrxCollectionFieldOfType<C>, PrxFieldOfTypeOfLib<C, L>, PrxCollectionOfType<C> {}
+    extends PrxCollectionFieldOfType<C>
+    implements PrxFieldOfTypeOfLib<C, L>, PrxCollectionOfType<C> {}
 
 @Impl()
-abstract class PrxSingleFieldOfType<V>
+abstract class PrxSingleFieldOfType<V> extends PrxField
     implements PrxSingleOfType<V>, PrxFieldOfType<V> {}
 
 @Impl()
-abstract class PrxSingleFieldOfTypeOfLib<V, L>
+abstract class PrxSingleFieldOfTypeOfLib<V, L> extends PrxField
     implements PrxSingleFieldOfType<V>, PrxFieldOfTypeOfLib<V, L> {}
-
-// abstract class PrxValue<V, L> implements PrxOfType<V>, PrxFieldOfTypeOfLib<V, L> {
-// }
-
-// @Impl()
-// abstract class PrxCollectionOfLib<C, L>
-//     implements PrxCollectionFieldOfTypeOfLib<C, L>, PrxValue<C, L> {}
 
 // direct superclasses
 
 @Impl()
-abstract class PrxSingle<T, L> implements PrxSingleFieldOfTypeOfLib<T, L> {}
+abstract class PrxSingle<T, L> extends PrxField
+    implements PrxSingleFieldOfTypeOfLib<T, L> {}
 
 @Impl()
 abstract class PrxMap<K, V, L>
-    implements PrxCollectionFieldOfTypeOfLib<Map<K, V>, L> {}
+    extends PrxCollectionFieldOfTypeOfLib<Map<K, V>, L> {
+
+}
 
 @Impl()
 abstract class PrxRepeated<T, L>
-    implements PrxCollectionFieldOfTypeOfLib<List<T>, L> {}
+    extends PrxCollectionFieldOfTypeOfLib<List<T>, L> {
 
-// typedef IPrxMap<K, V, L> = PrxCollection$Impl<Map<K, V>, L>;
-//
-// typedef IPrxRepeated<T, L> = PrxCollection$Impl<List<T>, L>;
+}
 
 @GenerateHierarchy(
     Hierarchy('type', children: [
@@ -108,11 +139,11 @@ extension PrxSingleMsgX<T extends GeneratedMessage> on IRxVar<Opt<T>> {
       mk.PrxSingle.fromField(this, field);
 
   PrxMap$Impl<K, V, L> mapOf<K, V, L>(
-          PmReadFieldOfMessagOfType<T, Map<K, V>> field) =>
+          PmReadFieldOfMessageOfType<T, Map<K, V>> field) =>
       mk.PrxMap.fromField(this, field);
 
   PrxRepeated$Impl<V, L> repeated<V, L>(
-          PmReadFieldOfMessagOfType<T, List<V>> field) =>
+          PmReadFieldOfMessageOfType<T, List<V>> field) =>
       mk.PrxRepeated.fromField(this, field);
 
 // PrxCollectionOfLib$Impl<C, L> collection<C, L>(PmReadFieldOfMessagOfType<T, C> field) =>
@@ -148,8 +179,6 @@ extension PrxSingleFactoryX on PrxSingle$Factory {
 }
 
 extension PrxSingleOfTypeFactoryX on PrxSingleOfType$Factory {
-
-
   PrxSingleOfType$Impl<V> fromFieldRebuilder<T, V>({
     required IRxVarDefault<T> rxVar,
     required PmFullField<T, V> field,
@@ -197,7 +226,7 @@ extension RxVarFactoryXPrx on RxVar$Factory {
 extension PrxMapFactoryX on PrxMap$Factory {
   PrxMap$Impl<K, V, L> fromField<T extends GeneratedMessage, K, V, L>(
     RxVarImplOpt<T> rxVar,
-    PmReadFieldOfMessagOfType<T, Map<K, V>> field,
+    PmReadFieldOfMessageOfType<T, Map<K, V>> field,
   ) =>
       mk.PrxMap.fromPrxCollectionOfType(
         prxCollectionOfType: mk.PrxCollectionOfType.fromField<T, Map<K, V>>(
@@ -211,7 +240,7 @@ extension PrxMapFactoryX on PrxMap$Factory {
 extension PrxRepeatedFactoryX on PrxRepeated$Factory {
   PrxRepeated$Impl<V, L> fromField<T extends GeneratedMessage, V, L>(
     RxVarImplOpt<T> rxVar,
-    PmReadFieldOfMessagOfType<T, List<V>> field,
+    PmReadFieldOfMessageOfType<T, List<V>> field,
   ) =>
       mk.PrxRepeated.fromPrxCollectionOfType(
         prxCollectionOfType: mk.PrxCollectionOfType.fromField<T, List<V>>(

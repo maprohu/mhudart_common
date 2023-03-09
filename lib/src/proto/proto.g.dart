@@ -10,18 +10,24 @@ part of 'proto.dart';
 
 typedef Cardinality = Cardinality$Base<FieldInfo>;
 
-abstract class Cardinality$Base<I$ extends FieldInfo> extends Holder<I$> {
-  const Cardinality$Base(super.item);
-  R$ acceptCardinality<R$>(Cardinality$Visitor<R$> visitor) =>
+class Cardinality$Base<I$ extends FieldInfo> extends Holder<I$> {
+  const Cardinality$Base(
+    super.item,
+  );
+  R$ acceptCardinality<R$>(
+    Cardinality$Visitor<R$> visitor,
+  ) =>
       visitor.cardinality(item);
 }
 
 class Cardinality$Impl extends Cardinality$Base<FieldInfo> {
-  const Cardinality$Impl(super.item);
-  const Cardinality$Impl.create(
-    FieldInfo item,
+  const Cardinality$Impl(
+    super.item,
+  );
+  Cardinality$Impl.create(
+    FieldInfo cardinality,
   ) : this(
-          item,
+          cardinality,
         );
 }
 
@@ -41,19 +47,32 @@ class Cardinality$Factory {
       );
 }
 
-const cardinality$Factory = Cardinality$Factory();
+const Cardinality$Factory cardinality$Factory = Cardinality$Factory();
 
 extension Mk$Ext$Cardinality on Mk {
   Cardinality$Factory get Cardinality => cardinality$Factory;
 }
 
 abstract class Cardinality$Visitor<R$> {
-  R$ cardinality(FieldInfo value);
-  R$ mapOf(MapFieldInfo value);
-  R$ nonMap(FieldInfo value);
-  R$ single(FieldInfo value);
-  R$ repeated(FieldInfo value);
-  R$ oneOf(FieldInfo value);
+  Cardinality$Visitor();
+  R$ cardinality(
+    FieldInfo cardinality,
+  );
+  R$ mapOf(
+    MapFieldInfo mapOf,
+  );
+  R$ nonMap(
+    FieldInfo nonMap,
+  );
+  R$ single(
+    FieldInfo single,
+  );
+  R$ repeated(
+    FieldInfo repeated,
+  );
+  R$ oneOf(
+    FieldInfo oneOf,
+  );
 }
 
 /// [Cardinality$Visitor]
@@ -796,7 +815,7 @@ extension Cardinality$Visitor$Factory$Ext on Cardinality$Visitor$Factory {
       );
 }
 
-extension Cardinality$WhenX on Cardinality$Base<FieldInfo> {
+extension Cardinality$Base$WhenExt on Cardinality$Base<FieldInfo> {
   R$ when<R$>({
     R$ Function(
       FieldInfo cardinality,
@@ -836,19 +855,24 @@ extension Cardinality$WhenX on Cardinality$Base<FieldInfo> {
 
 typedef MapOf = MapOf$Base<MapFieldInfo>;
 
-abstract class MapOf$Base<I$ extends MapFieldInfo>
-    extends Cardinality$Base<I$> {
-  const MapOf$Base(super.item);
-  R$ acceptCardinality<R$>(Cardinality$Visitor<R$> visitor) =>
+class MapOf$Base<I$ extends MapFieldInfo> extends Cardinality$Base<I$> {
+  const MapOf$Base(
+    super.item,
+  );
+  R$ acceptCardinality<R$>(
+    Cardinality$Visitor<R$> visitor,
+  ) =>
       visitor.mapOf(item);
 }
 
 class MapOf$Impl extends MapOf$Base<MapFieldInfo> {
-  const MapOf$Impl(super.item);
-  const MapOf$Impl.create(
-    MapFieldInfo item,
+  const MapOf$Impl(
+    super.item,
+  );
+  MapOf$Impl.create(
+    MapFieldInfo mapOf,
   ) : this(
-          item,
+          mapOf,
         );
 }
 
@@ -868,7 +892,7 @@ class MapOf$Factory {
       );
 }
 
-const mapOf$Factory = MapOf$Factory();
+const MapOf$Factory mapOf$Factory = MapOf$Factory();
 
 extension Mk$Ext$MapOf on Mk {
   MapOf$Factory get MapOf => mapOf$Factory;
@@ -876,19 +900,28 @@ extension Mk$Ext$MapOf on Mk {
 
 typedef NonMap = NonMap$Base<FieldInfo>;
 
-abstract class NonMap$Base<I$ extends FieldInfo> extends Cardinality$Base<I$> {
-  const NonMap$Base(super.item);
-  R$ acceptNonMap<R$>(NonMap$Visitor<R$> visitor) => visitor.nonMap(item);
-  R$ acceptCardinality<R$>(Cardinality$Visitor<R$> visitor) =>
+class NonMap$Base<I$ extends FieldInfo> extends Cardinality$Base<I$> {
+  const NonMap$Base(
+    super.item,
+  );
+  R$ acceptNonMap<R$>(
+    NonMap$Visitor<R$> visitor,
+  ) =>
+      visitor.nonMap(item);
+  R$ acceptCardinality<R$>(
+    Cardinality$Visitor<R$> visitor,
+  ) =>
       visitor.nonMap(item);
 }
 
 class NonMap$Impl extends NonMap$Base<FieldInfo> {
-  const NonMap$Impl(super.item);
-  const NonMap$Impl.create(
-    FieldInfo item,
+  const NonMap$Impl(
+    super.item,
+  );
+  NonMap$Impl.create(
+    FieldInfo nonMap,
   ) : this(
-          item,
+          nonMap,
         );
 }
 
@@ -908,17 +941,26 @@ class NonMap$Factory {
       );
 }
 
-const nonMap$Factory = NonMap$Factory();
+const NonMap$Factory nonMap$Factory = NonMap$Factory();
 
 extension Mk$Ext$NonMap on Mk {
   NonMap$Factory get NonMap => nonMap$Factory;
 }
 
 abstract class NonMap$Visitor<R$> {
-  R$ nonMap(FieldInfo value);
-  R$ single(FieldInfo value);
-  R$ repeated(FieldInfo value);
-  R$ oneOf(FieldInfo value);
+  NonMap$Visitor();
+  R$ nonMap(
+    FieldInfo nonMap,
+  );
+  R$ single(
+    FieldInfo single,
+  );
+  R$ repeated(
+    FieldInfo repeated,
+  );
+  R$ oneOf(
+    FieldInfo oneOf,
+  );
 }
 
 /// [NonMap$Visitor]
@@ -1460,7 +1502,7 @@ extension NonMap$Visitor$Factory$Ext on NonMap$Visitor$Factory {
       );
 }
 
-extension NonMap$WhenX on NonMap$Base<FieldInfo> {
+extension NonMap$Base$WhenExt on NonMap$Base<FieldInfo> {
   R$ when<R$>({
     R$ Function(
       FieldInfo nonMap,
@@ -1489,19 +1531,28 @@ extension NonMap$WhenX on NonMap$Base<FieldInfo> {
 
 typedef Single = Single$Base<FieldInfo>;
 
-abstract class Single$Base<I$ extends FieldInfo> extends NonMap$Base<I$> {
-  const Single$Base(super.item);
-  R$ acceptNonMap<R$>(NonMap$Visitor<R$> visitor) => visitor.single(item);
-  R$ acceptCardinality<R$>(Cardinality$Visitor<R$> visitor) =>
+class Single$Base<I$ extends FieldInfo> extends NonMap$Base<I$> {
+  const Single$Base(
+    super.item,
+  );
+  R$ acceptNonMap<R$>(
+    NonMap$Visitor<R$> visitor,
+  ) =>
+      visitor.single(item);
+  R$ acceptCardinality<R$>(
+    Cardinality$Visitor<R$> visitor,
+  ) =>
       visitor.single(item);
 }
 
 class Single$Impl extends Single$Base<FieldInfo> {
-  const Single$Impl(super.item);
-  const Single$Impl.create(
-    FieldInfo item,
+  const Single$Impl(
+    super.item,
+  );
+  Single$Impl.create(
+    FieldInfo single,
   ) : this(
-          item,
+          single,
         );
 }
 
@@ -1521,7 +1572,7 @@ class Single$Factory {
       );
 }
 
-const single$Factory = Single$Factory();
+const Single$Factory single$Factory = Single$Factory();
 
 extension Mk$Ext$Single on Mk {
   Single$Factory get Single => single$Factory;
@@ -1529,19 +1580,28 @@ extension Mk$Ext$Single on Mk {
 
 typedef Repeated = Repeated$Base<FieldInfo>;
 
-abstract class Repeated$Base<I$ extends FieldInfo> extends NonMap$Base<I$> {
-  const Repeated$Base(super.item);
-  R$ acceptNonMap<R$>(NonMap$Visitor<R$> visitor) => visitor.repeated(item);
-  R$ acceptCardinality<R$>(Cardinality$Visitor<R$> visitor) =>
+class Repeated$Base<I$ extends FieldInfo> extends NonMap$Base<I$> {
+  const Repeated$Base(
+    super.item,
+  );
+  R$ acceptNonMap<R$>(
+    NonMap$Visitor<R$> visitor,
+  ) =>
+      visitor.repeated(item);
+  R$ acceptCardinality<R$>(
+    Cardinality$Visitor<R$> visitor,
+  ) =>
       visitor.repeated(item);
 }
 
 class Repeated$Impl extends Repeated$Base<FieldInfo> {
-  const Repeated$Impl(super.item);
-  const Repeated$Impl.create(
-    FieldInfo item,
+  const Repeated$Impl(
+    super.item,
+  );
+  Repeated$Impl.create(
+    FieldInfo repeated,
   ) : this(
-          item,
+          repeated,
         );
 }
 
@@ -1561,7 +1621,7 @@ class Repeated$Factory {
       );
 }
 
-const repeated$Factory = Repeated$Factory();
+const Repeated$Factory repeated$Factory = Repeated$Factory();
 
 extension Mk$Ext$Repeated on Mk {
   Repeated$Factory get Repeated => repeated$Factory;
@@ -1569,19 +1629,28 @@ extension Mk$Ext$Repeated on Mk {
 
 typedef OneOf = OneOf$Base<FieldInfo>;
 
-abstract class OneOf$Base<I$ extends FieldInfo> extends NonMap$Base<I$> {
-  const OneOf$Base(super.item);
-  R$ acceptNonMap<R$>(NonMap$Visitor<R$> visitor) => visitor.oneOf(item);
-  R$ acceptCardinality<R$>(Cardinality$Visitor<R$> visitor) =>
+class OneOf$Base<I$ extends FieldInfo> extends NonMap$Base<I$> {
+  const OneOf$Base(
+    super.item,
+  );
+  R$ acceptNonMap<R$>(
+    NonMap$Visitor<R$> visitor,
+  ) =>
+      visitor.oneOf(item);
+  R$ acceptCardinality<R$>(
+    Cardinality$Visitor<R$> visitor,
+  ) =>
       visitor.oneOf(item);
 }
 
 class OneOf$Impl extends OneOf$Base<FieldInfo> {
-  const OneOf$Impl(super.item);
-  const OneOf$Impl.create(
-    FieldInfo item,
+  const OneOf$Impl(
+    super.item,
+  );
+  OneOf$Impl.create(
+    FieldInfo oneOf,
   ) : this(
-          item,
+          oneOf,
         );
 }
 
@@ -1601,7 +1670,7 @@ class OneOf$Factory {
       );
 }
 
-const oneOf$Factory = OneOf$Factory();
+const OneOf$Factory oneOf$Factory = OneOf$Factory();
 
 extension Mk$Ext$OneOf on Mk {
   OneOf$Factory get OneOf => oneOf$Factory;
@@ -1609,14 +1678,19 @@ extension Mk$Ext$OneOf on Mk {
 
 typedef ValueType = ValueType$Base<void>;
 
-abstract class ValueType$Base<I$> extends Holder<I$> {
-  const ValueType$Base(super.item);
-  R$ acceptValueType<R$>(ValueType$Visitor<R$> visitor) => visitor.valueType();
+class ValueType$Base<I$> extends Holder<I$> {
+  const ValueType$Base(
+    super.item,
+  );
+  R$ acceptValueType<R$>(
+    ValueType$Visitor<R$> visitor,
+  ) =>
+      visitor.valueType();
 }
 
 class ValueType$Impl extends ValueType$Base<void> {
   const ValueType$Impl() : super(null);
-  const ValueType$Impl.create() : this();
+  ValueType$Impl.create() : this();
 }
 
 class ValueType$Factory {
@@ -1625,19 +1699,22 @@ class ValueType$Factory {
   ValueType$Impl call() => ValueType$Impl();
 }
 
-const valueType$Factory = ValueType$Factory();
+const ValueType$Factory valueType$Factory = ValueType$Factory();
 
 extension Mk$Ext$ValueType on Mk {
   ValueType$Factory get ValueType => valueType$Factory;
 }
 
 abstract class ValueType$Visitor<R$> {
+  ValueType$Visitor();
   R$ valueType();
   R$ boolType();
   R$ intType();
   R$ stringType();
   R$ enumType();
-  R$ messageType(BuilderInfo value);
+  R$ messageType(
+    BuilderInfo messageType,
+  );
 }
 
 /// [ValueType$Visitor]
@@ -2073,7 +2150,7 @@ extension ValueType$Visitor$Factory$Ext on ValueType$Visitor$Factory {
       );
 }
 
-extension ValueType$WhenX on ValueType$Base<void> {
+extension ValueType$Base$WhenExt on ValueType$Base<void> {
   R$ when<R$>({
     R$ Function()? valueType,
     R$ Function()? boolType,
@@ -2097,14 +2174,19 @@ extension ValueType$WhenX on ValueType$Base<void> {
 
 typedef BoolType = BoolType$Base<void>;
 
-abstract class BoolType$Base<I$> extends ValueType$Base<I$> {
-  const BoolType$Base(super.item);
-  R$ acceptValueType<R$>(ValueType$Visitor<R$> visitor) => visitor.boolType();
+class BoolType$Base<I$> extends ValueType$Base<I$> {
+  const BoolType$Base(
+    super.item,
+  );
+  R$ acceptValueType<R$>(
+    ValueType$Visitor<R$> visitor,
+  ) =>
+      visitor.boolType();
 }
 
 class BoolType$Impl extends BoolType$Base<void> {
   const BoolType$Impl() : super(null);
-  const BoolType$Impl.create() : this();
+  BoolType$Impl.create() : this();
 }
 
 class BoolType$Factory {
@@ -2113,7 +2195,7 @@ class BoolType$Factory {
   BoolType$Impl call() => BoolType$Impl();
 }
 
-const boolType$Factory = BoolType$Factory();
+const BoolType$Factory boolType$Factory = BoolType$Factory();
 
 extension Mk$Ext$BoolType on Mk {
   BoolType$Factory get BoolType => boolType$Factory;
@@ -2121,14 +2203,19 @@ extension Mk$Ext$BoolType on Mk {
 
 typedef IntType = IntType$Base<void>;
 
-abstract class IntType$Base<I$> extends ValueType$Base<I$> {
-  const IntType$Base(super.item);
-  R$ acceptValueType<R$>(ValueType$Visitor<R$> visitor) => visitor.intType();
+class IntType$Base<I$> extends ValueType$Base<I$> {
+  const IntType$Base(
+    super.item,
+  );
+  R$ acceptValueType<R$>(
+    ValueType$Visitor<R$> visitor,
+  ) =>
+      visitor.intType();
 }
 
 class IntType$Impl extends IntType$Base<void> {
   const IntType$Impl() : super(null);
-  const IntType$Impl.create() : this();
+  IntType$Impl.create() : this();
 }
 
 class IntType$Factory {
@@ -2137,7 +2224,7 @@ class IntType$Factory {
   IntType$Impl call() => IntType$Impl();
 }
 
-const intType$Factory = IntType$Factory();
+const IntType$Factory intType$Factory = IntType$Factory();
 
 extension Mk$Ext$IntType on Mk {
   IntType$Factory get IntType => intType$Factory;
@@ -2145,14 +2232,19 @@ extension Mk$Ext$IntType on Mk {
 
 typedef StringType = StringType$Base<void>;
 
-abstract class StringType$Base<I$> extends ValueType$Base<I$> {
-  const StringType$Base(super.item);
-  R$ acceptValueType<R$>(ValueType$Visitor<R$> visitor) => visitor.stringType();
+class StringType$Base<I$> extends ValueType$Base<I$> {
+  const StringType$Base(
+    super.item,
+  );
+  R$ acceptValueType<R$>(
+    ValueType$Visitor<R$> visitor,
+  ) =>
+      visitor.stringType();
 }
 
 class StringType$Impl extends StringType$Base<void> {
   const StringType$Impl() : super(null);
-  const StringType$Impl.create() : this();
+  StringType$Impl.create() : this();
 }
 
 class StringType$Factory {
@@ -2161,7 +2253,7 @@ class StringType$Factory {
   StringType$Impl call() => StringType$Impl();
 }
 
-const stringType$Factory = StringType$Factory();
+const StringType$Factory stringType$Factory = StringType$Factory();
 
 extension Mk$Ext$StringType on Mk {
   StringType$Factory get StringType => stringType$Factory;
@@ -2169,14 +2261,19 @@ extension Mk$Ext$StringType on Mk {
 
 typedef EnumType = EnumType$Base<void>;
 
-abstract class EnumType$Base<I$> extends ValueType$Base<I$> {
-  const EnumType$Base(super.item);
-  R$ acceptValueType<R$>(ValueType$Visitor<R$> visitor) => visitor.enumType();
+class EnumType$Base<I$> extends ValueType$Base<I$> {
+  const EnumType$Base(
+    super.item,
+  );
+  R$ acceptValueType<R$>(
+    ValueType$Visitor<R$> visitor,
+  ) =>
+      visitor.enumType();
 }
 
 class EnumType$Impl extends EnumType$Base<void> {
   const EnumType$Impl() : super(null);
-  const EnumType$Impl.create() : this();
+  EnumType$Impl.create() : this();
 }
 
 class EnumType$Factory {
@@ -2185,7 +2282,7 @@ class EnumType$Factory {
   EnumType$Impl call() => EnumType$Impl();
 }
 
-const enumType$Factory = EnumType$Factory();
+const EnumType$Factory enumType$Factory = EnumType$Factory();
 
 extension Mk$Ext$EnumType on Mk {
   EnumType$Factory get EnumType => enumType$Factory;
@@ -2193,19 +2290,24 @@ extension Mk$Ext$EnumType on Mk {
 
 typedef MessageType = MessageType$Base<BuilderInfo>;
 
-abstract class MessageType$Base<I$ extends BuilderInfo>
-    extends ValueType$Base<I$> {
-  const MessageType$Base(super.item);
-  R$ acceptValueType<R$>(ValueType$Visitor<R$> visitor) =>
+class MessageType$Base<I$ extends BuilderInfo> extends ValueType$Base<I$> {
+  const MessageType$Base(
+    super.item,
+  );
+  R$ acceptValueType<R$>(
+    ValueType$Visitor<R$> visitor,
+  ) =>
       visitor.messageType(item);
 }
 
 class MessageType$Impl extends MessageType$Base<BuilderInfo> {
-  const MessageType$Impl(super.item);
-  const MessageType$Impl.create(
-    BuilderInfo item,
+  const MessageType$Impl(
+    super.item,
+  );
+  MessageType$Impl.create(
+    BuilderInfo messageType,
   ) : this(
-          item,
+          messageType,
         );
 }
 
@@ -2225,7 +2327,7 @@ class MessageType$Factory {
       );
 }
 
-const messageType$Factory = MessageType$Factory();
+const MessageType$Factory messageType$Factory = MessageType$Factory();
 
 extension Mk$Ext$MessageType on Mk {
   MessageType$Factory get MessageType => messageType$Factory;

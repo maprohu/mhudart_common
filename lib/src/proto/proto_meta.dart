@@ -36,6 +36,7 @@ abstract class PmMessage implements HasMessagePath {
   dynamic get emptyMessage$;
 
   int get index$;
+  int get globalIndex$;
 
   List<PmField> get fields$;
 
@@ -97,6 +98,7 @@ abstract class HasFieldPath {
   HasMessagePath get message;
 
   int get index;
+  int get globalIndex;
 }
 
 abstract class PmField implements HasFieldPath {
@@ -160,13 +162,18 @@ abstract class PmMsgField<T, V> extends PmFullField<T, V> {
   V ensure(T message);
 }
 
-abstract class PmReadFieldOfMessagOfType<T extends GeneratedMessage, V>
-    extends PmFieldOfType<V> implements PmFieldOfMessage<T>, PmReadField<T, V> {
-  const PmReadFieldOfMessagOfType();
+abstract class PmFieldOfMessageOfType<T extends GeneratedMessage, V>
+    extends PmFieldOfType<V> implements PmFieldOfMessage<T> {
+  const PmFieldOfMessageOfType();
+}
+
+abstract class PmReadFieldOfMessageOfType<T extends GeneratedMessage, V>
+    extends PmFieldOfMessageOfType<T, V> implements PmReadField<T, V> {
+  const PmReadFieldOfMessageOfType();
 }
 
 abstract class PmFullFieldOfMessageOfType<T extends GeneratedMessage, V>
-    extends PmReadFieldOfMessagOfType<T, V> implements PmFullField<T, V> {
+    extends PmReadFieldOfMessageOfType<T, V> implements PmFullField<T, V> {
   const PmFullFieldOfMessageOfType();
 }
 
@@ -188,14 +195,14 @@ abstract class PmMessageField<T extends GeneratedMessage, V>
 }
 
 abstract class PmRepeatedField<T extends GeneratedMessage, V>
-    extends PmReadFieldOfMessagOfType<T, List<V>> {
+    extends PmReadFieldOfMessageOfType<T, List<V>> {
   const PmRepeatedField();
 
   R singleType<R>(R Function<TF>() fn) => fn<V>();
 }
 
 abstract class PmMapField<T extends GeneratedMessage, K, V>
-    extends PmReadFieldOfMessagOfType<T, Map<K, V>> {
+    extends PmReadFieldOfMessageOfType<T, Map<K, V>> {
   const PmMapField();
 
   R singleType<R>(R Function<TF>() fn) => fn<V>();
@@ -205,6 +212,9 @@ abstract class PmEnum<E extends ProtobufEnum> {
   const PmEnum();
 
   List<E> values();
+
+  R type$<R>(R Function<TE extends ProtobufEnum>() fn) => fn<E>();
+
 }
 
 abstract class PmOneof {}

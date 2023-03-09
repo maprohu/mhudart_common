@@ -15,6 +15,10 @@ export 'src/rxvar/rxvar.dart';
 export 'src/generator_runtime.dart';
 export 'src/proto/proto.dart';
 export 'src/proto/proto_descriptor.dart';
+export 'src/proto/descriptor/descriptor_root.dart';
+export 'src/proto/descriptor/descriptor_enum.dart';
+export 'src/proto/descriptor/descriptor_field.dart';
+export 'src/proto/descriptor/descriptor_message.dart';
 export 'src/proto/proto_meta.dart';
 
 

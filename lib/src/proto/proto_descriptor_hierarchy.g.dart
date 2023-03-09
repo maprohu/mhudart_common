@@ -10,15 +10,19 @@ part of 'proto_descriptor_hierarchy.dart';
 
 typedef PdfCardinality<M, F, E> = PdfCardinality$Base<void, M, F, E>;
 
-abstract class PdfCardinality$Base<I$, M, F, E> extends Holder<I$> {
-  const PdfCardinality$Base(super.item);
-  R$ acceptPdfCardinality<R$>(PdfCardinality$Visitor<R$, M, F, E> visitor) =>
+class PdfCardinality$Base<I$, M, F, E> extends Holder<I$> {
+  const PdfCardinality$Base(
+    super.item,
+  );
+  R$ acceptPdfCardinality<R$>(
+    PdfCardinality$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.cardinality();
 }
 
 class PdfCardinality$Impl<M, F, E> extends PdfCardinality$Base<void, M, F, E> {
   const PdfCardinality$Impl() : super(null);
-  const PdfCardinality$Impl.create() : this();
+  PdfCardinality$Impl.create() : this();
 }
 
 class PdfCardinality$Factory {
@@ -27,15 +31,18 @@ class PdfCardinality$Factory {
   PdfCardinality$Impl<M, F, E> call<M, F, E>() => PdfCardinality$Impl();
 }
 
-const pdfCardinality$Factory = PdfCardinality$Factory();
+const PdfCardinality$Factory pdfCardinality$Factory = PdfCardinality$Factory();
 
 extension Mk$Ext$PdfCardinality on Mk {
   PdfCardinality$Factory get PdfCardinality => pdfCardinality$Factory;
 }
 
 abstract class PdfCardinality$Visitor<R$, M, F, E> {
+  PdfCardinality$Visitor();
   R$ cardinality();
-  R$ mapOf(MapFields<M, F, E> value);
+  R$ mapOf(
+    MapFields<M, F, E> mapOf,
+  );
   R$ nonMap();
   R$ single();
   R$ repeated();
@@ -449,7 +456,8 @@ extension PdfCardinality$Visitor$Factory$Ext on PdfCardinality$Visitor$Factory {
       );
 }
 
-extension PdfCardinality$WhenX<M, F, E> on PdfCardinality$Base<void, M, F, E> {
+extension PdfCardinality$Base$WhenExt<M, F, E>
+    on PdfCardinality$Base<void, M, F, E> {
   R$ when<R$>({
     R$ Function()? cardinality,
     R$ Function(
@@ -472,20 +480,26 @@ extension PdfCardinality$WhenX<M, F, E> on PdfCardinality$Base<void, M, F, E> {
 
 typedef PdfMapOf<M, F, E> = PdfMapOf$Base<MapFields<M, F, E>, M, F, E>;
 
-abstract class PdfMapOf$Base<I$ extends MapFields<M, F, E>, M, F, E>
+class PdfMapOf$Base<I$ extends MapFields<M, F, E>, M, F, E>
     extends PdfCardinality$Base<I$, M, F, E> {
-  const PdfMapOf$Base(super.item);
-  R$ acceptPdfCardinality<R$>(PdfCardinality$Visitor<R$, M, F, E> visitor) =>
+  const PdfMapOf$Base(
+    super.item,
+  );
+  R$ acceptPdfCardinality<R$>(
+    PdfCardinality$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.mapOf(item);
 }
 
 class PdfMapOf$Impl<M, F, E>
     extends PdfMapOf$Base<MapFields<M, F, E>, M, F, E> {
-  const PdfMapOf$Impl(super.item);
-  const PdfMapOf$Impl.create(
-    MapFields<M, F, E> item,
+  const PdfMapOf$Impl(
+    super.item,
+  );
+  PdfMapOf$Impl.create(
+    MapFields<M, F, E> mapOf,
   ) : this(
-          item,
+          mapOf,
         );
 }
 
@@ -505,7 +519,7 @@ class PdfMapOf$Factory {
       );
 }
 
-const pdfMapOf$Factory = PdfMapOf$Factory();
+const PdfMapOf$Factory pdfMapOf$Factory = PdfMapOf$Factory();
 
 extension Mk$Ext$PdfMapOf on Mk {
   PdfMapOf$Factory get PdfMapOf => pdfMapOf$Factory;
@@ -513,18 +527,23 @@ extension Mk$Ext$PdfMapOf on Mk {
 
 typedef PdfNonMap<M, F, E> = PdfNonMap$Base<void, M, F, E>;
 
-abstract class PdfNonMap$Base<I$, M, F, E>
-    extends PdfCardinality$Base<I$, M, F, E> {
-  const PdfNonMap$Base(super.item);
-  R$ acceptPdfNonMap<R$>(PdfNonMap$Visitor<R$, M, F, E> visitor) =>
+class PdfNonMap$Base<I$, M, F, E> extends PdfCardinality$Base<I$, M, F, E> {
+  const PdfNonMap$Base(
+    super.item,
+  );
+  R$ acceptPdfNonMap<R$>(
+    PdfNonMap$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.nonMap();
-  R$ acceptPdfCardinality<R$>(PdfCardinality$Visitor<R$, M, F, E> visitor) =>
+  R$ acceptPdfCardinality<R$>(
+    PdfCardinality$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.nonMap();
 }
 
 class PdfNonMap$Impl<M, F, E> extends PdfNonMap$Base<void, M, F, E> {
   const PdfNonMap$Impl() : super(null);
-  const PdfNonMap$Impl.create() : this();
+  PdfNonMap$Impl.create() : this();
 }
 
 class PdfNonMap$Factory {
@@ -533,13 +552,14 @@ class PdfNonMap$Factory {
   PdfNonMap$Impl<M, F, E> call<M, F, E>() => PdfNonMap$Impl();
 }
 
-const pdfNonMap$Factory = PdfNonMap$Factory();
+const PdfNonMap$Factory pdfNonMap$Factory = PdfNonMap$Factory();
 
 extension Mk$Ext$PdfNonMap on Mk {
   PdfNonMap$Factory get PdfNonMap => pdfNonMap$Factory;
 }
 
 abstract class PdfNonMap$Visitor<R$, M, F, E> {
+  PdfNonMap$Visitor();
   R$ nonMap();
   R$ single();
   R$ repeated();
@@ -812,7 +832,7 @@ extension PdfNonMap$Visitor$Factory$Ext on PdfNonMap$Visitor$Factory {
       );
 }
 
-extension PdfNonMap$WhenX<M, F, E> on PdfNonMap$Base<void, M, F, E> {
+extension PdfNonMap$Base$WhenExt<M, F, E> on PdfNonMap$Base<void, M, F, E> {
   R$ when<R$>({
     R$ Function()? nonMap,
     R$ Function()? single,
@@ -827,17 +847,23 @@ extension PdfNonMap$WhenX<M, F, E> on PdfNonMap$Base<void, M, F, E> {
 
 typedef PdfSingle<M, F, E> = PdfSingle$Base<void, M, F, E>;
 
-abstract class PdfSingle$Base<I$, M, F, E> extends PdfNonMap$Base<I$, M, F, E> {
-  const PdfSingle$Base(super.item);
-  R$ acceptPdfNonMap<R$>(PdfNonMap$Visitor<R$, M, F, E> visitor) =>
+class PdfSingle$Base<I$, M, F, E> extends PdfNonMap$Base<I$, M, F, E> {
+  const PdfSingle$Base(
+    super.item,
+  );
+  R$ acceptPdfNonMap<R$>(
+    PdfNonMap$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.single();
-  R$ acceptPdfCardinality<R$>(PdfCardinality$Visitor<R$, M, F, E> visitor) =>
+  R$ acceptPdfCardinality<R$>(
+    PdfCardinality$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.single();
 }
 
 class PdfSingle$Impl<M, F, E> extends PdfSingle$Base<void, M, F, E> {
   const PdfSingle$Impl() : super(null);
-  const PdfSingle$Impl.create() : this();
+  PdfSingle$Impl.create() : this();
 }
 
 class PdfSingle$Factory {
@@ -846,7 +872,7 @@ class PdfSingle$Factory {
   PdfSingle$Impl<M, F, E> call<M, F, E>() => PdfSingle$Impl();
 }
 
-const pdfSingle$Factory = PdfSingle$Factory();
+const PdfSingle$Factory pdfSingle$Factory = PdfSingle$Factory();
 
 extension Mk$Ext$PdfSingle on Mk {
   PdfSingle$Factory get PdfSingle => pdfSingle$Factory;
@@ -854,18 +880,23 @@ extension Mk$Ext$PdfSingle on Mk {
 
 typedef PdfRepeated<M, F, E> = PdfRepeated$Base<void, M, F, E>;
 
-abstract class PdfRepeated$Base<I$, M, F, E>
-    extends PdfNonMap$Base<I$, M, F, E> {
-  const PdfRepeated$Base(super.item);
-  R$ acceptPdfNonMap<R$>(PdfNonMap$Visitor<R$, M, F, E> visitor) =>
+class PdfRepeated$Base<I$, M, F, E> extends PdfNonMap$Base<I$, M, F, E> {
+  const PdfRepeated$Base(
+    super.item,
+  );
+  R$ acceptPdfNonMap<R$>(
+    PdfNonMap$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.repeated();
-  R$ acceptPdfCardinality<R$>(PdfCardinality$Visitor<R$, M, F, E> visitor) =>
+  R$ acceptPdfCardinality<R$>(
+    PdfCardinality$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.repeated();
 }
 
 class PdfRepeated$Impl<M, F, E> extends PdfRepeated$Base<void, M, F, E> {
   const PdfRepeated$Impl() : super(null);
-  const PdfRepeated$Impl.create() : this();
+  PdfRepeated$Impl.create() : this();
 }
 
 class PdfRepeated$Factory {
@@ -874,7 +905,7 @@ class PdfRepeated$Factory {
   PdfRepeated$Impl<M, F, E> call<M, F, E>() => PdfRepeated$Impl();
 }
 
-const pdfRepeated$Factory = PdfRepeated$Factory();
+const PdfRepeated$Factory pdfRepeated$Factory = PdfRepeated$Factory();
 
 extension Mk$Ext$PdfRepeated on Mk {
   PdfRepeated$Factory get PdfRepeated => pdfRepeated$Factory;
@@ -882,15 +913,19 @@ extension Mk$Ext$PdfRepeated on Mk {
 
 typedef PdfValueType<M, F, E> = PdfValueType$Base<void, M, F, E>;
 
-abstract class PdfValueType$Base<I$, M, F, E> extends Holder<I$> {
-  const PdfValueType$Base(super.item);
-  R$ acceptPdfValueType<R$>(PdfValueType$Visitor<R$, M, F, E> visitor) =>
+class PdfValueType$Base<I$, M, F, E> extends Holder<I$> {
+  const PdfValueType$Base(
+    super.item,
+  );
+  R$ acceptPdfValueType<R$>(
+    PdfValueType$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.valueType();
 }
 
 class PdfValueType$Impl<M, F, E> extends PdfValueType$Base<void, M, F, E> {
   const PdfValueType$Impl() : super(null);
-  const PdfValueType$Impl.create() : this();
+  PdfValueType$Impl.create() : this();
 }
 
 class PdfValueType$Factory {
@@ -899,13 +934,14 @@ class PdfValueType$Factory {
   PdfValueType$Impl<M, F, E> call<M, F, E>() => PdfValueType$Impl();
 }
 
-const pdfValueType$Factory = PdfValueType$Factory();
+const PdfValueType$Factory pdfValueType$Factory = PdfValueType$Factory();
 
 extension Mk$Ext$PdfValueType on Mk {
   PdfValueType$Factory get PdfValueType => pdfValueType$Factory;
 }
 
 abstract class PdfValueType$Visitor<R$, M, F, E> {
+  PdfValueType$Visitor();
   R$ valueType();
   R$ boolType();
   R$ doubleType();
@@ -913,8 +949,12 @@ abstract class PdfValueType$Visitor<R$, M, F, E> {
   R$ int64Type();
   R$ stringType();
   R$ bytesType();
-  R$ enumType(PdEnum<M, F, E> value);
-  R$ messageType(PdMsg<M, F, E> value);
+  R$ enumType(
+    PdEnum<M, F, E> enumType,
+  );
+  R$ messageType(
+    PdMsg<M, F, E> messageType,
+  );
 }
 
 /// [PdfValueType$Visitor]
@@ -1536,7 +1576,8 @@ extension PdfValueType$Visitor$Factory$Ext on PdfValueType$Visitor$Factory {
       );
 }
 
-extension PdfValueType$WhenX<M, F, E> on PdfValueType$Base<void, M, F, E> {
+extension PdfValueType$Base$WhenExt<M, F, E>
+    on PdfValueType$Base<void, M, F, E> {
   R$ when<R$>({
     R$ Function()? valueType,
     R$ Function()? boolType,
@@ -1570,16 +1611,19 @@ extension PdfValueType$WhenX<M, F, E> on PdfValueType$Base<void, M, F, E> {
 
 typedef PdfBoolType<M, F, E> = PdfBoolType$Base<void, M, F, E>;
 
-abstract class PdfBoolType$Base<I$, M, F, E>
-    extends PdfValueType$Base<I$, M, F, E> {
-  const PdfBoolType$Base(super.item);
-  R$ acceptPdfValueType<R$>(PdfValueType$Visitor<R$, M, F, E> visitor) =>
+class PdfBoolType$Base<I$, M, F, E> extends PdfValueType$Base<I$, M, F, E> {
+  const PdfBoolType$Base(
+    super.item,
+  );
+  R$ acceptPdfValueType<R$>(
+    PdfValueType$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.boolType();
 }
 
 class PdfBoolType$Impl<M, F, E> extends PdfBoolType$Base<void, M, F, E> {
   const PdfBoolType$Impl() : super(null);
-  const PdfBoolType$Impl.create() : this();
+  PdfBoolType$Impl.create() : this();
 }
 
 class PdfBoolType$Factory {
@@ -1588,7 +1632,7 @@ class PdfBoolType$Factory {
   PdfBoolType$Impl<M, F, E> call<M, F, E>() => PdfBoolType$Impl();
 }
 
-const pdfBoolType$Factory = PdfBoolType$Factory();
+const PdfBoolType$Factory pdfBoolType$Factory = PdfBoolType$Factory();
 
 extension Mk$Ext$PdfBoolType on Mk {
   PdfBoolType$Factory get PdfBoolType => pdfBoolType$Factory;
@@ -1596,16 +1640,19 @@ extension Mk$Ext$PdfBoolType on Mk {
 
 typedef PdfDoubleType<M, F, E> = PdfDoubleType$Base<void, M, F, E>;
 
-abstract class PdfDoubleType$Base<I$, M, F, E>
-    extends PdfValueType$Base<I$, M, F, E> {
-  const PdfDoubleType$Base(super.item);
-  R$ acceptPdfValueType<R$>(PdfValueType$Visitor<R$, M, F, E> visitor) =>
+class PdfDoubleType$Base<I$, M, F, E> extends PdfValueType$Base<I$, M, F, E> {
+  const PdfDoubleType$Base(
+    super.item,
+  );
+  R$ acceptPdfValueType<R$>(
+    PdfValueType$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.doubleType();
 }
 
 class PdfDoubleType$Impl<M, F, E> extends PdfDoubleType$Base<void, M, F, E> {
   const PdfDoubleType$Impl() : super(null);
-  const PdfDoubleType$Impl.create() : this();
+  PdfDoubleType$Impl.create() : this();
 }
 
 class PdfDoubleType$Factory {
@@ -1614,7 +1661,7 @@ class PdfDoubleType$Factory {
   PdfDoubleType$Impl<M, F, E> call<M, F, E>() => PdfDoubleType$Impl();
 }
 
-const pdfDoubleType$Factory = PdfDoubleType$Factory();
+const PdfDoubleType$Factory pdfDoubleType$Factory = PdfDoubleType$Factory();
 
 extension Mk$Ext$PdfDoubleType on Mk {
   PdfDoubleType$Factory get PdfDoubleType => pdfDoubleType$Factory;
@@ -1622,16 +1669,19 @@ extension Mk$Ext$PdfDoubleType on Mk {
 
 typedef PdfIntType<M, F, E> = PdfIntType$Base<void, M, F, E>;
 
-abstract class PdfIntType$Base<I$, M, F, E>
-    extends PdfValueType$Base<I$, M, F, E> {
-  const PdfIntType$Base(super.item);
-  R$ acceptPdfValueType<R$>(PdfValueType$Visitor<R$, M, F, E> visitor) =>
+class PdfIntType$Base<I$, M, F, E> extends PdfValueType$Base<I$, M, F, E> {
+  const PdfIntType$Base(
+    super.item,
+  );
+  R$ acceptPdfValueType<R$>(
+    PdfValueType$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.intType();
 }
 
 class PdfIntType$Impl<M, F, E> extends PdfIntType$Base<void, M, F, E> {
   const PdfIntType$Impl() : super(null);
-  const PdfIntType$Impl.create() : this();
+  PdfIntType$Impl.create() : this();
 }
 
 class PdfIntType$Factory {
@@ -1640,7 +1690,7 @@ class PdfIntType$Factory {
   PdfIntType$Impl<M, F, E> call<M, F, E>() => PdfIntType$Impl();
 }
 
-const pdfIntType$Factory = PdfIntType$Factory();
+const PdfIntType$Factory pdfIntType$Factory = PdfIntType$Factory();
 
 extension Mk$Ext$PdfIntType on Mk {
   PdfIntType$Factory get PdfIntType => pdfIntType$Factory;
@@ -1648,16 +1698,19 @@ extension Mk$Ext$PdfIntType on Mk {
 
 typedef PdfInt64Type<M, F, E> = PdfInt64Type$Base<void, M, F, E>;
 
-abstract class PdfInt64Type$Base<I$, M, F, E>
-    extends PdfValueType$Base<I$, M, F, E> {
-  const PdfInt64Type$Base(super.item);
-  R$ acceptPdfValueType<R$>(PdfValueType$Visitor<R$, M, F, E> visitor) =>
+class PdfInt64Type$Base<I$, M, F, E> extends PdfValueType$Base<I$, M, F, E> {
+  const PdfInt64Type$Base(
+    super.item,
+  );
+  R$ acceptPdfValueType<R$>(
+    PdfValueType$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.int64Type();
 }
 
 class PdfInt64Type$Impl<M, F, E> extends PdfInt64Type$Base<void, M, F, E> {
   const PdfInt64Type$Impl() : super(null);
-  const PdfInt64Type$Impl.create() : this();
+  PdfInt64Type$Impl.create() : this();
 }
 
 class PdfInt64Type$Factory {
@@ -1666,7 +1719,7 @@ class PdfInt64Type$Factory {
   PdfInt64Type$Impl<M, F, E> call<M, F, E>() => PdfInt64Type$Impl();
 }
 
-const pdfInt64Type$Factory = PdfInt64Type$Factory();
+const PdfInt64Type$Factory pdfInt64Type$Factory = PdfInt64Type$Factory();
 
 extension Mk$Ext$PdfInt64Type on Mk {
   PdfInt64Type$Factory get PdfInt64Type => pdfInt64Type$Factory;
@@ -1674,16 +1727,19 @@ extension Mk$Ext$PdfInt64Type on Mk {
 
 typedef PdfStringType<M, F, E> = PdfStringType$Base<void, M, F, E>;
 
-abstract class PdfStringType$Base<I$, M, F, E>
-    extends PdfValueType$Base<I$, M, F, E> {
-  const PdfStringType$Base(super.item);
-  R$ acceptPdfValueType<R$>(PdfValueType$Visitor<R$, M, F, E> visitor) =>
+class PdfStringType$Base<I$, M, F, E> extends PdfValueType$Base<I$, M, F, E> {
+  const PdfStringType$Base(
+    super.item,
+  );
+  R$ acceptPdfValueType<R$>(
+    PdfValueType$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.stringType();
 }
 
 class PdfStringType$Impl<M, F, E> extends PdfStringType$Base<void, M, F, E> {
   const PdfStringType$Impl() : super(null);
-  const PdfStringType$Impl.create() : this();
+  PdfStringType$Impl.create() : this();
 }
 
 class PdfStringType$Factory {
@@ -1692,7 +1748,7 @@ class PdfStringType$Factory {
   PdfStringType$Impl<M, F, E> call<M, F, E>() => PdfStringType$Impl();
 }
 
-const pdfStringType$Factory = PdfStringType$Factory();
+const PdfStringType$Factory pdfStringType$Factory = PdfStringType$Factory();
 
 extension Mk$Ext$PdfStringType on Mk {
   PdfStringType$Factory get PdfStringType => pdfStringType$Factory;
@@ -1700,16 +1756,19 @@ extension Mk$Ext$PdfStringType on Mk {
 
 typedef PdfBytesType<M, F, E> = PdfBytesType$Base<void, M, F, E>;
 
-abstract class PdfBytesType$Base<I$, M, F, E>
-    extends PdfValueType$Base<I$, M, F, E> {
-  const PdfBytesType$Base(super.item);
-  R$ acceptPdfValueType<R$>(PdfValueType$Visitor<R$, M, F, E> visitor) =>
+class PdfBytesType$Base<I$, M, F, E> extends PdfValueType$Base<I$, M, F, E> {
+  const PdfBytesType$Base(
+    super.item,
+  );
+  R$ acceptPdfValueType<R$>(
+    PdfValueType$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.bytesType();
 }
 
 class PdfBytesType$Impl<M, F, E> extends PdfBytesType$Base<void, M, F, E> {
   const PdfBytesType$Impl() : super(null);
-  const PdfBytesType$Impl.create() : this();
+  PdfBytesType$Impl.create() : this();
 }
 
 class PdfBytesType$Factory {
@@ -1718,7 +1777,7 @@ class PdfBytesType$Factory {
   PdfBytesType$Impl<M, F, E> call<M, F, E>() => PdfBytesType$Impl();
 }
 
-const pdfBytesType$Factory = PdfBytesType$Factory();
+const PdfBytesType$Factory pdfBytesType$Factory = PdfBytesType$Factory();
 
 extension Mk$Ext$PdfBytesType on Mk {
   PdfBytesType$Factory get PdfBytesType => pdfBytesType$Factory;
@@ -1726,20 +1785,26 @@ extension Mk$Ext$PdfBytesType on Mk {
 
 typedef PdfEnumType<M, F, E> = PdfEnumType$Base<PdEnum<M, F, E>, M, F, E>;
 
-abstract class PdfEnumType$Base<I$ extends PdEnum<M, F, E>, M, F, E>
+class PdfEnumType$Base<I$ extends PdEnum<M, F, E>, M, F, E>
     extends PdfValueType$Base<I$, M, F, E> {
-  const PdfEnumType$Base(super.item);
-  R$ acceptPdfValueType<R$>(PdfValueType$Visitor<R$, M, F, E> visitor) =>
+  const PdfEnumType$Base(
+    super.item,
+  );
+  R$ acceptPdfValueType<R$>(
+    PdfValueType$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.enumType(item);
 }
 
 class PdfEnumType$Impl<M, F, E>
     extends PdfEnumType$Base<PdEnum<M, F, E>, M, F, E> {
-  const PdfEnumType$Impl(super.item);
-  const PdfEnumType$Impl.create(
-    PdEnum<M, F, E> item,
+  const PdfEnumType$Impl(
+    super.item,
+  );
+  PdfEnumType$Impl.create(
+    PdEnum<M, F, E> enumType,
   ) : this(
-          item,
+          enumType,
         );
 }
 
@@ -1759,7 +1824,7 @@ class PdfEnumType$Factory {
       );
 }
 
-const pdfEnumType$Factory = PdfEnumType$Factory();
+const PdfEnumType$Factory pdfEnumType$Factory = PdfEnumType$Factory();
 
 extension Mk$Ext$PdfEnumType on Mk {
   PdfEnumType$Factory get PdfEnumType => pdfEnumType$Factory;
@@ -1767,20 +1832,26 @@ extension Mk$Ext$PdfEnumType on Mk {
 
 typedef PdfMessageType<M, F, E> = PdfMessageType$Base<PdMsg<M, F, E>, M, F, E>;
 
-abstract class PdfMessageType$Base<I$ extends PdMsg<M, F, E>, M, F, E>
+class PdfMessageType$Base<I$ extends PdMsg<M, F, E>, M, F, E>
     extends PdfValueType$Base<I$, M, F, E> {
-  const PdfMessageType$Base(super.item);
-  R$ acceptPdfValueType<R$>(PdfValueType$Visitor<R$, M, F, E> visitor) =>
+  const PdfMessageType$Base(
+    super.item,
+  );
+  R$ acceptPdfValueType<R$>(
+    PdfValueType$Visitor<R$, M, F, E> visitor,
+  ) =>
       visitor.messageType(item);
 }
 
 class PdfMessageType$Impl<M, F, E>
     extends PdfMessageType$Base<PdMsg<M, F, E>, M, F, E> {
-  const PdfMessageType$Impl(super.item);
-  const PdfMessageType$Impl.create(
-    PdMsg<M, F, E> item,
+  const PdfMessageType$Impl(
+    super.item,
+  );
+  PdfMessageType$Impl.create(
+    PdMsg<M, F, E> messageType,
   ) : this(
-          item,
+          messageType,
         );
 }
 
@@ -1800,7 +1871,7 @@ class PdfMessageType$Factory {
       );
 }
 
-const pdfMessageType$Factory = PdfMessageType$Factory();
+const PdfMessageType$Factory pdfMessageType$Factory = PdfMessageType$Factory();
 
 extension Mk$Ext$PdfMessageType on Mk {
   PdfMessageType$Factory get PdfMessageType => pdfMessageType$Factory;

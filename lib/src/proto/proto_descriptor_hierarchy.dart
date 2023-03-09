@@ -1,5 +1,8 @@
 import 'package:mhudart_base/mhudart_base.dart';
 
+import 'descriptor/descriptor_enum.dart';
+import 'descriptor/descriptor_field.dart';
+import 'descriptor/descriptor_message.dart';
 import 'proto_descriptor.dart';
 
 part 'proto_descriptor_hierarchy.g.dart';
