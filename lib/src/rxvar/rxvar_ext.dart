@@ -16,7 +16,7 @@ extension RxValFactoryX on RxVal$Factory {
         rxB.stream,
         combiner,
       ).distinct(),
-      lookup: rxA.lookup.asConstant(),
+      // lookup: rxA.lookup.asConstant(),
     );
   }
 
@@ -38,7 +38,7 @@ extension RxValFactoryX on RxVal$Factory {
         rxC.stream,
         combiner,
       ).distinct(),
-      lookup: rxA.lookup.asConstant(),
+      // lookup: rxA.lookup.asConstant(),
     );
   }
 
@@ -51,7 +51,7 @@ extension RxVarFactoryX on RxVar$Factory {
   IRxVar<T> variable<T>(
     T initial, {
     DisposeAsyncs? disposers,
-    Lookup lookup = Lookup.empty,
+    // Lookup lookup = Lookup.empty,
   }) {
     final subject = BehaviorSubject.seeded(initial);
 
@@ -61,7 +61,7 @@ extension RxVarFactoryX on RxVar$Factory {
       get: () => subject.value,
       set: subject.add,
       changes: subject.distinct(),
-      lookup: lookup,
+      // lookup: lookup,
     );
   }
 }
@@ -75,7 +75,7 @@ extension RxValX<T> on IRxVal<T> {
     return mk.RxVal.data(
       get: () => mapper(value),
       changes: stream.map(mapper).distinct(),
-      lookup: lookup,
+      // lookup: lookup,
     );
   }
 
@@ -85,7 +85,7 @@ extension RxValX<T> on IRxVal<T> {
     return mk.RxVal.data(
       get: () => mapper(value).value,
       changes: stream.asyncExpand((v) => mapper(v).stream).distinct(),
-      lookup: lookup,
+      // lookup: lookup,
     );
   }
 }
@@ -103,7 +103,7 @@ extension RxVarX<T> on IRxVar<T> {
         set: (v) => set(v as T),
         get: () => get() as V,
         changes: changes.cast<V>(),
-        lookup: lookup,
+        // lookup: lookup,
       );
 }
 

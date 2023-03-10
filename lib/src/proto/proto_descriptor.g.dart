@@ -74,6 +74,8 @@ extension PdxBase$Visitor$Impl$Ext<R$, M, F, E>
     on PdxBase$Visitor$Impl<R$, M, F, E> {}
 
 extension PdxBase$Visitor$Ext<R$, M, F, E> on PdxBase$Visitor<R$, M, F, E> {
+  PdxBase$Visitor<R$, M, F, E> asIface() =>
+      castOrCreate<PdxBase$Visitor<R$, M, F, E>>(() => wrap$());
   PdxBase$Visitor$Impl<R$, M, F, E> asImpl() =>
       castOrCreate<PdxBase$Visitor$Impl<R$, M, F, E>>(() => wrap$());
   PdxBase$Visitor$Impl<R$, M, F, E> wrap$() => PdxBase$Visitor$Impl(
@@ -84,6 +86,7 @@ extension PdxBase$Visitor$Ext<R$, M, F, E> on PdxBase$Visitor<R$, M, F, E> {
         ),
       );
   PdxBase$Visitor$Impl<R$, M, F, E> get toImpl => asImpl();
+  PdxBase$Visitor<R$, M, F, E> get toIface => asIface();
   PdxBase$Visitor$Impl<R$, M, F, E> copyWith({
     R$ Function()? base,
     R$ Function(

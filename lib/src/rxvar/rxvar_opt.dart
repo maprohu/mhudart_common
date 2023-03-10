@@ -31,7 +31,7 @@ extension OptRxValX<T> on RxValImplOpt<T> {
   RxValImplOpt<V> castOptVal<V>() => mk.RxVal.data(
         get: () => get().castOpt<V>(),
         changes: changes.map((e) => e.castOpt<V>()),
-        lookup: lookup,
+        // lookup: lookup,
       );
 }
 
@@ -66,13 +66,13 @@ extension RxVarOptX<T> on RxVarImplOpt<T> {
         defaultValue: defaultValue,
       );
 
-  IRxVarDefault<T> noDefault() => mk.RxVarDefault.noDefault(this);
-
-  IRxVarDefault<T> withDefault(Opt<T> defaultValue) =>
-      mk.RxVarDefault.fromRxVar(
-        rxVar: this,
-        defaultValue: defaultValue.asConstant(),
-      );
+  // IRxVarDefault<T> noDefault() => mk.RxVarDefault.noDefault(this);
+  //
+  // IRxVarDefault<T> withDefault(Opt<T> defaultValue) =>
+  //     mk.RxVarDefault.fromRxVar(
+  //       rxVar: this,
+  //       defaultValue: defaultValue.asConstant(),
+  //     );
 
   void setHere(T value) => set(Opt.here(value));
 }
@@ -95,15 +95,15 @@ extension RxValOptBuiltListX<T> on RxValImplOpt<BuiltList<T>> {
   IRxVal<BuiltList<T>> orEmpty() => orDefault(BuiltList());
 }
 
-@Impl()
-abstract class RxVarDefault<T> implements RxVar<Opt<T>> {
-  Opt<T> defaultValue();
-}
+// @Impl()
+// abstract class RxVarDefault<T> implements RxVar<Opt<T>> {
+//   Opt<T> defaultValue();
+// }
 
-extension RxVarDefaultFactorX on RxVarDefault$Factory {
-  IRxVarDefault<T> noDefault<T>(RxVarImplOpt<T> rxVar) =>
-      mk.RxVarDefault.fromRxVar(
-        rxVar: rxVar,
-        defaultValue: Opt.gone,
-      );
-}
+// extension RxVarDefaultFactorX on RxVarDefault$Factory {
+//   RxVarDefault$Impl<T> noDefault<T>(RxVarImplOpt<T> rxVar) =>
+//       mk.RxVarDefault.fromRxVar(
+//         rxVar: rxVar,
+//         defaultValue: Opt.gone,
+//       );
+// }

@@ -73,6 +73,8 @@ extension PdfCardinality$Visitor$Impl$Ext<R$, M, F, E>
 
 extension PdfCardinality$Visitor$Ext<R$, M, F, E>
     on PdfCardinality$Visitor<R$, M, F, E> {
+  PdfCardinality$Visitor<R$, M, F, E> asIface() =>
+      castOrCreate<PdfCardinality$Visitor<R$, M, F, E>>(() => wrap$());
   PdfCardinality$Visitor$Impl<R$, M, F, E> asImpl() =>
       castOrCreate<PdfCardinality$Visitor$Impl<R$, M, F, E>>(() => wrap$());
   PdfCardinality$Visitor$Impl<R$, M, F, E> wrap$() =>
@@ -86,6 +88,7 @@ extension PdfCardinality$Visitor$Ext<R$, M, F, E>
         ),
       );
   PdfCardinality$Visitor$Impl<R$, M, F, E> get toImpl => asImpl();
+  PdfCardinality$Visitor<R$, M, F, E> get toIface => asIface();
   PdfCardinality$Visitor$Impl<R$, M, F, E> copyWith({
     R$ Function()? cardinality,
     R$ Function(
@@ -581,6 +584,8 @@ extension PdfNonMap$Visitor$Impl$Ext<R$, M, F, E>
     on PdfNonMap$Visitor$Impl<R$, M, F, E> {}
 
 extension PdfNonMap$Visitor$Ext<R$, M, F, E> on PdfNonMap$Visitor<R$, M, F, E> {
+  PdfNonMap$Visitor<R$, M, F, E> asIface() =>
+      castOrCreate<PdfNonMap$Visitor<R$, M, F, E>>(() => wrap$());
   PdfNonMap$Visitor$Impl<R$, M, F, E> asImpl() =>
       castOrCreate<PdfNonMap$Visitor$Impl<R$, M, F, E>>(() => wrap$());
   PdfNonMap$Visitor$Impl<R$, M, F, E> wrap$() => PdfNonMap$Visitor$Impl(
@@ -591,6 +596,7 @@ extension PdfNonMap$Visitor$Ext<R$, M, F, E> on PdfNonMap$Visitor<R$, M, F, E> {
         ),
       );
   PdfNonMap$Visitor$Impl<R$, M, F, E> get toImpl => asImpl();
+  PdfNonMap$Visitor<R$, M, F, E> get toIface => asIface();
   PdfNonMap$Visitor$Impl<R$, M, F, E> copyWith({
     R$ Function()? nonMap,
     R$ Function()? single,
@@ -991,6 +997,8 @@ extension PdfValueType$Visitor$Impl$Ext<R$, M, F, E>
 
 extension PdfValueType$Visitor$Ext<R$, M, F, E>
     on PdfValueType$Visitor<R$, M, F, E> {
+  PdfValueType$Visitor<R$, M, F, E> asIface() =>
+      castOrCreate<PdfValueType$Visitor<R$, M, F, E>>(() => wrap$());
   PdfValueType$Visitor$Impl<R$, M, F, E> asImpl() =>
       castOrCreate<PdfValueType$Visitor$Impl<R$, M, F, E>>(() => wrap$());
   PdfValueType$Visitor$Impl<R$, M, F, E> wrap$() => PdfValueType$Visitor$Impl(
@@ -1007,6 +1015,7 @@ extension PdfValueType$Visitor$Ext<R$, M, F, E>
         ),
       );
   PdfValueType$Visitor$Impl<R$, M, F, E> get toImpl => asImpl();
+  PdfValueType$Visitor<R$, M, F, E> get toIface => asIface();
   PdfValueType$Visitor$Impl<R$, M, F, E> copyWith({
     R$ Function()? valueType,
     R$ Function()? boolType,

@@ -123,6 +123,8 @@ class Cardinality$Visitor$Impl<R$> extends Cardinality$Visitor<R$>
 extension Cardinality$Visitor$Impl$Ext<R$> on Cardinality$Visitor$Impl<R$> {}
 
 extension Cardinality$Visitor$Ext<R$> on Cardinality$Visitor<R$> {
+  Cardinality$Visitor<R$> asIface() =>
+      castOrCreate<Cardinality$Visitor<R$>>(() => wrap$());
   Cardinality$Visitor$Impl<R$> asImpl() =>
       castOrCreate<Cardinality$Visitor$Impl<R$>>(() => wrap$());
   Cardinality$Visitor$Impl<R$> wrap$() => Cardinality$Visitor$Impl(
@@ -136,6 +138,7 @@ extension Cardinality$Visitor$Ext<R$> on Cardinality$Visitor<R$> {
         ),
       );
   Cardinality$Visitor$Impl<R$> get toImpl => asImpl();
+  Cardinality$Visitor<R$> get toIface => asIface();
   Cardinality$Visitor$Impl<R$> copyWith({
     R$ Function(
       FieldInfo cardinality,
@@ -999,6 +1002,8 @@ class NonMap$Visitor$Impl<R$> extends NonMap$Visitor<R$>
 extension NonMap$Visitor$Impl$Ext<R$> on NonMap$Visitor$Impl<R$> {}
 
 extension NonMap$Visitor$Ext<R$> on NonMap$Visitor<R$> {
+  NonMap$Visitor<R$> asIface() =>
+      castOrCreate<NonMap$Visitor<R$>>(() => wrap$());
   NonMap$Visitor$Impl<R$> asImpl() =>
       castOrCreate<NonMap$Visitor$Impl<R$>>(() => wrap$());
   NonMap$Visitor$Impl<R$> wrap$() => NonMap$Visitor$Impl(
@@ -1010,6 +1015,7 @@ extension NonMap$Visitor$Ext<R$> on NonMap$Visitor<R$> {
         ),
       );
   NonMap$Visitor$Impl<R$> get toImpl => asImpl();
+  NonMap$Visitor<R$> get toIface => asIface();
   NonMap$Visitor$Impl<R$> copyWith({
     R$ Function(
       FieldInfo nonMap,
@@ -1740,6 +1746,8 @@ class ValueType$Visitor$Impl<R$> extends ValueType$Visitor<R$>
 extension ValueType$Visitor$Impl$Ext<R$> on ValueType$Visitor$Impl<R$> {}
 
 extension ValueType$Visitor$Ext<R$> on ValueType$Visitor<R$> {
+  ValueType$Visitor<R$> asIface() =>
+      castOrCreate<ValueType$Visitor<R$>>(() => wrap$());
   ValueType$Visitor$Impl<R$> asImpl() =>
       castOrCreate<ValueType$Visitor$Impl<R$>>(() => wrap$());
   ValueType$Visitor$Impl<R$> wrap$() => ValueType$Visitor$Impl(
@@ -1753,6 +1761,7 @@ extension ValueType$Visitor$Ext<R$> on ValueType$Visitor<R$> {
         ),
       );
   ValueType$Visitor$Impl<R$> get toImpl => asImpl();
+  ValueType$Visitor<R$> get toIface => asIface();
   ValueType$Visitor$Impl<R$> copyWith({
     R$ Function()? valueType,
     R$ Function()? boolType,

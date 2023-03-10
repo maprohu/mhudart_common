@@ -15,7 +15,7 @@ abstract class RxVal<T> implements Getter<T> {
   // Stream<T> get stream;
   Stream<T> get changes;
 
-  Lookup get lookup;
+  // Lookup get lookup;
 }
 
 

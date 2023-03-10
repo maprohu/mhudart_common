@@ -98,6 +98,8 @@ extension PmAccessRead$Visitor$Impl$Ext<R$, T, V>
     on PmAccessRead$Visitor$Impl<R$, T, V> {}
 
 extension PmAccessRead$Visitor$Ext<R$, T, V> on PmAccessRead$Visitor<R$, T, V> {
+  PmAccessRead$Visitor<R$, T, V> asIface() =>
+      castOrCreate<PmAccessRead$Visitor<R$, T, V>>(() => wrap$());
   PmAccessRead$Visitor$Impl<R$, T, V> asImpl() =>
       castOrCreate<PmAccessRead$Visitor$Impl<R$, T, V>>(() => wrap$());
   PmAccessRead$Visitor$Impl<R$, T, V> wrap$() => PmAccessRead$Visitor$Impl(
@@ -108,6 +110,7 @@ extension PmAccessRead$Visitor$Ext<R$, T, V> on PmAccessRead$Visitor<R$, T, V> {
         ),
       );
   PmAccessRead$Visitor$Impl<R$, T, V> get toImpl => asImpl();
+  PmAccessRead$Visitor<R$, T, V> get toIface => asIface();
   PmAccessRead$Visitor$Impl<R$, T, V> copyWith({
     R$ Function(
       PmReadField<T, V> read,
@@ -627,6 +630,8 @@ extension PmAccessFull$Visitor$Impl$Ext<R$, T, V>
     on PmAccessFull$Visitor$Impl<R$, T, V> {}
 
 extension PmAccessFull$Visitor$Ext<R$, T, V> on PmAccessFull$Visitor<R$, T, V> {
+  PmAccessFull$Visitor<R$, T, V> asIface() =>
+      castOrCreate<PmAccessFull$Visitor<R$, T, V>>(() => wrap$());
   PmAccessFull$Visitor$Impl<R$, T, V> asImpl() =>
       castOrCreate<PmAccessFull$Visitor$Impl<R$, T, V>>(() => wrap$());
   PmAccessFull$Visitor$Impl<R$, T, V> wrap$() => PmAccessFull$Visitor$Impl(
@@ -636,6 +641,7 @@ extension PmAccessFull$Visitor$Ext<R$, T, V> on PmAccessFull$Visitor<R$, T, V> {
         ),
       );
   PmAccessFull$Visitor$Impl<R$, T, V> get toImpl => asImpl();
+  PmAccessFull$Visitor<R$, T, V> get toIface => asIface();
   PmAccessFull$Visitor$Impl<R$, T, V> copyWith({
     R$ Function(
       PmFullField<T, V> full,

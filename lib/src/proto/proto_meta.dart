@@ -142,7 +142,7 @@ abstract class PmReadField<T, V> {
   V get(T message);
 }
 
-abstract class PmCollectionField<V> extends PmField  {
+abstract class PmCollectionField<V> extends PmField {
   int length(V collection);
 }
 
@@ -188,11 +188,19 @@ abstract class PmMsgFieldOfMessageOfType<T extends GeneratedMessage, V>
   const PmMsgFieldOfMessageOfType();
 }
 
-abstract class PmCollectionFieldOfMessageOfType<T extends GeneratedMessage, V>
-    extends PmReadFieldOfMessageOfType<T, V>
-    implements PmCollectionField<V> {
+abstract class PmCollectionFieldOfMessageOfType<T extends GeneratedMessage, C,
+        V> extends PmReadFieldOfMessageOfType<T, C>
+    implements
+        PmCollectionField<C>,
+        PmCollectionFieldOfMessageOfItemType<T, V> {
   const PmCollectionFieldOfMessageOfType();
 }
+
+abstract class PmCollectionFieldOfMessageOfItemType<T extends GeneratedMessage,
+    V> implements PmFieldOfMessage<T> {
+  const PmCollectionFieldOfMessageOfItemType();
+}
+
 // direct superclasses
 
 abstract class PmSingleField<T extends GeneratedMessage, V>
@@ -206,7 +214,7 @@ abstract class PmMessageField<T extends GeneratedMessage, V>
 }
 
 abstract class PmRepeatedField<T extends GeneratedMessage, V>
-    extends PmCollectionFieldOfMessageOfType<T, List<V>> {
+    extends PmCollectionFieldOfMessageOfType<T, List<V>, V> {
   const PmRepeatedField();
 
   @override
@@ -216,7 +224,7 @@ abstract class PmRepeatedField<T extends GeneratedMessage, V>
 }
 
 abstract class PmMapField<T extends GeneratedMessage, K, V>
-    extends PmCollectionFieldOfMessageOfType<T, Map<K, V>> {
+    extends PmCollectionFieldOfMessageOfType<T, Map<K, V>, V> {
   const PmMapField();
 
   @override
