@@ -77,14 +77,16 @@ extension PdfCardinality$Visitor$Ext<R$, M, F, E>
       castOrCreate<PdfCardinality$Visitor<R$, M, F, E>>(() => wrap$());
   PdfCardinality$Visitor$Impl<R$, M, F, E> asImpl() =>
       castOrCreate<PdfCardinality$Visitor$Impl<R$, M, F, E>>(() => wrap$());
+  IPdfCardinality$Visitor<R$, M, F, E> asData() =>
+      castData<PdfCardinality$Visitor$IData<R$, M, F, E>>(() => wrap$());
   PdfCardinality$Visitor$Impl<R$, M, F, E> wrap$() =>
       PdfCardinality$Visitor$Impl(
         PdfCardinality$Visitor$Data(
-          cardinality: cardinality,
-          mapOf: mapOf,
-          nonMap: nonMap,
-          single: single,
-          repeated: repeated,
+          cardinality: this.cardinality,
+          mapOf: this.mapOf,
+          nonMap: this.nonMap,
+          single: this.single,
+          repeated: this.repeated,
         ),
       );
   PdfCardinality$Visitor$Impl<R$, M, F, E> get toImpl => asImpl();
@@ -588,11 +590,13 @@ extension PdfNonMap$Visitor$Ext<R$, M, F, E> on PdfNonMap$Visitor<R$, M, F, E> {
       castOrCreate<PdfNonMap$Visitor<R$, M, F, E>>(() => wrap$());
   PdfNonMap$Visitor$Impl<R$, M, F, E> asImpl() =>
       castOrCreate<PdfNonMap$Visitor$Impl<R$, M, F, E>>(() => wrap$());
+  IPdfNonMap$Visitor<R$, M, F, E> asData() =>
+      castData<PdfNonMap$Visitor$IData<R$, M, F, E>>(() => wrap$());
   PdfNonMap$Visitor$Impl<R$, M, F, E> wrap$() => PdfNonMap$Visitor$Impl(
         PdfNonMap$Visitor$Data(
-          nonMap: nonMap,
-          single: single,
-          repeated: repeated,
+          nonMap: this.nonMap,
+          single: this.single,
+          repeated: this.repeated,
         ),
       );
   PdfNonMap$Visitor$Impl<R$, M, F, E> get toImpl => asImpl();
@@ -1001,17 +1005,19 @@ extension PdfValueType$Visitor$Ext<R$, M, F, E>
       castOrCreate<PdfValueType$Visitor<R$, M, F, E>>(() => wrap$());
   PdfValueType$Visitor$Impl<R$, M, F, E> asImpl() =>
       castOrCreate<PdfValueType$Visitor$Impl<R$, M, F, E>>(() => wrap$());
+  IPdfValueType$Visitor<R$, M, F, E> asData() =>
+      castData<PdfValueType$Visitor$IData<R$, M, F, E>>(() => wrap$());
   PdfValueType$Visitor$Impl<R$, M, F, E> wrap$() => PdfValueType$Visitor$Impl(
         PdfValueType$Visitor$Data(
-          valueType: valueType,
-          boolType: boolType,
-          doubleType: doubleType,
-          intType: intType,
-          int64Type: int64Type,
-          stringType: stringType,
-          bytesType: bytesType,
-          enumType: enumType,
-          messageType: messageType,
+          valueType: this.valueType,
+          boolType: this.boolType,
+          doubleType: this.doubleType,
+          intType: this.intType,
+          int64Type: this.int64Type,
+          stringType: this.stringType,
+          bytesType: this.bytesType,
+          enumType: this.enumType,
+          messageType: this.messageType,
         ),
       );
   PdfValueType$Visitor$Impl<R$, M, F, E> get toImpl => asImpl();

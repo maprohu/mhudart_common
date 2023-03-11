@@ -102,11 +102,13 @@ extension PmAccessRead$Visitor$Ext<R$, T, V> on PmAccessRead$Visitor<R$, T, V> {
       castOrCreate<PmAccessRead$Visitor<R$, T, V>>(() => wrap$());
   PmAccessRead$Visitor$Impl<R$, T, V> asImpl() =>
       castOrCreate<PmAccessRead$Visitor$Impl<R$, T, V>>(() => wrap$());
+  IPmAccessRead$Visitor<R$, T, V> asData() =>
+      castData<PmAccessRead$Visitor$IData<R$, T, V>>(() => wrap$());
   PmAccessRead$Visitor$Impl<R$, T, V> wrap$() => PmAccessRead$Visitor$Impl(
         PmAccessRead$Visitor$Data(
-          read: read,
-          full: full,
-          message: message,
+          read: this.read,
+          full: this.full,
+          message: this.message,
         ),
       );
   PmAccessRead$Visitor$Impl<R$, T, V> get toImpl => asImpl();
@@ -634,10 +636,12 @@ extension PmAccessFull$Visitor$Ext<R$, T, V> on PmAccessFull$Visitor<R$, T, V> {
       castOrCreate<PmAccessFull$Visitor<R$, T, V>>(() => wrap$());
   PmAccessFull$Visitor$Impl<R$, T, V> asImpl() =>
       castOrCreate<PmAccessFull$Visitor$Impl<R$, T, V>>(() => wrap$());
+  IPmAccessFull$Visitor<R$, T, V> asData() =>
+      castData<PmAccessFull$Visitor$IData<R$, T, V>>(() => wrap$());
   PmAccessFull$Visitor$Impl<R$, T, V> wrap$() => PmAccessFull$Visitor$Impl(
         PmAccessFull$Visitor$Data(
-          full: full,
-          message: message,
+          full: this.full,
+          message: this.message,
         ),
       );
   PmAccessFull$Visitor$Impl<R$, T, V> get toImpl => asImpl();

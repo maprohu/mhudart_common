@@ -23,10 +23,11 @@ extension RxVal$Impl$Ext<T> on RxVal$Impl<T> {}
 extension RxVal$Ext<T> on RxVal<T> {
   RxVal<T> asIface() => castOrCreate<RxVal<T>>(() => wrap$());
   RxVal$Impl<T> asImpl() => castOrCreate<RxVal$Impl<T>>(() => wrap$());
+  IRxVal<T> asData() => castData<RxVal$IData<T>>(() => wrap$());
   RxVal$Impl<T> wrap$() => RxVal$Impl(
         RxVal$Data(
-          changes: () => changes,
-          get: get,
+          changes: () => this.changes,
+          get: this.get,
         ),
       );
   RxVal$Impl<T> get toImpl => asImpl();
@@ -247,11 +248,12 @@ extension RxVar$Impl$Ext<T> on RxVar$Impl<T> {}
 extension RxVar$Ext<T> on RxVar<T> {
   RxVar<T> asIface() => castOrCreate<RxVar<T>>(() => wrap$());
   RxVar$Impl<T> asImpl() => castOrCreate<RxVar$Impl<T>>(() => wrap$());
+  IRxVar<T> asData() => castData<RxVar$IData<T>>(() => wrap$());
   RxVar$Impl<T> wrap$() => RxVar$Impl(
         RxVar$Data(
-          changes: () => changes,
-          get: get,
-          set: set,
+          changes: () => this.changes,
+          get: this.get,
+          set: this.set,
         ),
       );
   RxVar$Impl<T> get toImpl => asImpl();

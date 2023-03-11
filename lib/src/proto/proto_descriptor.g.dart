@@ -78,11 +78,13 @@ extension PdxBase$Visitor$Ext<R$, M, F, E> on PdxBase$Visitor<R$, M, F, E> {
       castOrCreate<PdxBase$Visitor<R$, M, F, E>>(() => wrap$());
   PdxBase$Visitor$Impl<R$, M, F, E> asImpl() =>
       castOrCreate<PdxBase$Visitor$Impl<R$, M, F, E>>(() => wrap$());
+  IPdxBase$Visitor<R$, M, F, E> asData() =>
+      castData<PdxBase$Visitor$IData<R$, M, F, E>>(() => wrap$());
   PdxBase$Visitor$Impl<R$, M, F, E> wrap$() => PdxBase$Visitor$Impl(
         PdxBase$Visitor$Data(
-          base: base,
-          top: top,
-          oneof: oneof,
+          base: this.base,
+          top: this.top,
+          oneof: this.oneof,
         ),
       );
   PdxBase$Visitor$Impl<R$, M, F, E> get toImpl => asImpl();

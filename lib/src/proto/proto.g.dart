@@ -127,14 +127,16 @@ extension Cardinality$Visitor$Ext<R$> on Cardinality$Visitor<R$> {
       castOrCreate<Cardinality$Visitor<R$>>(() => wrap$());
   Cardinality$Visitor$Impl<R$> asImpl() =>
       castOrCreate<Cardinality$Visitor$Impl<R$>>(() => wrap$());
+  ICardinality$Visitor<R$> asData() =>
+      castData<Cardinality$Visitor$IData<R$>>(() => wrap$());
   Cardinality$Visitor$Impl<R$> wrap$() => Cardinality$Visitor$Impl(
         Cardinality$Visitor$Data(
-          cardinality: cardinality,
-          mapOf: mapOf,
-          nonMap: nonMap,
-          single: single,
-          repeated: repeated,
-          oneOf: oneOf,
+          cardinality: this.cardinality,
+          mapOf: this.mapOf,
+          nonMap: this.nonMap,
+          single: this.single,
+          repeated: this.repeated,
+          oneOf: this.oneOf,
         ),
       );
   Cardinality$Visitor$Impl<R$> get toImpl => asImpl();
@@ -1006,12 +1008,14 @@ extension NonMap$Visitor$Ext<R$> on NonMap$Visitor<R$> {
       castOrCreate<NonMap$Visitor<R$>>(() => wrap$());
   NonMap$Visitor$Impl<R$> asImpl() =>
       castOrCreate<NonMap$Visitor$Impl<R$>>(() => wrap$());
+  INonMap$Visitor<R$> asData() =>
+      castData<NonMap$Visitor$IData<R$>>(() => wrap$());
   NonMap$Visitor$Impl<R$> wrap$() => NonMap$Visitor$Impl(
         NonMap$Visitor$Data(
-          nonMap: nonMap,
-          single: single,
-          repeated: repeated,
-          oneOf: oneOf,
+          nonMap: this.nonMap,
+          single: this.single,
+          repeated: this.repeated,
+          oneOf: this.oneOf,
         ),
       );
   NonMap$Visitor$Impl<R$> get toImpl => asImpl();
@@ -1750,14 +1754,16 @@ extension ValueType$Visitor$Ext<R$> on ValueType$Visitor<R$> {
       castOrCreate<ValueType$Visitor<R$>>(() => wrap$());
   ValueType$Visitor$Impl<R$> asImpl() =>
       castOrCreate<ValueType$Visitor$Impl<R$>>(() => wrap$());
+  IValueType$Visitor<R$> asData() =>
+      castData<ValueType$Visitor$IData<R$>>(() => wrap$());
   ValueType$Visitor$Impl<R$> wrap$() => ValueType$Visitor$Impl(
         ValueType$Visitor$Data(
-          valueType: valueType,
-          boolType: boolType,
-          intType: intType,
-          stringType: stringType,
-          enumType: enumType,
-          messageType: messageType,
+          valueType: this.valueType,
+          boolType: this.boolType,
+          intType: this.intType,
+          stringType: this.stringType,
+          enumType: this.enumType,
+          messageType: this.messageType,
         ),
       );
   ValueType$Visitor$Impl<R$> get toImpl => asImpl();
